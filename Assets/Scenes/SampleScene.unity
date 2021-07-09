@@ -609,6 +609,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tf_Corsshair: {fileID: 707307363}
+  th_Camera: {fileID: 963194228}
+  rotateSpeed: 0.7
+  look_X_Limit: 20
+  look_Y_Limit: 15
 --- !u!1 &656317840
 GameObject:
   m_ObjectHideFlags: 0
