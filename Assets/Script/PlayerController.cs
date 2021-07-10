@@ -15,22 +15,25 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+        // 크로스 헤어 이동
         MovingCorsshair();
-        RotateView();
+
+        // 회전 관련 변수 연산
+        MovingView_by_Corsshair();
+        MovingView_GetKey();
+
+        // 연산이 이뤄진 회전 변수 제한 및 대입
+        CurbCameraRotation();
+        CurbCameraPosition();
+        SetRotation();
     }
 
     [SerializeField] Transform tf_Corsshair;
     private float cursorMargin = 30;
-    float corsshair_X;
-    float corsshair_Y;
+    private float corsshair_X;
+    private float corsshair_Y;
     void MovingCorsshair()
     {
-        // RectTranform을 사용할 경우 크로스헤어가 마우스포지션을 따라가지만 크로스헤어의 범위에 제한을 둘 때 범위에 문제가 생김
-        //rect = tf_Corsshair.gameObject.GetComponent<RectTransform>();
-        //float corsshair_X = Input.mousePosition.x;
-        //float corsshair_Y = Input.mousePosition.y;
-        //rect.position = new Vector2(corsshair_X, corsshair_Y);
-
         // 크로스 헤어의 좌표값 구함
         corsshair_X = Input.mousePosition.x - half_ScreenWidth;
         corsshair_Y = Input.mousePosition.y - half_ScreenHeight;
@@ -42,30 +45,89 @@ public class PlayerController : MonoBehaviour
     }
 
 
-    [SerializeField] Transform th_Camera;
+    [SerializeField] float playerRotateSpeed;
+    private float currentCameraAngle_X;
+    private float currentCameraAngle_Y;
 
-    [SerializeField] float rotateSpeed;
-    [SerializeField] float look_X_Limit;
-    [SerializeField] float look_Y_Limit;
-    float currentCameraAngle_X;
-    float currentCameraAngle_Y;
-    void RotateView()
+    [SerializeField] float playerMoveSpeed;
+    void MovingView_by_Corsshair()
     {
         // 여백까지 고려하여 끝부분에 닿으면 카메라 회전
         if(corsshair_X > half_ScreenWidth - 80 || corsshair_X < -half_ScreenWidth + 80)
         {
-            // 크로스헤어는 x축이지만 카메라는 y축 회전을 해야함, 크로스헤어 x축 부호에 따라 더할지 뺄지 결정
-            currentCameraAngle_Y += (corsshair_X > 0) ? rotateSpeed : -rotateSpeed;
-            currentCameraAngle_Y = Mathf.Clamp(currentCameraAngle_Y, -look_X_Limit, look_X_Limit);
+            // 크로스헤어는 x축이지만 카메라는 y축 회전을 해야함,  크로스헤어 x축 부호에 따라 더할지 뺄지 결정
+            currentCameraAngle_Y += (corsshair_X > 0) ? playerRotateSpeed : -playerRotateSpeed;
+
+            MoveX(corsshair_X);
         }
 
         // 위 코드에서 축만 바꿈
         if (corsshair_Y > half_ScreenHeight - 80 || corsshair_Y < -half_ScreenHeight + 80)
         {
-            currentCameraAngle_X += (corsshair_Y > 0) ? -rotateSpeed : rotateSpeed; // x회전값은 더해주면 내려가고 빼면 올라가서 반대로 해야됨
-            currentCameraAngle_X = Mathf.Clamp(currentCameraAngle_X, -look_Y_Limit, look_Y_Limit);
+            // x회전값은 더해주면 내려가고 빼면 올라가서 속도 변수 부호를 반대로 해야됨
+            currentCameraAngle_X += (corsshair_Y > 0) ? -playerRotateSpeed : playerRotateSpeed;
+            MoveY(corsshair_Y);
+        }
+    }
+
+    void MovingView_GetKey()
+    {
+        float getKey_X = Input.GetAxisRaw("Horizontal");
+        if (getKey_X != 0) 
+        { 
+            currentCameraAngle_Y += getKey_X * playerRotateSpeed;
+            MoveX(getKey_X);
         }
 
-        th_Camera.rotation = Quaternion.Euler(new Vector3(currentCameraAngle_X, currentCameraAngle_Y, 0));
+        float getKey_Y = Input.GetAxisRaw("Vertical");
+        if (getKey_Y != 0)
+        {
+            currentCameraAngle_X += -getKey_Y * playerRotateSpeed;
+            MoveY(getKey_Y);
+        }
+    }
+
+    // 들어온 값의 부호에 따라 플레이어 위치를 움직임
+    void MoveX(float moveDirection)
+    {
+        float move_X = (moveDirection > 0) ? playerMoveSpeed : -playerMoveSpeed;
+        tf_Camera.localPosition += Vector3.right * move_X;
+    }
+    void MoveY(float moveDirection)
+    {
+        float move_Y = (moveDirection > 0) ? playerMoveSpeed : -playerMoveSpeed;
+        tf_Camera.localPosition += Vector3.up * move_Y;
+    }
+
+
+    [SerializeField] float look_X_Limit;
+    [SerializeField] float look_Y_Limit;
+    void CurbCameraRotation() // 회전값 제한
+    {
+        currentCameraAngle_Y = Mathf.Clamp(currentCameraAngle_Y, -look_X_Limit, look_X_Limit);
+        currentCameraAngle_X = Mathf.Clamp(currentCameraAngle_X, -look_Y_Limit, look_Y_Limit);
+    }
+
+    [SerializeField] float move_X_Limit;
+    [SerializeField] float move_Y_Limit;
+    void CurbCameraPosition()
+    {
+        if(tf_Camera.localPosition.x > move_X_Limit || tf_Camera.localPosition.x < -move_X_Limit)
+        {
+            tf_Camera.localPosition = new Vector3( (tf_Camera.localPosition.x > 0) ? move_X_Limit : -move_X_Limit , 
+                tf_Camera.localPosition.y, tf_Camera.localPosition.z);
+        }
+
+        if (tf_Camera.localPosition.y > 1 + move_Y_Limit || tf_Camera.localPosition.y < 1 - move_Y_Limit)
+        {
+            tf_Camera.localPosition = new Vector3( tf_Camera.localPosition.x,
+                (tf_Camera.localPosition.y > 1) ? 1 + move_Y_Limit : 1 - move_Y_Limit, tf_Camera.localPosition.z);
+        }
+    }
+
+    [SerializeField] Transform tf_Camera;
+    void SetRotation()
+    {
+        tf_Camera.rotation = Quaternion.Euler(new Vector3(currentCameraAngle_X, currentCameraAngle_Y, 0));
     }
 }
