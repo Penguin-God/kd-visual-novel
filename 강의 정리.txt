@@ -21,6 +21,8 @@ III. 주의사항
 스크린의 크기는 해상도를 기준으로 가져오고 크로스헤어는 UI이므로 Canvas Sclaer의 Reference Resolution 값을 기준으로 위치하기 때문에 Reference Resolution의 값과 해상도 값을 일치시켜야함
 만약 해상도를 Reference Resolution 값보다 크게 하면 스크린 값이 Canvas보다 크게 설정되어 크로스헤어의 포지션이 마우스 위치와 달라짐
 
+Screen 관련 Unity Manual : https://docs.unity3d.com/kr/530/ScriptReference/Screen.html
+Input.mousePosition 관련 Unity Manual : https://docs.unity3d.com/kr/530/ScriptReference/Input-mousePosition.html
 
 3. 크로스헤어가 화면 밖으로 나가지 않게 하기
 필요성 : Input.mouseposition는 마우스 포인터가 화면 밖에 있어도 위치를 보고하기 때문에 크로스헤어가 화면밖으로 나가 보이지 않을 수 있어 크로스헤어의 위치에 제한을 두어 화면 밖으로 나가지 않게 함
@@ -98,11 +100,33 @@ if(tf_Camera.localPosition.x > move_X_Limit || tf_Camera.localPosition.x < -move
 	tf_Camera.localPosition = new Vector3( (tf_Camera.localPosition.x > 0) ? move_X_Limit : -move_X_Limit ,  tf_Camera.localPosition.y, tf_Camera.localPosition.z);
 }
 
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+Part 2 - 4 디테일 (Spin 및 추가 UI)
+1. 해당 방향으로 회전을 못할 때 회전을 못한다는 것을 알려주는 UI 제작
 
+I. UI 4개 만들고 현재 회전값이 지정한 최대 방향값보다 높으면 해당 방향의 금지 모양 UI의 SetActive(true)하고 아니면 false하기
 
+2. 크로스헤어의 노란색 부분이 아톰 홈페이지마냥 계속 빙글빙글 돌아가게 만들기 (Spin Script)
 
+I. transform.Rotate(Vector3 eulers) : argument값의 Vector3만큼 회전시키는 함수 Translate()랑 비슷함
+II. Time.deltaTime : 이전 프레임과 현재프레임의 시간차이를 반환함 1초에 60프레임이라면 1 / 60 반환 Update문에서 속도 변수에 곱하면 1초에 원하는 값만큼 움직여서 따로 복잡한 연산이 필요없음
+transform.Rotate(spinDir * spinSpeed * Time.deltaTime);
 
+3. 상수를 변수로 바꾸기
+
+I. const와 readonly
+공통점 : 둘 다 변수를 상수로 선언해 재할당이 불가능하다
+
+차이점 : const는 컴파일 타입의 상수이고 readonly는 런타임 타입의 상수이다. 즉 const는 컴파일 시 변숫값을 가져오고 readonly는 exe, dll 등의 파일 실행 시 값을 가져온다 이 때문에 const를 사용하면 조금이라도 프로그램에 더 빠르게 접근 가능하지만 상숫값을 변경할 때 그 값과 관련된 프로젝트를 모두 다시 컴파일해야하는 단점이 있다 때문에 상숫값 변경 시 재 컴파일을 하지 않고 사용하는 생성자 단계에서 변수에 값을 할당하는 readonly가 더 각광받고 있는 추세이다.
+
+관련 내용 블로그 : https://holjjack.tistory.com/95
+
+II. 카메라 상수 변수로 바꾸기
+카메라의 Y포지션이 0이 아닌 1이기 때문에 카메라 포지션 제한값을 둘 때 1에 지정한 위치값을 더하는 형식으로 카메라 위치를 제한했는데 이를 게임 시작 시 현재 카메라 Y값을 변수에 대입해 1대신에 사용
+이럴 경우 후에 카메라의 위치가 바뀌어도 카메라의 위치값을 변수에 대입하기 때문에 코드를 건드리지 않아도 됨
+
+originPos_CameraY = tf_Camera.localPosition.y;
 
 
 

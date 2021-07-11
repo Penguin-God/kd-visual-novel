@@ -11,6 +11,8 @@ public class PlayerController : MonoBehaviour
     {
         half_ScreenWidth = Screen.width / 2;
         half_ScreenHeight = Screen.height / 2;
+
+        originPos_CameraY = tf_Camera.localPosition.y;
     }
 
     void Update()
@@ -26,12 +28,14 @@ public class PlayerController : MonoBehaviour
         CurbCameraRotation();
         CurbCameraPosition();
         SetRotation();
+        NotCameraMoveUI();
     }
 
     [SerializeField] Transform tf_Corsshair;
-    private float cursorMargin = 30;
+    private readonly float cursorMargin = 30;
     private float corsshair_X;
     private float corsshair_Y;
+
     void MovingCorsshair()
     {
         // 크로스 헤어의 좌표값 구함
@@ -50,10 +54,11 @@ public class PlayerController : MonoBehaviour
     private float currentCameraAngle_Y;
 
     [SerializeField] float playerMoveSpeed;
+    private readonly float sideMargin = 80;
     void MovingView_by_Corsshair()
     {
         // 여백까지 고려하여 끝부분에 닿으면 카메라 회전
-        if(corsshair_X > half_ScreenWidth - 80 || corsshair_X < -half_ScreenWidth + 80)
+        if(corsshair_X > half_ScreenWidth - sideMargin || corsshair_X < -half_ScreenWidth + sideMargin)
         {
             // 크로스헤어는 x축이지만 카메라는 y축 회전을 해야함,  크로스헤어 x축 부호에 따라 더할지 뺄지 결정
             currentCameraAngle_Y += (corsshair_X > 0) ? playerRotateSpeed : -playerRotateSpeed;
@@ -62,7 +67,7 @@ public class PlayerController : MonoBehaviour
         }
 
         // 위 코드에서 축만 바꿈
-        if (corsshair_Y > half_ScreenHeight - 80 || corsshair_Y < -half_ScreenHeight + 80)
+        if (corsshair_Y > half_ScreenHeight - sideMargin || corsshair_Y < -half_ScreenHeight + sideMargin)
         {
             // x회전값은 더해주면 내려가고 빼면 올라가서 속도 변수 부호를 반대로 해야됨
             currentCameraAngle_X += (corsshair_Y > 0) ? -playerRotateSpeed : playerRotateSpeed;
@@ -110,6 +115,7 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] float move_X_Limit;
     [SerializeField] float move_Y_Limit;
+    private float originPos_CameraY;
     void CurbCameraPosition()
     {
         if(tf_Camera.localPosition.x > move_X_Limit || tf_Camera.localPosition.x < -move_X_Limit)
@@ -118,10 +124,10 @@ public class PlayerController : MonoBehaviour
                 tf_Camera.localPosition.y, tf_Camera.localPosition.z);
         }
 
-        if (tf_Camera.localPosition.y > 1 + move_Y_Limit || tf_Camera.localPosition.y < 1 - move_Y_Limit)
+        if (tf_Camera.localPosition.y > originPos_CameraY + move_Y_Limit || tf_Camera.localPosition.y < originPos_CameraY - move_Y_Limit)
         {
             tf_Camera.localPosition = new Vector3( tf_Camera.localPosition.x,
-                (tf_Camera.localPosition.y > 1) ? 1 + move_Y_Limit : 1 - move_Y_Limit, tf_Camera.localPosition.z);
+                (tf_Camera.localPosition.y > originPos_CameraY) ? originPos_CameraY + move_Y_Limit : originPos_CameraY - move_Y_Limit, tf_Camera.localPosition.z);
         }
     }
 
@@ -129,5 +135,24 @@ public class PlayerController : MonoBehaviour
     void SetRotation()
     {
         tf_Camera.rotation = Quaternion.Euler(new Vector3(currentCameraAngle_X, currentCameraAngle_Y, 0));
+    }
+
+
+    [SerializeField] GameObject UI_NotCameraMove_Up;
+    [SerializeField] GameObject UI_NotCameraMove_Down;
+    [SerializeField] GameObject UI_NotCameraMove_Right;
+    [SerializeField] GameObject UI_NotCameraMove_Left;
+    void NotCameraMoveUI()
+    {
+        Set_NotCameraMove_UI(UI_NotCameraMove_Up, look_Y_Limit, -currentCameraAngle_X);
+        Set_NotCameraMove_UI(UI_NotCameraMove_Down, look_Y_Limit, currentCameraAngle_X);
+        Set_NotCameraMove_UI(UI_NotCameraMove_Right, look_X_Limit, currentCameraAngle_Y);
+        Set_NotCameraMove_UI(UI_NotCameraMove_Left, look_X_Limit, -currentCameraAngle_Y);
+    }
+
+    void Set_NotCameraMove_UI(GameObject UI_NotCameraMove, float limitValue, float currentValue)
+    {
+        if (currentValue >= limitValue) UI_NotCameraMove.SetActive(true);
+        else UI_NotCameraMove.SetActive(false);
     }
 }
