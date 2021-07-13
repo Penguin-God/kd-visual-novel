@@ -58,7 +58,7 @@ public class PlayerController : MonoBehaviour
     void MovingView_by_Corsshair()
     {
         // 여백까지 고려하여 끝부분에 닿으면 카메라 회전
-        if(corsshair_X > half_ScreenWidth - sideMargin || corsshair_X < -half_ScreenWidth + sideMargin)
+        if (corsshair_X > half_ScreenWidth - sideMargin || corsshair_X < -half_ScreenWidth + sideMargin)
         {
             // 크로스헤어는 x축이지만 카메라는 y축 회전을 해야함,  크로스헤어 x축 부호에 따라 더할지 뺄지 결정
             currentCameraAngle_Y += (corsshair_X > 0) ? playerRotateSpeed : -playerRotateSpeed;
@@ -78,8 +78,8 @@ public class PlayerController : MonoBehaviour
     void MovingView_GetKey()
     {
         float getKey_X = Input.GetAxisRaw("Horizontal");
-        if (getKey_X != 0) 
-        { 
+        if (getKey_X != 0)
+        {
             currentCameraAngle_Y += getKey_X * playerRotateSpeed;
             MoveX(getKey_X);
         }
@@ -118,15 +118,15 @@ public class PlayerController : MonoBehaviour
     private float originPos_CameraY;
     void CurbCameraPosition()
     {
-        if(tf_Camera.localPosition.x > move_X_Limit || tf_Camera.localPosition.x < -move_X_Limit)
+        if (tf_Camera.localPosition.x > move_X_Limit || tf_Camera.localPosition.x < -move_X_Limit)
         {
-            tf_Camera.localPosition = new Vector3( (tf_Camera.localPosition.x > 0) ? move_X_Limit : -move_X_Limit , 
+            tf_Camera.localPosition = new Vector3((tf_Camera.localPosition.x > 0) ? move_X_Limit : -move_X_Limit,
                 tf_Camera.localPosition.y, tf_Camera.localPosition.z);
         }
 
         if (tf_Camera.localPosition.y > originPos_CameraY + move_Y_Limit || tf_Camera.localPosition.y < originPos_CameraY - move_Y_Limit)
         {
-            tf_Camera.localPosition = new Vector3( tf_Camera.localPosition.x,
+            tf_Camera.localPosition = new Vector3(tf_Camera.localPosition.x,
                 (tf_Camera.localPosition.y > originPos_CameraY) ? originPos_CameraY + move_Y_Limit : originPos_CameraY - move_Y_Limit, tf_Camera.localPosition.z);
         }
     }
