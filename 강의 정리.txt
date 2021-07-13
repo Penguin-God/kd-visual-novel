@@ -128,6 +128,24 @@ II. 카메라 상수 변수로 바꾸기
 
 originPos_CameraY = tf_Camera.localPosition.y;
 
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Part 3 - 1 상호작용
+1. 상호작용 가능한 객체 위에 마우스 울리면 UI 변하기
+I. 상호작용 전용 UI Interactive_Corsshair 제작하기
+
+2. 카메라에서 Ray발사하기 (IntreactionCortroller Script)
+
+I. 게임 카메라 상에서의 마우스 포지션을 게임에서의 월드 포지션으로 바꾼 후 그 값을 이용하여 Ray를 쏴야 함
+이를 구현하기 위해 Camera 클래스에 있는 함수인 SceenPointToRay()에 마우스 포지션 값(카메라가 보고있는 스크린의 점)을 넣어 ray를 반환함
+이때 ray는 발사할 Ray의 시작점과 방향을 둘 다 Vector 값으로 가짐  ex) Origin : (1, 0, 3), Dir : (0.7, 0, 0.3)
+if (Physics.Raycast(cam.ScreenPointToRay(mousePosition), out rayHit, 100))
+
+ScreenPointToRay 관련 Unity Manual : https://docs.unity3d.com/kr/current/Manual/CameraRays.html
+Physics.Raycast 관련 Unity Manual : https://docs.unity3d.com/kr/530/ScriptReference/Physics.Raycast.html
+
+II. 
+ray가 맞은 오브젝트의 태그가 Interaction이면 Interactive_Corsshair를 아니면 Normal_Corsshair를 보여줌
 
 
 
