@@ -13,7 +13,7 @@ public class InteractionController : MonoBehaviour
     void Update()
     {
         CheckObject();
-        Set_Corsshair(interactable);
+        ClickLeftButton();
     }
 
     private Camera cam;
@@ -26,11 +26,12 @@ public class InteractionController : MonoBehaviour
 
         if (Physics.Raycast(cam.ScreenPointToRay(mousePosition), out rayHit, 100))
         {
-            interactable = Set_ObjectInteractable(rayHit.transform);
+            interactable = Return_Interactable(rayHit.transform);
         }
         else interactable = false;
+        Set_Corsshair(interactable);
     }
-    bool Set_ObjectInteractable(Transform hitTransform)
+    bool Return_Interactable(Transform hitTransform)
     {
         bool interactable;
         if (hitTransform.CompareTag("Interaction")) interactable = true;
@@ -44,5 +45,16 @@ public class InteractionController : MonoBehaviour
     {
         interactiveCorsshair.SetActive(interactable);
         normalCorsshair.SetActive(!interactable);
+    }
+
+    [SerializeField] GameObject obj_Qestion;
+    void ClickLeftButton()
+    {
+        if(Input.GetMouseButtonDown(0) && interactable)
+        {
+            obj_Qestion.SetActive(true);
+            obj_Qestion.transform.position = cam.transform.position;
+            obj_Qestion.GetComponent<QuestionEffect>().Throw_QuestionMark(rayHit.transform.position);
+        }
     }
 }

@@ -132,7 +132,7 @@ originPos_CameraY = tf_Camera.localPosition.y;
 
 Part 3 - 1 상호작용
 1. 상호작용 가능한 객체 위에 마우스 울리면 UI 변하기
-I. 상호작용 전용 UI Interactive_Corsshair 제작하기
+I. 상호작용 전용 여러 이미지를 겹치게 해서 UI Interactive_Corsshair 제작하기
 
 2. 카메라에서 Ray발사하기 (IntreactionCortroller Script)
 
@@ -147,11 +147,29 @@ Physics.Raycast 관련 Unity Manual : https://docs.unity3d.com/kr/530/ScriptRefe
 II. 
 ray가 맞은 오브젝트의 태그가 Interaction이면 Interactive_Corsshair를 아니면 Normal_Corsshair를 보여줌
 
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+Part 3 - 2 상호작용 이펙트
+1. 상호작용 파티클 이펙트 만들기
 
+I. 목표 : 물음표 모양을 한 스프라이트 이미지를 던지는 형식의 이펙트를 연출할 것이므로 딱 한번만 파티클이 나와야 하고 나오는 파티클을 미리 준비한 스프라이트 이미지로 바꾸어야함
 
+II. Emission의 Rate over Time (시간 경과에 따른 입자 방출 수)를 0으로 하고 Bursts (시작 시 방출하는 파티클)의 Count를 1로 함 그리고 파티클의 모양을 스프라이트로 하기 위해 Texture Sheet Animation의 Mode를 Grid에서 Sprites로 바꾼 후 미리 준비해둔 스프라이트를 넣음 그리고 Render에서 Material을 Default-ParticleSystem으로 설정해야 보라색 버그 입자가 아닌 스프라이트가 정상적으로 나옴
 
+III. 그대로 날아가면 재미가 없기 때문에 회전하면서 날아가도록 Rotation over Lifetime에서 Separate Axes를 체크 후 회전 방향을 설정함
 
+IV. 이펙트가 물체에 닿았을 때 터지는 이펙트 만들기
+사이즈를 줄이고 StartSpeed를 빠르게 한 후 Bursts의 Count를 20으로 설정하고 사방으로 퍼지도록 Shape를 shpere로 Radius(입자가 뿜어져 나올 영역의 크기로 0에 가까울 수록 한 점에서 뿜어져 나옴)를 0에 가깝게 설정 후 Size over Lifetime을 이용해 입자가 점점 작아지게 설정하고 입자가 원이 아니라 선처럼 뻗어나가도록하게 하기 위해 Render에서 Render Mode를 Billboard에서 Stretched Billboard로 설정 후 Speed나 Length에 따라 찢어지는 정도를 설정 
+
+2. 파티클 투척하기
+
+I. 상호작용이 가능한 상태에서 좌클릭을 하면 파티클이 실행됨 if(Input.GetMouseButtonDown(0) && interactable)
+
+II. 부드러운 움직임을 위해 Lerp(Vector3 start, Vector3 end, float t) 함수를 이용해 이동 (end - start)/ t 만큼 움직임 0.5f면 1 / 2만큼 움직임
+상호작용하려는 물체와 충분히 가까워지면 HitEffect를 Play함
+
+III. 오브젝트의 Pivot를 바꿔서 이펙트를 타겟의 transform.position을 기준으로 발사할 때 이미지의 상반신을 향하게끔 바꿈
+pivot 변경하는 방법을 다룬 블로그 : https://mariageunit.blogspot.com/2019/07/unity-1.html
 
 
 
