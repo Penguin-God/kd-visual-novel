@@ -31,6 +31,8 @@ public class QuestionEffect : MonoBehaviour
         ps_HitEffect.transform.position = transform.position;
         ps_HitEffect.Play();
         Invoke("Hide_HitEffect", ps_HitEffect.startLifetime);
+
+        DialogueManager.instance.ShowDialogue();
     }
 
     void Hide_HitEffect()

@@ -50,7 +50,7 @@ public class InteractionController : MonoBehaviour
     [SerializeField] GameObject obj_Qestion;
     void ClickLeftButton()
     {
-        if(Input.GetMouseButtonDown(0) && interactable)
+        if(Input.GetMouseButtonDown(0) && interactable && !DialogueManager.instance.isTalking)
         {
             obj_Qestion.SetActive(true);
             obj_Qestion.transform.position = cam.transform.position;

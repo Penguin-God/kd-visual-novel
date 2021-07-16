@@ -17,6 +17,8 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+        if (DialogueManager.instance.isTalking) return;
+
         // 크로스 헤어 이동
         MovingCorsshair();
 
