@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class InteractionController : MonoBehaviour
 {
@@ -12,8 +13,21 @@ public class InteractionController : MonoBehaviour
     private bool interactable = false;
     void Update()
     {
+        if (DialogueManager.instance.isTalking) return;
+
         CheckObject();
         ClickLeftButton();
+    }
+
+    [SerializeField] GameObject obj_Qestion;
+    void ClickLeftButton()
+    {
+        if(Input.GetMouseButtonDown(0) && interactable && !DialogueManager.instance.isTalking)
+        {
+            obj_Qestion.SetActive(true);
+            obj_Qestion.transform.position = cam.transform.position;
+            obj_Qestion.GetComponent<QuestionEffect>().Throw_QuestionMark(rayHit.transform.position);
+        }
     }
 
     private Camera cam;
@@ -29,7 +43,7 @@ public class InteractionController : MonoBehaviour
             interactable = Return_Interactable(rayHit.transform);
         }
         else interactable = false;
-        Set_Corsshair(interactable);
+        Set_InteractionUI(interactable);
     }
     bool Return_Interactable(Transform hitTransform)
     {
@@ -41,20 +55,96 @@ public class InteractionController : MonoBehaviour
 
     [SerializeField] GameObject normalCorsshair;
     [SerializeField] GameObject interactiveCorsshair;
-    void Set_Corsshair(bool interactable)
+
+    [SerializeField] GameObject obj_TargetNameBar;
+    [SerializeField] Text txt_TargetName;
+
+    private bool isContact = false;
+    void Set_InteractionUI(bool interactable)
     {
+        // 중복 실행 방지 코드
+        if (isContact == interactable) return;
+        isContact = interactable;
+
+        // 크로스헤어 설정
         interactiveCorsshair.SetActive(interactable);
         normalCorsshair.SetActive(!interactable);
+
+        // 상호작용 객체 툴팁 설정
+        obj_TargetNameBar.SetActive(interactable);
+        txt_TargetName.text = (interactable) ? rayHit.transform.GetComponent<InteractionType>().GetName() : "";
+
+        // 상호작용 이펙트 설정
+        AppearInteractionImg(interactable);
+        if(interactable) InteractionEffect();
+        else img_InteractionEffect.color = new Color(1, 1, 1, 0);
     }
 
-    [SerializeField] GameObject obj_Qestion;
-    void ClickLeftButton()
+
+
+    [SerializeField] Image img_Interaction;
+
+    void AppearInteractionImg(bool _appear)
     {
-        if(Input.GetMouseButtonDown(0) && interactable && !DialogueManager.instance.isTalking)
+        StopCoroutine("Co_AppearInteractionImg");
+        StartCoroutine("Co_AppearInteractionImg", _appear);
+    }
+
+    IEnumerator Co_AppearInteractionImg(bool _appear)
+    {
+        Color color = img_Interaction.color;
+        WaitForSeconds ws = new WaitForSeconds(0.02f);
+        if (_appear)
         {
-            obj_Qestion.SetActive(true);
-            obj_Qestion.transform.position = cam.transform.position;
-            obj_Qestion.GetComponent<QuestionEffect>().Throw_QuestionMark(rayHit.transform.position);
+            color.a = 0;
+            while(color.a < 1 && !DialogueManager.instance.isTalking)
+            {
+                color.a += 0.1f;
+                img_Interaction.color = color;
+                yield return ws;
+            }
+        }
+        else
+        {
+            while (color.a > 0 && !DialogueManager.instance.isTalking)
+            {
+                color.a -= 0.1f;
+                img_Interaction.color = color;
+                yield return ws;
+            }
+        }
+    }
+
+    void InteractionEffect()
+    {
+        StopCoroutine("Co_InteractionEffect");
+        StartCoroutine("Co_InteractionEffect");
+    }
+
+    [SerializeField] Image img_InteractionEffect;
+    IEnumerator Co_InteractionEffect()
+    {
+        float delayTime = 0.02f;
+        WaitForSeconds ws = new WaitForSeconds(delayTime);
+
+        // 상호작용 가능한 객체에 크로스헤어를 올리고 있으며 대화중이 아닌 상태에서 계속 돌아가는 무한반복 코루틴
+        while (interactable && !DialogueManager.instance.isTalking)
+        {
+            Color color = img_InteractionEffect.color;
+            color.a = 0.5f;
+
+            img_InteractionEffect.transform.localScale = new Vector3(1.3f, 1.3f, 1.3f);
+            Vector3 img_Scale = img_InteractionEffect.transform.localScale;
+
+            while(color.a > 0 && !DialogueManager.instance.isTalking && interactable)
+            {
+                color.a -= 0.01f;
+                img_InteractionEffect.color = color;
+                img_Scale.Set(img_Scale.x + delayTime, img_Scale.y + delayTime, img_Scale.z + delayTime);
+                img_InteractionEffect.transform.localScale = img_Scale;
+                yield return ws;
+            }
+            yield return null;
         }
     }
 }
