@@ -23,11 +23,13 @@ public class DialogueManager : MonoBehaviour
     [SerializeField] Text txt_Name;
 
     public bool isTalking = false;
-    public void ShowDialogue()
+    Dialogue[] dialogues;
+    public void ShowDialogue(Dialogue[] p_Dialogues)
     {
         UIManager.instance.HideUI();
         Set_DialogueUI(true);
         isTalking = true;
+        dialogues = p_Dialogues;
     }
 
     void Set_DialogueUI(bool _flag)

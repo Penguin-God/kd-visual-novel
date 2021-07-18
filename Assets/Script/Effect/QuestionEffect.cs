@@ -12,9 +12,11 @@ public class QuestionEffect : MonoBehaviour
         StartCoroutine(Throw_Coroutine(_target));
     }
 
+    public bool isThrow = false;
     IEnumerator Throw_Coroutine(Vector3 _target)
     {
         float distance_byTarget = Mathf.Infinity;
+        isThrow = true;
         while (distance_byTarget > 0.3f)
         {
             transform.position =  Vector3.Lerp(transform.position, _target, moveSpeed);
@@ -22,17 +24,18 @@ public class QuestionEffect : MonoBehaviour
             yield return null;
         }
         Play_HitEffect();
+        isThrow = false;
         gameObject.SetActive(false);
     }
 
+    public bool isQuestionHit = false;
     void Play_HitEffect()
     {
         ps_HitEffect.gameObject.SetActive(true);
         ps_HitEffect.transform.position = transform.position;
         ps_HitEffect.Play();
         Invoke("Hide_HitEffect", ps_HitEffect.startLifetime);
-
-        DialogueManager.instance.ShowDialogue();
+        isQuestionHit = true;
     }
 
     void Hide_HitEffect()

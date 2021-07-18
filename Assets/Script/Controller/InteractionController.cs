@@ -22,12 +22,23 @@ public class InteractionController : MonoBehaviour
     [SerializeField] GameObject obj_Qestion;
     void ClickLeftButton()
     {
-        if(Input.GetMouseButtonDown(0) && interactable && !DialogueManager.instance.isTalking)
+        QuestionEffect questionEffect = obj_Qestion.GetComponent<QuestionEffect>();
+
+        if (Input.GetMouseButtonDown(0) && interactable && !DialogueManager.instance.isTalking && !questionEffect.isThrow)
         {
             obj_Qestion.SetActive(true);
             obj_Qestion.transform.position = cam.transform.position;
-            obj_Qestion.GetComponent<QuestionEffect>().Throw_QuestionMark(rayHit.transform.position);
+            questionEffect.Throw_QuestionMark(rayHit.transform.position);
+            StartCoroutine(Co_ShowDialogue());
         }
+    }
+
+    IEnumerator Co_ShowDialogue()
+    {
+        QuestionEffect questionEffect = obj_Qestion.GetComponent<QuestionEffect>();
+        yield return new WaitUntil(() => questionEffect.isQuestionHit);
+        questionEffect.isQuestionHit = false;
+        DialogueManager.instance.ShowDialogue(rayHit.transform.GetComponent<InteractionEvent>().GetDialogues());
     }
 
     private Camera cam;
@@ -136,7 +147,7 @@ public class InteractionController : MonoBehaviour
             img_InteractionEffect.transform.localScale = new Vector3(1.3f, 1.3f, 1.3f);
             Vector3 img_Scale = img_InteractionEffect.transform.localScale;
 
-            while(color.a > 0 && !DialogueManager.instance.isTalking && interactable)
+            while(color.a > 0 && !DialogueManager.instance.isTalking)
             {
                 color.a -= 0.01f;
                 img_InteractionEffect.color = color;
