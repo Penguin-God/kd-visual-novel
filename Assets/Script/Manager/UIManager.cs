@@ -26,7 +26,14 @@ public class UIManager : MonoBehaviour
         UI_Crosshair.SetActive(false);
         UI_Arrow.SetActive(false);
         UI_Tooltip.SetActive(false);
+
         img_Interaction.color = new Color(1, 1, 1, 0);
         img_InteractionEffect.color = new Color(1, 1, 1, 0);
+    }
+
+    public void ShowUI()
+    {
+        UI_Crosshair.SetActive(true);
+        UI_Arrow.SetActive(true);
     }
 }

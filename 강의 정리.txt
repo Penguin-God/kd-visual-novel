@@ -263,6 +263,59 @@ Part 4 - 1 데이터 파싱 및 엑셀 관리 ** 존나 중요하며 존나 길�
 5. 상호작용 컨트롤러 (InteractionController Script)에서 사용
 이전 파트에서 제작한 이펙트가 터지는 순간에 다이로그 바가 뜨는 함수에 4.에서 만든 함수 사용부분 추가
 
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Part 4 - 2 대화 시스템 구현
+1. 대화 기능 구현
+
+I. 대사 치환 
+csv파일은 ,로 데이터를 구분하기 때문에 대사에 ,를 쓰지 못하고 대신 |을 사용했는데 Replace()함수를 사용해서 |를 ,로 치환하기
+string.Replace(string oldValue, string newValue) : string 변수에 old변수가 포함되어 있으면 newValue로 치환해주는 함수
+
+II. 대사 출력 
+캐릭터 대화의 순서를 나타내는 talkIndex변수와 대사의 순서를 나타내는 contextCount변수 다음 대화로 넘어갈 수 있는지를 나타내는 isNext변수 선언 후 대화 기능 구현에 사용
+Update()문에서 isNext && isTalking && 마우스 또는 키보드 입력 시 실행되는 Talk()함수 선언
+대화 한번마다 contextCount++시키고  한 캐릭터가 가지는 대사의 길이와 같아지면 contextCount = 0으로 하고 talkIndex++ 후 다시 대사 시작 talkIndex가 Dialogue[] 의 길이를 넘기면 대화 종료
+void Talk()
+{
+        isNext = false;
+        txt_Dialogue.text = "";
+        if (++contextCount >= dialogues[talkIndex].contexts.Length)
+        {
+            contextCount = 0;
+            talkIndex++;
+        }
+
+        if (talkIndex < dialogues.Length) StartCoroutine(Co_TypeWriter());
+        else EndTalk();
+}
+
+III. 대사 타이핑 효과 구현
+코루틴을 이용하여 한글자씩 대사를 추가
+IEnumerator Co_TypeWriter()
+{
+        Set_DialogueUI(true);
+        txt_Name.text = dialogues[talkIndex].name;
+        txt_Dialogue.text = "";
+
+        string replaceText = dialogues[talkIndex].contexts[contextCount];
+        replaceText = ReplaceText_ToComma(replaceText);
+        for (int i = 0; i < replaceText.Length; i++)
+        {
+            txt_Dialogue.text += replaceText[i];
+            yield return new WaitForSeconds(textDelayTime);
+        }
+        isNext = true;
+}
+
+
+
+
+
+
+
+
+
 
 
 

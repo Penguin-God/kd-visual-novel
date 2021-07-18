@@ -7922,6 +7922,7 @@ MonoBehaviour:
   txt_Dialogue: {fileID: 1996101227}
   txt_Name: {fileID: 1232089124}
   isTalking: 0
+  textDelayTime: 0.03
 --- !u!1001 &1158956100
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -14611,7 +14612,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1.2
-  m_Text: "\uC548\uB155\uD558\uC138\uC694 \uC800\uB294 \uC778\uAC04\uC785\uB2C8\uB2E4"
+  m_Text: 
 --- !u!222 &1996101228
 CanvasRenderer:
   m_ObjectHideFlags: 0
