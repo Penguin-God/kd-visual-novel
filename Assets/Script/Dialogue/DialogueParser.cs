@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class DialogueParser : MonoBehaviour
 {
+    public Dialogue[] ddd;
     public Dialogue[] Parse(string _CsvFileName)
     {
         List<Dialogue> dialogueList = new List<Dialogue>();
@@ -45,6 +46,7 @@ public class DialogueParser : MonoBehaviour
             // for문 한번 돌때마다 dialogueList에 dialogue가 하나씩 추가되며 엑셀파일의 데이터를 dialogueList에 다 담게 됨
             dialogueList.Add(dialogue);
         }
+        ddd = dialogueList.ToArray(); // 배열 형태로 반환
         return dialogueList.ToArray(); // 배열 형태로 반환
     }
 }

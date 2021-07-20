@@ -5,10 +5,10 @@ using UnityEngine;
 [System.Serializable] // 데이터를 직렬로 하겠다는 뜻 인스펙터 창에서 수정하기 위해 필요
 public class Dialogue // Dialogue 하나는 엑셀 파일 1줄을 의미
 {
-    [Tooltip("대사 치는 캐릭터")]
+    [Tooltip("카메라가 타겟팅할 대상")]
+    public Transform tf_Target;
+    
     public string name;
-
-    [Tooltip("대사 내용")]
     public string[] contexts;
 }
 

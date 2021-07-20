@@ -363,14 +363,77 @@ else
 }
 
 II 색깔 강조
-나레이션은 모든 대사 시안색으로 처리하기
-그냥 엑셀에서 나레이션 앞에 ⓒ붙이고 위에서 짠 코드에 추가하면 됨
+나레이션은 모든 대사 시안색으로 처리하기, 그냥 엑셀에서 나레이션 앞에 ⓒ붙이고 위에서 짠 코드에 추가하면 됨
 
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+Part 5 - 1 카메라 타겟팅
+1. 특정 트랜스폼에 카메라 타겟팅하기 (CameraController Script)
+I. 조건 
+타겟팅하려는 객체의 Transfrom을 받고 Coroutine을 사용하여 카메라가 조금씩 객체의 앞으로 카메라가 이동하며 객체를 바라보도록 회전는 기능 구현
+이때 while의 조건에 포지션과 함께 두 방향 a, b 사이의 각도를 반환하는 Quaternion.Aagle(Quaternion a, Quaternion b)를 사용하여 각도가 어느정도 작아질 때까지 while을 돌림
 
+while(transfrom.position != forwardTargerPosition || Quaternion.Aagle(transform.rotation, Quaternion.LookRotation(camDirection) ) >= 0.5f )
+이때 Quaternion.LookRotation(Vector3 forward, Vector3, upwards = Vector3.up)은 오브젝트가 forward방향으로 회전했을 때의 rotation값을 나타내며 upwards = Vector3.up은머리가 향하는 방향을 나타내며 
+생략 시 객체의 머리는 위를 향하게 된다 머리가 항상 위를 향하므로 y축만 계산한며 x, z의 rotation값은 0으로 나온다 결국 y축의 값만 얻을 수 있다.
 
+II 이동 및 회전
+코루틴의 대기와 현재 위치에서 목표지점까지 지정한 값만큼 움직이는 Vector3.MoveTowards(Vector3 currnet, Vector3 target, float maxDistanceDelta) 를 이용하여 카메라를 이동시킨다
+회전은 Quaternion.Lerp()함수를 이용해 이동시킨다.
 
+IEnumerator Co_CameraTargetting(Transform p_Targer, float p_CameraSpeed = 0.05f)
+{
+        Vector3 targetPosition = p_Targer.position;
+        Vector3 forwardTargerPosition = targetPosition + p_Targer.forward * 1.5f;
+        Vector3 camDirection = (targetPosition - forwardTargerPosition).normalized;
 
+        while (transform.position != forwardTargerPosition || Quaternion.Angle(transform.rotation, Quaternion.LookRotation(camDirection) ) >= 0.5f )
+        {
+            transform.position = Vector3.MoveTowards(transform.position, forwardTargerPosition, p_CameraSpeed);
+            transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(camDirection), p_CameraSpeed);
+            yield return null;
+        }
+}
+
+III. 코루틴 충돌
+코루틴 충돌을 방지해 코루틴을 멈춰야 하는데 인자가 2개이므로 문자열 방식으로 멈추지 못하기 때문에 StopAllCoroutine()을 사용한다. StopAllCoroutine()은 사용한 스크립트 내의 코루틴만 멈추기 때문에
+여기에서는  Co_CameraTargetting()외에 다른 코루틴을 멈추지 않는다.
+
+2. 코루틴 사용
+** 강의에서는 객체의 Transfrom 변수를 인스펙터 창에서 일일히 선언하였는데 나는 만약 1000번의 대화를 만든다고 하면 이건 말도 안되는 노가다라고 생각해 다른 방식으로 구현하기를 원했고 결국 해냈다. **
+
+I. 씬에 있는 모든 대화 객체의 이름을 key로 Transform을 value로 가지는 딕셔너리 (CharacterManager Script)
+강의에서는 엑셀 파일에 대화하는 주체의 이름을 작성했기 때문에 나는 "그냥 이름하고 Transform하고 매치시키면 안되나?"라고 생각했고 이럴 때 딕셔너리만한 자료구조가 없다.
+하지만 내 생각대로 하려면 게임 시작 전에 딕셔너리 안에 Transform 변수를 담기 위해 인스펙터 창에 딕셔너리를 표시해야하는데 unity에서는 이를 지원하지 않았고 결국 유튜브 영상을 보고 구현했다.
+인스펙터 창에 딕셔너리 표시하는 방법 : https://www.youtube.com/watch?v=sivvCb5AERc (그냥 에셋 임포트해서 사용하는 영상)
+
+II. Dialogue의 tf_Target 변수 DialogueEvent에 엑셀 파일 채우면서 같이 채우기 (InteractionEvent Script)
+Dialogue는 대사를 치는 캐릭터를 기준으로 개수가 정해지므로 DialogueEvent의 Dialogue[] dialogues; 의 길이만큼 반복문을 돌리고 Dialogue의 tf_Target 변수를 선언했다.
+
+for(int i = 0; i < dialogueEvent.dialogues.Length; i++) // tf_Target 대입
+{
+            Dialogue dialogue = dialogueEvent.dialogues[i]
+            dialogue.tf_Target = CharacterManager.instance.dic_Character[dialogue.name];
+
+            dialogueEvent.dialogues[i] = dialogue;
+}
+
+III. 예외처리
+주인공이 말할 경우나 나레이션은 Dictionary에서 찾지 못하는 에러와 카메라가 타겟팅할 객체가 null이 되는 에러가 생긴다 특히 딕셔너리 관련 에러는 스크립트가 멈추기 때문에 꽤나 심각한 버그다
+이를 위해 Dictionary에 name "주인공" 이거나 ""경우에 null을 넣어 타겟팅 객체에 null값을 주도록 하고 만약 객체의 값이 null이거나 이전과 같은 객체라면 카메라 타겟팅을 하지 않도록 한다.
+
+IV. 타겟팅을 하고싶지 않을때
+이 코드는 대사를 치는 캐릭터에게 '무조건' 카메라가 타겟팅하게 되어있다. 만약 인스펙터 창에서 채웠으면 사람이 임의로 정할 수 있었겠지만 Script로 채우는 것이기 때문에 그렇게 할 수 없다.
+그래서 타겟팅하지 않을 캐릭터의 이름에는 엑셀 파일의 이름앞에 ⒳를 붙이고 이를 코드에서 감지하여 ⒳를 ""로 바꾸고 tf_Target에 null값을 주도록 하였다.
+for(int i = 0; i < dialogueEvent.dialogues.Length; i++)
+{
+            Dialogue dialogue = dialogueEvent.dialogues[i];
+            // 이름 앞에 ⒳가 붙어 있으면 타겟팅 안하는거임
+            if (dialogue.name != "" && dialogue.name[0] == '⒳') dialogue.name = dialogue.name.Replace("⒳", "");
+            else dialogue.tf_Target = CharacterManager.instance.dic_Character[dialogue.name];
+
+            dialogueEvent.dialogues[i] = dialogue;
+}
 
 
 

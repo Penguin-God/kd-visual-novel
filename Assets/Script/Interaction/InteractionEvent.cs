@@ -11,6 +11,15 @@ public class InteractionEvent : MonoBehaviour
         dialogueEvent.dialogues = new Dialogue[(int)dialogueEvent.line.y - (int)dialogueEvent.line.x + 1]; // dialogues의 크기 결정
 
         dialogueEvent.dialogues = DataBaseManager.instance.GetDialogues((int)dialogueEvent.line.x, (int)dialogueEvent.line.y); // dialogues 선언
+        for(int i = 0; i < dialogueEvent.dialogues.Length; i++) // tf_Target 대입
+        {
+            Dialogue dialogue = dialogueEvent.dialogues[i];
+            // 이름 앞에 ⒳가 붙어 있으면 타겟팅 안하는거임
+            if (dialogue.name != "" && dialogue.name[0] == '⒳') dialogue.name = dialogue.name.Replace("⒳", "");
+            else dialogue.tf_Target = CharacterManager.instance.dic_Character[dialogue.name];
+
+            dialogueEvent.dialogues[i] = dialogue;
+        }
         return dialogueEvent.dialogues; // 선언 후 반환
     }
 }

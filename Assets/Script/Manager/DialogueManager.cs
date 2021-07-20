@@ -16,6 +16,7 @@ public class DialogueManager : MonoBehaviour
         }
     }
 
+    
     private void Update()
     {
         if(isNext && isTalking && ( Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0) ) )
@@ -24,14 +25,17 @@ public class DialogueManager : MonoBehaviour
         }
     }
 
+    [SerializeField] CameraController cameraController;
+    [SerializeField] CharacterManager characterManager;
     void Talk()
     {
         isNext = false;
         txt_Dialogue.text = "";
-        if (++contextCount >= dialogues[talkIndex].contexts.Length)
+        if (++contextCount >= dialogues[talkIndex].contexts.Length) // 대화의 화자가 바뀔 때
         {
             contextCount = 0;
             talkIndex++;
+            if (talkIndex < dialogues.Length) cameraController.CameraTargettion(dialogues[talkIndex].tf_Target);
         }
 
         if (talkIndex < dialogues.Length) StartCoroutine(Co_TypeWriter());
@@ -64,8 +68,9 @@ public class DialogueManager : MonoBehaviour
     {
         UIManager.instance.HideUI();
         isTalking = true;
-
+        // 대화 시작
         dialogues = p_Dialogues;
+        if (talkIndex < dialogues.Length) cameraController.CameraTargettion(dialogues[talkIndex].tf_Target);
         StartCoroutine(Co_TypeWriter());
     }
 
