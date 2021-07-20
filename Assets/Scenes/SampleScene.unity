@@ -1457,7 +1457,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dialogueEvent:
     eventName: "\uBD09\uB780 \uC790\uAE30\uC18C\uAC1C"
-    line: {x: 1, y: 3}
+    line: {x: 1, y: 7}
     dialogues: []
 --- !u!1 &765205033
 GameObject:
@@ -7922,7 +7922,7 @@ MonoBehaviour:
   txt_Dialogue: {fileID: 1996101227}
   txt_Name: {fileID: 1232089124}
   isTalking: 0
-  textDelayTime: 0.03
+  textDelayTime: 0.02
 --- !u!1001 &1158956100
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -14249,7 +14249,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e651486b3850d964ca60390bc3a59ce9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 0.06
+  moveSpeed: 0.1
   ps_HitEffect: {fileID: 903196504}
   isThrow: 0
   isQuestionHit: 0

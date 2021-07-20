@@ -5,10 +5,10 @@ II. UI 에서 Anchor Position을 설정할 때는 부모는 상단, 하단 처�
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 Part 2 - 1 크로스헤어 구현
+
 1. [SerializeField] 는 private의 보호 수준은 유지하면서 인스펙터 창에 변수의 값을 보이게 함(할당도 가능)
 
 2. 크로스헤어가 마우스 따라가게하기
-
 I. 크로스 헤어의 포지션 값 
 크로스헤어 UI는 Canvas의 자식 오브젝트이므로 원하는 좌표 값을 얻거나 할당하기 위해서는 부모 객처를 기준으로 상대적으로 얼마나 떨어져 있는지를 나타내는 localposition을 사용해야함
 
@@ -43,15 +43,14 @@ corsshair_Y = Mathf.Clamp(corsshair_Y, -Screen.height / 2 + cursorMargin, Screen
 tf_Corsshair.localPosition = new Vector2(corsshair_X, corsshair_Y);
 
 4. 강의 내용 외의 시도
-
 I. RectTranform을 사용할 경우 크로스헤어가 마우스를 그래도 따라가지만 여전히 좌측 하단이 0, 0이기 때문에 Screen의 크기를 이용해 크로스헤어의 범위에 제한을 두는 데에 문제가 생김
 RectTransform을 사용하면 마우스를 그대로 따라가는 이유는 RectTransform도 좌측 하단이 0, 0 이디 때문임
+
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 Part 2 - 2 뷰 회전 (크로스 헤어)
 
 1. 크로스헤어가 끝부분에 있으면 그쪽 방향으로 회전하기
-
 I. Part 2 - 1에서 구현한 크로스 헤어의 위치값이 스크린의 절반보다 크거나 작으면 작동하는  조건문 제작
 if( corsshair_X > half_ScreenWidth - 80 || corsshair_X > -half_ScreenWidth + 80 )
 
@@ -68,7 +67,6 @@ th_Camera.rotation = Quaternion.Euler(new Vector3(currentCameraAngle_X, currentC
 Part 2 - 3 뷰 이동 및 회전 (방향키)
 
 1. 키보드를 이용한 회전 구현
-
 I. 수평 수직 키 입력을 받는 Input.GetAxisRaw값을 이용해 Part 2 - 2의 방법을 그대로 적용하여 회전 구현 (GetAxis값은 입력에 따라 음수 양수 값이 나오기 때문에 삼항연사자는 필요 없음) 
 이때 Input.GetAxisRaw는 -1, 0, 1의 값 3가지만 반환하며 Input.GetAxis는 -1, 1까지의 값을 반환한다 즉 부드러운 이동은 Input.GetAxis를 키보드와 같이 입력 시 바로 반응해야 하는 경우에는 Input.GetAxisRaw를 사용한다.
 float getKey_X = Input.GetAxisRaw("Horizontal");
@@ -76,7 +74,6 @@ if (getKey_X != 0) currentCameraAngle_Y += getKey_X * playerRotateSpeed;
 
 
 2. 플레이어 이동 구현
-
 I. 회전할 때 회전 방향과 같은 방향으로 이동 나는 강의에서랑 조금 다르게 float 파라미터를 가진 함수를 만들어 인자값의 부호에 따라 속도 변수만큼 움직이는 함수를 만든 후 회전 조건문 안에 넣음
 void MoveX(float moveDirection)
 {
@@ -103,18 +100,16 @@ if(tf_Camera.localPosition.x > move_X_Limit || tf_Camera.localPosition.x < -move
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 Part 2 - 4 디테일 (Spin 및 추가 UI)
-1. 해당 방향으로 회전을 못할 때 회전을 못한다는 것을 알려주는 UI 제작
 
+1. 해당 방향으로 회전을 못할 때 회전을 못한다는 것을 알려주는 UI 제작
 I. UI 4개 만들고 현재 회전값이 지정한 최대 방향값보다 높으면 해당 방향의 금지 모양 UI의 SetActive(true)하고 아니면 false하기
 
 2. 크로스헤어의 노란색 부분이 아톰 홈페이지마냥 계속 빙글빙글 돌아가게 만들기 (Spin Script)
-
 I. transform.Rotate(Vector3 eulers) : argument값의 Vector3만큼 회전시키는 함수 Translate()랑 비슷함
 II. Time.deltaTime : 이전 프레임과 현재프레임의 시간차이를 반환함 1초에 60프레임이라면 1 / 60 반환 Update문에서 속도 변수에 곱하면 1초에 원하는 값만큼 움직여서 따로 복잡한 연산이 필요없음
 transform.Rotate(spinDir * spinSpeed * Time.deltaTime);
 
 3. 상수를 변수로 바꾸기
-
 I. const와 readonly
 공통점 : 둘 다 변수를 상수로 선언해 재할당이 불가능하다
 
@@ -131,11 +126,11 @@ originPos_CameraY = tf_Camera.localPosition.y;
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 Part 3 - 1 상호작용
+
 1. 상호작용 가능한 객체 위에 마우스 울리면 UI 변하기
 I. 상호작용 전용 여러 이미지를 겹치게 해서 UI Interactive_Corsshair 제작하기
 
 2. 카메라에서 Ray발사하기 (IntreactionCortroller Script)
-
 I. 게임 카메라 상에서의 마우스 포지션을 게임에서의 월드 포지션으로 바꾼 후 그 값을 이용하여 Ray를 쏴야 함
 이를 구현하기 위해 Camera 클래스에 있는 함수인 SceenPointToRay()에 마우스 포지션 값(카메라가 보고있는 스크린의 점)을 넣어 ray를 반환함
 이때 ray는 발사할 Ray의 시작점과 방향을 둘 다 Vector 값으로 가짐  ex) Origin : (1, 0, 3), Dir : (0.7, 0, 0.3)
@@ -150,8 +145,8 @@ ray가 맞은 오브젝트의 태그가 Interaction이면 Interactive_Corsshair�
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 Part 3 - 2 상호작용 이펙트
-1. 상호작용 파티클 이펙트 만들기
 
+1. 상호작용 파티클 이펙트 만들기
 I. 목표 : 물음표 모양을 한 스프라이트 이미지를 던지는 형식의 이펙트를 연출할 것이므로 딱 한번만 파티클이 나와야 하고 나오는 파티클을 미리 준비한 스프라이트 이미지로 바꾸어야함
 
 II. Emission의 Rate over Time (시간 경과에 따른 입자 방출 수)를 0으로 하고 Bursts (시작 시 방출하는 파티클)의 Count를 1로 함 그리고 파티클의 모양을 스프라이트로 하기 위해 Texture Sheet Animation의 Mode를 Grid에서 Sprites로 바꾼 후 미리 준비해둔 스프라이트를 넣음 그리고 Render에서 Material을 Default-ParticleSystem으로 설정해야 보라색 버그 입자가 아닌 스프라이트가 정상적으로 나옴
@@ -162,7 +157,6 @@ IV. 이펙트가 물체에 닿았을 때 터지는 이펙트 만들기
 사이즈를 줄이고 StartSpeed를 빠르게 한 후 Bursts의 Count를 20으로 설정하고 사방으로 퍼지도록 Shape를 shpere로 Radius(입자가 뿜어져 나올 영역의 크기로 0에 가까울 수록 한 점에서 뿜어져 나옴)를 0에 가깝게 설정 후 Size over Lifetime을 이용해 입자가 점점 작아지게 설정하고 입자가 원이 아니라 선처럼 뻗어나가도록하게 하기 위해 Render에서 Render Mode를 Billboard에서 Stretched Billboard로 설정 후 Speed나 Length에 따라 찢어지는 정도를 설정 
 
 2. 파티클 투척하기
-
 I. 상호작용이 가능한 상태에서 좌클릭을 하면 파티클이 실행됨 if(Input.GetMouseButtonDown(0) && interactable)
 
 II. 부드러운 움직임을 위해 Lerp(Vector3 start, Vector3 end, float t) 함수를 이용해 이동 (end - start)/ t 만큼 움직임 0.5f면 1 / 2만큼 움직임
@@ -187,6 +181,7 @@ IV. DialogueManager에 대화중인지를 나타내는 bool 변수 isTalking을 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 Part 3 - 4 디테일 (Tooltip + 추가 연출)
+
 1. 상호작용 가능한 객체에 크로스헤어를 갖다대면 툴팁과 이펙트 뜨게 하기
 I. 툴팁 UI, 인터랙션 UI 각각에 맞는 이미지 넣어서 만들기
 
@@ -266,8 +261,8 @@ Part 4 - 1 데이터 파싱 및 엑셀 관리 ** 존나 중요하며 존나 길�
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 Part 4 - 2 대화 시스템 구현
-1. 대화 기능 구현
 
+1. 대화 기능 구현 (DialogueManager Script)
 I. 대사 치환 
 csv파일은 ,로 데이터를 구분하기 때문에 대사에 ,를 쓰지 못하고 대신 |을 사용했는데 Replace()함수를 사용해서 |를 ,로 치환하기
 string.Replace(string oldValue, string newValue) : string 변수에 old변수가 포함되어 있으면 newValue로 치환해주는 함수
@@ -307,6 +302,88 @@ IEnumerator Co_TypeWriter()
         }
         isNext = true;
 }
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Part 4 - 3 디테일 (글자색 변경 등등)
+
+1. 글자색 변경 (DialogueManager Script)
+I. 엑셀 파일에서 강조하고 싶은 부분 양 옆에 특수문자 넣기 ex) 내 이름은 ⓨ봉란ⓦ이야 잘 부탁해 (ⓨ : 노란색 ⓦ : 하얀색)
+
+II.  코드에서 특수문자를 감지해 어떤 텍스트에 효과 줄지 선택하기
+대사 출력 효과를 구현하면서 반복문에서 1글자씩 대사를 더했기 때문에 반복문 내에서 한글자씩 비교하면서 만약 특수문자면 관련 함수를 실행시킴
+
+char effectChar = ' '; // 어떤 효과를 줄지 구분하는 문자
+for (int i = 0; i < replaceText.Length; i++)
+{
+            if (Set_IsColorText(replaceText[i])) // 더할 텍스트가 특수문자라면
+            {
+                effectChar = replaceText[i];
+                continue;
+            }
+
+            string addText = replaceText[i].ToString();
+            txt_Dialogue.text += (effectChar != ' ' && effectChar != 'ⓦ') ? ColoringText(effectChar, addText) : addText;
+            yield return new WaitForSeconds(textDelayTime);
+}
+
+III. HTML 태그로 text에 색깔 넣기
+
+string ColoringText(char t_Effect, string affectText) // 받은 특수문자에 맞는 효과를 string 인자에 구현 후 return
+{
+        string returnText;
+        switch (t_Effect)
+        {
+            case 'ⓨ':
+                returnText = "<color=#FFFF00>" + affectText + "</color>";
+                break;
+        }
+        return returnText;
+}
+
+HTML 태그는 텍스트 인스펙터 창에서는 드러나지만 실제 게임에서는 나오지 않고 텍스트에 관련 효과가 적용됨 HTML과 같이 <> 로 시작해 같은 태그의 </>로 닫히면 <b>(굵게 하기), <i>(글자 기울이기),
+<Size=px>(크기) 등의 태그가 지원되며 텍스트의 메테리얼도 지정할 수 있음 ex) We are <material=2>texturally</material> amused (material=2는 메쉬의 메테리얼 배열의 인덱스 값)
+또한 태그는 대소문자를 구분하지 않음 ex) <Size=10>Hi</Size>, <SIZE=10>Hi</SIZE>, <SIZE=10>Hi</SiZe> 모두 가능.
+
+태그 관련 내용 Unity Manual : https://docs.unity3d.com/kr/530/Manual/StyledText.html
+
+2. 줄바꿈하기
+Unity에서 줄바꿈은 \n(escape문)이지만 엑셀에서의 \n은 텍스트이기 때문에 escape문으로 인식하기 위해 대체 
+// \n 앞에 \(escape문)을 붙이면 뒤에 문자는 텍스트로 인식
+replaceText = replaceText.Replace("\\n", "\n"); 
+
+3. 나레이션 추가
+나레이션은 이름이 없기 때문에 나레이션 중에는 NameBar숨기기
+이름이 없는 것을 이용해 코드를 작성, 이름을 조건으로 넣었기 때문에 NameBar의 텍스트를 이 부분에서 작성해야함
+if (dialogues[talkIndex].name == "") obj_NameBar.SetActive(false); 
+else
+{
+            obj_NameBar.SetActive(true);
+            txt_Name.text = dialogues[talkIndex].name;
+}
+
+II 색깔 강조
+나레이션은 모든 대사 시안색으로 처리하기
+그냥 엑셀에서 나레이션 앞에 ⓒ붙이고 위에서 짠 코드에 추가하면 됨
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

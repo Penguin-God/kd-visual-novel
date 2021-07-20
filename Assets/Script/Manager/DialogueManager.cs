@@ -63,7 +63,6 @@ public class DialogueManager : MonoBehaviour
     public void ShowDialogue(Dialogue[] p_Dialogues)
     {
         UIManager.instance.HideUI();
-        Set_DialogueUI(true);
         isTalking = true;
 
         dialogues = p_Dialogues;
@@ -74,28 +73,89 @@ public class DialogueManager : MonoBehaviour
     IEnumerator Co_TypeWriter()
     {
         Set_DialogueUI(true);
-        txt_Name.text = dialogues[talkIndex].name;
         txt_Dialogue.text = "";
 
         string replaceText = dialogues[talkIndex].contexts[contextCount];
-        replaceText = ReplaceText_ToComma(replaceText);
+        replaceText = ReplaceText(replaceText);
+
+        char effectChar = ' '; // 어떤 효과를 줄지 구분하는 문자
+
         for (int i = 0; i < replaceText.Length; i++)
         {
-            txt_Dialogue.text += replaceText[i];
+            if (Set_IsColorText(replaceText[i])) // 더할 텍스트가 특수문자라면
+            {
+                // 색깔을 강조하고 싶은 글자 앞에 색깔 특수문자를 뒤에는 ⓦ를 넣어서 색깔 강조 탈출
+                effectChar = replaceText[i];
+                continue;
+            }
+
+            string addText = replaceText[i].ToString();
+            txt_Dialogue.text += (effectChar != ' ' && effectChar != 'ⓦ') ? ColoringText(effectChar, addText) : addText;
             yield return new WaitForSeconds(textDelayTime);
         }
         isNext = true;
     }
 
-    string ReplaceText_ToComma(string p_Context) // 특수문자 콤마로 치환
+    string ReplaceText(string p_Context) // 특수문자 치환
     {
         string replaceText = p_Context.Replace("|", ",");
+        // unity에서 줄바꿈은 \n(escape문)이지만 엑셀에서의 \n은 텍스트이기 때문에 escape문으로 인식하기 위해 대체 
+        replaceText = replaceText.Replace("\\n", "\n"); // \n 앞에 \(escape문)을 붙이면 뒤에 문자는 텍스트로 인식
         return replaceText;
     }
 
     void Set_DialogueUI(bool _flag)
     {
         obj_DialogueBar.SetActive(_flag);
-        obj_NameBar.SetActive(_flag);
+        SetNameBar(_flag);
+    }
+
+    void SetNameBar(bool p_Flag)
+    {
+        if (!p_Flag)
+        {
+            obj_NameBar.SetActive(false);
+            txt_Name.text = "";
+            return;
+        }
+
+        if (dialogues[talkIndex].name == "") obj_NameBar.SetActive(false); 
+        else
+        {
+            obj_NameBar.SetActive(true);
+            txt_Name.text = dialogues[talkIndex].name;
+        }
+    }
+
+    bool Set_IsColorText(char char_Context) // 받은 인자가 특수문자면 true 아니면 false return
+    {
+        switch (char_Context)
+        {
+            case 'ⓦ':
+            case 'ⓨ':
+            case 'ⓒ':
+                return true;
+            default:
+                return false;
+        }
+    }
+
+    string ColoringText(char t_Effect, string affectText) // 받은 특수문자에 맞는 효과를 string 인자에 구현 후 return
+    {
+        switch (t_Effect)
+        {
+            case 'ⓨ':
+                return AddColorTag(affectText, "FFFF00");
+            case 'ⓒ':
+                return AddColorTag(affectText, "42DEE3");
+            default:
+                if(t_Effect != 'ⓦ') Debug.LogError("지정하지 않은 특수기호");
+                return affectText;
+        }
+    }
+
+    string AddColorTag(string p_ColoringText, string p_Color)
+    {
+        return "<color=#" + p_Color + ">" + p_ColoringText + "</color>";
     }
 }
