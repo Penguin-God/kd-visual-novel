@@ -38,7 +38,7 @@ public class InteractionController : MonoBehaviour
         QuestionEffect questionEffect = obj_Qestion.GetComponent<QuestionEffect>();
         yield return new WaitUntil(() => questionEffect.isQuestionHit);
         questionEffect.isQuestionHit = false;
-        DialogueManager.instance.ShowDialogue(rayHit.transform.GetComponent<InteractionEvent>().GetDialogues());
+        DialogueManager.instance.StartTalk(rayHit.transform.GetComponent<InteractionEvent>().GetDialogues());
     }
 
     private Camera cam;

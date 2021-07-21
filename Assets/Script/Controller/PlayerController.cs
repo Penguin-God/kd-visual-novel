@@ -15,6 +15,12 @@ public class PlayerController : MonoBehaviour
         originPos_CameraY = tf_Camera.localPosition.y;
     }
 
+    public void AngleReset()
+    {
+        currentCameraAngle_X = 0;
+        currentCameraAngle_Y = 0;
+    }
+
     void Update()
     {
         if (DialogueManager.instance.isTalking) return;
@@ -26,7 +32,7 @@ public class PlayerController : MonoBehaviour
         MovingView_by_Corsshair();
         MovingView_GetKey();
 
-        // 연산이 이뤄진 회전 변수 제한 및 대입
+        //연산이 이뤄진 회전 변수 제한 및 대입
         CurbCameraRotation();
         CurbCameraPosition();
         SetRotation();

@@ -42,14 +42,15 @@ public class DialogueManager : MonoBehaviour
         else EndTalk();
     }
 
+    [SerializeField] PlayerController playerController;
     void EndTalk()
     {
+        playerController.AngleReset();
         dialogues = null;
-        isTalking = false;
         talkIndex = 0;
         contextCount = 0;
         Set_DialogueUI(false);
-        UIManager.instance.ShowUI();
+        cameraController.CameraReset();
     }
 
     [SerializeField] GameObject obj_DialogueBar;
@@ -64,12 +65,13 @@ public class DialogueManager : MonoBehaviour
     bool isNext = false;
     int talkIndex;
     int contextCount;
-    public void ShowDialogue(Dialogue[] p_Dialogues)
+    public void StartTalk(Dialogue[] p_Dialogues)
     {
         UIManager.instance.HideUI();
         isTalking = true;
         // 대화 시작
         dialogues = p_Dialogues;
+        cameraController.CamOriginSetting();
         if (talkIndex < dialogues.Length) cameraController.CameraTargettion(dialogues[talkIndex].tf_Target);
         StartCoroutine(Co_TypeWriter());
     }
@@ -128,8 +130,15 @@ public class DialogueManager : MonoBehaviour
         else
         {
             obj_NameBar.SetActive(true);
-            txt_Name.text = dialogues[talkIndex].name;
+            txt_Name.text = ReturnName();
         }
+    }
+
+    string ReturnName()
+    {
+        string name = dialogues[talkIndex].name;
+        if (name[0] == '⒳') name = name.Replace("⒳", "");
+        return name;
     }
 
     bool Set_IsColorText(char char_Context) // 받은 인자가 특수문자면 true 아니면 false return

@@ -793,6 +793,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 262294c5a09d23b4f829f8c710cbffb7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  debugData: []
 --- !u!4 &492846734
 Transform:
   m_ObjectHideFlags: 0
@@ -1595,7 +1596,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dialogueEvent:
     eventName: "\uBD09\uB780 \uC790\uAE30\uC18C\uAC1C"
-    line: {x: 1, y: 7}
+    line: {x: 8, y: 10}
     dialogues: []
 --- !u!1 &765205033
 GameObject:
@@ -7397,6 +7398,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a4b8e49c0c0eb5b4ca497d3f74757af6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  viewUp: 0.15
 --- !u!1001 &988813393
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8070,6 +8072,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cameraController: {fileID: 963194229}
   characterManager: {fileID: 200900909}
+  playerController: {fileID: 651267370}
   obj_DialogueBar: {fileID: 323562174}
   obj_NameBar: {fileID: 243655922}
   txt_Dialogue: {fileID: 1996101227}

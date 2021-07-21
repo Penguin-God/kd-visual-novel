@@ -368,6 +368,7 @@ II 색깔 강조
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 Part 5 - 1 카메라 타겟팅
+
 1. 특정 트랜스폼에 카메라 타겟팅하기 (CameraController Script)
 I. 조건 
 타겟팅하려는 객체의 Transfrom을 받고 Coroutine을 사용하여 카메라가 조금씩 객체의 앞으로 카메라가 이동하며 객체를 바라보도록 회전는 기능 구현
@@ -376,6 +377,11 @@ I. 조건
 while(transfrom.position != forwardTargerPosition || Quaternion.Aagle(transform.rotation, Quaternion.LookRotation(camDirection) ) >= 0.5f )
 이때 Quaternion.LookRotation(Vector3 forward, Vector3, upwards = Vector3.up)은 오브젝트가 forward방향으로 회전했을 때의 rotation값을 나타내며 upwards = Vector3.up은머리가 향하는 방향을 나타내며 
 생략 시 객체의 머리는 위를 향하게 된다 머리가 항상 위를 향하므로 y축만 계산한며 x, z의 rotation값은 0으로 나온다 결국 y축의 값만 얻을 수 있다.
+
+unity Quaternion.Lookrotation Manual : https://docs.unity3d.com/kr/530/ScriptReference/Quaternion.LookRotation.html
+Quaternion.Lookrotation 관련 블로그 : https://blog.naver.com/PostView.nhn?blogId=happybaby56&logNo=221324341865
+
+unity Quaternion.Angle Manual : https://docs.unity3d.com/kr/530/ScriptReference/Quaternion.Angle.html
 
 II 이동 및 회전
 코루틴의 대기와 현재 위치에서 목표지점까지 지정한 값만큼 움직이는 Vector3.MoveTowards(Vector3 currnet, Vector3 target, float maxDistanceDelta) 를 이용하여 카메라를 이동시킨다
@@ -394,6 +400,8 @@ IEnumerator Co_CameraTargetting(Transform p_Targer, float p_CameraSpeed = 0.05f)
             yield return null;
         }
 }
+
+unity Vector3.MoveTowards Manual : https://docs.unity3d.com/kr/530/ScriptReference/Vector3.MoveTowards.html
 
 III. 코루틴 충돌
 코루틴 충돌을 방지해 코루틴을 멈춰야 하는데 인자가 2개이므로 문자열 방식으로 멈추지 못하기 때문에 StopAllCoroutine()을 사용한다. StopAllCoroutine()은 사용한 스크립트 내의 코루틴만 멈추기 때문에
@@ -428,12 +436,35 @@ IV. 타겟팅을 하고싶지 않을때
 for(int i = 0; i < dialogueEvent.dialogues.Length; i++)
 {
             Dialogue dialogue = dialogueEvent.dialogues[i];
-            // 이름 앞에 ⒳가 붙어 있으면 타겟팅 안하는거임
-            if (dialogue.name != "" && dialogue.name[0] == '⒳') dialogue.name = dialogue.name.Replace("⒳", "");
-            else dialogue.tf_Target = CharacterManager.instance.dic_Character[dialogue.name];
 
+            // 이름 앞에 ⒳가 붙어 있으면 타겟팅 안하는거임
+            if (dialogue.name[0] != '⒳') dialogue.tf_Target = CharacterManager.instance.dic_Character[dialogue.name];
             dialogueEvent.dialogues[i] = dialogue;
 }
+
+또한 NameBar에 이름이 그대로 가지 않게 하기위해 이름 설정 부분을 수정한다.
+
+if (name[0] == '⒳') name = name.Replace("⒳", "");
+txt_Name.text = name;
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Part 5 - 2
+
+1. 카메라 리셋하기 (CameraController Script)
+I. 목표 : 대화가 끝나면 대화를 시작하기 전의 위치로 돌아오고 각도는 (0, 0, 0) 으로 돌리기
+
+II. 제작 및 사용 
+대화 전 위치와 각도를 담을 변수를 만들고 대화가 시작할 때 카메라의 위치를 기억하는 함수를 만들고 대화가 시작할 때 실행
+Part 5 - 1와 비슷한 형식으로 원본 위치로 돌아가는 코루틴을 만들고 대화가 끝날 때 실행
+
+2. 디버깅 및 디테일
+I. 각도 버그
+카메라를 리셋하고 나면 갑자기 카메라 각도가 바뀌는데 이는 PlayerController에서 전에 있던 앵글 변수값을 각도에 적용해서 생기는 버그 그렇기에 관련 변수를 0으로 만드는 함수를 만들고 카메라 리셋하기 전에 사용
+
+II UI 디테일
+대화가 끝나자마자 바로 UI가 켜지는데 부자연스럽기 때문에 카메라 리셋이 끝나고 UI가 켜지게 하기 위해 카메라 리셋 마지막 부분에 UI켜지게 하기
+
 
 
 

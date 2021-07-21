@@ -14,12 +14,16 @@ public class InteractionEvent : MonoBehaviour
         for(int i = 0; i < dialogueEvent.dialogues.Length; i++) // tf_Target 대입
         {
             Dialogue dialogue = dialogueEvent.dialogues[i];
-            // 이름 앞에 ⒳가 붙어 있으면 타겟팅 안하는거임
-            if (dialogue.name != "" && dialogue.name[0] == '⒳') dialogue.name = dialogue.name.Replace("⒳", "");
-            else dialogue.tf_Target = CharacterManager.instance.dic_Character[dialogue.name];
 
+            // 이름 앞에 ⒳가 붙어 있으면 타겟팅 안하는거임
+            if (dialogue.name[0] != '⒳') dialogue.tf_Target = CharacterManager.instance.dic_Character[dialogue.name];
             dialogueEvent.dialogues[i] = dialogue;
         }
         return dialogueEvent.dialogues; // 선언 후 반환
+    }
+
+    void SetName()
+    {
+
     }
 }
