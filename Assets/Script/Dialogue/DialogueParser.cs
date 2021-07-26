@@ -15,7 +15,8 @@ public class DialogueParser : MonoBehaviour
         // A열 : 대화 순서 한 캐릭터가 여러 번 말하면 그만큼 공백이 생김
         // B열 : 캐릭터 이름 역시 한 캐릭터가 여러 번 말하면 그만큼 공백이 생김
         // C열 : 대사 내용으로 공백이 없음
-
+        // D열 : 스프라이트 이름으로 한 스프라이트가 여러번 나오면 공백이 생김
+        
         // Resources폴더에 있는 csv 파일 가져옴
         TextAsset csvData = Resources.Load<TextAsset>(_CsvFileName); // TextAsset : csv파일을 담을 수 있는 데이터 구조
 
@@ -31,10 +32,11 @@ public class DialogueParser : MonoBehaviour
 
             // 캐릭터가 한번에 치는 대사를 담을 리스트 캐릭터가 치는 대사의 길이를 모르므로 리스트로 선언
             List<string> contextList = new List<string>();
-
+            List<string> spriteList = new List<string>();
             do // do while : 무조건 한번 실행하고 while의 조건 확인 후 돌지 말지 결정
             {
                 contextList.Add(row[2]);
+                spriteList.Add(row[3]);
                 // 다음 대사를 추가하려면 row로 넘겨야 하는데 그럴려면 i를 올려야 되서 for문에 i++을 정의하지 않음
                 if (++i < datas.Length) row = datas[i].Split(new char[] { ',' });
                 else break; // csv파일의 길이를 넘기면 break
@@ -43,6 +45,8 @@ public class DialogueParser : MonoBehaviour
 
             // 위에서 생성한 대사 리스트를 dialogue.contexts에 대입
             dialogue.contexts = contextList.ToArray();
+            dialogue.spriteNames = spriteList.ToArray();
+
             // for문 한번 돌때마다 dialogueList에 dialogue가 하나씩 추가되며 엑셀파일의 데이터를 dialogueList에 다 담게 됨
             dialogueList.Add(dialogue);
         }

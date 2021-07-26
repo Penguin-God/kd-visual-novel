@@ -76,10 +76,22 @@ public class DialogueManager : MonoBehaviour
         StartCoroutine(Co_TypeWriter());
     }
 
+    [SerializeField] SpriteManager spriteManager;
+    void ChangeSprite()
+    {
+        Dialogue dialogue = dialogues[talkIndex];
+        Transform target = dialogue.tf_Target;
+        if (target != null)
+        {
+            spriteManager.SpriteChange(target, dialogue.spriteNames[contextCount]);
+        }
+    }
+
     [SerializeField] float textDelayTime;
     IEnumerator Co_TypeWriter()
     {
         Set_DialogueUI(true);
+        ChangeSprite();
         txt_Dialogue.text = "";
 
         string replaceText = dialogues[talkIndex].contexts[contextCount];
