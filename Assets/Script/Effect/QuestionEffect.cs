@@ -34,7 +34,7 @@ public class QuestionEffect : MonoBehaviour
         ps_HitEffect.gameObject.SetActive(true);
         ps_HitEffect.transform.position = transform.position;
         ps_HitEffect.Play();
-        Invoke("Hide_HitEffect", ps_HitEffect.startLifetime);
+        Invoke("Hide_HitEffect", ps_HitEffect.main.startLifetimeMultiplier);
         isQuestionHit = true;
     }
 

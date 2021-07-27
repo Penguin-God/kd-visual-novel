@@ -499,6 +499,24 @@ Transform currentTarget = null;
 if (dialogue.tf_Target == null) dialogue.tf_Target = currentTarget;
 else currentTarget = CharacterManager.instance.dic_Character[dialogue.name];
 
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Part 6 - 2 디테일 (뒷모습과 회전)
+
+1. 캐릭터 뒷모습
+I. 캐릭터 부모 오브젝트에 스프라이트 오브젝트를 복사하고 포지션을 약간 뒤로 옮긴 후 색깔을 검정색으로 해서 뒤에서 보면 아예 검은색으로 보이도록 함
+
+II. 기존에 스프라이트 교체 시 투명도를 조금씩 더하는 연출을 구현했는데 뒤에 검은색이 보이면 부자연스럽기 때문에 SpriteRenderer을 GetComponentsInChildren<>으로 배열로 가져온 후에 0번째에 스프라이트가 1번째에 그림자가 오도록 해서 그림자에도 똑같이 스프라이트를 바꾸고 투명도를 높이는 연출을 적용시킴
+
+2. 캐릭터 플레이어 바라보기 (CharacterSpin Script)
+I. 캐릭터를 바라볼 때 회전값을 가지는 Quaternion 변수와 transform.eulerAngles에 대입할 Vector3변수를 선언 후 y축의 회전값만 바뀌어야하기 때문에 회전값에서 y값만 Vector변수에 전달 후 회전값 변경
+void Update()
+{
+        lookAngle = Quaternion.LookRotation(tf_Target.position);
+        lookEuler = Vector3.up * lookAngle.eulerAngles.y;
+        transform.eulerAngles = lookEuler;
+}
+
 
 
 

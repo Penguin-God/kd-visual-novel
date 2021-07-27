@@ -6,7 +6,7 @@ public class CameraController : MonoBehaviour
 {
     Transform tf_CurrentTalkCharacter = null;
 
-    public void CameraTargettion(Transform p_Targer, float p_CameraSpeed = 0.05f)
+    public void CameraTargettion(Transform p_Targer, float p_CameraSpeed = 0.07f)
     {
         if (p_Targer == null || p_Targer == tf_CurrentTalkCharacter) return;
         StopAllCoroutines();
@@ -14,7 +14,7 @@ public class CameraController : MonoBehaviour
     }
 
     [SerializeField] float viewUp;
-    IEnumerator Co_CameraTargetting(Transform p_Targer, float p_CameraSpeed = 0.05f)
+    IEnumerator Co_CameraTargetting(Transform p_Targer, float p_CameraSpeed = 0.07f)
     {
         Vector3 targetPosition = p_Targer.position + (Vector3.up * viewUp);
         Vector3 forwardTargerPosition = targetPosition + p_Targer.forward * 1.2f;
@@ -40,7 +40,7 @@ public class CameraController : MonoBehaviour
         StopAllCoroutines();
         StartCoroutine(Co_CameraReset(p_CameraSpeed));
     }
-
+    
     IEnumerator Co_CameraReset(float camSpeed = 0.05f)
     {
         yield return new WaitForSeconds(0.2f);

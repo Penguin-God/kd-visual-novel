@@ -20,21 +20,29 @@ public class SpriteManager : MonoBehaviour
 
     IEnumerator Co_SpriteChange(Transform targer, string spriteName)
     {
-        SpriteRenderer sr = targer.GetComponentInChildren<SpriteRenderer>();
+        SpriteRenderer[] sr = targer.GetComponentsInChildren<SpriteRenderer>();
         spriteName = spriteName.Trim(); // 원인은 모르겠지만 글자 마지막에 공백이 들어가서 공백 지우는 함수 사용
         Sprite sprite = Resources.Load("Characters/" + spriteName, typeof(Sprite)) as Sprite;
 
-        if (sprite != null && !Check_SameSprite(sr, sprite))
+        if (sprite != null && !Check_SameSprite(sr[0], sprite))
         {
-            Color color = sr.color;
+            Color color = sr[0].color;
             color.a = 0;
-            sr.color = color;
+            sr[0].color = color;
+            sr[0].sprite = sprite;
 
-            sr.sprite = sprite;
-            while(color.a < 1f)
+            Color shadowColor = sr[1].color;
+            shadowColor.a = 0;
+            sr[1].color = shadowColor;
+            sr[1].sprite = sprite;
+
+            while (color.a < 1f)
             {
                 color.a += fadeSpeed;
-                sr.color = color;
+                sr[0].color = color;
+
+                shadowColor.a += fadeSpeed;
+                sr[1].color = shadowColor;
                 yield return null;
             }
         }
