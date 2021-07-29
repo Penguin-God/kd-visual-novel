@@ -27,6 +27,8 @@ public class DialogueManager : MonoBehaviour
 
     [SerializeField] CameraController cameraController;
     [SerializeField] CharacterManager characterManager;
+    [SerializeField] SplashManager splashManager;
+
     void Talk()
     {
         isNext = false;
@@ -34,12 +36,16 @@ public class DialogueManager : MonoBehaviour
         if (++contextCount >= dialogues[talkIndex].contexts.Length) // 대화의 화자가 바뀔 때
         {
             contextCount = 0;
-            talkIndex++;
-            if (talkIndex < dialogues.Length) cameraController.CameraTargettion(dialogues[talkIndex].tf_Target);
+            if (++talkIndex < dialogues.Length) // 각종 카메라 연출
+            {
+                if (dialogues[talkIndex].cameraType == CameraType.Default) StartCoroutine(Co_CameraTargetTing());
+                else StartCoroutine(Co_FadeCamera(dialogues[talkIndex].cameraType));
+            }
+            else EndTalk(); // 화자가 바뀔때만 talkIndex가 오르기 때문에 여기서 대화 종료 여부 결정
+            return;
         }
-
-        if (talkIndex < dialogues.Length) StartCoroutine(Co_TypeWriter());
-        else EndTalk();
+        // 똑같은 화자가 2번 이상 말할 때 별도의 조건 없이 그냥 대사 출력
+        StartCoroutine(Co_TypeWriter());
     }
 
     [SerializeField] PlayerController playerController;
@@ -51,6 +57,27 @@ public class DialogueManager : MonoBehaviour
         contextCount = 0;
         Set_DialogueUI(false);
         cameraController.CameraReset();
+    }
+
+    IEnumerator Co_CameraTargetTing()
+    {
+        cameraController.CameraTargettion(dialogues[talkIndex].tf_Target);
+        yield return new WaitUntil(() => !cameraController.isTargetTing);
+        StartCoroutine(Co_TypeWriter());
+    }
+
+    IEnumerator Co_FadeCamera(CameraType cameraType)
+    {
+        switch (cameraType)
+        {
+            case CameraType.FadeIn: splashManager.FadeIn(false); break;
+            case CameraType.FadeOut: splashManager.FadeOut(false); break;
+            case CameraType.FlashIn: splashManager.FadeIn(true); break;
+            case CameraType.FlashOut: splashManager.FadeOut(true); break;
+        }
+        Set_DialogueUI(false);
+        yield return new WaitUntil(() => !splashManager.isFade);
+        StartCoroutine(Co_TypeWriter());
     }
 
     [SerializeField] GameObject obj_DialogueBar;
@@ -72,7 +99,7 @@ public class DialogueManager : MonoBehaviour
         // 대화 시작
         dialogues = p_Dialogues;
         cameraController.CamOriginSetting();
-        if (talkIndex < dialogues.Length) cameraController.CameraTargettion(dialogues[talkIndex].tf_Target);
+        cameraController.CameraTargettion(dialogues[talkIndex].tf_Target);
         StartCoroutine(Co_TypeWriter());
     }
 

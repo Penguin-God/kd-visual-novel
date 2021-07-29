@@ -2,12 +2,22 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum CameraType
+{
+    Default,
+    FadeIn,
+    FadeOut,
+    FlashIn,
+    FlashOut,
+}
+
 [System.Serializable] // 데이터를 직렬로 하겠다는 뜻 인스펙터 창에서 수정하기 위해 필요
 public class Dialogue // Dialogue 하나는 엑셀 파일 1줄을 의미
 {
     [Tooltip("카메라가 타겟팅할 대상")]
     public Transform tf_Target;
-    
+    public CameraType cameraType;
+
     public string name;
     public string[] contexts;
 

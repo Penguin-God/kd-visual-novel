@@ -5,8 +5,8 @@ using UnityEngine;
 public class CameraController : MonoBehaviour
 {
     Transform tf_CurrentTalkCharacter = null;
-
-    public void CameraTargettion(Transform p_Targer, float p_CameraSpeed = 0.07f)
+    public bool isTargetTing = false;
+    public void CameraTargettion(Transform p_Targer, float p_CameraSpeed = 0.05f)
     {
         if (p_Targer == null || p_Targer == tf_CurrentTalkCharacter) return;
         StopAllCoroutines();
@@ -14,8 +14,9 @@ public class CameraController : MonoBehaviour
     }
 
     [SerializeField] float viewUp;
-    IEnumerator Co_CameraTargetting(Transform p_Targer, float p_CameraSpeed = 0.07f)
+    IEnumerator Co_CameraTargetting(Transform p_Targer, float p_CameraSpeed = 0.05f)
     {
+        isTargetTing = true;
         Vector3 targetPosition = p_Targer.position + (Vector3.up * viewUp);
         Vector3 forwardTargerPosition = targetPosition + p_Targer.forward * 1.2f;
         Vector3 camDirection = (targetPosition - forwardTargerPosition).normalized;
@@ -25,6 +26,7 @@ public class CameraController : MonoBehaviour
             CameraMove(forwardTargerPosition, Quaternion.LookRotation(camDirection), p_CameraSpeed);
             yield return null;
         }
+        isTargetTing = false;
     }
 
     Vector3 originPosition;

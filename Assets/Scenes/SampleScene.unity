@@ -246,7 +246,7 @@ RectTransform:
   - {fileID: 1018372195}
   - {fileID: 1014662043}
   m_Father: {fileID: 916553033}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -775,8 +775,9 @@ GameObject:
   - component: {fileID: 492846735}
   - component: {fileID: 492846733}
   - component: {fileID: 492846736}
+  - component: {fileID: 492846737}
   m_Layer: 0
-  m_Name: DialogueParser
+  m_Name: Manager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -835,6 +836,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fadeSpeed: 0.1
+--- !u!114 &492846737
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 492846732}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9e5a64f358a52494fb840a64fdfaa677, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fadeImage: {fileID: 781617415}
+  whiteColor: {r: 1, g: 1, b: 1, a: 0}
+  blackColor: {r: 0, g: 0, b: 0, a: 0}
+  fadeSpeed: 0.08
+  fadeSlowSpeed: 0.02
+  isFade: 0
 --- !u!1001 &585690830
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1612,9 +1631,44 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dialogueEvent:
-    eventName: "\uBD09\uB780 \uC790\uAE30\uC18C\uAC1C"
+    eventName: 
     line: {x: 1, y: 7}
-    dialogues: []
+    dialogues:
+    - tf_Target: {fileID: 0}
+      cameraType: 0
+      name: 
+      contexts: []
+      spriteNames: []
+    - tf_Target: {fileID: 0}
+      cameraType: 0
+      name: 
+      contexts: []
+      spriteNames: []
+    - tf_Target: {fileID: 0}
+      cameraType: 0
+      name: 
+      contexts: []
+      spriteNames: []
+    - tf_Target: {fileID: 0}
+      cameraType: 2
+      name: 
+      contexts: []
+      spriteNames: []
+    - tf_Target: {fileID: 0}
+      cameraType: 1
+      name: 
+      contexts: []
+      spriteNames: []
+    - tf_Target: {fileID: 0}
+      cameraType: 0
+      name: 
+      contexts: []
+      spriteNames: []
+    - tf_Target: {fileID: 0}
+      cameraType: 0
+      name: 
+      contexts: []
+      spriteNames: []
 --- !u!114 &747055794
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1747,6 +1801,81 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &781617413
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 781617414}
+  - component: {fileID: 781617416}
+  - component: {fileID: 781617415}
+  m_Layer: 5
+  m_Name: FadeImage
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &781617414
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 781617413}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1536474980}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 1500, y: 1000}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &781617415
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 781617413}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 0}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &781617416
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 781617413}
+  m_CullTransparentMesh: 1
 --- !u!1 &786265586
 GameObject:
   m_ObjectHideFlags: 0
@@ -2093,7 +2222,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &831147344
 Transform:
@@ -7238,9 +7367,10 @@ RectTransform:
   - {fileID: 2875180}
   - {fileID: 707307363}
   - {fileID: 765205034}
-  - {fileID: 1114437427}
   - {fileID: 211758839}
   - {fileID: 1532404079}
+  - {fileID: 1536474980}
+  - {fileID: 1114437427}
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -7515,6 +7645,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a4b8e49c0c0eb5b4ca497d3f74757af6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTargetTing: 0
   viewUp: 0.15
 --- !u!1001 &988813393
 PrefabInstance:
@@ -7596,7 +7727,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &992128365
 Transform:
@@ -8168,7 +8299,7 @@ RectTransform:
   - {fileID: 323562175}
   - {fileID: 243655923}
   m_Father: {fileID: 916553033}
-  m_RootOrder: 3
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0}
@@ -8189,6 +8320,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cameraController: {fileID: 963194229}
   characterManager: {fileID: 200900909}
+  splashManager: {fileID: 492846737}
   playerController: {fileID: 651267370}
   obj_DialogueBar: {fileID: 323562174}
   obj_NameBar: {fileID: 243655922}
@@ -8867,8 +8999,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dialogueEvent:
-    eventName: "\uBD09\uB780 \uC790\uAE30\uC18C\uAC1C"
-    line: {x: 1, y: 7}
+    eventName: 
+    line: {x: 1, y: 1}
     dialogues: []
 --- !u!114 &1315930472
 MonoBehaviour:
@@ -9006,7 +9138,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &1454766180
 Transform:
@@ -9429,6 +9561,42 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2016373544}
+  m_Father: {fileID: 916553033}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &1536474979
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1536474980}
+  m_Layer: 5
+  m_Name: UI_Fade
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1536474980
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1536474979}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 781617414}
   m_Father: {fileID: 916553033}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -14781,8 +14949,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dialogueEvent:
-    eventName: "\uBD09\uB780 \uC790\uAE30\uC18C\uAC1C"
-    line: {x: 1, y: 7}
+    eventName: 
+    line: {x: 0, y: 0}
     dialogues: []
 --- !u!114 &1953836025
 MonoBehaviour:
