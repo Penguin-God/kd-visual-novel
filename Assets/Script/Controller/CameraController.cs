@@ -49,7 +49,7 @@ public class CameraController : MonoBehaviour
     {
         yield return new WaitForSeconds(0.2f);
         
-        while (transform.position != originPosition && Quaternion.Angle(transform.rotation, originRotation ) >= 1f)
+        while (transform.position != originPosition || Quaternion.Angle(transform.rotation, originRotation ) >= 1f)
         {
             CameraMove(originPosition, originRotation, camSpeed);
             yield return ws;

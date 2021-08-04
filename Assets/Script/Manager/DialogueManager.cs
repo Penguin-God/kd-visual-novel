@@ -16,7 +16,13 @@ public class DialogueManager : MonoBehaviour
         }
     }
 
+    [SerializeField] CameraController cameraController;
+    [SerializeField] CharacterManager characterManager;
+    [SerializeField] SplashManager splashManager;
+    [SerializeField] CutSceneManager cutSceneManager;
+    [SerializeField] SpriteManager spriteManager;
     
+
     private void Update()
     {
         if(isNext && isTalking && ( Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0) ) )
@@ -24,10 +30,6 @@ public class DialogueManager : MonoBehaviour
             Talk();
         }
     }
-
-    [SerializeField] CameraController cameraController;
-    [SerializeField] CharacterManager characterManager;
-    [SerializeField] SplashManager splashManager;
 
     void Talk()
     {
@@ -39,6 +41,7 @@ public class DialogueManager : MonoBehaviour
             if (++talkIndex < dialogues.Length) // 각종 카메라 연출
             {
                 if (dialogues[talkIndex].cameraType == CameraType.Default) StartCoroutine(Co_CameraTargetTing());
+                else if (dialogues[talkIndex].cutSceneName[contextCount].Trim() != "") StartCoroutine(Co_CameraCutScene(dialogues[talkIndex].cameraType));
                 else StartCoroutine(Co_FadeCamera(dialogues[talkIndex].cameraType));
             }
             else EndTalk(); // 화자가 바뀔때만 talkIndex가 오르기 때문에 여기서 대화 종료 여부 결정
@@ -80,6 +83,22 @@ public class DialogueManager : MonoBehaviour
         StartCoroutine(Co_TypeWriter());
     }
 
+    IEnumerator Co_CameraCutScene(CameraType cameraType)
+    {
+        string cutName = dialogues[talkIndex].cutSceneName[contextCount].Trim();
+        switch (cameraType)
+        {
+            case CameraType.ShowCutScene: cutSceneManager.CutScene(cutName, false); break;
+            case CameraType.HideCutScene: cutSceneManager.CutScene("", true); break;
+        }
+
+        Set_DialogueUI(false);
+        yield return new WaitUntil(() => !cutSceneManager.isCutScene);
+        StartCoroutine(Co_TypeWriter());
+    }
+
+
+
     [SerializeField] GameObject obj_DialogueBar;
     [SerializeField] GameObject obj_NameBar;
 
@@ -103,7 +122,6 @@ public class DialogueManager : MonoBehaviour
         StartCoroutine(Co_TypeWriter());
     }
 
-    [SerializeField] SpriteManager spriteManager;
     void ChangeSprite()
     {
         Dialogue dialogue = dialogues[talkIndex];

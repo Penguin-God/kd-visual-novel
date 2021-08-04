@@ -9,6 +9,8 @@ public enum CameraType
     FadeOut,
     FlashIn,
     FlashOut,
+    ShowCutScene,
+    HideCutScene,
 }
 
 [System.Serializable] // 데이터를 직렬로 하겠다는 뜻 인스펙터 창에서 수정하기 위해 필요
@@ -21,10 +23,12 @@ public class Dialogue // Dialogue 하나는 엑셀 파일 1줄을 의미
     public string name;
     public string[] contexts;
 
-    //[HideInInspector]
+    [HideInInspector]
     public string[] spriteNames;
-
+    [HideInInspector]
     public string[] voiceNames;
+    //[HideInInspector]
+    public string[] cutSceneName;
 }
 
 // InteractionEvent에서 DialogueEvent를 [SerializeField]를 통해 인스펙터에 나타내고 있는데 [System.Serializable]가 없으면 인스펙터 창에 나타나지 않음

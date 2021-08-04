@@ -706,13 +706,64 @@ IEnumerator Co_Splash()
 
 후에 효과음 실행할때 같이 실행
 
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+Part 9 - 1 컷씬 연출
 
+1. 엑셀 파싱 및 Dialogue에 카메라 Type추가
+엑셀 파일에 새로운 행을 만들고 그 행의 정보를 담는 배열을 Dialogue에 선언 후 Dialogue의 카메라 타입에 ShowCutScene, HideCutScene 추가
 
+2. CutSceneManager 작성
+인자값으로 컷씬 이름과 보여줄지 숨길지 여부를 정하는 bool변수를 받고 보여준다면 image의 스프라이트 할당후 컷씬 보여주가 아니라면 컷씬 숨기고 함수 종료
 
+public void CutScene(string cutSceneName, bool isFinish)
+{
+        isCutScene = true;
+        if (isFinish)
+        {
+            StartCoroutine(Co_CutScene(false));
+            return;
+        }
 
+        Sprite _sprite = Resources.Load<Sprite>("CutScenes/" + cutSceneName);
+        if (_sprite != null) cutSceneImage.sprite = _sprite;
+        else Debug.LogWarning("찾을 수 없는 컷씬 이름 : " + cutSceneName);
 
+        StartCoroutine(Co_CutScene(true));
+}
 
+IEnumerator Co_CutScene(bool isShow)
+{
+        splashManager.FadeOut(true);
+        yield return new WaitUntil(() => !splashManager.isFade);
+
+        cutSceneImage.gameObject.SetActive(isShow);
+
+        splashManager.FadeIn(true);
+        yield return new WaitUntil(() => !splashManager.isFade); // 연출을 위한 대기
+
+        yield return new WaitForSeconds(0.5f);
+        isCutScene = false;
+}
+
+3. CutSceneManager 사용
+현재 대화중인 차례의 CutSceneName이 비어있지 않다면 실행
+if (dialogues[talkIndex].cutSceneName[contextCount].Trim() != "") StartCoroutine(Co_CameraCutScene(dialogues[talkIndex].cameraType));
+
+카메라 타입에 따라 컷씬 숨기거나 보여주기
+IEnumerator Co_CameraCutScene(CameraType cameraType)
+{
+        string cutName = dialogues[talkIndex].cutSceneName[contextCount].Trim();
+        switch (cameraType)
+        {
+            case CameraType.ShowCutScene: cutSceneManager.CutScene(cutName, false); break;
+            case CameraType.HideCutScene: cutSceneManager.CutScene("", true); break;
+        }
+
+        Set_DialogueUI(false);
+        yield return new WaitUntil(() => !cutSceneManager.isCutScene);
+        StartCoroutine(Co_TypeWriter());
+}
 
 
 
