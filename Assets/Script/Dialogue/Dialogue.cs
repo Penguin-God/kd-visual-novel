@@ -23,6 +23,8 @@ public class Dialogue // Dialogue 하나는 엑셀 파일 1줄을 의미
 
     //[HideInInspector]
     public string[] spriteNames;
+
+    public string[] voiceNames;
 }
 
 // InteractionEvent에서 DialogueEvent를 [SerializeField]를 통해 인스펙터에 나타내고 있는데 [System.Serializable]가 없으면 인스펙터 창에 나타나지 않음

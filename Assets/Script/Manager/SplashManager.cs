@@ -17,6 +17,21 @@ public class SplashManager : MonoBehaviour
 
     WaitForSeconds ws = new WaitForSeconds(0.05f);
 
+
+
+    public void Splash()
+    {
+        StartCoroutine(Co_Splash());
+    }
+
+    IEnumerator Co_Splash()
+    {
+        isFade = true;
+        FadeOut(true);
+        yield return new WaitUntil(() => !isFade);
+        FadeIn(true);
+    }
+
     public void FadeOut(bool isWhite, bool isSpeed = false)
     {
         Color color = isWhite ? whiteColor : blackColor;

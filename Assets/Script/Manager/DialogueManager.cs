@@ -114,11 +114,18 @@ public class DialogueManager : MonoBehaviour
         }
     }
 
+    void PlayVoice()
+    {
+        string _voiceName = dialogues[talkIndex].voiceNames[contextCount].Trim(); // Trim()은 감지가 안되는 " " 가 존재하는오류 때문에 사용
+        if (_voiceName != "") SoundManager.instance.PlaySound(_voiceName, 2);
+    }
+
     [SerializeField] float textDelayTime;
     IEnumerator Co_TypeWriter()
     {
         Set_DialogueUI(true);
         ChangeSprite();
+        PlayVoice();
         txt_Dialogue.text = "";
 
         string replaceText = dialogues[talkIndex].contexts[contextCount];
@@ -126,7 +133,7 @@ public class DialogueManager : MonoBehaviour
 
         char effectChar = ' '; // 어떤 효과를 줄지 구분하는 문자
 
-        for (int i = 0; i < replaceText.Length; i++)
+        for (int i = 0; i < replaceText.Length; i++) // 글자 크기만큼 한글자씩 더하는 반복문
         {
             if (Set_IsColorText(replaceText[i])) // 더할 텍스트가 특수문자라면
             {
@@ -165,7 +172,7 @@ public class DialogueManager : MonoBehaviour
             return;
         }
 
-        if (dialogues[talkIndex].name == "") obj_NameBar.SetActive(false); 
+        if (dialogues[talkIndex].name == "" || dialogues[talkIndex].name == "독백") obj_NameBar.SetActive(false); 
         else
         {
             obj_NameBar.SetActive(true);
@@ -180,6 +187,8 @@ public class DialogueManager : MonoBehaviour
         return name;
     }
 
+    //delegate void TalkEffect();
+
     bool Set_IsColorText(char char_Context) // 받은 인자가 특수문자면 true 아니면 false return
     {
         switch (char_Context)
@@ -188,9 +197,31 @@ public class DialogueManager : MonoBehaviour
             case 'ⓨ':
             case 'ⓒ':
                 return true;
+            case '①': // 여기부분 코드 바꾸기
+            case '②':
+            case '③':
+            case '④':
+            case '⑤':
+                SoundManager.instance.PlaySound(ReturnSoundEffectName(char_Context), 1);
+                splashManager.Splash();
+                return false;
             default:
                 return false;
         }
+    }
+
+    string ReturnSoundEffectName(char number)
+    {
+        string name = "Emotion";
+        switch (number)
+        {
+            case '①': name += "1" ; break;
+            case '②': name += "2" ; break;
+            case '③': name += "3" ; break;
+            case '④': name += "4" ; break;
+            case '⑤': name += "5" ; break;
+        }
+        return name;
     }
 
     string ColoringText(char t_Effect, string affectText) // 받은 특수문자에 맞는 효과를 string 인자에 구현 후 return

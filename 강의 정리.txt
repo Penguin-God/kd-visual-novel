@@ -615,16 +615,96 @@ void Talk()
         StartCoroutine(Co_TypeWriter());
 }
 
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+Part 8 사운드 매니저 + 강조 연출
 
+1. SoundManager Script 작성
+I. Sound class
+이름(string)과 오디오 클립을 가지고 있는 Sound class 선언
 
+II. 브금, 효과음, 보이스 재생 함수
+각각의 음향을 담당하는 AudioSource 선언 후 미리 만들어둔 Sound를 배열로 선언 필요에 따라 배열로 선언
+브금의 이름을 인자값으로 받고 반복문을 돌려 이름과 일치하는 브금이 있으면 재생 없으면 경고문 출력
+void PlayEffectSound(string p_Name)
+{
+        for (int i = 0; i < effectSounds.Length; i++)
+        {
+            if (p_Name == effectSounds[i].name)
+            { 
+                effectPlayer.PlayOneShot(effectSounds[i].clip);
+                return;
+            }
+        }
+        Debug.LogWarning("찾을 수 없는 효과음 이름 : " + p_Name);
+}
 
+AudioSource는 Stop으로 멈출 수 있으며 PlayOneShot()으로 실행한 클립도 멈출 수 있지만 2개 이상의 오디오가 같이 나올때 2개다 멈춰버리기 때문에 bgm과 효과음같이 종류가 다른 클립은 오디어소스를 서로 구분하는게 좋음 Pause()랑 UnPause()도 비슷하게 작동하는듯
 
+보이스는 Sound클래스로 이름을 선언하지 않고 파일 이름으로 찾음
+AudioClip  _clip = Resources.Load<AudioClip>("Sounds/Voice/" + p_Name);  없으면 경고문
 
+함수 위에 /// 하면 설명 넣을 수 있음 알아서 자동완성되는데 <summary> 태그 안이 설명
 
+2. 엑셀 파일 추가
+I. 효과음
+효과음은 대사 맨 앞에 ①처럼 숫자 형식의 특수문자를 넣어서 조건에 따라 이름에 숫자를 더한 후 인자값에 사용
+string name = "Emotion";
+switch (number)
+{
+            case '①': name += "1" ; break;
+            case '②': name += "2" ; break;
+            case '③': name += "3" ; break;
+            case '④': name += "4" ; break;
+            case '⑤': name += "5" ; break;
+}
 
+II. 보이스
+보이스는 엑셀파일에 행을 추가해서 Dialogue에 추가로 string[]을 선언해서 파일에 있는 이름을 그대로 인자값에 사용
 
+3. 사운드 매니저 사용
+I. 보이스
+함수 생성 후 대화 시작 시 사용
+void PlayVoice()
+{
+        string _voiceName = dialogues[talkIndex].voiceNames[contextCount].Trim(); // Trim()은 감지가 안되는 " " 가 존재하는오류 때문에 사용
+        if (_voiceName != "") SoundManager.instance.PlaySound(_voiceName, 2);
+}
 
+II. 효과음
+텍스트를 더할지 더하지 않을지 정하는 bool Set_IsColorText() 함수에서 조건을 추가해서 감지
+bool Set_IsColorText(char char_Context) // 받은 인자가 특수문자면 true 아니면 false return
+{
+        switch (char_Context)
+        {
+            case 'ⓦ':
+            case 'ⓨ':
+            case 'ⓒ':
+                return true;
+            case '①': // 여기부분 코드 바꾸기
+            case '②':
+            case '③':
+            case '④':
+            case '⑤':
+                SoundManager.instance.PlaySound(ReturnSoundEffectName(char_Context), 1); // 특수기호에 맞는 숫자를 더해서 함수 인자값에 사용할 이름완성
+                splashManager.Splash();
+                return false;
+            default:
+                return false;
+        }
+}
+
+III. 빛 반짝이는 효과
+SplashManager에서 기존에 만들었던 코루틴을 기반으로 코루틴으로 빛 반짝이는 연출 구현
+IEnumerator Co_Splash()
+{
+        isFade = true;
+        FadeOut(true);
+        yield return new WaitUntil(() => !isFade); // isFade는 Fade관련 코루틴 실행중에 true
+        FadeIn(true);
+}
+
+후에 효과음 실행할때 같이 실행
 
 
 
