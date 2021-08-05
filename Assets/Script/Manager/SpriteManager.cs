@@ -4,6 +4,18 @@ using UnityEngine;
 
 public class SpriteManager : MonoBehaviour
 {
+
+    private void Start()
+    {
+        FindObjectOfType<DialogueManager>().AfterTalkEffect += ChangeSprite_byTalk;
+    }
+
+    void ChangeSprite_byTalk(Dialogue dialogue, int contextCount)
+    {
+        Transform target = dialogue.tf_Target;
+        if (target != null) SpriteChange(target, dialogue.spriteNames[contextCount]);
+    }
+
     [SerializeField] float fadeSpeed;
 
     public void SpriteChange(Transform targer, string spriteName)

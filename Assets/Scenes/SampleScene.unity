@@ -1955,7 +1955,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dialogueEvent:
     eventName: 
-    line: {x: 11, y: 14}
+    line: {x: 1, y: 7}
     dialogues:
     - tf_Target: {fileID: 0}
       cameraType: 0
@@ -8674,14 +8674,13 @@ MonoBehaviour:
   characterManager: {fileID: 200900909}
   splashManager: {fileID: 492846737}
   cutSceneManager: {fileID: 1382397820}
-  spriteManager: {fileID: 492846736}
   playerController: {fileID: 651267370}
+  isTalking: 0
+  textDelayTime: 0.02
   obj_DialogueBar: {fileID: 323562174}
   obj_NameBar: {fileID: 243655922}
   txt_Dialogue: {fileID: 1996101227}
   txt_Name: {fileID: 1232089124}
-  isTalking: 0
-  textDelayTime: 0.02
 --- !u!1001 &1158956100
 PrefabInstance:
   m_ObjectHideFlags: 0

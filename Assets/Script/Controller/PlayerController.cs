@@ -15,7 +15,7 @@ public class PlayerController : MonoBehaviour
         originPos_CameraY = tf_Camera.localPosition.y;
     }
 
-    public void AngleReset()
+    public void AngleValueReset()
     {
         currentCameraAngle_X = 0;
         currentCameraAngle_Y = 0;

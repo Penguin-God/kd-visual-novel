@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System;
 
 public class DialogueManager : MonoBehaviour
 {
-    public static DialogueManager instance;
+    public static DialogueManager instance { get; private set; }
     private void Awake()
     {
         if (instance == null) instance = this;
@@ -20,8 +21,6 @@ public class DialogueManager : MonoBehaviour
     [SerializeField] CharacterManager characterManager;
     [SerializeField] SplashManager splashManager;
     [SerializeField] CutSceneManager cutSceneManager;
-    [SerializeField] SpriteManager spriteManager;
-    
 
     private void Update()
     {
@@ -37,8 +36,8 @@ public class DialogueManager : MonoBehaviour
         txt_Dialogue.text = "";
         if (++contextCount >= dialogues[talkIndex].contexts.Length) // 대화의 화자가 바뀔 때
         {
-            contextCount = 0;
-            if (++talkIndex < dialogues.Length) // 각종 카메라 연출
+            contextCount = 0; // 대사 순번 초기화
+            if (++talkIndex < dialogues.Length) // 화자는 바뀌지만 대화의 끝이 아닐 때 각종 연출
             {
                 if (dialogues[talkIndex].cameraType == CameraType.Default) StartCoroutine(Co_CameraTargetTing());
                 else if (dialogues[talkIndex].cutSceneName[contextCount].Trim() != "") StartCoroutine(Co_CameraCutScene(dialogues[talkIndex].cameraType));
@@ -54,7 +53,7 @@ public class DialogueManager : MonoBehaviour
     [SerializeField] PlayerController playerController;
     void EndTalk()
     {
-        playerController.AngleReset();
+        playerController.AngleValueReset();
         dialogues = null;
         talkIndex = 0;
         contextCount = 0;
@@ -98,16 +97,8 @@ public class DialogueManager : MonoBehaviour
     }
 
 
-
-    [SerializeField] GameObject obj_DialogueBar;
-    [SerializeField] GameObject obj_NameBar;
-
-    [SerializeField] Text txt_Dialogue;
-    [SerializeField] Text txt_Name;
-
-    
-    Dialogue[] dialogues;
-    public bool isTalking = false;
+    private Dialogue[] dialogues;
+    public bool isTalking;
     bool isNext = false;
     int talkIndex;
     int contextCount;
@@ -122,28 +113,17 @@ public class DialogueManager : MonoBehaviour
         StartCoroutine(Co_TypeWriter());
     }
 
-    void ChangeSprite()
-    {
-        Dialogue dialogue = dialogues[talkIndex];
-        Transform target = dialogue.tf_Target;
-        if (target != null)
-        {
-            spriteManager.SpriteChange(target, dialogue.spriteNames[contextCount]);
-        }
-    }
-
-    void PlayVoice()
-    {
-        string _voiceName = dialogues[talkIndex].voiceNames[contextCount].Trim(); // Trim()은 감지가 안되는 " " 가 존재하는오류 때문에 사용
-        if (_voiceName != "") SoundManager.instance.PlaySound(_voiceName, 2);
-    }
-
     [SerializeField] float textDelayTime;
+
+    /// <summary>
+    /// 들어가 있는 함수 : ChangeSprite_byTalk, PlayVoice_byTalk
+    /// </summary>
+    public event Action<Dialogue, int> AfterTalkEffect;
+
     IEnumerator Co_TypeWriter()
     {
+        if (AfterTalkEffect != null) AfterTalkEffect(dialogues[talkIndex], contextCount);
         Set_DialogueUI(true);
-        ChangeSprite();
-        PlayVoice();
         txt_Dialogue.text = "";
 
         string replaceText = dialogues[talkIndex].contexts[contextCount];
@@ -175,6 +155,12 @@ public class DialogueManager : MonoBehaviour
         return replaceText;
     }
 
+
+    [SerializeField] GameObject obj_DialogueBar;
+    [SerializeField] GameObject obj_NameBar;
+    [SerializeField] Text txt_Dialogue;
+    [SerializeField] Text txt_Name;
+
     void Set_DialogueUI(bool _flag)
     {
         obj_DialogueBar.SetActive(_flag);
@@ -183,21 +169,17 @@ public class DialogueManager : MonoBehaviour
 
     void SetNameBar(bool p_Flag)
     {
-        if (!p_Flag)
+        if (!p_Flag || dialogues[talkIndex].name == "" || dialogues[talkIndex].name == "독백")
         {
             obj_NameBar.SetActive(false);
             txt_Name.text = "";
-            return;
         }
-
-        if (dialogues[talkIndex].name == "" || dialogues[talkIndex].name == "독백") obj_NameBar.SetActive(false); 
         else
         {
             obj_NameBar.SetActive(true);
             txt_Name.text = ReturnName();
         }
     }
-
     string ReturnName()
     {
         string name = dialogues[talkIndex].name;
@@ -205,9 +187,7 @@ public class DialogueManager : MonoBehaviour
         return name;
     }
 
-    //delegate void TalkEffect();
-
-    bool Set_IsColorText(char char_Context) // 받은 인자가 특수문자면 true 아니면 false return
+    bool Set_IsColorText(char char_Context) // 받은 인자가 특수문자면 true혹은 특정 연출 실행 후 
     {
         switch (char_Context)
         {
@@ -220,14 +200,13 @@ public class DialogueManager : MonoBehaviour
             case '③':
             case '④':
             case '⑤':
-                SoundManager.instance.PlaySound(ReturnSoundEffectName(char_Context), 1);
+                SoundManager.instance.PlayEffectSound(ReturnSoundEffectName(char_Context));
                 splashManager.Splash();
                 return false;
             default:
                 return false;
         }
     }
-
     string ReturnSoundEffectName(char number)
     {
         string name = "Emotion";
@@ -255,7 +234,6 @@ public class DialogueManager : MonoBehaviour
                 return affectText;
         }
     }
-
     string AddColorTag(string p_ColoringText, string p_Color)
     {
         return "<color=#" + p_Color + ">" + p_ColoringText + "</color>";

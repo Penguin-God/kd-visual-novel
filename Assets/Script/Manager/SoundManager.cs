@@ -25,9 +25,20 @@ public class SoundManager : MonoBehaviour
         }
     }
 
+    private void Start()
+    {
+        FindObjectOfType<DialogueManager>().AfterTalkEffect += PlayVoice_byTalk;
+    }
+
+    void PlayVoice_byTalk(Dialogue dialogue, int contextCount)
+    {
+        string _voiceName = dialogue.voiceNames[contextCount].Trim(); // Trim()은 감지가 안되는 " " 가 존재하는오류 때문에 사용
+        if (_voiceName != "") PlayVoiceSound(_voiceName);
+    }
+
     [SerializeField] Sound[] bgmSounds;
     [SerializeField] AudioSource bgmPlayer;
-    void BgmPlay(string p_Name)
+    public void PlayBgm(string p_Name)
     {
         for(int i = 0; i < bgmSounds.Length; i++)
         {
@@ -59,7 +70,7 @@ public class SoundManager : MonoBehaviour
 
     [SerializeField] Sound[] effectSounds;
     [SerializeField] AudioSource effectPlayer;
-    void PlayEffectSound(string p_Name)
+    public void PlayEffectSound(string p_Name)
     {
         for (int i = 0; i < effectSounds.Length; i++)
         {
@@ -79,7 +90,7 @@ public class SoundManager : MonoBehaviour
 
 
     [SerializeField] AudioSource voicePlayer;
-    void PlayVoiceSound(string p_Name)
+    public void PlayVoiceSound(string p_Name)
     {
         AudioClip _clip = Resources.Load<AudioClip>("Sounds/Voice/" + p_Name);
         if (_clip != null)
@@ -88,24 +99,5 @@ public class SoundManager : MonoBehaviour
             voicePlayer.Play();
         }
         else Debug.LogWarning("찾을 수 없는 보이스 : " + p_Name);
-    }
-
-
-    /// <summary>
-    /// soundType 0 : bgm
-    /// soundType 1 : effectSound
-    /// soundType 2 : voice
-    /// </summary>
-    /// <param name="p_Name"></param>
-    /// <param name="soundType"></param>
-    public void PlaySound(string p_Name, int soundType)
-    {
-        switch (soundType)
-        {
-            case 0: BgmPlay(p_Name); break;
-            case 1: PlayEffectSound(p_Name); break;
-            case 2: PlayVoiceSound(p_Name); break;
-            default: Debug.LogWarning("찾을 수 없는 타입 넘버 : " + soundType); break;
-        }
     }
 }
