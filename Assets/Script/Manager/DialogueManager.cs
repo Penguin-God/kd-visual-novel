@@ -43,22 +43,29 @@ public class DialogueManager : MonoBehaviour
                 else if (dialogues[talkIndex].cutSceneName[contextCount].Trim() != "") StartCoroutine(Co_CameraCutScene(dialogues[talkIndex].cameraType));
                 else StartCoroutine(Co_FadeCamera(dialogues[talkIndex].cameraType));
             }
-            else EndTalk(); // 화자가 바뀔때만 talkIndex가 오르기 때문에 여기서 대화 종료 여부 결정
+            else StartCoroutine(EndTalk()); // 화자가 바뀔때만 talkIndex가 오르기 때문에 여기서 대화 종료 여부 결정
             return;
         }
         // 똑같은 화자가 2번 이상 말할 때 별도의 조건 없이 그냥 대사 출력
         StartCoroutine(Co_TypeWriter());
     }
 
-    [SerializeField] PlayerController playerController;
-    void EndTalk()
+    public event Action OnEndTalk;
+    IEnumerator EndTalk()
     {
-        playerController.AngleValueReset();
+        if (cutSceneManager.chectCutScene)
+        {
+            cutSceneManager.CutScene("", true);
+            Set_DialogueUI(false);
+            yield return new WaitUntil(() => !cutSceneManager.isCutSceneEffect);
+        }
+
         dialogues = null;
         talkIndex = 0;
         contextCount = 0;
         Set_DialogueUI(false);
-        cameraController.CameraReset();
+
+        if(OnEndTalk != null) OnEndTalk();
     }
 
     IEnumerator Co_CameraTargetTing()
@@ -92,7 +99,7 @@ public class DialogueManager : MonoBehaviour
         }
 
         Set_DialogueUI(false);
-        yield return new WaitUntil(() => !cutSceneManager.isCutScene);
+        yield return new WaitUntil(() => !cutSceneManager.isCutSceneEffect);
         StartCoroutine(Co_TypeWriter());
     }
 

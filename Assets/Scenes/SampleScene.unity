@@ -1955,7 +1955,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dialogueEvent:
     eventName: 
-    line: {x: 1, y: 7}
+    line: {x: 11, y: 14}
     dialogues:
     - tf_Target: {fileID: 0}
       cameraType: 0
@@ -8674,7 +8674,6 @@ MonoBehaviour:
   characterManager: {fileID: 200900909}
   splashManager: {fileID: 492846737}
   cutSceneManager: {fileID: 1382397820}
-  playerController: {fileID: 651267370}
   isTalking: 0
   textDelayTime: 0.02
   obj_DialogueBar: {fileID: 323562174}
@@ -9521,10 +9520,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65023a9840f0e3449b8543357c53ec86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  camController: {fileID: 963194229}
   splashManager: {fileID: 492846737}
   cutSceneImage: {fileID: 1250764606}
-  isCutScene: 0
+  isCutSceneEffect: 0
 --- !u!1 &1423542214
 GameObject:
   m_ObjectHideFlags: 0

@@ -15,6 +15,11 @@ public class PlayerController : MonoBehaviour
         originPos_CameraY = tf_Camera.localPosition.y;
     }
 
+    private void Start()
+    {
+        DialogueManager.instance.OnEndTalk += AngleValueReset;
+    }
+
     public void AngleValueReset()
     {
         currentCameraAngle_X = 0;

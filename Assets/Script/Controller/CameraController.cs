@@ -8,6 +8,17 @@ public class CameraController : MonoBehaviour
     public bool isTargetTing = false;
     WaitForSeconds ws = new WaitForSeconds(0.008f);
 
+    private void Start()
+    {
+        DialogueManager.instance.OnEndTalk += CameraReset;
+    }
+
+    void CameraReset()
+    {
+        StopAllCoroutines();
+        StartCoroutine(Co_CameraReset());
+    }
+
     public void CameraTargettion(Transform p_Targer, float p_CameraSpeed = 0.05f)
     {
         if (p_Targer == null || p_Targer == tf_CurrentTalkCharacter) return;
@@ -37,12 +48,6 @@ public class CameraController : MonoBehaviour
     {
         originPosition = transform.position;
         originRotation = Quaternion.Euler(0, 0, 0);
-    }
-
-    public void CameraReset(float p_CameraSpeed = 0.05f)
-    {
-        StopAllCoroutines();
-        StartCoroutine(Co_CameraReset(p_CameraSpeed));
     }
     
     IEnumerator Co_CameraReset(float camSpeed = 0.05f)

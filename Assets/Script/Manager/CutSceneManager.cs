@@ -5,15 +5,17 @@ using UnityEngine.UI;
 
 public class CutSceneManager : MonoBehaviour
 {
-    [SerializeField] CameraController camController;
     [SerializeField] SplashManager splashManager;
 
     [SerializeField] Image cutSceneImage;
-    public bool isCutScene;
+    public bool isCutSceneEffect;
+    // 현재 컷씬 진행중인지 확인하는 프로퍼티 변수
+    public bool chectCutScene {get { return cutSceneImage.gameObject.activeSelf; } }
+
 
     public void CutScene(string cutSceneName, bool isFinish)
     {
-        isCutScene = true;
+        isCutSceneEffect = true;
         if (isFinish)
         {
             StartCoroutine(Co_CutScene(false));
@@ -38,6 +40,6 @@ public class CutSceneManager : MonoBehaviour
         yield return new WaitUntil(() => !splashManager.isFade);
 
         yield return new WaitForSeconds(0.5f); // 연출을 위한 대기
-        isCutScene = false;
+        isCutSceneEffect = false;
     }
 }
