@@ -8,14 +8,26 @@ public class CutSceneManager : MonoBehaviour
     [SerializeField] SplashManager splashManager;
 
     [SerializeField] Image cutSceneImage;
-    public bool isCutSceneEffect;
     // 현재 컷씬 진행중인지 확인하는 프로퍼티 변수
-    public bool chectCutScene {get { return cutSceneImage.gameObject.activeSelf; } }
+    public bool ChectCutScene {get { return cutSceneImage.gameObject.activeSelf; } }
 
+    private void Start()
+    {
+        DialogueManager.instance.BeforeTalkEvent += CutScene_byTalk;
+    }
+
+    void CutScene_byTalk(Dialogue dialogue, int contextCount)
+    {
+        string cutName = dialogue.cutSceneName[contextCount].Trim();
+        switch (dialogue.cameraType)
+        {
+            case CameraType.ShowCutScene: CutScene(cutName, false); break;
+            case CameraType.HideCutScene: CutScene("", true); break;
+        }
+    }
 
     public void CutScene(string cutSceneName, bool isFinish)
     {
-        isCutSceneEffect = true;
         if (isFinish)
         {
             StartCoroutine(Co_CutScene(false));
@@ -31,6 +43,7 @@ public class CutSceneManager : MonoBehaviour
 
     IEnumerator Co_CutScene(bool isShow)
     {
+        DialogueManager.instance.isCameraEffect = true;
         splashManager.FadeOut(true);
         yield return new WaitUntil(() => !splashManager.isFade);
 
@@ -40,6 +53,6 @@ public class CutSceneManager : MonoBehaviour
         yield return new WaitUntil(() => !splashManager.isFade);
 
         yield return new WaitForSeconds(0.5f); // 연출을 위한 대기
-        isCutSceneEffect = false;
+        DialogueManager.instance.isCameraEffect = false;
     }
 }

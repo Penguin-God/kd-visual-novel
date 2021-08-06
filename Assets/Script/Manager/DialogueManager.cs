@@ -17,17 +17,23 @@ public class DialogueManager : MonoBehaviour
         }
     }
 
-    [SerializeField] CameraController cameraController;
-    [SerializeField] CharacterManager characterManager;
-    [SerializeField] SplashManager splashManager;
     [SerializeField] CutSceneManager cutSceneManager;
-
     private void Update()
     {
         if(isNext && isTalking && ( Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0) ) )
         {
             Talk();
         }
+    }
+
+    public bool isCameraEffect = false;
+    public event Action<Dialogue, int> BeforeTalkEvent;
+    IEnumerator Co_BeforeTalkEvent(Dialogue dialogue, int contextCount)
+    {
+        if(BeforeTalkEvent != null) BeforeTalkEvent(dialogue, contextCount);
+        Set_DialogueUI(false);
+        yield return new WaitUntil(() => !isCameraEffect);
+        StartCoroutine(Co_TypeWriter());
     }
 
     void Talk()
@@ -39,9 +45,7 @@ public class DialogueManager : MonoBehaviour
             contextCount = 0; // 대사 순번 초기화
             if (++talkIndex < dialogues.Length) // 화자는 바뀌지만 대화의 끝이 아닐 때 각종 연출
             {
-                if (dialogues[talkIndex].cameraType == CameraType.Default) StartCoroutine(Co_CameraTargetTing());
-                else if (dialogues[talkIndex].cutSceneName[contextCount].Trim() != "") StartCoroutine(Co_CameraCutScene(dialogues[talkIndex].cameraType));
-                else StartCoroutine(Co_FadeCamera(dialogues[talkIndex].cameraType));
+                StartCoroutine(Co_BeforeTalkEvent(dialogues[talkIndex], contextCount));
             }
             else StartCoroutine(EndTalk()); // 화자가 바뀔때만 talkIndex가 오르기 때문에 여기서 대화 종료 여부 결정
             return;
@@ -53,11 +57,11 @@ public class DialogueManager : MonoBehaviour
     public event Action OnEndTalk;
     IEnumerator EndTalk()
     {
-        if (cutSceneManager.chectCutScene)
+        if (cutSceneManager.ChectCutScene)
         {
             cutSceneManager.CutScene("", true);
             Set_DialogueUI(false);
-            yield return new WaitUntil(() => !cutSceneManager.isCutSceneEffect);
+            yield return new WaitUntil(() => !isCameraEffect);
         }
 
         dialogues = null;
@@ -68,55 +72,19 @@ public class DialogueManager : MonoBehaviour
         if(OnEndTalk != null) OnEndTalk();
     }
 
-    IEnumerator Co_CameraTargetTing()
-    {
-        cameraController.CameraTargettion(dialogues[talkIndex].tf_Target);
-        yield return new WaitUntil(() => !cameraController.isTargetTing);
-        StartCoroutine(Co_TypeWriter());
-    }
-
-    IEnumerator Co_FadeCamera(CameraType cameraType)
-    {
-        switch (cameraType)
-        {
-            case CameraType.FadeIn: splashManager.FadeIn(false); break;
-            case CameraType.FadeOut: splashManager.FadeOut(false); break;
-            case CameraType.FlashIn: splashManager.FadeIn(true); break;
-            case CameraType.FlashOut: splashManager.FadeOut(true); break;
-        }
-        Set_DialogueUI(false);
-        yield return new WaitUntil(() => !splashManager.isFade);
-        StartCoroutine(Co_TypeWriter());
-    }
-
-    IEnumerator Co_CameraCutScene(CameraType cameraType)
-    {
-        string cutName = dialogues[talkIndex].cutSceneName[contextCount].Trim();
-        switch (cameraType)
-        {
-            case CameraType.ShowCutScene: cutSceneManager.CutScene(cutName, false); break;
-            case CameraType.HideCutScene: cutSceneManager.CutScene("", true); break;
-        }
-
-        Set_DialogueUI(false);
-        yield return new WaitUntil(() => !cutSceneManager.isCutSceneEffect);
-        StartCoroutine(Co_TypeWriter());
-    }
-
-
     private Dialogue[] dialogues;
     public bool isTalking;
     bool isNext = false;
     int talkIndex;
     int contextCount;
+    public event Action<Transform> OnStartTalk;
     public void StartTalk(Dialogue[] p_Dialogues)
     {
         UIManager.instance.HideUI();
         isTalking = true;
         // 대화 시작
         dialogues = p_Dialogues;
-        cameraController.CamOriginSetting();
-        cameraController.CameraTargettion(dialogues[talkIndex].tf_Target);
+        if(OnStartTalk != null) OnStartTalk(dialogues[talkIndex].tf_Target); // 시작할 때도 카메라 타겟팅될때까지 기다리는 기능 넣기
         StartCoroutine(Co_TypeWriter());
     }
 
@@ -125,11 +93,11 @@ public class DialogueManager : MonoBehaviour
     /// <summary>
     /// 들어가 있는 함수 : ChangeSprite_byTalk, PlayVoice_byTalk
     /// </summary>
-    public event Action<Dialogue, int> AfterTalkEffect;
+    public event Action<Dialogue, int> AfterTalkEvent;
 
     IEnumerator Co_TypeWriter()
     {
-        if (AfterTalkEffect != null) AfterTalkEffect(dialogues[talkIndex], contextCount);
+        if (AfterTalkEvent != null) AfterTalkEvent(dialogues[talkIndex], contextCount);
         Set_DialogueUI(true);
         txt_Dialogue.text = "";
 
@@ -140,10 +108,15 @@ public class DialogueManager : MonoBehaviour
 
         for (int i = 0; i < replaceText.Length; i++) // 글자 크기만큼 한글자씩 더하는 반복문
         {
-            if (Set_IsColorText(replaceText[i])) // 더할 텍스트가 특수문자라면
+            if (Check_IsColorText(replaceText[i])) // 더할 텍스트가 특수문자라면
             {
                 // 색깔을 강조하고 싶은 글자 앞에 색깔 특수문자를 뒤에는 ⓦ를 넣어서 색깔 강조 탈출
                 effectChar = replaceText[i];
+                continue;
+            }
+            else if(Check_IsEffectSoundText(replaceText[i]) != ' ') // 이펙트 사운드 재생
+            {
+                SoundManager.instance.PlayEffectSound(ReturnSoundEffectName(replaceText[i]));
                 continue;
             }
 
@@ -194,7 +167,7 @@ public class DialogueManager : MonoBehaviour
         return name;
     }
 
-    bool Set_IsColorText(char char_Context) // 받은 인자가 특수문자면 true혹은 특정 연출 실행 후 
+    bool Check_IsColorText(char char_Context) // 받은 인자가 특수문자면 true혹은 특정 연출 실행 후 
     {
         switch (char_Context)
         {
@@ -202,16 +175,23 @@ public class DialogueManager : MonoBehaviour
             case 'ⓨ':
             case 'ⓒ':
                 return true;
-            case '①': // 여기부분 코드 바꾸기
+            default:
+                return false;
+        }
+    }
+
+    char Check_IsEffectSoundText(char char_Context) // 받은 인자가 특수문자면 true혹은 특정 연출 실행 후 
+    {
+        switch (char_Context)
+        {
+            case '①':
             case '②':
             case '③':
             case '④':
             case '⑤':
-                SoundManager.instance.PlayEffectSound(ReturnSoundEffectName(char_Context));
-                splashManager.Splash();
-                return false;
+                return char_Context;
             default:
-                return false;
+                return ' ';
         }
     }
     string ReturnSoundEffectName(char number)
@@ -232,13 +212,9 @@ public class DialogueManager : MonoBehaviour
     {
         switch (t_Effect)
         {
-            case 'ⓨ':
-                return AddColorTag(affectText, "FFFF00");
-            case 'ⓒ':
-                return AddColorTag(affectText, "42DEE3");
-            default:
-                if(t_Effect != 'ⓦ') Debug.LogError("지정하지 않은 특수기호");
-                return affectText;
+            case 'ⓨ': return AddColorTag(affectText, "FFFF00");
+            case 'ⓒ': return AddColorTag(affectText, "42DEE3");
+            default: if(t_Effect != 'ⓦ') Debug.LogError("지정하지 않은 특수기호"); return affectText;
         }
     }
     string AddColorTag(string p_ColoringText, string p_Color)

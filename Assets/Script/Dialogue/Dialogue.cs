@@ -11,6 +11,9 @@ public enum CameraType
     FlashOut,
     ShowCutScene,
     HideCutScene,
+    AppearSlide,
+    DisappearSlide,
+    ChangeSlide,
 }
 
 [System.Serializable] // 데이터를 직렬로 하겠다는 뜻 인스펙터 창에서 수정하기 위해 필요

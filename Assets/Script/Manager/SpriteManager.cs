@@ -7,7 +7,7 @@ public class SpriteManager : MonoBehaviour
 
     private void Start()
     {
-        FindObjectOfType<DialogueManager>().AfterTalkEffect += ChangeSprite_byTalk;
+        FindObjectOfType<DialogueManager>().AfterTalkEvent += ChangeSprite_byTalk;
     }
 
     void ChangeSprite_byTalk(Dialogue dialogue, int contextCount)

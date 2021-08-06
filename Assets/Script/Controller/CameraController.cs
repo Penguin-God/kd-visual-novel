@@ -5,12 +5,25 @@ using UnityEngine;
 public class CameraController : MonoBehaviour
 {
     Transform tf_CurrentTalkCharacter = null;
-    public bool isTargetTing = false;
     WaitForSeconds ws = new WaitForSeconds(0.008f);
 
     private void Start()
     {
         DialogueManager.instance.OnEndTalk += CameraReset;
+        DialogueManager.instance.AfterTalkEvent += CameraTargetTing_byTalk;
+
+        DialogueManager.instance.OnStartTalk += CameraEffect_byTalkStart;
+    }
+
+    void CameraEffect_byTalkStart(Transform target)
+    {
+        CamOriginSetting();
+        CameraTargettion(target);
+    }
+
+    void CameraTargetTing_byTalk(Dialogue dialogue, int contextCount)
+    {
+        if(dialogue.cameraType == CameraType.Default) CameraTargettion(dialogue.tf_Target);
     }
 
     void CameraReset()
@@ -19,7 +32,7 @@ public class CameraController : MonoBehaviour
         StartCoroutine(Co_CameraReset());
     }
 
-    public void CameraTargettion(Transform p_Targer, float p_CameraSpeed = 0.05f)
+    void CameraTargettion(Transform p_Targer, float p_CameraSpeed = 0.05f)
     {
         if (p_Targer == null || p_Targer == tf_CurrentTalkCharacter) return;
         StopAllCoroutines();
@@ -29,22 +42,24 @@ public class CameraController : MonoBehaviour
     [SerializeField] float viewUp;
     IEnumerator Co_CameraTargetting(Transform p_Targer, float p_CameraSpeed = 0.05f)
     {
-        isTargetTing = true;
+        DialogueManager.instance.isCameraEffect = true;
         Vector3 targetPosition = p_Targer.position + (Vector3.up * viewUp);
         Vector3 forwardTargerPosition = targetPosition + p_Targer.forward * 1.2f;
         Vector3 camDirection = (targetPosition - forwardTargerPosition).normalized;
         
-        StartCoroutine(Co_SetIsTargetTing(forwardTargerPosition));
-        while (transform.position != forwardTargerPosition || Quaternion.Angle(transform.rotation, Quaternion.LookRotation(camDirection) ) >= 1f )
+        while (Vector3.Distance(transform.position, forwardTargerPosition) > 0.1 || Quaternion.Angle(transform.rotation, Quaternion.LookRotation(camDirection) ) >= 3f )
         {
             CameraMove(forwardTargerPosition, Quaternion.LookRotation(camDirection), p_CameraSpeed);
             yield return ws;
         }
+
+        SetCameraTransform(forwardTargerPosition, Quaternion.LookRotation(camDirection));
+        DialogueManager.instance.isCameraEffect = false;
     }
 
     Vector3 originPosition;
     Quaternion originRotation;
-    public void CamOriginSetting()
+    void CamOriginSetting()
     {
         originPosition = transform.position;
         originRotation = Quaternion.Euler(0, 0, 0);
@@ -60,7 +75,7 @@ public class CameraController : MonoBehaviour
             yield return ws;
         }
 
-        transform.position = originPosition;
+        SetCameraTransform(originPosition, originRotation);
         DialogueManager.instance.isTalking = false;
         UIManager.instance.ShowUI();
     }
@@ -71,12 +86,9 @@ public class CameraController : MonoBehaviour
         transform.rotation = Quaternion.Lerp(transform.rotation, target_Rotation, speed);
     }
 
-    IEnumerator Co_SetIsTargetTing(Vector3 targetPosition)
+    void SetCameraTransform(Vector3 p_Position, Quaternion p_Rotation)
     {
-        while (isTargetTing)
-        {
-            if (Vector3.Distance(transform.position, targetPosition) < 0.1f) isTargetTing = false;
-            yield return null;
-        }
+        transform.position = p_Position;
+        transform.rotation = p_Rotation;
     }
 }

@@ -17,7 +17,23 @@ public class SplashManager : MonoBehaviour
 
     WaitForSeconds ws = new WaitForSeconds(0.05f);
 
+    private void Start()
+    {
+        DialogueManager.instance.BeforeTalkEvent += FadeCamara_byTalk;
 
+        SoundManager.instance.EffectSoundEvent += Splash;
+    }
+
+    void FadeCamara_byTalk(Dialogue dialogue, int contextCount)
+    {
+        switch (dialogue.cameraType)
+        {
+            case CameraType.FadeIn: FadeIn(false); break;
+            case CameraType.FadeOut: FadeOut(false); break;
+            case CameraType.FlashIn: FadeIn(true); break;
+            case CameraType.FlashOut: FadeOut(true); break;
+        }
+    }
 
     public void Splash()
     {
@@ -26,10 +42,12 @@ public class SplashManager : MonoBehaviour
 
     IEnumerator Co_Splash()
     {
+        DialogueManager.instance.isCameraEffect = true;
         isFade = true;
         FadeOut(true);
         yield return new WaitUntil(() => !isFade);
         FadeIn(true);
+        DialogueManager.instance.isCameraEffect = false;
     }
 
     public void FadeOut(bool isWhite, bool isSpeed = false)
@@ -41,6 +59,7 @@ public class SplashManager : MonoBehaviour
 
     IEnumerator Co_FadeOut(Color color, float speed)
     {
+        DialogueManager.instance.isCameraEffect = true;
         isFade = true;
         color.a = 0;
         fadeImage.color = color;
@@ -52,6 +71,7 @@ public class SplashManager : MonoBehaviour
             yield return ws;
         }
         isFade = false;
+        DialogueManager.instance.isCameraEffect = false;
     }
 
 
@@ -64,6 +84,7 @@ public class SplashManager : MonoBehaviour
 
     IEnumerator Co_FadeIn(Color color, float speed)
     {
+        DialogueManager.instance.isCameraEffect = true;
         isFade = true;
         color.a = 1;
         fadeImage.color = color;
@@ -75,5 +96,6 @@ public class SplashManager : MonoBehaviour
             yield return ws;
         }
         isFade = false;
+        DialogueManager.instance.isCameraEffect = false;
     }
 }

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 [System.Serializable]
 public class Sound
@@ -27,7 +28,7 @@ public class SoundManager : MonoBehaviour
 
     private void Start()
     {
-        FindObjectOfType<DialogueManager>().AfterTalkEffect += PlayVoice_byTalk;
+        FindObjectOfType<DialogueManager>().AfterTalkEvent += PlayVoice_byTalk;
     }
 
     void PlayVoice_byTalk(Dialogue dialogue, int contextCount)
@@ -70,6 +71,7 @@ public class SoundManager : MonoBehaviour
 
     [SerializeField] Sound[] effectSounds;
     [SerializeField] AudioSource effectPlayer;
+    public event Action EffectSoundEvent;
     public void PlayEffectSound(string p_Name)
     {
         for (int i = 0; i < effectSounds.Length; i++)
@@ -77,6 +79,7 @@ public class SoundManager : MonoBehaviour
             if (p_Name == effectSounds[i].name)
             { 
                 effectPlayer.PlayOneShot(effectSounds[i].clip);
+                if(EffectSoundEvent != null) EffectSoundEvent();
                 return;
             }
         }
