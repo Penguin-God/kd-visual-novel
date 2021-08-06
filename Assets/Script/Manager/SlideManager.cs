@@ -13,6 +13,7 @@ public class SlideManager : MonoBehaviour
     {
         anim = GetComponentInChildren<Animation>();
         img_Slide = GetComponentInChildren<Image>();
+        transform.GetChild(0).gameObject.SetActive(false);
     }
 
     private void Start()
@@ -31,7 +32,7 @@ public class SlideManager : MonoBehaviour
         }
     }
 
-    public IEnumerator Co_AppearSlide(string name)
+    IEnumerator Co_AppearSlide(string name)
     {
         isSildeMoving = true;
         DialogueManager.instance.isCameraEffect = true;
@@ -49,7 +50,7 @@ public class SlideManager : MonoBehaviour
         DialogueManager.instance.isCameraEffect = false;
     }
 
-    public IEnumerator Co_DisappearSlide()
+    IEnumerator Co_DisappearSlide()
     {
         isSildeMoving = true;
         DialogueManager.instance.isCameraEffect = true;
@@ -58,11 +59,12 @@ public class SlideManager : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
         img_Slide.sprite = null;
         isSildeMoving = false;
+        img_Slide.gameObject.SetActive(false);
         DialogueManager.instance.isCameraEffect = false;
     }
 
     public bool isSlideChange;
-    public IEnumerator Co_ChangeSlide(string name)
+    IEnumerator Co_ChangeSlide(string name)
     {
         DialogueManager.instance.isCameraEffect = true;
         isSlideChange = true;

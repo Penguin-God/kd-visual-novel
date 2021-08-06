@@ -724,7 +724,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &436633863
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2068,7 +2068,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dialogueEvent:
     eventName: 
-    line: {x: 11, y: 14}
+    line: {x: 1, y: 7}
     dialogues:
     - tf_Target: {fileID: 0}
       cameraType: 0
@@ -2078,14 +2078,35 @@ MonoBehaviour:
       voiceNames: []
       cutSceneName: []
     - tf_Target: {fileID: 0}
-      cameraType: 0
+      cameraType: 7
       name: 
       contexts: []
       spriteNames: []
       voiceNames: []
       cutSceneName: []
     - tf_Target: {fileID: 0}
-      cameraType: 5
+      cameraType: 8
+      name: 
+      contexts: []
+      spriteNames: []
+      voiceNames: []
+      cutSceneName: []
+    - tf_Target: {fileID: 0}
+      cameraType: 8
+      name: 
+      contexts: []
+      spriteNames: []
+      voiceNames: []
+      cutSceneName: []
+    - tf_Target: {fileID: 0}
+      cameraType: 6
+      name: 
+      contexts: []
+      spriteNames: []
+      voiceNames: []
+      cutSceneName: []
+    - tf_Target: {fileID: 0}
+      cameraType: 6
       name: 
       contexts: []
       spriteNames: []
