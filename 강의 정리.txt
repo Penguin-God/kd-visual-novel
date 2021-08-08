@@ -842,7 +842,7 @@ IEnumerator Co_BeforeTalkEvent(Dialogue dialogue, int contextCount)
 
 
 
-
+[Space] : 인스펙터 창에 여백을 줌
 
 
 

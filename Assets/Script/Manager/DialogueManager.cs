@@ -55,6 +55,8 @@ public class DialogueManager : MonoBehaviour
     }
 
     public event Action OnEndTalk;
+    public event Action<EventByTalk> TalkEndEvent;
+    private EventByTalk eventByTalk = null;
     IEnumerator EndTalk()
     {
         if (cutSceneManager.ChectCutScene)
@@ -70,6 +72,13 @@ public class DialogueManager : MonoBehaviour
         Set_DialogueUI(false);
 
         if(OnEndTalk != null) OnEndTalk();
+        if (TalkEndEvent != null && eventByTalk != null) TalkEndEvent(eventByTalk);
+    }
+
+    public void SetEvent(Transform target)
+    {
+        if (target.GetComponent<EventByTalk>() != null) eventByTalk = target.GetComponent<EventByTalk>();
+        else eventByTalk = null;
     }
 
     private Dialogue[] dialogues;
@@ -78,6 +87,7 @@ public class DialogueManager : MonoBehaviour
     int talkIndex;
     int contextCount;
     public event Action<Transform> OnStartTalk;
+
     public void StartTalk(Dialogue[] p_Dialogues)
     {
         UIManager.instance.HideUI();

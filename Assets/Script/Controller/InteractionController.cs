@@ -38,6 +38,8 @@ public class InteractionController : MonoBehaviour
         QuestionEffect questionEffect = obj_Qestion.GetComponent<QuestionEffect>();
         yield return new WaitUntil(() => questionEffect.isQuestionHit);
         questionEffect.isQuestionHit = false;
+
+        DialogueManager.instance.SetEvent(rayHit.transform);
         DialogueManager.instance.StartTalk(rayHit.transform.GetComponent<InteractionEvent>().GetDialogues());
     }
 

@@ -10,6 +10,8 @@ public class CharacterDictionary : SerializableDictionary<string, Transform>
 
 public class CharacterManager : MonoBehaviour
 {
+    public CharacterDictionary dic_Character;
+
     public static CharacterManager instance;
     private void Awake()
     {
@@ -20,5 +22,4 @@ public class CharacterManager : MonoBehaviour
             Destroy(gameObject);
         }
     }
-    public CharacterDictionary dic_Character;
 }
