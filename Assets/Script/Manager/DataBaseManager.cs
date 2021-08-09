@@ -8,7 +8,7 @@ public class DataBaseManager : MonoBehaviour
     [SerializeField] string csv_FileName;
     Dictionary<int, Dialogue> Dic_dialogue = new Dictionary<int, Dialogue>();
 
-    public static bool isFinish = false;
+    public bool isFinish = false;
 
     private void Awake()
     {

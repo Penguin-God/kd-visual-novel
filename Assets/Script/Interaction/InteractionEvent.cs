@@ -7,13 +7,15 @@ public class InteractionEvent : MonoBehaviour
     [SerializeField] DialogueEvent dialogueEvent;
     Transform currentTarget = null;
 
-    private void Awake()
+    private void Start()
     {
-        SetDialogueEvent();
+        StartCoroutine( SetDialogueEvent());
     }
 
-    public void SetDialogueEvent()
+    public bool isSetDialogeu = false;
+    IEnumerator SetDialogueEvent()
     {
+        yield return new WaitUntil(() => DataBaseManager.instance.isFinish); 
         DialogueEvent instanceDialogues = new DialogueEvent();
         instanceDialogues.dialogues = new Dialogue[(int)dialogueEvent.line.y - (int)dialogueEvent.line.x + 1]; // dialogues의 크기 결정 (크기는 dialogueEvent에서 결정)
         instanceDialogues.dialogues = DataBaseManager.instance.GetDialogues((int)dialogueEvent.line.x, (int)dialogueEvent.line.y); // dialogues 선언
@@ -36,6 +38,7 @@ public class InteractionEvent : MonoBehaviour
         }
         // 선언 후 반환
         dialogueEvent.dialogues = instanceDialogues.dialogues;
+        isSetDialogeu = true;
     }
 
     public Dialogue[] GetDialogues()

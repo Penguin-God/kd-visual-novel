@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class EventManager : MonoBehaviour
 {
+    public static bool isAutoEvent = false;
     private void Start()
     {
         DialogueManager.instance.TalkEndEvent += GameEventByTalkEnd;
