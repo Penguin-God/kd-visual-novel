@@ -848,6 +848,32 @@ Part 11 캐릭터 등장 및 퇴장
 2. 캐릭터 등장효과
 단간론파는 캐릭터가 누워있다가 일어나는데 여기서는 회전하면서 투명도 올라가면서 등장 투명도는 늘 한던 코루틴 while문이고 회전은 딱 원점으로 돌아왔을때 플레이어를 바라봤으면 해서 코루틴에서 1초에 회전하는 값에 대기시킬 값을 나누고 그 값만큼 대기시키고 그 값을 변수에 더하다가 1이 넘으면 count역할을 하는 변수를 더하고 이게 3이넘으면 멈춤
 
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Part 12 자동 이벤트, Part 13 연속 이벤트 호출 (두개의 강의가 연결되는 부분이 있어서 그냥 한번에 함)
+
+1. 자동 이벤트
+I. 우선 강의에서 말하는 자동 이벤트는 상호작용 없이 자동으로 진행되는 이벤트를 말함 아마 맵 이동 후 진행되는 대화 등에 쓰일듯 기존에 InteracrtionEvent 스크립트에서 기능을 확장하는데 역시 맘에 안들어서 스크립트를 새로 만듬 하지만 강의에서 빈 오브젝트에 스크립트를 넣고 이벤트 진행 후 스크립트를 비활성화시키는건 보기가 편해서 좋은 방법이라고 생각해 그대로 따라함 순서는 DataManager에서 엑셀 파싱이 끝날 때까지 대기 후 0.5초 대기 후 대화 실행하는 코루틴을 오브젝트가 켜져있을 때 실행하기 위해 OnEnable()에서 실행
+IEnumerator Co_Autotalk()
+{
+        yield return new WaitUntil(() => talkEvent.isSetDialogeu);
+        yield return new WaitForSeconds(0.5f);
+        DialogueManager.instance.StartTalk(talkEvent.GetDialogues());
+        DialogueManager.instance.SetEvent(transform);
+        yield return new WaitUntil(() => !DialogueManager.instance.isTalking);
+        gameObject.SetActive(false);
+}
+
+2. 연속 자동 이벤트
+I. 캐릭터의 등장이나 퇴장 등 여러 이벤트를 기준으로 대화가 잠시 멈췄다가 다시 다음 대화를 실행하는 연속 이벤트 구현
+이벤트가 끝난 후 자신의 오브젝트를 비활성화 시키면서 다음 이벤트 오브젝트 활성화시키기 그럼 1에서처럼 이벤트가 실행됨
+
+II. 자동 이벤트 대기
+이벤트 사이사이에 UI가 뜬다던가 하는 부자연스러운 상황이 발생하기 때문에 EventManager에 자동 이벤트 중에 true인 isAutoEvent선언 false때만 UI 보여주게 하기 또한 enum타입의 AtuoEventType을 선언 후LastEvent일 때 isAutoEvent false로 되돌리기 상호작용이 가능한 문제도 해결하기 위해 isAutoEvent가 true일 때는 상호작용 막음
+
+III. event대기
+자동 이벤트 사이사이에는 캐릭터 등장 등 여러 이벤트가 있을 건데 그러한 이벤트를 대기하기 위해 EventManager 이벤트 진행중에 true isEvent를 만들고 false가 될때까지 대기 후 자동 이벤트 실행
+
 
 
 

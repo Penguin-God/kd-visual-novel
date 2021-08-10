@@ -13,7 +13,7 @@ public class InteractionController : MonoBehaviour
     private bool interactable = false;
     void Update()
     {
-        if (DialogueManager.instance.isTalking) return;
+        if (DialogueManager.instance.isTalking || EventManager.isAutoEvent || EventManager.isEvent) return;
 
         CheckObject();
         ClickLeftButton();

@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class EventManager : MonoBehaviour
 {
+    public static bool isEvent = false;
     public static bool isAutoEvent = false;
     private void Start()
     {

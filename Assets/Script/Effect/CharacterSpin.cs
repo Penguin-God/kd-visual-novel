@@ -16,7 +16,7 @@ public class CharacterSpin : MonoBehaviour
         transform.eulerAngles = lookEuler;
     }
 
-    bool isSpin;
+    bool isSpin = false;
     public void CharactersSpinEvent(bool isShow)
     {
         isSpin = true;
@@ -59,11 +59,13 @@ public class CharacterSpin : MonoBehaviour
             shadow_Color.a -= 0.01f; spriteRenderer[1].color = shadow_Color;
             yield return new WaitForSeconds(0.02f);
         }
+        yield return new WaitUntil(() => !isSpin);
         gameObject.SetActive(false);
     }
 
     IEnumerator Co_Spin(int spinCount)
     {
+        EventManager.isEvent = true;
         float delayTime = 0.06f;
         float timeCount = 0;
         int currentSpinCount = 0;
@@ -80,5 +82,6 @@ public class CharacterSpin : MonoBehaviour
             yield return new WaitForSeconds(delayTime);
         }
         isSpin = false;
+        EventManager.isEvent = false;
     }
 }

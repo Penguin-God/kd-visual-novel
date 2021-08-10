@@ -77,8 +77,8 @@ public class CameraController : MonoBehaviour
 
         SetCameraTransform(originPosition, originRotation);
         DialogueManager.instance.isTalking = false;
-        yield return null;
-        if(!EventManager.isAutoEvent) UIManager.instance.ShowUI();
+        yield return null; // EventManager.isAutoEvent 선언 대기
+        if (!EventManager.isAutoEvent) UIManager.instance.ShowUI();
     }
 
     void CameraMove(Vector3 target_Position, Quaternion target_Rotation, float speed)
