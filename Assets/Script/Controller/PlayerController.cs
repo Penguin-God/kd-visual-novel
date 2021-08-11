@@ -4,11 +4,20 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    public static PlayerController instance;
+
     float half_ScreenWidth;
     float half_ScreenHeight;
 
     private void Awake()
     {
+        if (instance == null)
+        {
+            instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else Destroy(gameObject);
+
         half_ScreenWidth = Screen.width / 2;
         half_ScreenHeight = Screen.height / 2;
 

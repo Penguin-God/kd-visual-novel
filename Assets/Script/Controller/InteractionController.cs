@@ -29,18 +29,33 @@ public class InteractionController : MonoBehaviour
             obj_Qestion.SetActive(true);
             obj_Qestion.transform.position = cam.transform.position;
             questionEffect.Throw_QuestionMark(rayHit.transform.position);
-            StartCoroutine(Co_ShowDialogue());
+            StartCoroutine(Co_Interaction());
         }
     }
 
-    IEnumerator Co_ShowDialogue()
+    IEnumerator Co_Interaction()
     {
         QuestionEffect questionEffect = obj_Qestion.GetComponent<QuestionEffect>();
         yield return new WaitUntil(() => questionEffect.isQuestionHit);
         questionEffect.isQuestionHit = false;
 
+        InteractionType interactionType = rayHit.transform.GetComponent<InteractionType>();
+        if (interactionType.isObject) CallDialogue();
+        else if (interactionType.isDoor) CallTransfer();
+    }
+
+    void CallDialogue()
+    {
         DialogueManager.instance.SetEvent(rayHit.transform);
         DialogueManager.instance.StartTalk(rayHit.transform.GetComponent<InteractionEvent>().GetDialogues());
+    }
+
+    void CallTransfer()
+    {
+        InteractionDoor door = rayHit.transform.GetComponent<InteractionDoor>();
+        string sceneName = door.GetChangeSceneName();
+        string locationName = door.GetLocationName();
+        FindObjectOfType<SceneTrasnferManager>().SceneTransfer(sceneName, locationName);
     }
 
     private Camera cam;
