@@ -5,8 +5,17 @@ using UnityEngine.SceneManagement;
 
 public class SceneTrasnferManager : MonoBehaviour
 {
-    public void SceneTransfer(string sceneName, string locationName)
+    [SerializeField] string locationName;
+
+    public void SceneTransfer(string sceneName, string p_locationName)
     {
+        locationName = p_locationName;
+        ScenePositonManger.spawn_able = true;
         SceneManager.LoadScene(sceneName);
+    }
+
+    public string GetLocationName()
+    {
+        return locationName;
     }
 }
