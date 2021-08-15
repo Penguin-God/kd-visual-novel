@@ -40,7 +40,11 @@ public class ScenePositonManger : MonoBehaviour
         {
             PlayerController.instance.transform.position = spawnTransform.position;
             PlayerController.instance.transform.rotation = spawnTransform.rotation;
+            PlayerController.instance.AngleValueReset();
+            PlayerController.instance.ResetCamera();
+
             spawn_able = false;
+            theSceneMove.SceneChangeDone();
         }
         else Debug.LogWarning("찾을 수 없는 스폰 위치 : " + locationName);
     }

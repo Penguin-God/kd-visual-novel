@@ -777,8 +777,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e85b66a27f652854b9c54e2012434cd5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  changeSceneName: Cafeteria
-  locationName: CafeEnterace
+  changeSceneName: SampleScene
+  locationName: Class1-1
 --- !u!114 &437465135
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1344,7 +1344,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1103770650}
-  m_LocalRotation: {x: 0, y: -0.38268343, z: 0, w: 0.92387956}
+  m_LocalRotation: {x: -0, y: -0.38268343, z: -0, w: 0.92387956}
   m_LocalPosition: {x: 0.69, y: 1, z: -2.98}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []

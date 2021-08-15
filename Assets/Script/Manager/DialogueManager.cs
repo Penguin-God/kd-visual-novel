@@ -12,7 +12,6 @@ public class DialogueManager : MonoBehaviour
         if (instance == null) instance = this;
         else
         {
-            Debug.LogError("다이어로그 매니저 싱글톤 2개");
             Destroy(gameObject);
         }
     }

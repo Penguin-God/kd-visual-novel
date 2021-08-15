@@ -71,6 +71,7 @@ public class InteractionController : MonoBehaviour
             interactable = Return_Interactable(rayHit.transform);
         }
         else interactable = false;
+
         Set_InteractionUI(interactable);
     }
     bool Return_Interactable(Transform hitTransform)

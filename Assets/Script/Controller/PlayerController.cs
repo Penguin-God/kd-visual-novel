@@ -35,6 +35,14 @@ public class PlayerController : MonoBehaviour
         currentCameraAngle_Y = 0;
     }
 
+    public void ResetCamera()
+    {
+        isLook = false;
+        tf_Camera.localPosition = Vector3.up;
+        tf_Camera.localEulerAngles = Vector3.zero;
+    }
+
+    public bool isLook;
     void Update()
     {
         if (DialogueManager.instance.isTalking || EventManager.isAutoEvent || EventManager.isEvent) return;
@@ -156,7 +164,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] Transform tf_Camera;
     void SetRotation()
     {
-        tf_Camera.rotation = Quaternion.Euler(new Vector3(currentCameraAngle_X, currentCameraAngle_Y, 0));
+        tf_Camera.localEulerAngles = new Vector3(currentCameraAngle_X, currentCameraAngle_Y, tf_Camera.localEulerAngles.z);
     }
 
 

@@ -8,10 +8,13 @@ public class UIManager : MonoBehaviour
     public static UIManager instance;
     private void Awake()
     {
-        if (instance == null) instance = this;
+        if (instance == null)
+        {
+            instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
         else
         {
-            Debug.LogError("UI 싱글턴 2개");
             Destroy(gameObject);
         }
     }
@@ -29,11 +32,13 @@ public class UIManager : MonoBehaviour
 
         img_Interaction.color = new Color(1, 1, 1, 0);
         img_InteractionEffect.color = new Color(1, 1, 1, 0);
+        img_InteractionEffect.gameObject.SetActive(false);
     }
 
     public void ShowUI()
     {
         UI_Crosshair.SetActive(true);
         UI_Arrow.SetActive(true);
+        img_InteractionEffect.gameObject.SetActive(true);
     }
 }
