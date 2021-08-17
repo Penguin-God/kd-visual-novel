@@ -8,6 +8,7 @@ public class SceneTrasnferManager : MonoBehaviour
     [SerializeField] string locationName;
 
     private SplashManager spManager;
+    public static bool isTransfer;
 
     private void Start()
     {
@@ -21,6 +22,7 @@ public class SceneTrasnferManager : MonoBehaviour
 
     IEnumerator Co_SceneTransfer(string sceneName, string p_locationName)
     {
+        isTransfer = true;
         UIManager.instance.HideUI();
         spManager.FadeOut(false, true);
         yield return new WaitUntil(() => !spManager.isFade);
@@ -39,7 +41,8 @@ public class SceneTrasnferManager : MonoBehaviour
     {
         spManager.FadeIn(false, true);
         yield return new WaitUntil(() => !spManager.isFade);
-        UIManager.instance.ShowUI();
+        if(!EventManager.isAutoEvent) UIManager.instance.ShowUI();
+        isTransfer = false;
     }
 
     public string GetLocationName()

@@ -961,6 +961,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 492846734}
+  - component: {fileID: 492846744}
   - component: {fileID: 492846735}
   - component: {fileID: 492846733}
   - component: {fileID: 492846736}
@@ -1394,6 +1395,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   locationName: 
+--- !u!114 &492846744
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 492846732}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 07f1ca87b3ee3ea4b858307cb7acf648, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &585690830
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1729,6 +1742,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b3c35fbbe6153c4f86182eb2b884b8c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isLook: 0
   tf_Corsshair: {fileID: 707307363}
   playerRotateSpeed: 0.5
   playerMoveSpeed: 0.02
@@ -2754,6 +2768,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e85b66a27f652854b9c54e2012434cd5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isNextMapOnlyView: 0
   changeSceneName: Cafeteria
   locationName: CafeEntrance2
 --- !u!114 &771693896
@@ -16257,6 +16272,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e85b66a27f652854b9c54e2012434cd5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isNextMapOnlyView: 0
   changeSceneName: Cafeteria
   locationName: CafeEntrance
 --- !u!4 &1886254738

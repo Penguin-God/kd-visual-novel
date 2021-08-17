@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657844, g: 0.49641222, b: 0.57481694, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -195,7 +195,6 @@ GameObject:
   m_Component:
   - component: {fileID: 90487685}
   - component: {fileID: 90487688}
-  - component: {fileID: 90487687}
   - component: {fileID: 90487686}
   m_Layer: 0
   m_Name: "01 - \uC790\uAE30\uC18C\uAC1C"
@@ -230,24 +229,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 72e1b145e903cf643a92ad50ee14968a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  autoEventType: 1
-  nextEvent: {fileID: 351168436}
---- !u!114 &90487687
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 90487684}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d250140677e62a3409428ce50309d31f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  eventType: 2
-  eventCharacters:
-  - {fileID: 0}
-  - {fileID: 0}
+  autoEventType: 0
+  nextEvent: {fileID: 0}
 --- !u!114 &90487688
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1035,7 +1018,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &583788107
 Transform:
   m_ObjectHideFlags: 0

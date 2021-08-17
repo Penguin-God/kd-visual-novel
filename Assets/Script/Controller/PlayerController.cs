@@ -45,7 +45,7 @@ public class PlayerController : MonoBehaviour
     public bool isLook;
     void Update()
     {
-        if (DialogueManager.instance.isTalking || EventManager.isAutoEvent || EventManager.isEvent) return;
+        if (!GameManager.instance.IsPlayable) return;
 
         // 크로스 헤어 이동
         MovingCorsshair();

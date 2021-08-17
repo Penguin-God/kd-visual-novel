@@ -26,6 +26,7 @@ public class AutoEvent : MonoBehaviour
     {
         EventManager.isAutoEvent = true;
         yield return new WaitUntil(() => talkEvent.isSetDialogeu);
+        yield return new WaitUntil(() => !SceneTrasnferManager.isTransfer);
         yield return new WaitUntil(() => !EventManager.isEvent);
 
         yield return new WaitForSeconds(0.5f);

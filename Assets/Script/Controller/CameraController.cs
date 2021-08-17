@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
+    public static bool isOnlyView = true;
     Transform tf_CurrentTalkCharacter = null;
     WaitForSeconds ws = new WaitForSeconds(0.008f);
 
@@ -62,7 +63,7 @@ public class CameraController : MonoBehaviour
     void CamOriginSetting()
     {
         originPosition = transform.position;
-        originRotation = Quaternion.Euler(0, 0, 0);
+        originRotation = transform.rotation;
     }
     
     IEnumerator Co_CameraReset(float camSpeed = 0.05f)
