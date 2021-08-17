@@ -37,12 +37,10 @@ public class PlayerController : MonoBehaviour
 
     public void ResetCamera()
     {
-        isLook = false;
         tf_Camera.localPosition = Vector3.up;
         tf_Camera.localEulerAngles = Vector3.zero;
     }
 
-    public bool isLook;
     void Update()
     {
         if (!GameManager.instance.IsPlayable) return;

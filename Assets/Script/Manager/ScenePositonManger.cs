@@ -13,7 +13,7 @@ public class ScenePositonManger : MonoBehaviour
 {
     [SerializeField] Location[] locations;
     Dictionary<string, Transform> dic_Location = new Dictionary<string, Transform>();
-    public static bool spawn_able;
+    public static bool spawn_able = false;
     void AddDic()
     {
         for(int i = 0; i < locations.Length; i++)
@@ -34,7 +34,7 @@ public class ScenePositonManger : MonoBehaviour
     void SetPlayerSpawnTransform()
     {
         SceneTrasnferManager theSceneMove = FindObjectOfType<SceneTrasnferManager>();
-        string locationName = theSceneMove.GetLocationName();
+        string locationName = theSceneMove.GetLocationName(); // 장소 이름 가져오기
         Transform spawnTransform = null;
         if (dic_Location.TryGetValue(locationName, out spawnTransform))
         {

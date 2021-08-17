@@ -760,6 +760,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e85b66a27f652854b9c54e2012434cd5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isNextMapOnlyView: 1
   changeSceneName: SampleScene
   locationName: Class1-1
 --- !u!114 &437465135
