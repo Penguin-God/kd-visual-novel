@@ -53,6 +53,7 @@ public class InteractionController : MonoBehaviour
     void CallTransfer()
     {
         InteractionDoor door = rayHit.transform.GetComponent<InteractionDoor>();
+        CameraController.isOnlyView = door.GetMapView();
         string sceneName = door.GetChangeSceneName();
         string locationName = door.GetLocationName();
         FindObjectOfType<SceneTrasnferManager>().SceneTransfer(sceneName, locationName);

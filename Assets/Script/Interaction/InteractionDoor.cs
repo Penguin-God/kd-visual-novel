@@ -8,9 +8,13 @@ public class InteractionDoor : MonoBehaviour
     [SerializeField] string changeSceneName;
     [SerializeField] string locationName;
 
+    public bool GetMapView()
+    {
+        return isNextMapOnlyView;
+    }
+
     public string GetChangeSceneName()
     {
-        CameraController.isOnlyView = isNextMapOnlyView;
         return changeSceneName;
     }
 
