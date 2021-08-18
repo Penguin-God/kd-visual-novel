@@ -6,12 +6,8 @@ public class EventManager : MonoBehaviour
 {
     public static bool isEvent = false;
     public static bool isAutoEvent = false;
-    private void Start()
-    {
-        DialogueManager.instance.TalkEndEvent += GameEventByTalkEnd;
-    }
 
-    void GameEventByTalkEnd(EventByTalk eventByTalk)
+    public void GameEventByTalkEnd(EventByTalk eventByTalk)
     {
         if (eventByTalk == null || eventByTalk.eventType == EventType.None) return;
 

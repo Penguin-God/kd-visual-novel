@@ -16,6 +16,12 @@ public class DialogueManager : MonoBehaviour
         }
     }
 
+    private void Start()
+    {
+        EventManager eventManager = FindObjectOfType<EventManager>();
+        OnEndTalk += () => eventManager.GameEventByTalkEnd(eventByTalk);
+    }
+
     [SerializeField] CutSceneManager cutSceneManager;
     private void Update()
     {
@@ -23,16 +29,6 @@ public class DialogueManager : MonoBehaviour
         {
             Talk();
         }
-    }
-
-    public bool isCameraEffect = false;
-    public event Action<Dialogue, int> BeforeTalkEvent;
-    IEnumerator Co_BeforeTalkEvent(Dialogue dialogue, int contextCount)
-    {
-        if(BeforeTalkEvent != null) BeforeTalkEvent(dialogue, contextCount);
-        Set_DialogueUI(false);
-        yield return new WaitUntil(() => !isCameraEffect);
-        StartCoroutine(Co_TypeWriter());
     }
 
     void Talk()
@@ -53,8 +49,42 @@ public class DialogueManager : MonoBehaviour
         StartCoroutine(Co_TypeWriter());
     }
 
+    public bool isCameraEffect = false;
+    public event Action<Dialogue, int> BeforeTalkEvent;
+    IEnumerator Co_BeforeTalkEvent(Dialogue dialogue, int contextCount)
+    {
+        if(BeforeTalkEvent != null) BeforeTalkEvent(dialogue, contextCount);
+        Set_DialogueUI(false);
+        yield return new WaitUntil(() => !isCameraEffect);
+        StartCoroutine(Co_TypeWriter());
+    }
+
+
+    private Dialogue[] dialogues;
+    public bool isTalking;
+    bool isNext = false;
+    int talkIndex;
+    int contextCount;
+    public event Action<Transform> OnStartTalk;
+
+    public void StartTalk(Dialogue[] p_Dialogues)
+    {
+        UIManager.instance.HideUI();
+        isTalking = true;
+        // 대화 시작
+        dialogues = p_Dialogues;
+        if(OnStartTalk != null) OnStartTalk(dialogues[talkIndex].tf_Target);
+        StartCoroutine(Wait_StartTartting()); // 카메라 타겟팅 대기
+    }
+
+    IEnumerator Wait_StartTartting()
+    {
+        yield return new WaitUntil(() => !isCameraEffect);
+        StartCoroutine(Co_TypeWriter());
+    }
+
+
     public event Action OnEndTalk;
-    public event Action<EventByTalk> TalkEndEvent;
     private EventByTalk eventByTalk = null;
     IEnumerator EndTalk()
     {
@@ -71,7 +101,6 @@ public class DialogueManager : MonoBehaviour
         Set_DialogueUI(false);
 
         if(OnEndTalk != null) OnEndTalk();
-        if (TalkEndEvent != null && eventByTalk != null) TalkEndEvent(eventByTalk);
     }
 
     public void SetEvent(Transform target)
@@ -80,25 +109,8 @@ public class DialogueManager : MonoBehaviour
         else eventByTalk = null;
     }
 
-    private Dialogue[] dialogues;
-    public bool isTalking;
-    bool isNext = false;
-    int talkIndex;
-    int contextCount;
-    public event Action<Transform> OnStartTalk;
-
-    public void StartTalk(Dialogue[] p_Dialogues)
-    {
-        UIManager.instance.HideUI();
-        isTalking = true;
-        // 대화 시작
-        dialogues = p_Dialogues;
-        if(OnStartTalk != null) OnStartTalk(dialogues[talkIndex].tf_Target); // 시작할 때도 카메라 타겟팅될때까지 기다리는 기능 넣기
-        StartCoroutine(Co_TypeWriter());
-    }
 
     [SerializeField] float textDelayTime;
-
     /// <summary>
     /// 들어가 있는 함수 : ChangeSprite_byTalk, PlayVoice_byTalk
     /// </summary>
@@ -142,38 +154,6 @@ public class DialogueManager : MonoBehaviour
         // unity에서 줄바꿈은 \n(escape문)이지만 엑셀에서의 \n은 텍스트이기 때문에 escape문으로 인식하기 위해 대체 
         replaceText = replaceText.Replace("\\n", "\n"); // \n 앞에 \(escape문)을 붙이면 뒤에 문자는 텍스트로 인식
         return replaceText;
-    }
-
-
-    [SerializeField] GameObject obj_DialogueBar;
-    [SerializeField] GameObject obj_NameBar;
-    [SerializeField] Text txt_Dialogue;
-    [SerializeField] Text txt_Name;
-
-    void Set_DialogueUI(bool _flag)
-    {
-        obj_DialogueBar.SetActive(_flag);
-        SetNameBar(_flag);
-    }
-
-    void SetNameBar(bool p_Flag)
-    {
-        if (!p_Flag || dialogues[talkIndex].name == "" || dialogues[talkIndex].name == "독백")
-        {
-            obj_NameBar.SetActive(false);
-            txt_Name.text = "";
-        }
-        else
-        {
-            obj_NameBar.SetActive(true);
-            txt_Name.text = ReturnName();
-        }
-    }
-    string ReturnName()
-    {
-        string name = dialogues[talkIndex].name;
-        if (name[0] == '⒳') name = name.Replace("⒳", "");
-        return name;
     }
 
     bool Check_IsColorText(char char_Context) // 받은 인자가 특수문자면 true혹은 특정 연출 실행 후 
@@ -230,4 +210,38 @@ public class DialogueManager : MonoBehaviour
     {
         return "<color=#" + p_Color + ">" + p_ColoringText + "</color>";
     }
+
+
+    [SerializeField] GameObject obj_DialogueBar;
+    [SerializeField] GameObject obj_NameBar;
+    [SerializeField] Text txt_Dialogue;
+    [SerializeField] Text txt_Name;
+
+    void Set_DialogueUI(bool _flag)
+    {
+        obj_DialogueBar.SetActive(_flag);
+        SetNameBar(_flag);
+    }
+
+    void SetNameBar(bool p_Flag)
+    {
+        if (!p_Flag || dialogues[talkIndex].name == "" || dialogues[talkIndex].name == "독백")
+        {
+            obj_NameBar.SetActive(false);
+            txt_Name.text = "";
+        }
+        else
+        {
+            obj_NameBar.SetActive(true);
+            txt_Name.text = ReturnName();
+        }
+    }
+    string ReturnName()
+    {
+        string name = dialogues[talkIndex].name;
+        if (name[0] == '⒳') name = name.Replace("⒳", "");
+        return name;
+    }
+
+    
 }
