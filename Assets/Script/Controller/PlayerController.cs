@@ -31,6 +31,7 @@ public class PlayerController : MonoBehaviour
 
     public void AngleValueReset()
     {
+        tf_Corsshair.localPosition = Vector3.zero;
         currentCameraAngle_X = 0;
         currentCameraAngle_Y = 0;
     }
@@ -45,19 +46,63 @@ public class PlayerController : MonoBehaviour
     {
         if (!GameManager.instance.IsPlayable) return;
 
-        // 크로스 헤어 이동
-        MovingCorsshair();
+        if (CameraController.isOnlyView)
+        {
+            // 크로스 헤어 이동
+            MovingCorsshair();
 
-        // 회전 관련 변수 연산
-        MovingView_by_Corsshair();
-        MovingView_GetKey();
+            // 회전 관련 변수 연산
+            MovingView_by_Corsshair();
+            MovingView_GetKey();
 
-        //연산이 이뤄진 회전 변수 제한 및 대입
-        CurbCameraRotation();
-        CurbCameraPosition();
-        SetRotation();
-        NotCameraMoveUI();
+            //연산이 이뤄진 회전 변수 제한 및 대입
+            CurbCameraRotation();
+            CurbCameraPosition();
+            SetRotation();
+            NotCameraMoveUI();
+        }
+        else // 필드 이동
+        {
+            FiledMoving();
+            FiledLooking();
+        }
     }
+
+    [SerializeField] float walkSpeed;
+    [SerializeField] float runSpeed;
+    private float applySpeed;
+
+    void FiledMoving()
+    {
+        if(Input.GetAxis("Horizontal") != 0 || Input.GetAxis("Vertical") != 0)
+        {
+            Vector3 dir = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
+            if (!Input.GetKey(KeyCode.LeftShift)) applySpeed = walkSpeed;
+            else applySpeed = runSpeed;
+            transform.Translate(dir * applySpeed * Time.deltaTime);
+        }
+    }
+
+    [SerializeField] float rotationSpeed;
+    [SerializeField] float filedLookLimit_X;
+    private float filedCurrentAngle_X = 0;
+
+    void FiledLooking()
+    {
+        if(Input.GetAxis("Mouse X") != 0)
+        {
+            Vector3 turn_Y = new Vector3(0, Input.GetAxisRaw("Mouse X") * rotationSpeed, 0);
+            transform.rotation *= Quaternion.Euler(turn_Y);
+        }
+
+        if (Input.GetAxisRaw("Mouse Y") != 0)
+        {
+            filedCurrentAngle_X -= Input.GetAxisRaw("Mouse Y") * rotationSpeed;
+            filedCurrentAngle_X = Mathf.Clamp(filedCurrentAngle_X, -filedLookLimit_X, filedLookLimit_X);
+            tf_Camera.localEulerAngles = new Vector3(filedCurrentAngle_X, 0, 0);
+        }
+    }
+
 
     [SerializeField] Transform tf_Corsshair;
     private readonly float cursorMargin = 30;

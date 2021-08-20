@@ -966,6 +966,55 @@ public bool IsPlayable
 
 if(!GameManager.instance.IsPlayable) return; // 플레이와 관련된 스크립트들의 업데이트 안에 넣고 조건이 추가되면 게임 매니저의 IsPlayable만 변경하면 됨
 
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Part 15 움직임 구현
+
+1. 이동 및 회전 구현
+I. 이동 : 누구나 아는 마우스 입력 기반의 Translate이동
+II. 회전
+마우스의 움직임 값을 반환하는 Input.GetAxis("Mouse X") 를 이용하여 회전 ("Mouse Y"도 있음 또한 Mouse의 이동값을 반환하기 때문에 GetAxis와 GetAxisRaw의 차이점이 없음)
+위아래 방향으로 제한을 두기 위해 새로운 회전 한계값과 현재 방향값 변수를 선언 후 rotation값이 한계값을 넘지 못하게 함
+if(Input.GetAxisRaw("Mouse Y") != 0)
+{
+            filedCurrentAngle_X -= Input.GetAxisRaw("Mouse Y") * rotationSpeed;
+            filedCurrentAngle_X = Mathf.Clamp(filedCurrentAngle_X, -filedLookLimit_X, filedLookLimit_X);
+            tf_Camera.localEulerAngles = new Vector3(filedCurrentAngle_X, 0, 0);
+}
+또한 두개의 축을 동시에 다루면 회전이 이상해지고(멀미를 유발하는 듯이 회전한) Y축 값에만 제한을 적용하기 수직 회전은 카메라를 수평 이동은 플레이어의 회전값을 이용
+
+2. UI 구분
+움직일 수 없는 곳에서는 상호작용 이펙트를 끄고 움직일 수 있는 곳에서는 필드 전용 UI를 키고 상호작용할 때 사용하는 Ray 마우스가 아니라 카메라를 기준으로 쏨
+void CheckObject()
+{
+        if (CameraController.isOnlyView)
+        {
+            mousePosition = new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0);
+
+            if (Physics.Raycast(cam.ScreenPointToRay(mousePosition), out rayHit, 100))
+            {
+                interactable = Return_Interactable(rayHit.transform);
+            }
+            else interactable = false;
+        }
+        else
+        {
+            if (Physics.Raycast(cam.transform.position, cam.transform.forward, out rayHit, 15))
+            {
+                interactable = Return_Interactable(rayHit.transform);
+            }
+            else interactable = false;
+        }
+
+        Set_InteractionUI(interactable);
+}
+
+
+
+
+
+
+
 
 
 

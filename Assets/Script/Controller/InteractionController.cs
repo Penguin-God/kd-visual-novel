@@ -65,13 +65,24 @@ public class InteractionController : MonoBehaviour
 
     void CheckObject()
     {
-        mousePosition = new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0);
-
-        if (Physics.Raycast(cam.ScreenPointToRay(mousePosition), out rayHit, 100))
+        if (CameraController.isOnlyView)
         {
-            interactable = Return_Interactable(rayHit.transform);
+            mousePosition = new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0);
+
+            if (Physics.Raycast(cam.ScreenPointToRay(mousePosition), out rayHit, 100))
+            {
+                interactable = Return_Interactable(rayHit.transform);
+            }
+            else interactable = false;
         }
-        else interactable = false;
+        else
+        {
+            if (Physics.Raycast(cam.transform.position, cam.transform.forward, out rayHit, 15))
+            {
+                interactable = Return_Interactable(rayHit.transform);
+            }
+            else interactable = false;
+        }
 
         Set_InteractionUI(interactable);
     }
@@ -105,9 +116,16 @@ public class InteractionController : MonoBehaviour
         txt_TargetName.text = (interactable) ? rayHit.transform.GetComponent<InteractionType>().GetName() : "";
 
         // 상호작용 이펙트 설정
-        AppearInteractionImg(interactable);
-        if(interactable) InteractionEffect();
-        else img_InteractionEffect.color = new Color(1, 1, 1, 0);
+        if (CameraController.isOnlyView)
+        {
+            UIManager.instance.HideInteractionImage();
+        }
+        else
+        {
+            AppearInteractionImg(interactable);
+            if (interactable) InteractionEffect();
+            else img_InteractionEffect.color = new Color(1, 1, 1, 0);
+        }
     }
 
 
@@ -120,7 +138,7 @@ public class InteractionController : MonoBehaviour
         StartCoroutine("Co_AppearInteractionImg", _appear);
     }
 
-    IEnumerator Co_AppearInteractionImg(bool _appear)
+    IEnumerator Co_AppearInteractionImg(bool _appear) // 한번 나타나고 끝
     {
         Color color = img_Interaction.color;
         WaitForSeconds ws = new WaitForSeconds(0.02f);

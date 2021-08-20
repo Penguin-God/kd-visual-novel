@@ -21,7 +21,9 @@ public class UIManager : MonoBehaviour
 
     [SerializeField] GameObject UI_Crosshair;
     [SerializeField] GameObject UI_Arrow;
+    [SerializeField] GameObject UI_FiledArrow;
     [SerializeField] GameObject UI_Tooltip;
+    [SerializeField] GameObject obj_Interaction;
     [SerializeField] Image img_Interaction;
     [SerializeField] Image img_InteractionEffect;
     public void HideUI()
@@ -29,16 +31,23 @@ public class UIManager : MonoBehaviour
         UI_Crosshair.SetActive(false);
         UI_Arrow.SetActive(false);
         UI_Tooltip.SetActive(false);
+        UI_FiledArrow.SetActive(false);
 
+        HideInteractionImage();
+    }
+
+    public void HideInteractionImage()
+    {
         img_Interaction.color = new Color(1, 1, 1, 0);
         img_InteractionEffect.color = new Color(1, 1, 1, 0);
-        img_InteractionEffect.gameObject.SetActive(false);
+        obj_Interaction.SetActive(false);
     }
 
     public void ShowUI()
     {
         UI_Crosshair.SetActive(true);
-        UI_Arrow.SetActive(true);
-        img_InteractionEffect.gameObject.SetActive(true);
+        if (CameraController.isOnlyView) UI_Arrow.SetActive(true);
+        else UI_FiledArrow.SetActive(true);
+        obj_Interaction.SetActive(!CameraController.isOnlyView);
     }
 }
