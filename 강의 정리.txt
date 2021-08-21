@@ -1009,9 +1009,57 @@ void CheckObject()
         Set_InteractionUI(interactable);
 }
 
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+Part 16 캐릭터 등장 조건 ** 여기서 사용한 기법은 스토리 기반의 게임을 만들때 많이 사용할듯 **
 
+1. 새로운 클래스 생성 (EventCondition Script)
+I. eventFlags선언
+먼저 해당 event를 봤는지 안봤는지 확인하는 bool[]변수를 선언함 강의에서는 DataBaseManager에 선언했지만 나는 지난번에 개인적으로 만든 EventManager에 선언함
 
+II. EventCondition 생성
+Dialogue에 새로운 커스텀 클래스를 추가하는 방법으로 구현했지만 그러면 InteracitonEvent의 인스펙터 창이 너무 더러워질 것 같아서 새로운 스크립트를 만듬 (InteracitonEvent에서 Dialogue[]를 설정함)  EventCondition을 가지는 오브젝트는 자신이 진행하는 이벤트 넘버와 등장 조건과 관련되있는 이벤트의 넘버를 int[]로 가지고 이벤트를 보는게 등장조건인지 반대가 등장조건인지를 결정하는 bool변수와 (예를 들어 false면 int[]에 있는 이벤트들을 보지 않아야 등장하고 true면 봐야지 등장함) 특정 이벤트를 보면 퇴장하도록 퇴장 이벤트를 int변수를 가짐
+
+public int eventNumber; // 컴포넌트를 가지고 있는 오브젝트가 진행하는 이벤트 넘버 (진행하면 DataBaseManager의 eventFlags의 eventNumber번째가 true가 됨)
+public int[] eventConditions; // 등장 조건에 포함되는 이벤트 넘버 (무조건 등장시키려면 0번째 event를 지정하고 conditionFlag을 false로 하면됨)
+public bool conditionFlag; // 이벤트를 보는게 등장 조건인지 보지 않은게 등장 조건인지 결정하는 변수 
+public int endNumber; // 퇴장 이벤트 넘버
+
+2. 스크립트 적용
+I. 이벤트 상태 적용
+InteractionController에서 대화가 시작할 때 오브젝트가 EventConditoin컴포넌트를 가지고 있으면 EventConditoin의 eventNumber 째의 eventFlags를 true로 만듬
+
+if (rayHit.transform.GetComponent<EventCondition>() != null)
+    EventManager.instance.eventFlags[rayHit.transform.GetComponent<EventCondition>().eventNumber] = true;
+
+II. Start에서 등장 여부 결정
+Start에서 등장 여부를 판단함 eventConditions번째의 이벤트들의 값이 전부 conditionFlag와 같아야 하며 endNumber번째의 이벤트가 false여야함private void Start()
+
+private void Start()
+{
+        gameObject.SetActive(CheckEvent());
+}
+
+bool CheckEvent()
+{
+        bool flag = true;
+
+        // 등장 조건과 일치하지 않을 경우 등장시키지 않음
+        for(int i = 0; i < eventConditions.Length; i++)
+        {
+            if(EventManager.instance.eventFlags[eventConditions[i]] != conditionFlag)
+            {
+                flag = false;
+                break;
+            }
+        }
+        // 등장 조건과 관계없이 퇴장 조건에 만족하면 등장시키지 않음
+        if(EventManager.instance.eventFlags[endNumber]) flag = false;
+
+        return flag;
+}
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
 

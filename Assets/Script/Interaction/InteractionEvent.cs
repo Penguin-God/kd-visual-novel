@@ -12,7 +12,8 @@ public class InteractionEvent : MonoBehaviour
         StartCoroutine( SetDialogueEvent());
     }
 
-    public bool isSetDialogeu = false;
+    [HideInInspector]
+    public bool isSetDialogeu = false; // 다이로그 정보 세팅 끝나면 true
     IEnumerator SetDialogueEvent()
     {
         yield return new WaitUntil(() => DataBaseManager.instance.isFinish); 

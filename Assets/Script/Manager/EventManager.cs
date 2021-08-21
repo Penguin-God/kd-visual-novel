@@ -4,8 +4,15 @@ using UnityEngine;
 
 public class EventManager : MonoBehaviour
 {
+    public static EventManager instance;
     public static bool isEvent = false;
     public static bool isAutoEvent = false;
+    public bool[] eventFlags = new bool[100]; // 0번째는 건드리지 않음
+
+    private void Awake()
+    {
+        if (instance == null) instance = this;
+    }
 
     public void GameEventByTalkEnd(EventByTalk eventByTalk)
     {

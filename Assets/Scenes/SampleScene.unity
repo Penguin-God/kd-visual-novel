@@ -273,7 +273,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 721d379468a089040a9c0c6665e7db3a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tf_Target: {fileID: 651267369}
 --- !u!114 &130968868
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1020,6 +1019,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   csv_FileName: DialogueDataFile
   isFinish: 0
+  eventFlags: 00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
 --- !u!114 &492846736
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1504,7 +1504,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 721d379468a089040a9c0c6665e7db3a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tf_Target: {fileID: 651267369}
 --- !u!114 &604849226
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2283,6 +2282,7 @@ GameObject:
   - component: {fileID: 747055793}
   - component: {fileID: 747055794}
   - component: {fileID: 747055795}
+  - component: {fileID: 747055796}
   m_Layer: 0
   m_Name: BongRan
   m_TagString: Interaction
@@ -2348,50 +2348,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dialogueEvent:
     eventName: 
-    line: {x: 1, y: 7}
+    line: {x: 1, y: 1}
     dialogues:
-    - tf_Target: {fileID: 0}
-      cameraType: 0
-      name: 
-      contexts: []
-      spriteNames: []
-      voiceNames: []
-      cutSceneName: []
-    - tf_Target: {fileID: 0}
-      cameraType: 0
-      name: 
-      contexts: []
-      spriteNames: []
-      voiceNames: []
-      cutSceneName: []
-    - tf_Target: {fileID: 0}
-      cameraType: 0
-      name: 
-      contexts: []
-      spriteNames: []
-      voiceNames: []
-      cutSceneName: []
-    - tf_Target: {fileID: 0}
-      cameraType: 0
-      name: 
-      contexts: []
-      spriteNames: []
-      voiceNames: []
-      cutSceneName: []
-    - tf_Target: {fileID: 0}
-      cameraType: 7
-      name: 
-      contexts: []
-      spriteNames: []
-      voiceNames: []
-      cutSceneName: []
-    - tf_Target: {fileID: 0}
-      cameraType: 0
-      name: 
-      contexts: []
-      spriteNames: []
-      voiceNames: []
-      cutSceneName: []
     - tf_Target: {fileID: 0}
       cameraType: 0
       name: 
@@ -2412,7 +2370,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 721d379468a089040a9c0c6665e7db3a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tf_Target: {fileID: 651267369}
 --- !u!114 &747055795
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2427,8 +2384,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   eventType: 2
   eventCharacters:
-  - {fileID: 604849224}
-  - {fileID: 130968864}
+  - {fileID: 747055789}
+--- !u!114 &747055796
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 747055789}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a626394ede47e8e48a8b16be2053e5b3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  eventNumber: 1
+  eventConditions: 00000000
+  conditionFlag: 0
+  endNumber: 1
 --- !u!1 &750452588
 GameObject:
   m_ObjectHideFlags: 0

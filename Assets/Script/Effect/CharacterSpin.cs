@@ -4,9 +4,15 @@ using UnityEngine;
 
 public class CharacterSpin : MonoBehaviour
 {
-    [SerializeField] Transform tf_Target;
+    Transform tf_Target = null;
     Quaternion lookAngle;
     Vector3 lookEuler;
+
+    private void Start()
+    {
+        tf_Target = PlayerController.instance.transform;
+    }
+
     void Update()
     {
         if (tf_Target == null || isSpin) return;
