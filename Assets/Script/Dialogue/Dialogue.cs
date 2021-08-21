@@ -42,4 +42,7 @@ public class DialogueEvent
 
     public Vector2 line; // x는 시작 줄 y는 끝나는 줄
     public Dialogue[] dialogues; // 대사가 한번 치고 끝나지 않기 때문에 위에 Dialogue클래스 배열 변수 선언
+
+    // 대화 한번 한 후에 다음 대화
+    public Vector2 afterLine;
 }

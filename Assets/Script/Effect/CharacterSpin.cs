@@ -32,7 +32,7 @@ public class CharacterSpin : MonoBehaviour
             StartCoroutine(Co_Appear()); 
         }
         else StartCoroutine(Co_DIsappear());
-        StartCoroutine(Co_Spin(3));
+        StartCoroutine(Co_Spin(3)); // 투명도 처리랑 회전이랑 따로임
     }
 
     IEnumerator Co_Appear()
@@ -71,7 +71,6 @@ public class CharacterSpin : MonoBehaviour
 
     IEnumerator Co_Spin(int spinCount)
     {
-        EventManager.isEvent = true;
         float delayTime = 0.06f;
         float timeCount = 0;
         int currentSpinCount = 0;

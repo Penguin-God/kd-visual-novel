@@ -17,7 +17,6 @@ public class EventManager : MonoBehaviour
     public void GameEventByTalkEnd(EventByTalk eventByTalk)
     {
         if (eventByTalk == null || eventByTalk.eventType == EventType.None) return;
-
         AppearOrDisappearCharacter(eventByTalk.eventType, eventByTalk.eventCharacters);
     }
 
@@ -25,6 +24,7 @@ public class EventManager : MonoBehaviour
     {
         if (eventType == EventType.AppearCharacter) SetCharacters(true, characters);
         else if (eventType == EventType.DisappearCharacter) SetCharacters(false, characters);
+
     }
 
     void SetCharacters(bool isAppear, GameObject[] eventCharacters)

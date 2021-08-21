@@ -11,6 +11,7 @@ public enum EventType
 
 public class EventByTalk : MonoBehaviour
 {
+    public bool disposableEvent;
     public EventType eventType;
     public GameObject[] eventCharacters;
 }
