@@ -89,7 +89,16 @@ public class PlayerController : MonoBehaviour
 
     void FiledLooking()
     {
-        if(Input.GetAxis("Mouse X") != 0)
+        //if (Input.GetAxis("Mouse X") != 0 || Input.GetAxisRaw("Mouse Y") != 0)
+        //{
+        //    filedCurrentAngle_Y += Input.GetAxisRaw("Mouse X") * rotationSpeed;
+        //    filedCurrentAngle_X -= Input.GetAxisRaw("Mouse X") * rotationSpeed * -1;
+        //    filedCurrentAngle_X = Mathf.Clamp(filedCurrentAngle_X, -filedLookLimit_X, filedLookLimit_X);
+
+        //    transform.eulerAngles = new Vector3(filedCurrentAngle_X, filedCurrentAngle_Y, 0);
+        //}
+
+        if (Input.GetAxis("Mouse X") != 0)
         {
             Vector3 turn_Y = new Vector3(0, Input.GetAxisRaw("Mouse X") * rotationSpeed, 0);
             transform.rotation *= Quaternion.Euler(turn_Y);
@@ -99,7 +108,7 @@ public class PlayerController : MonoBehaviour
         {
             filedCurrentAngle_X -= Input.GetAxisRaw("Mouse Y") * rotationSpeed;
             filedCurrentAngle_X = Mathf.Clamp(filedCurrentAngle_X, -filedLookLimit_X, filedLookLimit_X);
-            tf_Camera.localEulerAngles = new Vector3(filedCurrentAngle_X, 0, 0);
+            tf_Camera.eulerAngles = new Vector3(filedCurrentAngle_X, 0, 0);
         }
     }
 
