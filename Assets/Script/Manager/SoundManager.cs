@@ -28,7 +28,7 @@ public class SoundManager : MonoBehaviour
 
     private void Start()
     {
-        FindObjectOfType<DialogueManager>().AfterTalkEvent += PlayVoice_byTalk;
+        //FindObjectOfType<DialogueManager>().AfterTalkEvent += PlayVoice_byTalk;
     }
 
     void PlayVoice_byTalk(Dialogue dialogue, int contextCount)

@@ -1676,7 +1676,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dialogueEvent: []
-  currentEvent: 0
   tryEvent: 0
   isSetDialogeu: 0
 --- !u!114 &616996588
@@ -2364,7 +2363,6 @@ GameObject:
   - component: {fileID: 747055793}
   - component: {fileID: 747055794}
   - component: {fileID: 747055795}
-  - component: {fileID: 747055796}
   m_Layer: 0
   m_Name: BongRan
   m_TagString: Interaction
@@ -2430,6 +2428,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dialogueEvent:
   - eventName: 
+    eventNumber: 1
+    eventConditions: 
+    conditionFlag: 0
+    endNumbers: 01000000
     line: {x: 1, y: 1}
     dialogues:
     - tf_Target: {fileID: 0}
@@ -2440,7 +2442,6 @@ MonoBehaviour:
       voiceNames: []
       cutSceneName: []
     afterLine: {x: 0, y: 0}
-  currentEvent: 0
   tryEvent: 0
   isSetDialogeu: 0
 --- !u!114 &747055794
@@ -2471,23 +2472,6 @@ MonoBehaviour:
   eventType: 2
   eventCharacters:
   - {fileID: 747055789}
---- !u!114 &747055796
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 747055789}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a626394ede47e8e48a8b16be2053e5b3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  eventConditionValues:
-  - eventNumber: 1
-    eventConditions: 00000000
-    conditionFlag: 0
-    endNumber: 23
 --- !u!1 &750452588
 GameObject:
   m_ObjectHideFlags: 0
@@ -9931,17 +9915,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dialogueEvent:
   - eventName: 
-    line: {x: 2, y: 2}
-    dialogues:
-    - tf_Target: {fileID: 0}
-      cameraType: 0
-      name: 
-      contexts: []
-      spriteNames: []
-      voiceNames: []
-      cutSceneName: []
+    eventNumber: 2
+    eventConditions: 
+    conditionFlag: 0
+    endNumbers: 01000000
+    line: {x: 3, y: 3}
+    dialogues: []
     afterLine: {x: 0, y: 0}
   - eventName: 
+    eventNumber: 3
+    eventConditions: 
+    conditionFlag: 0
+    endNumbers: 
     line: {x: 4, y: 4}
     dialogues:
     - tf_Target: {fileID: 0}
@@ -9952,7 +9937,6 @@ MonoBehaviour:
       voiceNames: []
       cutSceneName: []
     afterLine: {x: 0, y: 0}
-  currentEvent: 0
   tryEvent: 0
   isSetDialogeu: 0
 --- !u!114 &1263617459
@@ -10012,14 +9996,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   eventConditionValues:
-  - eventNumber: 2
-    eventConditions: 00000000
+  - eventCondition: 0
     conditionFlag: 0
-    endNumber: 1
-  - eventNumber: 3
-    eventConditions: 01000000
+  - eventCondition: 0
     conditionFlag: 1
-    endNumber: 14
+  endNumbers: 
 --- !u!1 &1265648990
 GameObject:
   m_ObjectHideFlags: 0
@@ -16642,7 +16623,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dialogueEvent: []
-  currentEvent: 0
   tryEvent: 0
   isSetDialogeu: 0
 --- !u!114 &1943139039

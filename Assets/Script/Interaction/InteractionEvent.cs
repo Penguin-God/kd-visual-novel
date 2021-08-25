@@ -6,15 +6,13 @@ using System;
 public class InteractionEvent : MonoBehaviour
 {
     [SerializeField] DialogueEvent[] dialogueEvent;
-    public int currentEvent;
     public bool tryEvent; // 오브젝트와 대화를 했는지 여부
     Transform currentTarget = null;
-
-    public event Action OnSetDialogue;
 
     private void Start()
     {
         StartCoroutine(Co_SetDialogueEvent());
+        gameObject.SetActive(CheckEventAppearCondition(dialogueEvent[0]));
     }
 
     [HideInInspector]
@@ -22,37 +20,16 @@ public class InteractionEvent : MonoBehaviour
     IEnumerator Co_SetDialogueEvent()
     {
         yield return new WaitUntil(() => DataBaseManager.instance.isFinish);
-        //DialogueEvent instanceDialogues = new DialogueEvent();
-        //instanceDialogues[currentEvent].dialogues = new Dialogue[(int)dialogueEvent.line.y - (int)dialogueEvent.line.x + 1]; //[currentEvent] dialogues의 크기 결정 (크기는 dialogueEvent에서 결정)
-        //instanceDialogues[currentEvent].dialogues = DataBaseManager.instance.GetDialogues((int)dialogueEvent.line.x, (int)dialogueEvent.line.y); //[currentEvent] dialogues 선언
 
-        //for (int i = 0; i < instanceDialogues[currentEvent].dialogues.Length; i++) // 각종 변수 대입
-        //{
-        //    Dialogue dialogue = instanceDialogues[currentEvent].dialogues[i];
-
-        //    // 이름 앞에 ⒳가 붙어 있으면 타겟팅 안하는거임 
-        //    if (dialogue.name[0] != '⒳') dialogue.tf_Target = CharacterManager.instance.dic_Character[dialogue.name];
-
-        //    // target은 현재 대화 상대를 의미 주인공이 말하거나 독백할때도 target에는 대화상대가 들어감
-        //    if (dialogue.tf_Target == null) dialogue.tf_Target = currentTarget;
-        //    else currentTarget = dialogue.tf_Target;
-
-        //    if (dialogueEvent[currentEvent].dialogues.Length > i) // 인스펙처 장에서 선언한 dialogueEvent 덮어쓰기용
-        //    {
-        //        dialogue.cameraType = dialogueEvent[currentEvent].dialogues[i].cameraType;
-        //    }
-        //}
-        //// 선언 후 반환
-        //dialogueEvent[currentEvent].dialogues = instanceDialogues[currentEvent].dialogues;
-
-        dialogueEvent[currentEvent].dialogues = SetDialogueEvent(dialogueEvent[currentEvent].dialogues, (int)dialogueEvent[currentEvent].line.x, (int)dialogueEvent[currentEvent].line.y);
+        for(int i = 0; i < dialogueEvent.Length; i++)
+        {
+            dialogueEvent[i].dialogues = SetDialogueEvent((int)dialogueEvent[i].line.x, (int)dialogueEvent[i].line.y);
+        }
         isSetDialogeu = true;
     }
 
-    Dialogue[] SetDialogueEvent(Dialogue[] p_Dialogues, int p_LineX, int p_LineY)
+    Dialogue[] SetDialogueEvent(int p_LineX, int p_LineY)
     {
-        OnSetDialogue();
-
         Dialogue[] t_Dialogue = DataBaseManager.instance.GetDialogues(p_LineX, p_LineY); //[currentEvent] dialogues 선언
         for (int i = 0; i < t_Dialogue.Length; i++) // 각종 변수 대입
         {
@@ -75,9 +52,57 @@ public class InteractionEvent : MonoBehaviour
     {
         if (!tryEvent)
         {
-            tryEvent = true;
+            // tryEvent = true; // 이 코드는 문제가 있음
             return dialogueEvent[currentEvent].dialogues;
         }
-        else return SetDialogueEvent(dialogueEvent[currentEvent].dialogues, (int)dialogueEvent[currentEvent].afterLine.x, (int)dialogueEvent[currentEvent].afterLine.y);
+        else return SetDialogueEvent((int)dialogueEvent[currentEvent].afterLine.x, (int)dialogueEvent[currentEvent].afterLine.y);
+    }
+
+    public int CurrentEventNumber
+    {
+        get
+        {
+            return dialogueEvent[number].eventNumber;
+        }
+    }
+
+    int number;
+
+    int currentEvent
+    {
+        get
+        {
+            for(int i = 0; i < dialogueEvent.Length; i++)
+            {
+                if (CheckEventAppearCondition(dialogueEvent[i]))
+                {
+                    number = i;
+                    return i;
+                }
+            }
+            return 0;
+        }
+    }
+
+    bool CheckEventAppearCondition(DialogueEvent p_Event)
+    {
+        bool flag = true;
+
+        for (int i = 0; i < p_Event.eventConditions.Length; i++)
+        {
+            if (EventManager.instance.eventFlags[p_Event.eventConditions[i]] != p_Event.conditionFlag)
+            {
+                return false;
+            }
+        }
+
+        // 등장 조건과 상관 없이 퇴장 조건을 만족하면 등장시키지 않음
+        for (int i = 0; i < p_Event.endNumbers.Length; i++)
+        {
+            if (!EventManager.instance.eventFlags[p_Event.endNumbers[i]]) break;
+            if (i == p_Event.endNumbers.Length - 1) flag = false;
+        }
+
+        return flag;
     }
 }
