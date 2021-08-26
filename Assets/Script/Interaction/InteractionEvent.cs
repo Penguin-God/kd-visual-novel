@@ -5,14 +5,13 @@ using System;
 
 public class InteractionEvent : MonoBehaviour
 {
-    [SerializeField] DialogueEvent[] dialogueEvent;
-    public bool tryEvent; // 오브젝트와 대화를 했는지 여부
+    [SerializeField] DialogueEvent[] dialogueEvents;
     Transform currentTarget = null;
 
     private void Start()
     {
         StartCoroutine(Co_SetDialogueEvent());
-        gameObject.SetActive(CheckEventAppearCondition(dialogueEvent[0]));
+        gameObject.SetActive(CheckEventAppearCondition(dialogueEvents[0]));
     }
 
     [HideInInspector]
@@ -21,16 +20,16 @@ public class InteractionEvent : MonoBehaviour
     {
         yield return new WaitUntil(() => DataBaseManager.instance.isFinish);
 
-        for(int i = 0; i < dialogueEvent.Length; i++)
+        for(int i = 0; i < dialogueEvents.Length; i++)
         {
-            dialogueEvent[i].dialogues = SetDialogueEvent((int)dialogueEvent[i].line.x, (int)dialogueEvent[i].line.y);
+            dialogueEvents[i].dialogues = SetDialogueEvent(dialogueEvents[i].dialogues, (int)dialogueEvents[i].line.x, (int)dialogueEvents[i].line.y);
         }
         isSetDialogeu = true;
     }
 
-    Dialogue[] SetDialogueEvent(int p_LineX, int p_LineY)
+    Dialogue[] SetDialogueEvent(Dialogue[] p_Dialogue, int p_LineX, int p_LineY)
     {
-        Dialogue[] t_Dialogue = DataBaseManager.instance.GetDialogues(p_LineX, p_LineY); //[currentEvent] dialogues 선언
+        Dialogue[] t_Dialogue = DataBaseManager.instance.GetDialogues(p_LineX, p_LineY);
         for (int i = 0; i < t_Dialogue.Length; i++) // 각종 변수 대입
         {
             // 이름 앞에 ⒳가 붙어 있으면 타겟팅 안하는거임 
@@ -40,9 +39,9 @@ public class InteractionEvent : MonoBehaviour
             if (t_Dialogue[i].tf_Target == null) t_Dialogue[i].tf_Target = currentTarget;
             else currentTarget = t_Dialogue[i].tf_Target;
 
-            if (dialogueEvent[currentEvent].dialogues.Length > i) // 인스펙처 장에서 선언한 dialogueEvent 덮어쓰기용
+            if (p_Dialogue.Length > i) // 인스펙처 장에서 선언한 dialogueEvents 덮어쓰기용
             {
-                t_Dialogue[i].cameraType = dialogueEvent[currentEvent].dialogues[i].cameraType;
+                t_Dialogue[i].cameraType = p_Dialogue[i].cameraType;
             }
         }
         return t_Dialogue;
@@ -50,19 +49,20 @@ public class InteractionEvent : MonoBehaviour
 
     public Dialogue[] GetDialogues() // 대화 여부에 따라 다른 대화 정보를 보냄
     {
-        if (!tryEvent)
+        DialogueEvent dialogueEvent = dialogueEvents[currentEvent];
+        if (!EventManager.instance.eventFlags[CurrentEventNumber] || dialogueEvent.afterLine.y == 0) // 대화 후 대사가 없으면 같은 대사 출력
         {
-            // tryEvent = true; // 이 코드는 문제가 있음
-            return dialogueEvent[currentEvent].dialogues;
+            return dialogueEvent.dialogues;
         }
-        else return SetDialogueEvent((int)dialogueEvent[currentEvent].afterLine.x, (int)dialogueEvent[currentEvent].afterLine.y);
+        else return SetDialogueEvent(dialogueEvent.dialogues, (int)dialogueEvent.afterLine.x, (int)dialogueEvent.afterLine.y);
     }
+
 
     public int CurrentEventNumber
     {
         get
         {
-            return dialogueEvent[number].eventNumber;
+            return dialogueEvents[number].eventNumber;
         }
     }
 
@@ -72,15 +72,15 @@ public class InteractionEvent : MonoBehaviour
     {
         get
         {
-            for(int i = 0; i < dialogueEvent.Length; i++)
+            for(int i = 0; i < dialogueEvents.Length; i++)
             {
-                if (CheckEventAppearCondition(dialogueEvent[i]))
+                if (CheckEventAppearCondition(dialogueEvents[i]))
                 {
                     number = i;
                     return i;
                 }
             }
-            return 0;
+            return number;
         }
     }
 

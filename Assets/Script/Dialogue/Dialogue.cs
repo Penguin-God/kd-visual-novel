@@ -40,14 +40,16 @@ public class DialogueEvent
 {
     public string eventName; // 개발자 편의를 위한 변수
 
+    [Header("이벤트 조건 관련 변수")]
     public int eventNumber; // 컴포넌트를 가지고 있는 오브젝트가 진행하는 이벤트 넘버 (진행하면 DataBaseManager의 eventFlags의 eventNumber번째가 true가 됨)
     public int[] eventConditions; // 등장 조건에 포함되는 이벤트 넘버 (무조건 등장시키려면 0번째 event를 지정하고 conditionFlag을 false로 하면됨)
     public bool conditionFlag; // 이벤트를 보는게 등장 조건인지 보지 않은게 등장 조건인지 결정하는 변수 
     public int[] endNumbers; // 퇴장 이벤트 넘버
 
+    [Header("대화 관련 변수")]
+    [Space][Space][Space]
     public Vector2 line; // x는 시작 줄 y는 끝나는 줄
     public Dialogue[] dialogues; // 대사가 한번 치고 끝나지 않기 때문에 위에 Dialogue클래스 배열 변수 선언
 
-    // 대화 한번 한 후에 다음 대화
-    public Vector2 afterLine;
+    public Vector2 afterLine; // 대화 한번 한 후에 다음 대화
 }

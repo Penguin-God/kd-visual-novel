@@ -16,7 +16,8 @@ public class EventManager : MonoBehaviour
 
     public void GameEventByTalkEnd(EventByTalk eventByTalk)
     {
-        if (eventByTalk == null || eventByTalk.eventType == EventType.None) return;
+        if (eventByTalk == null || eventByTalk.eventType == EventType.None || eventByTalk.showEvent) return;
+        eventByTalk.showEvent = true;
         AppearOrDisappearCharacter(eventByTalk.eventType, eventByTalk.eventCharacters);
     }
 

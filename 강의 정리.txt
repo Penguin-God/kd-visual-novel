@@ -1061,6 +1061,69 @@ bool CheckEvent()
 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+Part 17 말 걸면 달라지는 대사
+
+1. AfterLine 변수 추가
+Dialogue에 대사 후에 나올 대사를 가져오는데 사용할 afterLine 변수 선언
+public Vector2 afterLine; // 대화 한번 한 후에 다음 대화
+
+2. 다음 대사 출력
+대사를 가져올 때 해당 이벤트를 이미 진행했으며 대화 후 다음 대사가 있다면 원래 대사가 아니라 AfterLine의 대사를 출력함 그러기 위해  출력할 대사의 행의 줄을 받아 대사를 반환하는 SetDialogueEvent 함수를 만들고 사용
+
+private void Start()
+{
+        dialogueEvent.dialogues = SetDialogueEvent(dialogueEvent.dialogues, (int)dialogueEvent.line.x, (int)dialogueEvent.line.y); // 처음에 진행할 이벤트의 기본 대사 선언
+        gameObject.SetActive(CheckEventAppearCondition(dialogueEvents[0]));
+}
+
+Dialogue[] SetDialogueEvent(Dialogue[] p_Dialogue, int p_LineX, int p_LineY)
+{
+        Dialogue[] t_Dialogue = DataBaseManager.instance.GetDialogues(p_LineX, p_LineY);
+        for (int i = 0; i < t_Dialogue.Length; i++) // 각종 변수 대입
+        {
+            // 이름 앞에 ⒳가 붙어 있으면 타겟팅 안하는거임 
+            if (t_Dialogue[i].name[0] != '⒳') t_Dialogue[i].tf_Target = CharacterManager.instance.dic_Character[t_Dialogue[i].name];
+
+            // target은 현재 대화 상대를 의미 주인공이 말하거나 독백할때도 target에는 대화상대가 들어감
+            if (t_Dialogue[i].tf_Target == null) t_Dialogue[i].tf_Target = currentTarget;
+            else currentTarget = t_Dialogue[i].tf_Target;
+
+            if (p_Dialogue.Length > i) // 인스펙처 장에서 선언한 dialogueEvents 덮어쓰기용
+            {
+                t_Dialogue[i].cameraType = p_Dialogue[i].cameraType;
+            }
+        }
+        return t_Dialogue;
+}
+
+public Dialogue[] GetDialogues() // 대화 여부에 따라 다른 대화 정보를 보냄
+{
+        if (!EventManager.instance.eventFlags[CurrentEventNumber] || dialogueEvent.afterLine.y == 0) // 대화 후 대사가 없으면 같은 대사 출력
+        {
+            return dialogueEvent.dialogues;
+        }
+        else return SetDialogueEvent(dialogueEvent.dialogues, (int)dialogueEvent.afterLine.x, (int)dialogueEvent.afterLine.y);
+}
+
+3. 일회용 이벤트
+같은 대화를 여러번 하면 여러 이벤트(캐릭터 등장 등)가 중복 실행될 수 있기 때문에 이벤트를 한 번 봤으면 실행 안하는 조건 추가
+
+public void GameEventByTalkEnd(EventByTalk eventByTalk)
+{
+        if (eventByTalk == null || eventByTalk.eventType == EventType.None || eventByTalk.showEvent) return;
+        eventByTalk.showEvent = true;
+        AppearOrDisappearCharacter(eventByTalk.eventType, eventByTalk.eventCharacters);
+}
+
+
+
+
+
+
+
+
+
+
 
 
 
