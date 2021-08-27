@@ -37,10 +37,12 @@ public class DialogueParser : MonoBehaviour
 
             if (row[0].Trim() == "" || row[0].Trim() == "end")
             {
+                Debug.Log(i);
                 i++;
                 continue;
             }
             bool eventFinsh = false;
+            Debug.Log("do  :  " + i);
             row = datas[i].Split(new char[] { ',' });
 
             List<Dialogue> dialogueList = new List<Dialogue>(); 
@@ -58,6 +60,7 @@ public class DialogueParser : MonoBehaviour
 
                 do // do while : 무조건 한번 실행하고 while의 조건 확인 후 돌지 말지 결정
                 {
+                    if (row[2].Trim() == "") break;
                     contextList.Add(row[2]);
                     spriteList.Add(row[3]);
                     voiceList.Add(row[4]);
@@ -81,7 +84,6 @@ public class DialogueParser : MonoBehaviour
                 // for문 한번 돌때마다 dialogueList에 dialogue가 하나씩 추가되며 엑셀파일의 데이터를 dialogueList에 다 담게 됨
                 dialogueList.Add(dialogue);
             } while (!eventFinsh && i < datas.Length);
-            i++;
 
             dialoguesList.Add(dialogueList.ToArray());
 
@@ -109,22 +111,5 @@ public class DialogueParser : MonoBehaviour
             if (row[0].ToString() != "" && row[0].ToString() != "end") eventNames.Add(row[0].ToString());
         }
         return eventNames.ToArray();
-    }
-
-    private void Awake()
-    {
-        TextAsset csvData = Resources.Load<TextAsset>("DialogueDataFile"); // TextAsset : csv파일을 담을 수 있는 데이터 구조
-
-        string[] datas = csvData.text.Split(new char[] { '\n' }); // 줄바꿈(한 줄)을 기준으로 csv 파일을 쪼개서 string배열에 줄 순서대로 담음
-        Debug.Log(datas.Length);
-        List<string> eventNames = new List<string>();
-
-        for (int i = 1; i < datas.Length; i++) // 엑셀 파일 1번째 줄은 편의를 위한 분류이므로 i = 1부터 시작
-        {
-            // a, b, c열을 쪼개서 배열에 담음 (csv파일은 ,로 데이터를 구분하기 때문에 ,를 기준으로 짜름)
-            string[] row = datas[i].Split(new char[] { ',' });
-
-            Debug.Log(row[0].Trim() == "end");
-        }
     }
 }
