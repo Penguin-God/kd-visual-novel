@@ -29,7 +29,7 @@ public class InteractionEvent : MonoBehaviour
 
     Dialogue[] SetDialogueEvent(Dialogue[] p_Dialogue, int p_LineX, int p_LineY)
     {
-        Dialogue[] t_Dialogue = DataBaseManager.instance.GetDialogues(p_LineX, p_LineY);
+        Dialogue[] t_Dialogue = new Dialogue[1]; //DataBaseManager.instance.GetDialogues(p_LineX, p_LineY);
         for (int i = 0; i < t_Dialogue.Length; i++) // 각종 변수 대입
         {
             // 이름 앞에 ⒳가 붙어 있으면 타겟팅 안하는거임 

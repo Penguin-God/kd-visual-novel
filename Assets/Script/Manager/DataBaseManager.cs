@@ -6,7 +6,7 @@ public class DataBaseManager : MonoBehaviour
 {
     public static DataBaseManager instance;
     [SerializeField] string csv_FileName;
-    Dictionary<int, Dialogue> Dic_dialogue = new Dictionary<int, Dialogue>();
+    Dictionary<string, Dialogue[]> Dic_dialogue = new Dictionary<string, Dialogue[]>();
 
     public bool isFinish = false;
 
@@ -17,10 +17,13 @@ public class DataBaseManager : MonoBehaviour
             instance = this;
             DialogueParser theParser = GetComponent<DialogueParser>();
 
-            Dialogue[] dialogues = theParser.Parse(csv_FileName);
-            for(int i = 0; i < dialogues.Length; i++)
+            List<Dialogue[]> dialoguesList = new List<Dialogue[]>();
+            dialoguesList = theParser.Parse(csv_FileName);
+            string[] eventNames = theParser.GetEventNames(csv_FileName);
+
+            for (int i = 0; i < dialoguesList.Count; i++)
             {
-                Dic_dialogue.Add(i + 1, dialogues[i]);
+                Dic_dialogue.Add(eventNames[i], dialoguesList[i]);
             }
 
             isFinish = true;
@@ -28,14 +31,20 @@ public class DataBaseManager : MonoBehaviour
     }
 
     // 시작하는(_StartNumber) 줄부터 마지막 줄까지의(_EndNumber) 엑셀파일 정보를 담은 dialogueList를 배열 형태로 반환
-    public Dialogue[] GetDialogues(int _StartNumber, int _EndNumber)
+    public Dialogue[] GetDialogues(string name)
     {
-        List<Dialogue> dialogueList = new List<Dialogue>();
+        //List<Dialogue> dialogueList = new List<Dialogue>();
 
-        for(int i = 0; i <= _EndNumber - _StartNumber; i++)
+        //for (int i = 0; i <= _EndNumber - _StartNumber; i++)
+        //{
+        //    dialogueList.Add(Dic_dialogue[_StartNumber + i]);
+        //}
+        Dialogue[] dialogues = null;
+        if (Dic_dialogue.TryGetValue(name, out dialogues)) return dialogues;
+        else
         {
-            dialogueList.Add(Dic_dialogue[_StartNumber + i]);
+            Debug.Log("찾을 수 없는 이벤트 이름 : " + name);
+            return null;
         }
-        return dialogueList.ToArray();
     }
 }

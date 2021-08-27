@@ -315,7 +315,7 @@ Transform:
   - {fileID: 763493097}
   - {fileID: 755221993}
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!1 &200900908
 GameObject:
@@ -1044,7 +1044,6 @@ GameObject:
   - component: {fileID: 492846734}
   - component: {fileID: 492846744}
   - component: {fileID: 492846735}
-  - component: {fileID: 492846733}
   - component: {fileID: 492846736}
   - component: {fileID: 492846737}
   - component: {fileID: 492846739}
@@ -1053,6 +1052,7 @@ GameObject:
   - component: {fileID: 492846740}
   - component: {fileID: 492846742}
   - component: {fileID: 492846743}
+  - component: {fileID: 492846733}
   m_Layer: 0
   m_Name: Manager
   m_TagString: Untagged
@@ -1628,7 +1628,7 @@ Transform:
   - {fileID: 11729952}
   - {fileID: 1312783455}
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!1 &616996585
 GameObject:
@@ -2158,7 +2158,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
 --- !u!1 &707307362
 GameObject:
@@ -2368,7 +2368,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &747055790
 Transform:
   m_ObjectHideFlags: 0
@@ -2383,7 +2383,7 @@ Transform:
   - {fileID: 1506840265}
   - {fileID: 750452589}
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!65 &747055791
 BoxCollider:
@@ -9878,7 +9878,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1263617457
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9963,7 +9963,7 @@ Transform:
   - {fileID: 2128723316}
   - {fileID: 430059434}
   m_Father: {fileID: 0}
-  m_RootOrder: 10
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!1 &1265648990
 GameObject:
@@ -11282,7 +11282,7 @@ Transform:
   m_Children:
   - {fileID: 2082576535}
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1618497019
 PrefabInstance:
