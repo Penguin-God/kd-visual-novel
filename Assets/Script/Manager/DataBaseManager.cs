@@ -30,15 +30,9 @@ public class DataBaseManager : MonoBehaviour
         }
     }
 
-    // 시작하는(_StartNumber) 줄부터 마지막 줄까지의(_EndNumber) 엑셀파일 정보를 담은 dialogueList를 배열 형태로 반환
+    // eventName의 시작부터 끝까지의 엑셀파일 정보를 담은 dialogue[] 반환
     public Dialogue[] GetDialogues(string name)
     {
-        //List<Dialogue> dialogueList = new List<Dialogue>();
-
-        //for (int i = 0; i <= _EndNumber - _StartNumber; i++)
-        //{
-        //    dialogueList.Add(Dic_dialogue[_StartNumber + i]);
-        //}
         Dialogue[] dialogues = null;
         if (Dic_dialogue.TryGetValue(name, out dialogues)) return dialogues;
         else

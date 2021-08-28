@@ -1115,6 +1115,109 @@ public void GameEventByTalkEnd(EventByTalk eventByTalk)
         AppearOrDisappearCharacter(eventByTalk.eventType, eventByTalk.eventCharacters);
 }
 
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+** 내 파트 엑셀 파싱 방법 변경 **
+강의에서 진행한 파싱은 캐릭터를 기준으로 클래스를 만들고 이 클래스를 줄 개념으로 1 ~ 2번째 줄을 가져오는 거였는데 이것의 문제점은 대사마다 나뉘어져있지 않고 줄끼리 다닥다닥 붙어 있어서 분류가 어렵고 대사가 10000줄가 넘어가면 그거를 어떤 줄에 어떤 대사가 있는지 기억하고 찾아가는게 사실상 불가능하기 때문에 나는 기존 캐릭터 기준으로 묶은 클래스를 또다시 묶어 대화를 이벤트 이름을 기준으로 묶기로 하였다.
+
+1. 데이터 파싱 변경
+기존에 do while로 묶어서 캐릭터 기준으로 Dialogue를 만들던 부분을 While로 묶는다. 이벤트가 끝나는 부분에 조건은 엑셀 파일에 eventname이 end이면 탈출 end는 이벤트 대사가 끝나 다음 줄에 들어간다.
+-> 기존에는 Dialogue[]로 모든 대사를 분류했지만 이벤에 Dialogue[]를 eventname을 기준으로 한번 더 묶기 때문에 Parse의 반환 타입을 Dialogue[]에서 List<Dialogue[]>로 바꿈 
+-> Parse함수는 for -> while -> do while로 이어지는 3중 반복문으로 상당히 로직이 빡세고 작업중에 무한 루프에 빠져서 unity를 10번은 넘게 끈거 같다 
+-> 함수에서 반복문을 제외한 부분에서는 반환할 List<Dialogue[]> 인스턴스를 선언하고 가져온 엑셀파일을 줄바꿈 기준으로 나눈 datas를 선언한 후 for문을 실행 
+-> for문은 datas의 길이만큼 반복하도록 설정됐지만 i++가 없고 반복문 내부에서 i연산이 이뤄지므로 실제로 for문이 datas의 길이만큼은 돌지 않으며 사실상 while과 비슷하게 사용된다. 코드로 들어가면 시작 부분에서는 datas의 i번째의 정보를 ,로 구분한 row를 선언하고 나중에 Dialogue[]로 변환할 List<Dialogue> 인스턴스를 선언한다. 후에 row의 0번째가 eventname이므로 row[0]에 공백이나 end가 들어가 있으면 i++를 한 후 continue를 실행해 유효한 이벤트 이름이 나올때까지 row에 새로운 정보를 갱신하고 유호한 데이터가 나오면 while을 실행한다 
+-> while은 eventname이 end면 탈출한다. 코드로 들어가면 우선 for문에서 선언한 List<Dialogue> 에 Add할 Dialogue를 인스턴스하고 Dialogue의 name을 선언 후 변수에 대입할 List들을 인스턴스하고 
+do while을 실행한다. 
+-> do while의 조건은 row[1] 즉 캐릭터 이름이 공백이 아니면 탈출한다. 공백이 아니라면 다음 캐릭터의 대사를 넣어야 한다는 뜻이므로 설정한 조건이지만 일반 while을 사용하면 캐릭터가 대사를 한번만 하는 경우 반복문이 작동하지 않기 때문에 무조건 한 번은 실행하는 do while을 사용했다. 코드로 들어가면 우선 row[2] 즉 현재 엑셀 행의 대사가 공백이면 탈출하는 조건문이 있다. 이는 do while은 공백을 기준으로 탈출하는데 대화가 끝나면 다음 줄은 eventname에 있는 end 빼고 공백이라 이를 방지한 조건문이다. 조건을 만족하면 while에서 선언한 List 들의 데이터를 Add하고 i++를 한 후 row를 갱신하고 조건을 검사하고 조건에 맞으면 반복문을 탈출한다 
+-> do while을 탈출한 후 whlile의 마지막 부분에서는 do while에서 선언한 list들을 배열로 형변환해 dialogue 변수에 대입하고 for에서 선언한 List<Dialogue>에 Add한다. 
+-> while을 탈출한 for문의 마지막 부분에서는 while에서 세팅한 Dialogue[]를 함수 초반에 선언한 List<Dialogue[]>에 형변환 후 Add한다 -> 반복문이 끝나면 List<Dialogue[]>를 반환한다.
+
+public List<Dialogue[]> Parse(string _CsvFileName)
+    {
+        List<Dialogue[]> dialoguesList = new List<Dialogue[]>();
+
+        // Resources폴더에 있는 csv 파일 가져옴
+        TextAsset csvData = Resources.Load<TextAsset>(_CsvFileName); // TextAsset : csv파일을 담을 수 있는 데이터 구조
+
+        string[] datas = csvData.text.Split(new char[] { '\n' }); // 줄바꿈(한 줄)을 기준으로 csv 파일을 쪼개서 string배열에 줄 순서대로 담음
+
+        // for문에 i++를 넣지 않고 while문처럼 사용
+        for (int i = 1; i < datas.Length;) // 엑셀 파일 1번째 줄은 편의를 위한 분류이므로 i = 1부터 시작
+        {
+            // A, B, C열을 쪼개서 배열에 담음 (CSV파일은 ,로 데이터를 구분하기 때문에 ,를 기준으로 짜름)
+            string[] row = datas[i].Split(new char[] { ',' });
+            List<Dialogue> dialogueList = new List<Dialogue>();
+
+            if (row[0].Trim() == "" || row[0].Trim() == "end") // 유효한 이벤트 이름이 나올때까지 반복
+            {
+                i++;
+                continue;
+            }
+            while (row[0].Trim() != "end" && i < datas.Length)
+            {
+                Dialogue dialogue = new Dialogue();
+                dialogue.name = row[1];
+
+                // 캐릭터가 한번에 치는 대사를 담을 리스트 캐릭터가 치는 대사의 길이를 모르므로 리스트로 선언
+                List<string> contextList = new List<string>();
+                List<string> spriteList = new List<string>();
+                List<string> voiceList = new List<string>();
+                List<string> sceneList = new List<string>();
+
+                do // do while : 무조건 한번 실행하고 while의 조건 확인 후 돌지 말지 결정
+                {
+                    if (row[2].Trim() == "") break; // 대사 넣다가 다음줄이 공백이면 대화가 끝났다는 뜻 즉, 끝나면 탈출하는 조건문
+
+                    contextList.Add(row[2]);
+                    spriteList.Add(row[3]);
+                    voiceList.Add(row[4]);
+                    sceneList.Add(row[5]);
+
+                    if (++i < datas.Length)
+                    {
+                        row = datas[i].Split(new char[] { ',' });
+                    }
+                    else break;
+                } while (row[1].ToString() == "");
+                // row[1]이 공백이라는 뜻은 한 캐릭터가 여러 대사를 치고 있다는 뜻이므로 contextList에 대사를 추가하기 공백이 아닐 때까지 반복문을 돔
+
+                // 위에서 생성한 대사 리스트를 dialogue.contexts에 대입
+                dialogue.contexts = contextList.ToArray();
+                dialogue.spriteNames = spriteList.ToArray();
+                dialogue.voiceNames = voiceList.ToArray();
+                dialogue.cutSceneName = sceneList.ToArray();
+
+                // for문 한번 돌때마다 dialogueList에 dialogue가 하나씩 추가되며 엑셀파일의 데이터를 dialogueList에 다 담게 됨
+                dialogueList.Add(dialogue);
+            }
+
+            dialoguesList.Add(dialogueList.ToArray());
+        }
+        
+        return dialoguesList;
+}
+
+
+2. 딕셔너리 선언 변경 및 사용
+<int, Dialogeu>였던 기존 딕셔너리의 타입을 <string, Dialogeu[]>로 바꾼 후 eventName을 기준으로 대화 데이터를 반환한다.
+
+public Dialogue[] GetDialogues(string name)
+{
+        Dialogue[] dialogues = null;
+        if (Dic_dialogue.TryGetValue(name, out dialogues)) return dialogues;
+        else
+        {
+            Debug.Log("찾을 수 없는 이벤트 이름 : " + name);
+            return null;
+        }
+}
+
+더 이상 InteractionEvent에서 Vector2를 통한 시작과 끝 행이 아닌 eventName으로 가져옴
+SetDialogueEvent(dialogueEvent.dialogues, dialogueEvent.eventName);
+
+
+
+
 
 
 

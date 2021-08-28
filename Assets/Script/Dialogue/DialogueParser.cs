@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public class DebugDialogue
+public class DebugDialogue 
 {
     public string name;
     public Dialogue[] dialogues;
 }
 public class DialogueParser : MonoBehaviour
 {
-    public List<DebugDialogue> debugData;
+    public List<DebugDialogue> debugData; // 디버그용으로 Parse한 데이터를 인스펙터 창에서 볼 수 있게 하는 변수
     public List<Dialogue[]> Parse(string _CsvFileName)
     {
         List<Dialogue[]> dialoguesList = new List<Dialogue[]>();
@@ -36,22 +36,23 @@ public class DialogueParser : MonoBehaviour
         {
             // A, B, C열을 쪼개서 배열에 담음 (CSV파일은 ,로 데이터를 구분하기 때문에 ,를 기준으로 짜름)
             string[] row = datas[i].Split(new char[] { ',' });
-            DebugDialogue DebugDialogue = new DebugDialogue();
+            List<Dialogue> dialogueList = new List<Dialogue>();
 
-            if (row[0].Trim() == "" || row[0].Trim() == "end")
+
+            if (row[0].Trim() == "" || row[0].Trim() == "end") // 유효한 이벤트 이름이 나올때까지 반복
             {
                 Debug.Log(i);
                 i++;
                 continue;
             }
-
-            bool eventFinsh = false;
             Debug.Log("do  :  " + i);
-            row = datas[i].Split(new char[] { ',' });
+            //row = datas[i].Split(new char[] { ',' });
+
+            // 디버그용 클래스
+            DebugDialogue DebugDialogue = new DebugDialogue(); 
             DebugDialogue.name = row[0].Trim();
 
-            List<Dialogue> dialogueList = new List<Dialogue>(); 
-            do
+            while (row[0].Trim() != "end" && i < datas.Length)
             {
                 Dialogue dialogue = new Dialogue();
                 dialogue.name = row[1];
@@ -64,12 +65,12 @@ public class DialogueParser : MonoBehaviour
 
                 do // do while : 무조건 한번 실행하고 while의 조건 확인 후 돌지 말지 결정
                 {
-                    if (row[2].Trim() == "") break;
+                    if (row[2].Trim() == "") break; // 대사 넣다가 다음줄이 공백이면 대화가 끝났다는 뜻 즉, 끝나면 탈출하는 조건문
+
                     contextList.Add(row[2]);
                     spriteList.Add(row[3]);
                     voiceList.Add(row[4]);
                     sceneList.Add(row[5]);
-                    if (row[0].Trim() == "end") eventFinsh = true;
 
                     if (++i < datas.Length)
                     {
@@ -87,10 +88,11 @@ public class DialogueParser : MonoBehaviour
 
                 // for문 한번 돌때마다 dialogueList에 dialogue가 하나씩 추가되며 엑셀파일의 데이터를 dialogueList에 다 담게 됨
                 dialogueList.Add(dialogue);
-            } while (!eventFinsh && i < datas.Length);
+            }
 
             dialoguesList.Add(dialogueList.ToArray());
             
+            // 디버깅 데이터 세팅
             DebugDialogue.dialogues = dialogueList.ToArray();
             debugData.Add(DebugDialogue);
         }
