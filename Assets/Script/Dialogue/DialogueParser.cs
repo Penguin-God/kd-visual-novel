@@ -5,6 +5,7 @@ using UnityEngine;
 [System.Serializable]
 public class DebugDialogue
 {
+    public string name;
     public Dialogue[] dialogues;
 }
 public class DialogueParser : MonoBehaviour
@@ -30,10 +31,12 @@ public class DialogueParser : MonoBehaviour
 
         string[] datas = csvData.text.Split(new char[] { '\n' }); // 줄바꿈(한 줄)을 기준으로 csv 파일을 쪼개서 string배열에 줄 순서대로 담음
 
+        // for문에 i++를 넣지 않고 while문처럼 사용
         for (int i = 1; i < datas.Length;) // 엑셀 파일 1번째 줄은 편의를 위한 분류이므로 i = 1부터 시작
         {
             // A, B, C열을 쪼개서 배열에 담음 (CSV파일은 ,로 데이터를 구분하기 때문에 ,를 기준으로 짜름)
             string[] row = datas[i].Split(new char[] { ',' });
+            DebugDialogue DebugDialogue = new DebugDialogue();
 
             if (row[0].Trim() == "" || row[0].Trim() == "end")
             {
@@ -41,9 +44,11 @@ public class DialogueParser : MonoBehaviour
                 i++;
                 continue;
             }
+
             bool eventFinsh = false;
             Debug.Log("do  :  " + i);
             row = datas[i].Split(new char[] { ',' });
+            DebugDialogue.name = row[0].Trim();
 
             List<Dialogue> dialogueList = new List<Dialogue>(); 
             do
@@ -56,7 +61,6 @@ public class DialogueParser : MonoBehaviour
                 List<string> spriteList = new List<string>();
                 List<string> voiceList = new List<string>();
                 List<string> sceneList = new List<string>();
-
 
                 do // do while : 무조건 한번 실행하고 while의 조건 확인 후 돌지 말지 결정
                 {
@@ -86,8 +90,7 @@ public class DialogueParser : MonoBehaviour
             } while (!eventFinsh && i < datas.Length);
 
             dialoguesList.Add(dialogueList.ToArray());
-
-            DebugDialogue DebugDialogue = new DebugDialogue();
+            
             DebugDialogue.dialogues = dialogueList.ToArray();
             debugData.Add(DebugDialogue);
         }

@@ -38,7 +38,7 @@ public class Dialogue // Dialogue 하나는 엑셀 파일 1줄을 의미
 [System.Serializable]
 public class DialogueEvent
 {
-    public string eventName; // 개발자 편의를 위한 변수
+    public string eventName; // 진행할 이벤트 이름
 
     [Header("이벤트 조건 관련 변수")]
     public int eventNumber; // 컴포넌트를 가지고 있는 오브젝트가 진행하는 이벤트 넘버 (진행하면 DataBaseManager의 eventFlags의 eventNumber번째가 true가 됨)
@@ -48,8 +48,5 @@ public class DialogueEvent
 
     [Header("대화 관련 변수")]
     [Space][Space][Space]
-    public Vector2 line; // x는 시작 줄 y는 끝나는 줄
     public Dialogue[] dialogues; // 대사가 한번 치고 끝나지 않기 때문에 위에 Dialogue클래스 배열 변수 선언
-
-    public Vector2 afterLine; // 대화 한번 한 후에 다음 대화
 }

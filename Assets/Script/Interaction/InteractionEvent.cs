@@ -50,7 +50,7 @@ public class InteractionEvent : MonoBehaviour
     public Dialogue[] GetDialogues() // 대화 여부에 따라 다른 대화 정보를 보냄
     {
         DialogueEvent dialogueEvent = dialogueEvents[currentEvent];
-        if (!EventManager.instance.eventFlags[CurrentEventNumber] || dialogueEvent.afterLine.y == 0) // 대화 후 대사가 없으면 같은 대사 출력
+        if (!EventManager.instance.eventFlags[CurrentEventNumber]) // 대화 후 대사가 없으면 같은 대사 출력
         {
             return dialogueEvent.dialogues;
         }
