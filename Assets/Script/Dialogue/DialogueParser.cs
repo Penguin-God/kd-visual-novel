@@ -41,12 +41,10 @@ public class DialogueParser : MonoBehaviour
 
             if (row[0].Trim() == "" || row[0].Trim() == "end") // 유효한 이벤트 이름이 나올때까지 반복
             {
-                Debug.Log(i);
                 i++;
                 continue;
             }
             Debug.Log("do  :  " + i);
-            //row = datas[i].Split(new char[] { ',' });
 
             // 디버그용 클래스
             DebugDialogue DebugDialogue = new DebugDialogue(); 

@@ -1117,6 +1117,72 @@ public void GameEventByTalkEnd(EventByTalk eventByTalk)
 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+Part 18 다중 이벤트 설정
+
+1. 기존 DialogueEvnet DialogueEvent[]로 선언
+한 오브젝트가 여러개의 이벤트를 진행할 수 있기 때문에 기존의 대화 정보를 배열로 선언하고 현재 진행하는 이벤트 index를 나타내는 currentEvent 선언
+
+2. 조건 검사
+기존의 CheckEvent()를 오브젝트가 등장할지 말지가 아니라 Event를 진행할지 말지로 기능 확장 즉, 보유 중인 이벤트 중에 등장 조건이 맞는 이벤트가 있으면 그 이벤트를 실행하고 없으면 마지막에 했던 대화 실행 후 씬 넘어가면 퇴장
+
+int number;
+
+int currentEvent
+{
+        get
+        {
+            for(int i = 0; i < dialogueEvents.Length; i++)
+            {
+                if (CheckEventAppearCondition(dialogueEvents[i]))
+                {
+                    number = i;
+                    return i;
+                }
+            }
+            return number;
+        }
+}
+
+// CheckEvent에서 이름 바꿈
+bool CheckEventAppearCondition(DialogueEvent p_Event)
+    {
+        bool flag = true;
+
+        for (int i = 0; i < p_Event.eventConditions.Length; i++)
+        {
+            if (EventManager.instance.eventFlags[p_Event.eventConditions[i]] != p_Event.conditionFlag)
+            {
+                return false;
+            }
+        }
+
+        // 등장 조건과 상관 없이 퇴장 조건을 만족하면 등장시키지 않음
+        for (int i = 0; i < p_Event.endNumbers.Length; i++)
+        {
+            if (!EventManager.instance.eventFlags[p_Event.endNumbers[i]]) break;
+            if (i == p_Event.endNumbers.Length - 1) flag = false;
+        }
+
+        return flag;
+}
+
+3. 이벤트 실행 
+currentEvent는 현재 진행중인 대사의 정보를 가지고 있는 DialogueEvent[]의 index를 나타내는 함수이므로 현재 진행중인 이벤트 넘버를 가지는 currentEventNumber 변수를 선언 후 InteractionController에서 사용
+
+public int CurrentEventNumber
+{
+        get
+        {
+            return dialogueEvents[number].eventNumber;
+        }
+}
+
+InteractionController 스크립트
+if (rayHit.transform.GetComponent<InteractionEvent>() != null)
+            EventManager.instance.eventFlags[rayHit.transform.GetComponent<InteractionEvent>().CurrentEventNumber] = true;
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
 ** 내 파트 엑셀 파싱 방법 변경 **
 강의에서 진행한 파싱은 캐릭터를 기준으로 클래스를 만들고 이 클래스를 줄 개념으로 1 ~ 2번째 줄을 가져오는 거였는데 이것의 문제점은 대사마다 나뉘어져있지 않고 줄끼리 다닥다닥 붙어 있어서 분류가 어렵고 대사가 10000줄가 넘어가면 그거를 어떤 줄에 어떤 대사가 있는지 기억하고 찾아가는게 사실상 불가능하기 때문에 나는 기존 캐릭터 기준으로 묶은 클래스를 또다시 묶어 대화를 이벤트 이름을 기준으로 묶기로 하였다.
 
