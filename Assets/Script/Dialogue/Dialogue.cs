@@ -38,13 +38,11 @@ public class Dialogue // Dialogue 하나는 엑셀 파일 1줄을 의미
 [System.Serializable]
 public class DialogueEvent
 {
-    public string eventName; // 진행할 이벤트 이름
-
     [Header("이벤트 조건 관련 변수")]
-    public int eventNumber; // 컴포넌트를 가지고 있는 오브젝트가 진행하는 이벤트 넘버 (진행하면 DataBaseManager의 eventFlags의 eventNumber번째가 true가 됨)
-    public int[] eventConditions; // 등장 조건에 포함되는 이벤트 넘버 (무조건 등장시키려면 0번째 event를 지정하고 conditionFlag을 false로 하면됨)
+    public string eventName; // 컴포넌트를 가지고 있는 오브젝트가 진행하는 이벤트 이름 (진행하면 EventManager의 eventFlags의 eventName에 맞는 value가 true가 됨)
+    public string[] eventConditions; // 등장 조건에 포함되는 이벤트 넘버 (무조건 등장시키려면 0번째 event를 지정하고 conditionFlag을 false로 하면됨)
     public bool conditionFlag; // 이벤트를 보는게 등장 조건인지 보지 않은게 등장 조건인지 결정하는 변수 
-    public int[] endNumbers; // 퇴장 이벤트 넘버
+    public string endEvnetName; // 퇴장 이벤트 넘버
 
     [Header("대화 관련 변수")]
     [Space][Space][Space]

@@ -44,7 +44,7 @@ public class InteractionController : MonoBehaviour
         else if (interactionType.isDoor) CallTransfer();
 
         if (rayHit.transform.GetComponent<InteractionEvent>() != null)
-            EventManager.instance.eventFlags[rayHit.transform.GetComponent<InteractionEvent>().CurrentEventNumber] = true;
+            EventManager.instance.eventFlags[rayHit.transform.GetComponent<InteractionEvent>().CurrentEventName] = true;
     }
 
     void CallDialogue()

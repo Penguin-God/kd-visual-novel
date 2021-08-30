@@ -353,12 +353,14 @@ MonoBehaviour:
     - "\uBD09\uB780"
     - "\uC2F8\uC774\uCF54"
     - "\uD1A0\uAC00\uBBF8"
+    - "\uBD09\uB7801"
     m_values:
     - {fileID: 0}
     - {fileID: 0}
     - {fileID: 747055790}
     - {fileID: 130968870}
     - {fileID: 604849228}
+    - {fileID: 0}
 --- !u!4 &200900910
 Transform:
   m_ObjectHideFlags: 0
@@ -1463,7 +1465,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c11ab8d6041ddc4faed9b253545885e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  eventFlags: 00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+  eventFlags:
+    m_keys: []
+    m_values: 
 --- !u!114 &492846743
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2368,7 +2372,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &747055790
 Transform:
   m_ObjectHideFlags: 0
@@ -2427,62 +2431,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dialogueEvents:
   - eventName: "\uBD09\uB780 \uCCAB\uC778\uC0AC"
-    eventNumber: 1
-    eventConditions: 
+    eventConditions: []
     conditionFlag: 0
-    endNumbers: 
-    line: {x: 1, y: 1}
-    dialogues:
-    - tf_Target: {fileID: 0}
-      cameraType: 0
-      name: 
-      contexts: []
-      spriteNames: []
-      voiceNames: []
-      cutSceneName: []
-    - tf_Target: {fileID: 0}
-      cameraType: 2
-      name: 
-      contexts: []
-      spriteNames: []
-      voiceNames: []
-      cutSceneName: []
-    - tf_Target: {fileID: 0}
-      cameraType: 0
-      name: 
-      contexts: []
-      spriteNames: []
-      voiceNames: []
-      cutSceneName: []
-    - tf_Target: {fileID: 0}
-      cameraType: 0
-      name: 
-      contexts: []
-      spriteNames: []
-      voiceNames: []
-      cutSceneName: []
-    - tf_Target: {fileID: 0}
-      cameraType: 0
-      name: 
-      contexts: []
-      spriteNames: []
-      voiceNames: []
-      cutSceneName: []
-    - tf_Target: {fileID: 0}
-      cameraType: 0
-      name: 
-      contexts: []
-      spriteNames: []
-      voiceNames: []
-      cutSceneName: []
-    - tf_Target: {fileID: 0}
-      cameraType: 0
-      name: 
-      contexts: []
-      spriteNames: []
-      voiceNames: []
-      cutSceneName: []
-    afterLine: {x: 2, y: 2}
+    endEvnetName: "\uBD09\uB780 \uCCAB\uC778\uC0AC"
+    dialogues: []
+  - eventName: "\uC2EC\uC2EC\uD55C \uBD09\uB780"
+    eventConditions: []
+    conditionFlag: 0
+    endEvnetName: 
+    dialogues: []
   isSetDialogeu: 0
 --- !u!114 &747055794
 MonoBehaviour:
@@ -9919,15 +9876,15 @@ GameObject:
   - component: {fileID: 1263617461}
   - component: {fileID: 1263617460}
   - component: {fileID: 1263617459}
-  - component: {fileID: 1263617458}
   - component: {fileID: 1263617457}
+  - component: {fileID: 1263617458}
   m_Layer: 0
   m_Name: BongRan (1)
   m_TagString: Interaction
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1263617457
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9953,22 +9910,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dialogueEvents:
-  - eventName: 
-    eventNumber: 2
-    eventConditions: 
-    conditionFlag: 0
-    endNumbers: 01000000
-    line: {x: 2, y: 2}
-    dialogues: []
-    afterLine: {x: 0, y: 0}
-  - eventName: 
-    eventNumber: 3
-    eventConditions: 01000000
+  - eventName: "\uAD34\uC0C1\uD55C \uB3C4\uAD6C"
+    eventConditions:
+    - "\uC2EC\uC2EC\uD55C \uBD09\uB780"
     conditionFlag: 1
-    endNumbers: 01000000
-    line: {x: 7, y: 7}
+    endEvnetName: 
     dialogues: []
-    afterLine: {x: 0, y: 0}
   isSetDialogeu: 0
 --- !u!114 &1263617459
 MonoBehaviour:

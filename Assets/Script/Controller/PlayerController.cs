@@ -108,7 +108,7 @@ public class PlayerController : MonoBehaviour
         {
             filedCurrentAngle_X -= Input.GetAxisRaw("Mouse Y") * rotationSpeed;
             filedCurrentAngle_X = Mathf.Clamp(filedCurrentAngle_X, -filedLookLimit_X, filedLookLimit_X);
-            tf_Camera.eulerAngles = new Vector3(filedCurrentAngle_X, 0, 0);
+            tf_Camera.localEulerAngles = new Vector3(filedCurrentAngle_X, 0, 0);
         }
     }
 

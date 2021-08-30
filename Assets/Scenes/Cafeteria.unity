@@ -243,10 +243,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 263ddd96e2d49eb489ef725ca60bffa7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dialogueEvent:
-    eventName: 
-    line: {x: 1, y: 4}
-    dialogues: []
+  dialogueEvents: []
   isSetDialogeu: 0
 --- !u!1001 &114733874
 PrefabInstance:
@@ -681,6 +678,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d250140677e62a3409428ce50309d31f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  showEvent: 0
   eventType: 1
   eventCharacters:
   - {fileID: 0}
@@ -696,10 +694,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 263ddd96e2d49eb489ef725ca60bffa7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dialogueEvent:
-    eventName: 
-    line: {x: 5, y: 7}
-    dialogues: []
+  dialogueEvents: []
   isSetDialogeu: 0
 --- !u!1001 &356488427
 PrefabInstance:
@@ -2227,30 +2222,13 @@ GameObject:
   - component: {fileID: 2062080257}
   - component: {fileID: 2062080256}
   - component: {fileID: 2062080255}
-  - component: {fileID: 2062080254}
   m_Layer: 0
   m_Name: BongRan
   m_TagString: Interaction
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &2062080254
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2062080253}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a626394ede47e8e48a8b16be2053e5b3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  eventNumber: 3
-  eventConditions: 01000000
-  conditionFlag: 1
-  endNumber: 0
+  m_IsActive: 0
 --- !u!114 &2062080255
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2263,6 +2241,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d250140677e62a3409428ce50309d31f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  showEvent: 0
   eventType: 1
   eventCharacters:
   - {fileID: 2062080253}
@@ -2290,17 +2269,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 263ddd96e2d49eb489ef725ca60bffa7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dialogueEvent:
-    eventName: 
-    line: {x: 1, y: 1}
-    dialogues:
-    - tf_Target: {fileID: 0}
-      cameraType: 0
-      name: 
-      contexts: []
-      spriteNames: []
-      voiceNames: []
-      cutSceneName: []
+  dialogueEvents: []
   isSetDialogeu: 0
 --- !u!114 &2062080258
 MonoBehaviour:

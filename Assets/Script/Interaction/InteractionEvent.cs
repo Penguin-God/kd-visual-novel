@@ -10,7 +10,6 @@ public class InteractionEvent : MonoBehaviour
     private void Start()
     {
         StartCoroutine(Co_SetDialogueEvent());
-        gameObject.SetActive(CheckEventAppearCondition(dialogueEvents[0]));
     }
 
     [HideInInspector]
@@ -24,6 +23,9 @@ public class InteractionEvent : MonoBehaviour
             dialogueEvents[i].dialogues = SetDialogueEvent(dialogueEvents[i].dialogues, dialogueEvents[i].eventName);
         }
         isSetDialogeu = true;
+
+        yield return null;
+        gameObject.SetActive(CheckEventAppearCondition(dialogueEvents[currentEvent]));
     }
 
     Dialogue[] SetDialogueEvent(Dialogue[] p_Dialogue, string eventName)
@@ -31,7 +33,7 @@ public class InteractionEvent : MonoBehaviour
         Dialogue[] t_Dialogue = DataBaseManager.instance.GetDialogues(eventName);
         for (int i = 0; i < t_Dialogue.Length; i++) // 각종 변수 대입
         {
-            // 이름 앞에 ⒳가 붙어 있으면 타겟팅 안하는거임 
+            // 이름 앞에 ⒳가 붙어 있으면 타겟팅 안하는거임
             if (t_Dialogue[i].name[0] != '⒳') t_Dialogue[i].tf_Target = CharacterManager.instance.dic_Character[t_Dialogue[i].name];
 
             // target은 현재 대화 상대를 의미 주인공이 말하거나 독백할때도 target에는 대화상대가 들어감
@@ -49,23 +51,23 @@ public class InteractionEvent : MonoBehaviour
     public Dialogue[] GetDialogues() // 대화 여부에 따라 다른 대화 정보를 보냄
     {
         DialogueEvent dialogueEvent = dialogueEvents[currentEvent];
-        if (!EventManager.instance.eventFlags[CurrentEventNumber]) // 대화 후 대사가 없으면 같은 대사 출력
+        if (true) // 대화 후 대사가 없으면 같은 대사 출력 !EventManager.instance.eventFlags[CurrentEventNumber]
         {
             return dialogueEvent.dialogues;
         }
-        else return SetDialogueEvent(dialogueEvent.dialogues, dialogueEvent.eventName);
+        //else return SetDialogueEvent(dialogueEvent.dialogues, dialogueEvent.eventName);
     }
 
 
-    public int CurrentEventNumber
+    public string CurrentEventName
     {
         get
         {
-            return dialogueEvents[number].eventNumber;
+            return dialogueEvents[number].eventName;
         }
     }
-
-    int number;
+    [SerializeField]
+    int number = 0;
 
     int currentEvent
     {
@@ -96,11 +98,8 @@ public class InteractionEvent : MonoBehaviour
         }
 
         // 등장 조건과 상관 없이 퇴장 조건을 만족하면 등장시키지 않음
-        for (int i = 0; i < p_Event.endNumbers.Length; i++)
-        {
-            if (!EventManager.instance.eventFlags[p_Event.endNumbers[i]]) break;
-            if (i == p_Event.endNumbers.Length - 1) flag = false;
-        }
+        if (EventManager.instance.eventFlags.TryGetValue(p_Event.endEvnetName, out bool endFlag))
+            flag = !endFlag;
 
         return flag;
     }

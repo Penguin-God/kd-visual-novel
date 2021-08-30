@@ -25,9 +25,21 @@ public class DataBaseManager : MonoBehaviour
             {
                 Dic_dialogue.Add(eventNames[i], dialoguesList[i]);
             }
-
-            isFinish = true;
         }
+    }
+
+    private void Start()
+    {
+        SetEventData();
+    }
+
+    void SetEventData()
+    {
+        foreach (string eventName in Dic_dialogue.Keys)
+        {
+            EventManager.instance.eventFlags.Add(eventName, false);
+        }
+        isFinish = true;
     }
 
     // eventName의 시작부터 끝까지의 엑셀파일 정보를 담은 dialogue[] 반환
