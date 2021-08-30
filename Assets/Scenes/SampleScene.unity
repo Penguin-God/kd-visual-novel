@@ -1681,6 +1681,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dialogueEvents: []
   isSetDialogeu: 0
+  number: 0
 --- !u!114 &616996588
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2441,6 +2442,7 @@ MonoBehaviour:
     endEvnetName: 
     dialogues: []
   isSetDialogeu: 0
+  number: 0
 --- !u!114 &747055794
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9917,6 +9919,7 @@ MonoBehaviour:
     endEvnetName: 
     dialogues: []
   isSetDialogeu: 0
+  number: 0
 --- !u!114 &1263617459
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16442,6 +16445,7 @@ GameObject:
   - component: {fileID: 1885960109}
   - component: {fileID: 1885960111}
   - component: {fileID: 1885960110}
+  - component: {fileID: 1885960112}
   m_Layer: 0
   m_Name: Door
   m_TagString: Interaction
@@ -16492,6 +16496,31 @@ MonoBehaviour:
   isNextMapOnlyView: 0
   changeSceneName: Cafeteria
   locationName: CafeEntrance
+--- !u!114 &1885960112
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1885960108}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 263ddd96e2d49eb489ef725ca60bffa7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dialogueEvents:
+  - eventName: "\uBB38 \uB2EB\uD600\uC788\uC74C"
+    eventConditions: []
+    conditionFlag: 0
+    endEvnetName: "\uBD09\uB780 \uCCAB\uC778\uC0AC"
+    dialogues: []
+  - eventName: "\uBB38 \uB2EB\uD600\uC788\uC74C"
+    eventConditions: []
+    conditionFlag: 0
+    endEvnetName: 
+    dialogues: []
+  isSetDialogeu: 0
+  number: 0
 --- !u!4 &1886254738
 Transform:
   m_ObjectHideFlags: 0
@@ -16584,6 +16613,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dialogueEvents: []
   isSetDialogeu: 0
+  number: 0
 --- !u!114 &1943139039
 MonoBehaviour:
   m_ObjectHideFlags: 0

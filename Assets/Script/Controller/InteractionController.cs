@@ -47,7 +47,7 @@ public class InteractionController : MonoBehaviour
             EventManager.instance.eventFlags[rayHit.transform.GetComponent<InteractionEvent>().CurrentEventName] = true;
     }
 
-    void CallDialogue()
+    void CallDialogue() // 이 부분을 InteractionEvent에서 구현
     {
         DialogueManager.instance.SetEvent(rayHit.transform);
         DialogueManager.instance.StartTalk(rayHit.transform.GetComponent<InteractionEvent>().GetDialogues());
@@ -55,6 +55,13 @@ public class InteractionController : MonoBehaviour
 
     void CallTransfer()
     {
+        // 코드 바꾸기 
+        if(rayHit.transform.GetComponent<InteractionEvent>() != null && rayHit.transform.GetComponent<InteractionEvent>().number == 0)
+        {
+            CallDialogue();
+            return;
+        }
+
         InteractionDoor door = rayHit.transform.GetComponent<InteractionDoor>();
         CameraController.isOnlyView = door.GetMapView();
         string sceneName = door.GetChangeSceneName();

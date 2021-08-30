@@ -66,8 +66,8 @@ public class InteractionEvent : MonoBehaviour
             return dialogueEvents[number].eventName;
         }
     }
-    [SerializeField]
-    int number = 0;
+    
+    public int number = 0;
 
     int currentEvent
     {

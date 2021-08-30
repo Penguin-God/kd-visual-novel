@@ -1281,7 +1281,15 @@ public Dialogue[] GetDialogues(string name)
 더 이상 InteractionEvent에서 Vector2를 통한 시작과 끝 행이 아닌 eventName으로 가져옴
 SetDialogueEvent(dialogueEvent.dialogues, dialogueEvent.eventName);
 
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+Part 完 : 잠긴 문 개방
+
+1. 문에 InteractionEvent추가
+문에 InteractionEvent를 추가하여 문이 열리렬면 봐야하는 이벤트 설정
+
+2. 사용
+InteractionController에서 door일 때 InteractionEvent를 가지고 있으며 이벤트 번호가 일치하면 대화 이벤트 번호가 일치하지 않으면 맵 이동 (나중에 이벤트랑 관련없는 대사만 출력하는 엑셀 파일을 따로 만들고 이벤트 조건만 검사해야 할 듯)
 
 
 
