@@ -15,7 +15,7 @@ Library/
 Logs/
 
 UserSettings/
- 
+
  
 # ===================================== #
  
@@ -42,7 +42,6 @@ ExportedObj/
 *.unityproj
  
 *.booproj
- 
  
  
 # ============ #
@@ -72,3 +71,5 @@ GraphicsSettings.asset
 ProjectSettings.asset
  
 ProjectVersion.txt
+
+thing to do.txt
