@@ -6,7 +6,6 @@ public class InteractionEvent : MonoBehaviour
 {
     [SerializeField] DialogueEvent[] dialogueEvents;
     Transform currentTarget = null;
-
     private void Start()
     {
         StartCoroutine(Co_SetDialogueEvent());
@@ -51,11 +50,12 @@ public class InteractionEvent : MonoBehaviour
     public Dialogue[] GetDialogues() // 대화 여부에 따라 다른 대화 정보를 보냄
     {
         DialogueEvent dialogueEvent = dialogueEvents[currentEvent];
-        if (true) // 대화 후 대사가 없으면 같은 대사 출력 !EventManager.instance.eventFlags[CurrentEventNumber]
+        // 대화 이벤트를 보지 않았거나 After 대사가 없으면 같은 대사 출력
+        if (!EventManager.instance.eventFlags[dialogueEvent.eventName] || !dialogueEvent.isAfter) 
         {
             return dialogueEvent.dialogues;
         }
-        //else return SetDialogueEvent(dialogueEvent.dialogues, dialogueEvent.eventName);
+        else return SetDialogueEvent(dialogueEvent.afterDialogues, dialogueEvent.eventName + "After");
     }
 
 

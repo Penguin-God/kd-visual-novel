@@ -47,4 +47,7 @@ public class DialogueEvent
     [Header("대화 관련 변수")]
     [Space][Space][Space]
     public Dialogue[] dialogues; // 대사가 한번 치고 끝나지 않기 때문에 위에 Dialogue클래스 배열 변수 선언
+    [Space]
+    public bool isAfter;
+    public Dialogue[] afterDialogues;
 }

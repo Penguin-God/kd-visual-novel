@@ -35,10 +35,13 @@ public class CutSceneManager : MonoBehaviour
         }
 
         Sprite _sprite = Resources.Load<Sprite>("CutScenes/" + cutSceneName);
-        if (_sprite != null) cutSceneImage.sprite = _sprite;
+        if (_sprite != null)
+        {
+            cutSceneImage.sprite = _sprite;
+            StartCoroutine(Co_CutScene(true));
+        }
         else Debug.LogWarning("Ã£À» ¼ö ¾ø´Â ÄÆ¾À ÀÌ¸§ : " + cutSceneName);
 
-        StartCoroutine(Co_CutScene(true));
     }
 
     IEnumerator Co_CutScene(bool isShow)
