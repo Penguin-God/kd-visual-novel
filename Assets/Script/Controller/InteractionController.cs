@@ -10,59 +10,61 @@ public class InteractionController : MonoBehaviour
         cam = GetComponentInChildren<Camera>();
     }
 
-    private bool interactable = false;
+    //private bool interactable = false;
     void Update()
     {
         if (!GameManager.instance.IsPlayable) return;
 
-        CheckObject();
+        ObjectInteraction();
         ClickLeftButton();
     }
 
     [SerializeField] GameObject obj_Qestion;
+    private Transform interactTransform = null;
     void ClickLeftButton()
     {
         QuestionEffect questionEffect = obj_Qestion.GetComponent<QuestionEffect>();
 
-        if (Input.GetMouseButtonDown(0) && interactable && !DialogueManager.instance.isTalking && !questionEffect.isThrow)
+        if (Input.GetMouseButtonDown(0) && !DialogueManager.instance.isTalking && InteractionAble && !questionEffect.isThrow && rayHit.transform != null)
         {
+            interactTransform = rayHit.transform;
             obj_Qestion.SetActive(true);
             obj_Qestion.transform.position = cam.transform.position;
-            questionEffect.Throw_QuestionMark(rayHit.transform.position);
-            StartCoroutine(Co_Interaction());
+            questionEffect.Throw_QuestionMark(interactTransform.position);
+            StartCoroutine(Co_Interaction(interactTransform));
         }
     }
 
-    IEnumerator Co_Interaction()
+    IEnumerator Co_Interaction(Transform interactTransform)
     {
         QuestionEffect questionEffect = obj_Qestion.GetComponent<QuestionEffect>();
         yield return new WaitUntil(() => questionEffect.isQuestionHit);
         questionEffect.isQuestionHit = false;
 
-        InteractionType interactionType = rayHit.transform.GetComponent<InteractionType>();
+        InteractionType interactionType = interactTransform.GetComponent<InteractionType>();
         if (interactionType.isObject) CallDialogue();
         else if (interactionType.isDoor) CallTransfer();
 
-        if (rayHit.transform.GetComponent<InteractionEvent>() != null)
-            EventManager.instance.eventFlags[rayHit.transform.GetComponent<InteractionEvent>().CurrentEventName] = true;
+        if (interactTransform.GetComponent<InteractionEvent>() != null)
+            EventManager.instance.eventFlags[interactTransform.GetComponent<InteractionEvent>().CurrentEventName] = true;
     }
 
     void CallDialogue() // 이 부분을 InteractionEvent에서 구현
     {
-        DialogueManager.instance.SetEvent(rayHit.transform);
-        DialogueManager.instance.StartTalk(rayHit.transform.GetComponent<InteractionEvent>().GetDialogues());
+        DialogueManager.instance.SetEvent(interactTransform);
+        DialogueManager.instance.StartTalk(interactTransform.GetComponent<InteractionEvent>().GetDialogues());
     }
 
     void CallTransfer()
     {
         // 코드 바꾸기 
-        if(rayHit.transform.GetComponent<InteractionEvent>() != null && rayHit.transform.GetComponent<InteractionEvent>().number == 0)
+        if(interactTransform.GetComponent<InteractionEvent>() != null && interactTransform.GetComponent<InteractionEvent>().number == 0)
         {
             CallDialogue();
             return;
         }
 
-        InteractionDoor door = rayHit.transform.GetComponent<InteractionDoor>();
+        InteractionDoor door = interactTransform.GetComponent<InteractionDoor>();
         CameraController.isOnlyView = door.GetMapView();
         string sceneName = door.GetChangeSceneName();
         string locationName = door.GetLocationName();
@@ -73,35 +75,28 @@ public class InteractionController : MonoBehaviour
     private Vector3 mousePosition;
     RaycastHit rayHit;
 
-    void CheckObject()
+    void ObjectInteraction()
     {
         if (CameraController.isOnlyView)
         {
             mousePosition = new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0);
-
-            if (Physics.Raycast(cam.ScreenPointToRay(mousePosition), out rayHit, 100))
-            {
-                interactable = Return_Interactable(rayHit.transform);
-            }
-            else interactable = false;
+            if (Physics.Raycast(cam.ScreenPointToRay(mousePosition), out rayHit, 100)) { };
         }
         else
         {
-            if (Physics.Raycast(cam.transform.position, cam.transform.forward, out rayHit, 15))
-            {
-                interactable = Return_Interactable(rayHit.transform);
-            }
-            else interactable = false;
+            if (Physics.Raycast(cam.transform.position, cam.transform.forward, out rayHit, 15)) { };
         }
-
-        Set_InteractionUI(interactable);
+        Set_InteractionUI(InteractionAble);
     }
-    bool Return_Interactable(Transform hitTransform)
+
+    // 현재 상호작용이 가능한 상태인지를 나타내는 프로퍼티
+    bool InteractionAble
     {
-        bool interactable;
-        if (hitTransform.CompareTag("Interaction")) interactable = true;
-        else interactable = false;
-        return interactable;
+        get
+        {
+            if (rayHit.transform != null && rayHit.transform.CompareTag("Interaction")) return true;
+            else return false;
+        }
     }
 
     [SerializeField] GameObject normalCorsshair;
@@ -110,12 +105,12 @@ public class InteractionController : MonoBehaviour
     [SerializeField] GameObject obj_TargetNameBar;
     [SerializeField] Text txt_TargetName;
 
-    private bool isContact = false;
+    private Transform contactTransform = null;
     void Set_InteractionUI(bool interactable)
     {
         // 중복 실행 방지 코드
-        if (isContact == interactable) return;
-        isContact = interactable;
+        if (contactTransform == rayHit.transform) return;
+        contactTransform = rayHit.transform;
 
         // 크로스헤어 설정
         interactiveCorsshair.SetActive(interactable);
@@ -126,7 +121,7 @@ public class InteractionController : MonoBehaviour
         txt_TargetName.text = (interactable) ? rayHit.transform.GetComponent<InteractionType>().GetName() : "";
 
         // 상호작용 이펙트 설정
-        if (CameraController.isOnlyView)
+        if (CameraController.isOnlyView) // 움직일 떄만 이펙트 보여줌
         {
             UIManager.instance.HideInteractionImage();
         }
@@ -186,7 +181,7 @@ public class InteractionController : MonoBehaviour
         WaitForSeconds ws = new WaitForSeconds(delayTime);
 
         // 상호작용 가능한 객체에 크로스헤어를 올리고 있으며 대화중이 아닌 상태에서 계속 돌아가는 무한반복 코루틴
-        while (interactable && !DialogueManager.instance.isTalking)
+        while (InteractionAble && !DialogueManager.instance.isTalking)
         {
             Color color = img_InteractionEffect.color;
             color.a = 0.5f;

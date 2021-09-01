@@ -12,7 +12,7 @@ public class QuestionEffect : MonoBehaviour
         StartCoroutine(Throw_Coroutine(_target));
     }
 
-    public bool isThrow = false;
+    public bool isThrow = false; // 이펙트 날아가는 중에 true
     IEnumerator Throw_Coroutine(Vector3 _target)
     {
         float distance_byTarget = Mathf.Infinity;
