@@ -25,7 +25,7 @@ public class DialogueManager : MonoBehaviour
     [SerializeField] CutSceneManager cutSceneManager;
     private void Update()
     {
-        if(isNext && isTalking && ( Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0) ) )
+        if(isNext && isTalking && ( Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0) || Input.GetButton("Ctrl")) )
         {
             Talk();
         }
@@ -76,7 +76,6 @@ public class DialogueManager : MonoBehaviour
         if(OnStartTalk != null) OnStartTalk(dialogues[talkIndex].tf_Target);
         StartCoroutine(Wait_StartTartting()); // 카메라 타겟팅 대기
     }
-
     IEnumerator Wait_StartTartting()
     {
         yield return new WaitUntil(() => !isCameraEffect);
@@ -111,6 +110,13 @@ public class DialogueManager : MonoBehaviour
 
 
     [SerializeField] float textDelayTime;
+    private float applyTextDelayTime
+    {
+        get
+        {
+            return Input.GetButton("Ctrl") ? 0 : textDelayTime;
+        }
+    }
     /// <summary>
     /// 들어가 있는 함수 : ChangeSprite_byTalk, PlayVoice_byTalk
     /// </summary>
@@ -143,7 +149,7 @@ public class DialogueManager : MonoBehaviour
 
             string addText = replaceText[i].ToString();
             txt_Dialogue.text += (effectChar != ' ' && effectChar != 'ⓦ') ? ColoringText(effectChar, addText) : addText;
-            yield return new WaitForSeconds(textDelayTime);
+            yield return new WaitForSeconds(applyTextDelayTime);
         }
         isNext = true;
     }
