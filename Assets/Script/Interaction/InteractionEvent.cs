@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class InteractionEvent : MonoBehaviour
 {
-    [SerializeField] DialogueEvent[] dialogueEvents;
+    [SerializeField] protected DialogueEvent[] dialogueEvents;
     Transform currentTarget = null;
     private void Start()
     {
@@ -13,7 +13,7 @@ public class InteractionEvent : MonoBehaviour
 
     [HideInInspector]
     public bool isSetDialogeu = false; // 다이로그 정보 세팅 끝나면 true
-    IEnumerator Co_SetDialogueEvent()
+    IEnumerator Co_SetDialogueEvent() // 오브젝트가 가지고 있는 모든 이벤트 세팅
     {
         yield return new WaitUntil(() => DataBaseManager.instance.isFinish);
 
@@ -27,6 +27,7 @@ public class InteractionEvent : MonoBehaviour
         gameObject.SetActive(CheckEventAppearCondition(dialogueEvents[currentEvent]));
     }
 
+    // 하나의 이벤트 대화 세팅
     Dialogue[] SetDialogueEvent(Dialogue[] p_Dialogue, string eventName)
     {
         Dialogue[] t_Dialogue = DataBaseManager.instance.GetDialogues(eventName);
@@ -53,6 +54,8 @@ public class InteractionEvent : MonoBehaviour
         // 대화 이벤트를 보지 않았거나 After 대사가 없으면 같은 대사 출력
         if (!EventManager.instance.eventFlags[dialogueEvent.eventName] || !dialogueEvent.isAfter) 
         {
+            DialogueManager.instance.SetEvent(transform);
+            EventManager.instance.eventFlags[CurrentEventName] = true;
             return dialogueEvent.dialogues;
         }
         else return SetDialogueEvent(dialogueEvent.afterDialogues, dialogueEvent.eventName + "After");
@@ -85,10 +88,12 @@ public class InteractionEvent : MonoBehaviour
         }
     }
 
+    // 인자로 온 이벤트가 현재 진행되는게 맞는지 체크하는 함수
     bool CheckEventAppearCondition(DialogueEvent p_Event)
     {
         bool flag = true;
 
+        // 등장 조건과 맞지 않으면 false
         for (int i = 0; i < p_Event.eventConditions.Length; i++)
         {
             if (EventManager.instance.eventFlags[p_Event.eventConditions[i]] != p_Event.conditionFlag)

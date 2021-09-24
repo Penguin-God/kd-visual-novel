@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class InteractionDoor : MonoBehaviour
+public class InteractionDoor : InteractionEvent
 {
     [SerializeField] bool isNextMapOnlyView;
     [SerializeField] string changeSceneName;
@@ -21,5 +21,13 @@ public class InteractionDoor : MonoBehaviour
     public string GetLocationName()
     {
         return locationName;
+    }
+
+    public void SceneTransfer()
+    {
+        CameraController.isOnlyView = GetMapView();
+        string sceneName = GetChangeSceneName();
+        string locationName = GetLocationName();
+        FindObjectOfType<SceneTrasnferManager>().SceneTransfer(sceneName, locationName);
     }
 }
