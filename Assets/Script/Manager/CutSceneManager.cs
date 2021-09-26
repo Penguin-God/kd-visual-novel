@@ -8,8 +8,9 @@ public class CutSceneManager : MonoBehaviour
     [SerializeField] SplashManager splashManager;
 
     [SerializeField] Image cutSceneImage;
+
     // 현재 컷씬 진행중인지 확인하는 프로퍼티 변수
-    public bool ChectCutScene {get { return cutSceneImage.gameObject.activeSelf; } }
+    public bool CheckCutScene {get { return cutSceneImage.gameObject.activeSelf; } }
 
     private void Start()
     {

@@ -87,7 +87,7 @@ public class DialogueManager : MonoBehaviour
     private EventByTalk eventByTalk = null;
     IEnumerator EndTalk()
     {
-        if (cutSceneManager.ChectCutScene)
+        if (cutSceneManager.CheckCutScene)
         {
             cutSceneManager.CutScene("", true);
             Set_DialogueUI(false);

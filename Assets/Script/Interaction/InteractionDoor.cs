@@ -8,6 +8,9 @@ public class InteractionDoor : InteractionEvent
     [SerializeField] string changeSceneName;
     [SerializeField] string locationName;
 
+    [SerializeField] int transferNumber;
+    bool IsTransfer{ get { return CurrentEventNumber == transferNumber; } }
+
     public bool GetMapView()
     {
         return isNextMapOnlyView;
@@ -29,5 +32,12 @@ public class InteractionDoor : InteractionEvent
         string sceneName = GetChangeSceneName();
         string locationName = GetLocationName();
         FindObjectOfType<SceneTrasnferManager>().SceneTransfer(sceneName, locationName);
+    }
+
+    public override void StartInteraction()
+    {
+        base.StartInteraction();
+        if (IsTransfer) SceneTransfer();
+        else DialogueManager.instance.StartTalk(GetDialogues());
     }
 }

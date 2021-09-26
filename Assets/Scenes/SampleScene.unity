@@ -308,14 +308,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 130968864}
-  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
+  m_LocalRotation: {x: -0, y: 1, z: -0, w: 0}
   m_LocalPosition: {x: 2.09, y: 2.1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 763493097}
   - {fileID: 755221993}
-  m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_Father: {fileID: 898257033}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!1 &200900908
 GameObject:
@@ -1625,14 +1625,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 604849224}
-  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
+  m_LocalRotation: {x: -0, y: 1, z: -0, w: 0}
   m_LocalPosition: {x: -1.99, y: 2, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 11729952}
   - {fileID: 1312783455}
-  m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_Father: {fileID: 898257033}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!1 &616996585
 GameObject:
@@ -1681,7 +1681,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dialogueEvents: []
   isSetDialogeu: 0
-  number: 0
 --- !u!114 &616996588
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1812,7 +1811,7 @@ Transform:
   - {fileID: 1740438892}
   - {fileID: 903196505}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &651267370
 MonoBehaviour:
@@ -2163,7 +2162,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
 --- !u!1 &707307362
 GameObject:
@@ -2364,9 +2363,9 @@ GameObject:
   - component: {fileID: 747055790}
   - component: {fileID: 747055791}
   - component: {fileID: 747055792}
-  - component: {fileID: 747055793}
   - component: {fileID: 747055794}
   - component: {fileID: 747055795}
+  - component: {fileID: 747055796}
   m_Layer: 0
   m_Name: BongRan
   m_TagString: Interaction
@@ -2387,8 +2386,8 @@ Transform:
   m_Children:
   - {fileID: 1506840265}
   - {fileID: 750452589}
-  m_Father: {fileID: 0}
-  m_RootOrder: 10
+  m_Father: {fileID: 898257033}
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!65 &747055791
 BoxCollider:
@@ -2418,33 +2417,6 @@ MonoBehaviour:
   isDoor: 0
   isObject: 1
   interactionName: "\uBD09\uB780"
---- !u!114 &747055793
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 747055789}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 263ddd96e2d49eb489ef725ca60bffa7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  dialogueEvents:
-  - eventName: "\uBD09\uB780 \uCCAB\uC778\uC0AC"
-    eventConditions: []
-    conditionFlag: 0
-    endEvnetName: "\uBD09\uB780 \uCCAB\uC778\uC0AC"
-    dialogues: []
-    isAfter: 0
-  - eventName: "\uC2EC\uC2EC\uD55C \uBD09\uB780"
-    eventConditions: []
-    conditionFlag: 0
-    endEvnetName: 
-    dialogues: []
-    isAfter: 0
-  isSetDialogeu: 0
-  number: 0
 --- !u!114 &747055794
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2473,6 +2445,34 @@ MonoBehaviour:
   eventType: 1
   eventCharacters:
   - {fileID: 130968864}
+--- !u!114 &747055796
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 747055789}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 82b8f7f4067024e41809246c7f07ef80, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dialogueEvents:
+  - eventName: "\uBD09\uB780 \uCCAB\uC778\uC0AC"
+    eventConditions: []
+    conditionFlag: 0
+    endEvnetName: "\uBD09\uB780 \uCCAB\uC778\uC0AC"
+    dialogues: []
+    isAfter: 0
+    afterDialogues: []
+  - eventName: "\uC2EC\uC2EC\uD55C \uBD09\uB780"
+    eventConditions: []
+    conditionFlag: 0
+    endEvnetName: 
+    dialogues: []
+    isAfter: 0
+    afterDialogues: []
+  isSetDialogeu: 0
 --- !u!1 &750452588
 GameObject:
   m_ObjectHideFlags: 0
@@ -2815,9 +2815,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e85b66a27f652854b9c54e2012434cd5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dialogueEvents: []
+  isSetDialogeu: 0
   isNextMapOnlyView: 0
   changeSceneName: Cafeteria
   locationName: CafeEntrance2
+  transferNumber: 0
 --- !u!114 &771693896
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3430,6 +3433,40 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 889066562}
   m_CullTransparentMesh: 0
+--- !u!1 &898257032
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 898257033}
+  m_Layer: 0
+  m_Name: Characters
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &898257033
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 898257032}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 604849228}
+  - {fileID: 130968870}
+  - {fileID: 1263617461}
+  - {fileID: 747055790}
+  m_Father: {fileID: 0}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &903196502
 GameObject:
   m_ObjectHideFlags: 0
@@ -8408,7 +8445,7 @@ RectTransform:
   - {fileID: 1114437427}
   - {fileID: 1606913170}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -9881,7 +9918,7 @@ GameObject:
   - component: {fileID: 1263617460}
   - component: {fileID: 1263617459}
   - component: {fileID: 1263617457}
-  - component: {fileID: 1263617458}
+  - component: {fileID: 1263617462}
   m_Layer: 0
   m_Name: BongRan (1)
   m_TagString: Interaction
@@ -9901,55 +9938,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 721d379468a089040a9c0c6665e7db3a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &1263617458
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1263617456}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 263ddd96e2d49eb489ef725ca60bffa7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  dialogueEvents:
-  - eventName: "\uAD34\uC0C1\uD55C \uB3C4\uAD6C"
-    eventConditions: []
-    conditionFlag: 0
-    endEvnetName: 
-    dialogues:
-    - tf_Target: {fileID: 0}
-      cameraType: 0
-      name: 
-      contexts: []
-      spriteNames: []
-      voiceNames: []
-      cutSceneName: []
-    - tf_Target: {fileID: 0}
-      cameraType: 0
-      name: 
-      contexts: []
-      spriteNames: []
-      voiceNames: []
-      cutSceneName: []
-    - tf_Target: {fileID: 0}
-      cameraType: 5
-      name: 
-      contexts: []
-      spriteNames: []
-      voiceNames: []
-      cutSceneName: []
-    - tf_Target: {fileID: 0}
-      cameraType: 6
-      name: 
-      contexts: []
-      spriteNames: []
-      voiceNames: []
-      cutSceneName: []
-    isAfter: 1
-  isSetDialogeu: 0
-  number: 0
 --- !u!114 &1263617459
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9991,9 +9979,58 @@ Transform:
   m_Children:
   - {fileID: 2128723316}
   - {fileID: 430059434}
-  m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_Father: {fileID: 898257033}
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
+--- !u!114 &1263617462
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1263617456}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 82b8f7f4067024e41809246c7f07ef80, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dialogueEvents:
+  - eventName: "\uAD34\uC0C1\uD55C \uB3C4\uAD6C"
+    eventConditions: []
+    conditionFlag: 0
+    endEvnetName: 
+    dialogues:
+    - tf_Target: {fileID: 0}
+      cameraType: 0
+      name: 
+      contexts: []
+      spriteNames: []
+      voiceNames: []
+      cutSceneName: []
+    - tf_Target: {fileID: 0}
+      cameraType: 0
+      name: 
+      contexts: []
+      spriteNames: []
+      voiceNames: []
+      cutSceneName: []
+    - tf_Target: {fileID: 0}
+      cameraType: 5
+      name: 
+      contexts: []
+      spriteNames: []
+      voiceNames: []
+      cutSceneName: []
+    - tf_Target: {fileID: 0}
+      cameraType: 6
+      name: 
+      contexts: []
+      spriteNames: []
+      voiceNames: []
+      cutSceneName: []
+    isAfter: 0
+    afterDialogues: []
+  isSetDialogeu: 0
 --- !u!1 &1265648990
 GameObject:
   m_ObjectHideFlags: 0
@@ -10596,7 +10633,7 @@ Transform:
   - {fileID: 831147344}
   - {fileID: 1437346322}
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1454766181
 MonoBehaviour:
@@ -11311,7 +11348,7 @@ Transform:
   m_Children:
   - {fileID: 2082576535}
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1618497019
 PrefabInstance:
@@ -16475,7 +16512,6 @@ GameObject:
   - component: {fileID: 1885960109}
   - component: {fileID: 1885960111}
   - component: {fileID: 1885960110}
-  - component: {fileID: 1885960112}
   m_Layer: 0
   m_Name: Door
   m_TagString: Interaction
@@ -16523,21 +16559,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e85b66a27f652854b9c54e2012434cd5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isNextMapOnlyView: 0
-  changeSceneName: Cafeteria
-  locationName: CafeEntrance
---- !u!114 &1885960112
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1885960108}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 263ddd96e2d49eb489ef725ca60bffa7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
   dialogueEvents:
   - eventName: "\uBB38 \uB2EB\uD600\uC788\uC74C"
     eventConditions: []
@@ -16545,14 +16566,19 @@ MonoBehaviour:
     endEvnetName: "\uBD09\uB780 \uCCAB\uC778\uC0AC"
     dialogues: []
     isAfter: 0
+    afterDialogues: []
   - eventName: "\uBB38 \uB2EB\uD600\uC788\uC74C"
     eventConditions: []
     conditionFlag: 0
     endEvnetName: 
     dialogues: []
     isAfter: 0
+    afterDialogues: []
   isSetDialogeu: 0
-  number: 0
+  isNextMapOnlyView: 0
+  changeSceneName: Cafeteria
+  locationName: CafeEntrance
+  transferNumber: 1
 --- !u!4 &1886254738
 Transform:
   m_ObjectHideFlags: 0
@@ -16645,7 +16671,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dialogueEvents: []
   isSetDialogeu: 0
-  number: 0
 --- !u!114 &1943139039
 MonoBehaviour:
   m_ObjectHideFlags: 0

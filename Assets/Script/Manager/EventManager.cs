@@ -16,9 +16,13 @@ public class EventManager : MonoBehaviour
     {
         if (instance == null) instance = this;
         eventFlags = new EventFlagsDictionary();
-
-
     }
+
+    //[ContextMenu("SetEventDictionary")]
+    //void SetEventDictionary()
+    //{
+    //    eventFlags = new EventFlagsDictionary();
+    //}
 
     public void GameEventByTalkEnd(EventByTalk eventByTalk)
     {

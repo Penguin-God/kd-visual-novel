@@ -6,9 +6,10 @@ public class InteractionEvent : MonoBehaviour
 {
     [SerializeField] protected DialogueEvent[] dialogueEvents;
     Transform currentTarget = null;
+
     private void Start()
     {
-        StartCoroutine(Co_SetDialogueEvent());
+        if (dialogueEvents.Length > 0) StartCoroutine(Co_SetDialogueEvent());
     }
 
     [HideInInspector]
@@ -24,7 +25,7 @@ public class InteractionEvent : MonoBehaviour
         isSetDialogeu = true;
 
         yield return null;
-        gameObject.SetActive(CheckEventAppearCondition(dialogueEvents[currentEvent]));
+        gameObject.SetActive(CheckEventAppearCondition(dialogueEvents[CurrentEventNumber]));
     }
 
     // 하나의 이벤트 대화 세팅
@@ -50,7 +51,7 @@ public class InteractionEvent : MonoBehaviour
 
     public Dialogue[] GetDialogues() // 대화 여부에 따라 다른 대화 정보를 보냄
     {
-        DialogueEvent dialogueEvent = dialogueEvents[currentEvent];
+        DialogueEvent dialogueEvent = dialogueEvents[CurrentEventNumber];
         // 대화 이벤트를 보지 않았거나 After 대사가 없으면 같은 대사 출력
         if (!EventManager.instance.eventFlags[dialogueEvent.eventName] || !dialogueEvent.isAfter) 
         {
@@ -61,18 +62,21 @@ public class InteractionEvent : MonoBehaviour
         else return SetDialogueEvent(dialogueEvent.afterDialogues, dialogueEvent.eventName + "After");
     }
 
+    public virtual void StartInteraction()
+    {
+
+    }
 
     public string CurrentEventName
     {
         get
         {
-            return dialogueEvents[number].eventName;
+            return dialogueEvents[CurrentEventNumber].eventName;
         }
     }
     
-    public int number = 0;
 
-    int currentEvent
+    public int CurrentEventNumber
     {
         get
         {
@@ -80,13 +84,14 @@ public class InteractionEvent : MonoBehaviour
             {
                 if (CheckEventAppearCondition(dialogueEvents[i]))
                 {
-                    number = i;
+                    saveCurrentNumber = i;
                     return i;
                 }
             }
-            return number;
+            return saveCurrentNumber;
         }
     }
+    int saveCurrentNumber = 0;
 
     // 인자로 온 이벤트가 현재 진행되는게 맞는지 체크하는 함수
     bool CheckEventAppearCondition(DialogueEvent p_Event)
