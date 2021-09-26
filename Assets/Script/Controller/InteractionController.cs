@@ -45,30 +45,7 @@ public class InteractionController : MonoBehaviour
         // InteractionEvent 상속시켜서 가상함수로 대화 이벤트 시작
         InteractionEvent interactionEvent = interactTransform.GetComponent<InteractionEvent>();
         if (interactionEvent != null) interactionEvent.StartInteraction();
-
-        //InteractionType interactionType = interactTransform.GetComponent<InteractionType>();
-        //if (interactionType.isObject) DialogueManager.instance.StartTalk(interactTransform.GetComponent<InteractionEvent>().GetDialogues());
-        //else if (interactionType.isDoor) CallTransfer();
     }
-
-    void CallDialogue() // 이 부분을 InteractionEvent에서 구현
-    {
-        DialogueManager.instance.SetEvent(interactTransform);
-        DialogueManager.instance.StartTalk(interactTransform.GetComponent<InteractionEvent>().GetDialogues());
-    }
-
-    //void CallTransfer()
-    //{
-    //    // 코드 바꾸기 : 이 부분을 그냥 InteractionDoor 내부에서 검사 후 실행
-    //    if(interactTransform.GetComponent<InteractionEvent>() != null && interactTransform.GetComponent<InteractionEvent>().number == 0)
-    //    {
-    //        DialogueManager.instance.StartTalk(interactTransform.GetComponent<InteractionEvent>().GetDialogues());
-    //        return;
-    //    }
-
-    //    InteractionDoor door = interactTransform.GetComponent<InteractionDoor>();
-    //    door.SceneTransfer();
-    //}
 
     private Camera cam;
     private Vector3 mousePosition;
