@@ -9,7 +9,10 @@ public class InteractionEvent : MonoBehaviour
 
     private void Start()
     {
-        if (dialogueEvents.Length > 0) StartCoroutine(Co_SetDialogueEvent());
+        if (dialogueEvents.Length > 0)
+        {
+            StartCoroutine(Co_SetDialogueEvent());
+        }
     }
 
     [HideInInspector]
@@ -21,6 +24,7 @@ public class InteractionEvent : MonoBehaviour
         for(int i = 0; i < dialogueEvents.Length; i++)
         {
             dialogueEvents[i].dialogues = SetDialogueEvent(dialogueEvents[i].dialogues, dialogueEvents[i].eventName);
+            dialogueEvents[i].talkCondition = DataBaseManager.instance.dic_TalkCondition[dialogueEvents[i].eventName];
         }
         isSetDialogeu = true;
 
@@ -32,6 +36,7 @@ public class InteractionEvent : MonoBehaviour
     Dialogue[] SetDialogueEvent(Dialogue[] p_Dialogue, string eventName)
     {
         Dialogue[] t_Dialogue = DataBaseManager.instance.GetDialogues(eventName);
+
         for (int i = 0; i < t_Dialogue.Length; i++) // 각종 변수 대입
         {
             // 이름 앞에 ⒳가 붙어 있으면 타겟팅 안하는거임
@@ -99,16 +104,16 @@ public class InteractionEvent : MonoBehaviour
         bool flag = true;
 
         // 등장 조건과 맞지 않으면 false
-        for (int i = 0; i < p_Event.eventConditions.Length; i++)
+        for (int i = 0; i < p_Event.talkCondition.eventConditions.Length; i++)
         {
-            if (EventManager.instance.eventFlags[p_Event.eventConditions[i]] != p_Event.conditionFlag)
+            if (EventManager.instance.eventFlags[p_Event.eventName] != p_Event.talkCondition.conditionFlag)
             {
                 return false;
             }
         }
 
         // 등장 조건과 상관 없이 퇴장 조건을 만족하면 등장시키지 않음
-        if (EventManager.instance.eventFlags.TryGetValue(p_Event.endEvnetName, out bool endFlag))
+        if (EventManager.instance.eventFlags.TryGetValue(p_Event.talkCondition.endEvnetName, out bool endFlag))
             flag = !endFlag;
 
         return flag;

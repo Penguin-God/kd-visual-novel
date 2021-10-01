@@ -7,10 +7,13 @@ public class DebugDialogue
 {
     public string name;
     public Dialogue[] dialogues;
+    public TalkEventCondition talkCondition;
 }
 public class DialogueParser : MonoBehaviour
 {
-    public List<DebugDialogue> debugData; // 디버그용으로 Parse한 데이터를 인스펙터 창에서 볼 수 있게 하는 변수
+    // 디버그용으로 Parse한 데이터를 인스펙터 창에서 볼 수 있게 하는 리스트
+    public List<DebugDialogue> debugData; 
+
     public List<Dialogue[]> Parse(string _CsvFileName)
     {
         List<Dialogue[]> dialoguesList = new List<Dialogue[]>();
@@ -28,8 +31,8 @@ public class DialogueParser : MonoBehaviour
 
         // Resources폴더에 있는 csv 파일 가져옴
         TextAsset csvData = Resources.Load<TextAsset>(_CsvFileName); // TextAsset : csv파일을 담을 수 있는 데이터 구조
-
-        string[] datas = csvData.text.Split(new char[] { '\n' }); // 줄바꿈(한 줄)을 기준으로 csv 파일을 쪼개서 string배열에 줄 순서대로 담음
+        string csvText = csvData.text.Substring(0, csvData.text.Length -1);
+        string[] datas = csvText.Split(new char[] { '\n' }); // 줄바꿈(한 줄)을 기준으로 csv 파일을 쪼개서 string배열에 줄 순서대로 담음
 
         // for문에 i++를 넣지 않고 while문처럼 사용
         for (int i = 1; i < datas.Length;) // 엑셀 파일 1번째 줄은 편의를 위한 분류이므로 i = 1부터 시작
@@ -50,7 +53,7 @@ public class DialogueParser : MonoBehaviour
             DebugDialogue DebugDialogue = new DebugDialogue(); 
             DebugDialogue.name = row[0].Trim();
 
-            while (row[0].Trim() != "end" && i < datas.Length)
+            while (row[0].Trim() != "end") // 1열이 end이면
             {
                 Dialogue dialogue = new Dialogue();
                 dialogue.name = row[1];
@@ -92,12 +95,14 @@ public class DialogueParser : MonoBehaviour
             
             // 디버깅 데이터 세팅
             DebugDialogue.dialogues = dialogueList.ToArray();
-            debugData.Add(DebugDialogue);
+            DebugDialogue.talkCondition = new TalkEventCondition(row[1].Split('/'), row[2] == "TRUE", row[3]);
+            debugData.Add(DebugDialogue); // 실제 인스펙터 창에 보일 List에 Add
         }
         
         return dialoguesList;
     }
 
+    // 대화 이벤트 이름들 return
     public string[] GetEventNames(string _CsvFileName)
     {
         TextAsset csvData = Resources.Load<TextAsset>(_CsvFileName); // TextAsset : csv파일을 담을 수 있는 데이터 구조
@@ -114,5 +119,23 @@ public class DialogueParser : MonoBehaviour
             if (row[0].ToString() != "" && row[0].ToString() != "end") eventNames.Add(row[0].ToString());
         }
         return eventNames.ToArray();
+    }
+
+    public TalkEventCondition[] GetTalkCondition(string _CsvFileName)
+    {
+        TextAsset csvData = Resources.Load<TextAsset>(_CsvFileName); // TextAsset : csv파일을 담을 수 있는 데이터 구조
+
+        string[] datas = csvData.text.Split(new char[] { '\n' }); // 줄바꿈(한 줄)을 기준으로 csv 파일을 쪼개서 string배열에 줄 순서대로 담음
+
+        List<TalkEventCondition> talkConditions = new List<TalkEventCondition>();
+
+        for (int i = 1; i < datas.Length; i++) // 엑셀 파일 1번째 줄은 편의를 위한 분류이므로 i = 1부터 시작
+        {
+            // A, B, C열을 쪼개서 배열에 담음 (CSV파일은 ,로 데이터를 구분하기 때문에 ,를 기준으로 짜름)
+            string[] row = datas[i].Split(new char[] { ',' });
+
+            if (row[0].ToString() == "end" ) talkConditions.Add(new TalkEventCondition(row[1].Split('/'), row[2] == "True", row[3] ));
+        }
+        return talkConditions.ToArray();
     }
 }

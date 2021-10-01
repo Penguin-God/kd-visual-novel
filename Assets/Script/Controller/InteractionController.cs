@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class InteractionController : MonoBehaviour
+abstract public class InteractionController : MonoBehaviour
 {
     private void Awake()
     {

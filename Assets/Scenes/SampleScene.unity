@@ -285,8 +285,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9bfcfbe7e5a42d64582b04b938547dee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isDoor: 0
-  isObject: 1
   interactionName: "\uC2F8\uC774\uCF54"
 --- !u!65 &130968869
 BoxCollider:
@@ -1602,8 +1600,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9bfcfbe7e5a42d64582b04b938547dee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isDoor: 0
-  isObject: 1
   interactionName: "\uD1A0\uAC00\uBBF8"
 --- !u!65 &604849227
 BoxCollider:
@@ -1854,10 +1850,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   obj_Qestion: {fileID: 1740438889}
+  interactTransform: {fileID: 0}
+  cam: {fileID: 0}
+  mousePosition: {x: 0, y: 0, z: 0}
   normalCorsshair: {fileID: 1295152377}
   interactiveCorsshair: {fileID: 489485570}
   obj_TargetNameBar: {fileID: 2016373543}
   txt_TargetName: {fileID: 1206813339}
+  contactTransform: {fileID: 0}
   img_Interaction: {fileID: 1018372196}
   img_InteractionEffect: {fileID: 1014662044}
 --- !u!1 &656317840
@@ -2414,8 +2414,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9bfcfbe7e5a42d64582b04b938547dee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isDoor: 0
-  isObject: 1
   interactionName: "\uBD09\uB780"
 --- !u!114 &747055794
 MonoBehaviour:
@@ -2833,8 +2831,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9bfcfbe7e5a42d64582b04b938547dee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isDoor: 1
-  isObject: 0
   interactionName: "\uBB38"
 --- !u!1 &781617413
 GameObject:
@@ -9950,8 +9946,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9bfcfbe7e5a42d64582b04b938547dee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isDoor: 0
-  isObject: 1
   interactionName: "\uBD09\uB7802"
 --- !u!65 &1263617460
 BoxCollider:
@@ -16531,8 +16525,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9bfcfbe7e5a42d64582b04b938547dee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isDoor: 1
-  isObject: 0
   interactionName: "\uBB38"
 --- !u!65 &1885960110
 BoxCollider:
