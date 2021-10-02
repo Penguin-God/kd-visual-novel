@@ -16,6 +16,7 @@ public class EventManager : MonoBehaviour
     {
         if (instance == null) instance = this;
         eventFlags = new EventFlagsDictionary();
+        eventFlags.Add("", false);
     }
 
     //[ContextMenu("SetEventDictionary")]

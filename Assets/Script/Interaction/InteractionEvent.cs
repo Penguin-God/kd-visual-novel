@@ -23,8 +23,12 @@ public class InteractionEvent : MonoBehaviour
 
         for(int i = 0; i < dialogueEvents.Length; i++)
         {
+            // Dialogue(대화 이벤트) 세팅
             dialogueEvents[i].dialogues = SetDialogueEvent(dialogueEvents[i].dialogues, dialogueEvents[i].eventName);
+            // TalkEventCondition(대화 이벤트 조건) 세팅
             dialogueEvents[i].talkCondition = DataBaseManager.instance.dic_TalkCondition[dialogueEvents[i].eventName];
+            // After 대화 유뮤 설정
+            if (EventManager.instance.eventFlags.ContainsKey(dialogueEvents[i].eventName + "After")) dialogueEvents[i].isAfter = true;
         }
         isSetDialogeu = true;
 
@@ -63,7 +67,7 @@ public class InteractionEvent : MonoBehaviour
             DialogueManager.instance.SetEvent(transform);
             EventManager.instance.eventFlags[CurrentEventName] = true;
             return dialogueEvent.dialogues;
-        }
+        } // 기본 대화 이벤트를 봤고 isAfter 가 true면 After 대사 출력
         else return SetDialogueEvent(dialogueEvent.afterDialogues, dialogueEvent.eventName + "After");
     }
 
@@ -106,7 +110,7 @@ public class InteractionEvent : MonoBehaviour
         // 등장 조건과 맞지 않으면 false
         for (int i = 0; i < p_Event.talkCondition.eventConditions.Length; i++)
         {
-            if (EventManager.instance.eventFlags[p_Event.eventName] != p_Event.talkCondition.conditionFlag)
+            if (EventManager.instance.eventFlags[p_Event.talkCondition.eventConditions[i]] != p_Event.talkCondition.conditionFlag)
             {
                 return false;
             }

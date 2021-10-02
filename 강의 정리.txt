@@ -1308,8 +1308,14 @@ Talk() 조건에 ctrl 클릭 조건을 || 로 추가해 ctrl누를 때도 대화
 
 csv파일 한글 깨질 때는 메모장으로 드래그해서 인코딩 utf-8로 바꿔서 저장해야됨
 
+내 파트 : 여러 작업 엑셀(코드)에서 작업하기
+조건 관련 변수를 가진 클래스인 TalkEvnetCondition class를 만들어 DialogueEvent안에 넣음 
+엑셀 파일에서 end 줄이 비어있기 때문에 end 줄에 대화 이벤트 조건을 넣고 파서에서 row[0]이 엔드일 때 값을 넣어 객체를 만듬 
+만든 객체는 eventName를 키로 가지는 딕셔너리에 value로 들어가고 DialogueEvent를 세팅하면서 Dialogue[]를 선언할 때 사용한 eventName을 딕셔너리에 key로 사용해 나오는 value 값을 넣음
 
+isAfter는 현재 eventName + "After" 의 이름을 가진 대화가 있으면 소스 코드에서 자동으로 true가 되게 함 
 
+전체적으로 에디터에서보다 엑셀로 작업을 옮기는데 좋은듯 카메라도 그냥 엑셀에서 하는 게 편할 거 같음
 
 
 
