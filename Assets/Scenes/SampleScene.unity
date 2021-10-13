@@ -1850,14 +1850,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   obj_Qestion: {fileID: 1740438889}
-  interactTransform: {fileID: 0}
-  cam: {fileID: 0}
-  mousePosition: {x: 0, y: 0, z: 0}
   normalCorsshair: {fileID: 1295152377}
   interactiveCorsshair: {fileID: 489485570}
   obj_TargetNameBar: {fileID: 2016373543}
   txt_TargetName: {fileID: 1206813339}
-  contactTransform: {fileID: 0}
   img_Interaction: {fileID: 1018372196}
   img_InteractionEffect: {fileID: 1014662044}
 --- !u!1 &656317840
@@ -2457,16 +2453,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dialogueEvents:
   - eventName: "\uBD09\uB780 \uCCAB\uC778\uC0AC"
-    eventConditions: []
-    conditionFlag: 0
-    endEvnetName: "\uBD09\uB780 \uCCAB\uC778\uC0AC"
+    talkCondition:
+      eventConditions: []
+      conditionFlag: 0
+      endEvnetName: 
     dialogues: []
     isAfter: 0
     afterDialogues: []
   - eventName: "\uC2EC\uC2EC\uD55C \uBD09\uB780"
-    eventConditions: []
-    conditionFlag: 0
-    endEvnetName: 
+    talkCondition:
+      eventConditions: []
+      conditionFlag: 0
+      endEvnetName: 
     dialogues: []
     isAfter: 0
     afterDialogues: []
@@ -9990,9 +9988,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dialogueEvents:
   - eventName: "\uAD34\uC0C1\uD55C \uB3C4\uAD6C"
-    eventConditions: []
-    conditionFlag: 0
-    endEvnetName: 
+    talkCondition:
+      eventConditions: []
+      conditionFlag: 0
+      endEvnetName: 
     dialogues:
     - tf_Target: {fileID: 0}
       cameraType: 0
@@ -16553,16 +16552,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dialogueEvents:
   - eventName: "\uBB38 \uB2EB\uD600\uC788\uC74C"
-    eventConditions: []
-    conditionFlag: 0
-    endEvnetName: "\uBD09\uB780 \uCCAB\uC778\uC0AC"
+    talkCondition:
+      eventConditions: []
+      conditionFlag: 0
+      endEvnetName: 
     dialogues: []
     isAfter: 0
     afterDialogues: []
   - eventName: "\uBB38 \uB2EB\uD600\uC788\uC74C"
-    eventConditions: []
-    conditionFlag: 0
-    endEvnetName: 
+    talkCondition:
+      eventConditions: []
+      conditionFlag: 0
+      endEvnetName: 
     dialogues: []
     isAfter: 0
     afterDialogues: []

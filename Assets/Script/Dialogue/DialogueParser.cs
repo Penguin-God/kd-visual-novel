@@ -95,7 +95,6 @@ public class DialogueParser : MonoBehaviour
             
             // 디버깅 데이터 세팅
             DebugDialogue.dialogues = dialogueList.ToArray();
-            DebugDialogue.talkCondition = new TalkEventCondition(row[1].Split('/'), row[2] == "TRUE", row[3]);
             debugData.Add(DebugDialogue); // 실제 인스펙터 창에 보일 List에 Add
         }
         
