@@ -35,18 +35,14 @@ public class DialogueParser : MonoBehaviour
         string[] datas = csvText.Split(new char[] { '\n' }); // 줄바꿈(한 줄)을 기준으로 csv 파일을 쪼개서 string배열에 줄 순서대로 담음
 
         // for문에 i++를 넣지 않고 while문처럼 사용
-        for (int i = 1; i < datas.Length;) // 엑셀 파일 1번째 줄은 편의를 위한 분류이므로 i = 1부터 시작
+        for (int i = 1; i < datas.Length; i++) // 엑셀 파일 1번째 줄은 편의를 위한 분류이므로 i = 1부터 시작
         {
             // A, B, C열을 쪼개서 배열에 담음 (CSV파일은 ,로 데이터를 구분하기 때문에 ,를 기준으로 짜름)
             string[] row = datas[i].Split(new char[] { ',' });
             List<Dialogue> dialogueList = new List<Dialogue>();
 
-
-            if (row[0].Trim() == "" || row[0].Trim() == "end") // 유효한 이벤트 이름이 나올때까지 반복
-            {
-                i++;
-                continue;
-            }
+            // 유효한 이벤트 이름이 나올때까지 
+            if (row[0].Trim() == "" || row[0].Trim() == "end") continue;
             Debug.Log("do  :  " + i);
 
             // 디버그용 클래스
@@ -66,19 +62,14 @@ public class DialogueParser : MonoBehaviour
 
                 do // do while : 무조건 한번 실행하고 while의 조건 확인 후 돌지 말지 결정
                 {
-                    if (row[2].Trim() == "") break; // 대사 넣다가 다음줄이 공백이면 대화가 끝났다는 뜻 즉, 끝나면 탈출하는 조건문
-
                     contextList.Add(row[2]);
                     spriteList.Add(row[3]);
                     voiceList.Add(row[4]);
                     sceneList.Add(row[5]);
 
-                    if (++i < datas.Length)
-                    {
-                        row = datas[i].Split(new char[] { ',' });
-                    }
+                    if (++i < datas.Length) row = datas[i].Split(new char[] { ',' });
                     else break;
-                } while (row[1].ToString() == "");
+                } while (row[1].ToString() == "" && row[0] != "end"); // row[0] != "end" 는 마지막 대사 다음에는 캐릭터가 없어서 대화를 탈출하기 위한 조건
                 // row[1]이 공백이라는 뜻은 한 캐릭터가 여러 대사를 치고 있다는 뜻이므로 contextList에 대사를 추가하기 공백이 아닐 때까지 반복문을 돔
 
                 // 위에서 생성한 대사 리스트를 dialogue.contexts에 대입
