@@ -65,6 +65,7 @@ public class DialogueManager : MonoBehaviour
     bool isNext = false;
     int talkIndex;
     int contextCount;
+    // 이벤트 scriptable object 이용해서 리펙토링하기
     public event Action<Transform> OnStartTalk;
 
     public void StartTalk(Dialogue[] p_Dialogues)
@@ -110,16 +111,7 @@ public class DialogueManager : MonoBehaviour
 
 
     [SerializeField] float textDelayTime;
-    private float applyTextDelayTime
-    {
-        get
-        {
-            return Input.GetButton("Ctrl") ? 0 : textDelayTime;
-        }
-    }
-    /// <summary>
-    /// 들어가 있는 함수 : ChangeSprite_byTalk, PlayVoice_byTalk
-    /// </summary>
+    private float ApplyTextDelayTime { get { return Input.GetButton("Ctrl") ? 0 : textDelayTime; } }
     public event Action<Dialogue, int> AfterTalkEvent;
 
     IEnumerator Co_TypeWriter()
@@ -149,7 +141,7 @@ public class DialogueManager : MonoBehaviour
 
             string addText = replaceText[i].ToString();
             txt_Dialogue.text += (effectChar != ' ' && effectChar != 'ⓦ') ? ColoringText(effectChar, addText) : addText;
-            yield return new WaitForSeconds(applyTextDelayTime);
+            yield return new WaitForSeconds(ApplyTextDelayTime);
         }
         isNext = true;
     }
