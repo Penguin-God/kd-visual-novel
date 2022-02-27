@@ -1099,7 +1099,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e7c6993e1ae6344097ab15dde55320d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  csv_FileName: DialogueDataFile
+  csvAsset: {fileID: 4900000, guid: 76bc545f324521b4f9e650b3febcf66c, type: 3}
   isFinish: 0
 --- !u!114 &492846736
 MonoBehaviour:
@@ -1675,6 +1675,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 263ddd96e2d49eb489ef725ca60bffa7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  data: {fileID: 0}
   dialogueEvents: []
   isSetDialogeu: 0
 --- !u!114 &616996588
@@ -2451,6 +2452,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82b8f7f4067024e41809246c7f07ef80, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  data: {fileID: 0}
   dialogueEvents:
   - eventName: "\uBD09\uB780 \uCCAB\uC778\uC0AC"
     talkCondition:
@@ -2811,6 +2813,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e85b66a27f652854b9c54e2012434cd5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  data: {fileID: 0}
   dialogueEvents: []
   isSetDialogeu: 0
   isNextMapOnlyView: 0
@@ -9986,41 +9989,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82b8f7f4067024e41809246c7f07ef80, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  data: {fileID: 11400000, guid: 50907faebd10a154aa92df6d6b5a0dac, type: 2}
   dialogueEvents:
   - eventName: "\uAD34\uC0C1\uD55C \uB3C4\uAD6C"
     talkCondition:
       eventConditions: []
       conditionFlag: 0
       endEvnetName: 
-    dialogues:
-    - tf_Target: {fileID: 0}
-      cameraType: 0
-      name: 
-      contexts: []
-      spriteNames: []
-      voiceNames: []
-      cutSceneName: []
-    - tf_Target: {fileID: 0}
-      cameraType: 0
-      name: 
-      contexts: []
-      spriteNames: []
-      voiceNames: []
-      cutSceneName: []
-    - tf_Target: {fileID: 0}
-      cameraType: 5
-      name: 
-      contexts: []
-      spriteNames: []
-      voiceNames: []
-      cutSceneName: []
-    - tf_Target: {fileID: 0}
-      cameraType: 6
-      name: 
-      contexts: []
-      spriteNames: []
-      voiceNames: []
-      cutSceneName: []
+    dialogues: []
     isAfter: 0
     afterDialogues: []
   isSetDialogeu: 0
@@ -16550,6 +16526,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e85b66a27f652854b9c54e2012434cd5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  data: {fileID: 0}
   dialogueEvents:
   - eventName: "\uBB38 \uB2EB\uD600\uC788\uC74C"
     talkCondition:
@@ -16662,6 +16639,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 263ddd96e2d49eb489ef725ca60bffa7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  data: {fileID: 0}
   dialogueEvents: []
   isSetDialogeu: 0
 --- !u!114 &1943139039

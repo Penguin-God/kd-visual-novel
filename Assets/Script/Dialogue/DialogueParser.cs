@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -9,12 +9,13 @@ public class DebugDialogue
     public Dialogue[] dialogues;
     public TalkEventCondition talkCondition;
 }
+
 public class DialogueParser : MonoBehaviour
 {
     // 디버그용으로 Parse한 데이터를 인스펙터 창에서 볼 수 있게 하는 리스트
     public List<DebugDialogue> debugData; 
 
-    public List<Dialogue[]> Parse(string _CsvFileName)
+    public List<Dialogue[]> Parse(TextAsset _csv)
     {
         List<Dialogue[]> dialoguesList = new List<Dialogue[]>();
 
@@ -29,9 +30,7 @@ public class DialogueParser : MonoBehaviour
         // E열 : 보이스 사운드 이름으로 사운드를 재생하지 않으면 공백이 생김
         // F열 : Cg 이름으로 대화 중 CG가 삽입되지 않으면 공백
 
-        // Resources폴더에 있는 csv 파일 가져옴
-        TextAsset csvData = Resources.Load<TextAsset>(_CsvFileName); // TextAsset : csv파일을 담을 수 있는 데이터 구조
-        string csvText = csvData.text.Substring(0, csvData.text.Length -1);
+        string csvText = _csv.text.Substring(0, _csv.text.Length -1);
         string[] datas = csvText.Split(new char[] { '\n' }); // 줄바꿈(한 줄)을 기준으로 csv 파일을 쪼개서 string배열에 줄 순서대로 담음
 
         // for문에 i++를 넣지 않고 while문처럼 사용
@@ -93,11 +92,9 @@ public class DialogueParser : MonoBehaviour
     }
 
     // 대화 이벤트 이름들 return
-    public string[] GetEventNames(string _CsvFileName)
+    public string[] GetEventNames(TextAsset _csvFile)
     {
-        TextAsset csvData = Resources.Load<TextAsset>(_CsvFileName); // TextAsset : csv파일을 담을 수 있는 데이터 구조
-
-        string[] datas = csvData.text.Split(new char[] { '\n' }); // 줄바꿈(한 줄)을 기준으로 csv 파일을 쪼개서 string배열에 줄 순서대로 담음
+        string[] datas = _csvFile.text.Split(new char[] { '\n' }); // 줄바꿈(한 줄)을 기준으로 csv 파일을 쪼개서 string배열에 줄 순서대로 담음
 
         List<string> eventNames = new List<string>();
 
@@ -111,11 +108,9 @@ public class DialogueParser : MonoBehaviour
         return eventNames.ToArray();
     }
 
-    public TalkEventCondition[] GetTalkCondition(string _CsvFileName)
+    public TalkEventCondition[] GetTalkCondition(TextAsset _csvFile)
     {
-        TextAsset csvData = Resources.Load<TextAsset>(_CsvFileName); // TextAsset : csv파일을 담을 수 있는 데이터 구조
-
-        string[] datas = csvData.text.Split(new char[] { '\n' }); // 줄바꿈(한 줄)을 기준으로 csv 파일을 쪼개서 string배열에 줄 순서대로 담음
+        string[] datas = _csvFile.text.Split(new char[] { '\n' }); // 줄바꿈(한 줄)을 기준으로 csv 파일을 쪼개서 string배열에 줄 순서대로 담음
 
         List<TalkEventCondition> talkConditions = new List<TalkEventCondition>();
 

@@ -1,9 +1,10 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class InteractionEvent : MonoBehaviour
 {
+    [SerializeField] DialogueData data;
     [SerializeField] protected DialogueEvent[] dialogueEvents;
     Transform currentTarget = null;
 
@@ -60,6 +61,8 @@ public class InteractionEvent : MonoBehaviour
 
     public Dialogue[] GetDialogues() // 대화 여부에 따라 다른 대화 정보를 보냄
     {
+        // return data.Dialogues; 임시 코드 class type 바꿔줘야됨
+
         DialogueEvent dialogueEvent = dialogueEvents[CurrentEventNumber];
         // 대화 이벤트를 보지 않았거나 After 대사가 없으면 같은 대사 출력
         if (!EventManager.instance.eventFlags[dialogueEvent.eventName] || !dialogueEvent.isAfter) 
@@ -71,6 +74,7 @@ public class InteractionEvent : MonoBehaviour
         else return SetDialogueEvent(dialogueEvent.afterDialogues, dialogueEvent.eventName + "After");
     }
 
+    // 가상 함수
     public virtual void StartInteraction()
     {
 

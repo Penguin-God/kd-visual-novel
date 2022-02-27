@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public enum CameraType
 {
@@ -16,7 +17,7 @@ public enum CameraType
     ChangeSlide,
 }
 
-[System.Serializable] // 데이터를 직렬로 하겠다는 뜻 인스펙터 창에서 수정하기 위해 필요
+[Serializable] // 데이터를 직렬로 하겠다는 뜻 인스펙터 창에서 수정하기 위해 필요
 public class Dialogue // Dialogue 하나는 엑셀 파일 1줄을 의미
 {
     [Tooltip("카메라가 타겟팅할 대상")]
@@ -34,7 +35,7 @@ public class Dialogue // Dialogue 하나는 엑셀 파일 1줄을 의미
     public string[] cutSceneName;
 }
 
-[System.Serializable]
+[Serializable]
 public class TalkEventCondition
 {
     public TalkEventCondition(string[] _conditions, bool _flag, string _endName)
@@ -47,8 +48,8 @@ public class TalkEventCondition
     public string endEvnetName; // 퇴장 이벤트 넘버
 }
 
-// InteractionEvent에서 DialogueEvent를 [SerializeField]를 통해 인스펙터에 나타내고 있는데 [System.Serializable]가 없으면 인스펙터 창에 나타나지 않음
-[System.Serializable]
+// InteractionEvent에서 DialogueEvent를 [SerializeField]를 통해 인스펙터에 나타내고 있는데 [Serializable]가 없으면 인스펙터 창에 나타나지 않음
+[Serializable]
 public class DialogueEvent
 {
     // 컴포넌트를 가지고 있는 오브젝트가 진행하는 이벤트 이름 (진행하면 EventManager의 eventFlags의 eventName에 맞는 value가 true가 됨)

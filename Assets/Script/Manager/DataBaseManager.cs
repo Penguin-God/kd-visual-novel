@@ -5,7 +5,7 @@ using UnityEngine;
 public class DataBaseManager : MonoBehaviour
 {
     public static DataBaseManager instance;
-    [SerializeField] string csv_FileName;
+    [SerializeField] TextAsset csvAsset = null;
     Dictionary<string, Dialogue[]> Dic_dialogue = new Dictionary<string, Dialogue[]>();
     public Dictionary<string, TalkEventCondition> dic_TalkCondition = new Dictionary<string, TalkEventCondition>();
     public bool isFinish = false;
@@ -17,11 +17,11 @@ public class DataBaseManager : MonoBehaviour
             instance = this;
             DialogueParser theParser = GetComponent<DialogueParser>();
 
-            TalkEventCondition[] talkConditions = theParser.GetTalkCondition(csv_FileName);
+            TalkEventCondition[] talkConditions = theParser.GetTalkCondition(csvAsset);
 
             List<Dialogue[]> dialoguesList = new List<Dialogue[]>();
-            dialoguesList = theParser.Parse(csv_FileName);
-            string[] eventNames = theParser.GetEventNames(csv_FileName);
+            dialoguesList = theParser.Parse(csvAsset);
+            string[] eventNames = theParser.GetEventNames(csvAsset);
 
             for (int i = 0; i < dialoguesList.Count; i++)
             {
