@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 [CreateAssetMenu(fileName = "file data", menuName = "Scriptable Object / Dialogue File Data")]
 public class DialogueFileData : ScriptableObject
@@ -39,7 +40,7 @@ public class DialogueFileData : ScriptableObject
 
             // 유효한 이벤트 이름이 나올때까지 
             if (row[0].Trim() == "" || row[0].Trim() == "end") continue;
-            Debug.Log("do  :  " + i);
+            //Debug.Log("do  :  " + i);
             FileLineData _fileData = new FileLineData();
             _fileData.dialogueName = row[0].Trim();
 
@@ -84,7 +85,7 @@ public class DialogueFileData : ScriptableObject
     }
 }
 
-[System.Serializable]
+[Serializable]
 public class FileLineData
 {
     public string dialogueName;

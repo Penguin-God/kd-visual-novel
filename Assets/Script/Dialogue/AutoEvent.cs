@@ -42,7 +42,7 @@ public class AutoEvent : MonoBehaviour
         SetNextEvent();
     }
 
-    void SetNextEvent() // ø¨º” ¿Ã∫•∆Æ
+    void SetNextEvent() // Ïó∞ÏÜç Ïù¥Î≤§Ìä∏
     {
         if (nextEvent != null) 
         {

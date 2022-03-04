@@ -4,16 +4,31 @@ using UnityEngine;
 
 public class InteractionEvent : MonoBehaviour
 {
-    [SerializeField] DialogueData data;
+    [SerializeField] DialogueData dialogueData;
+    [SerializeField] LineData[] currentDialogue;
+    [SerializeField] EventCondition eventCondition;
+
     [SerializeField] protected DialogueEvent[] dialogueEvents;
-    Transform currentTarget = null;
 
     private void Start()
     {
+        SetDialogueData();
         if (dialogueEvents.Length > 0)
         {
             StartCoroutine(Co_SetDialogueEvent());
         }
+        DialogueManager.instance.OnEndTalk += dialogueData.interactionEndAct;
+    }
+
+    void SetDialogueData()
+    {
+        currentDialogue = dialogueData.GetDialogue();
+        eventCondition = dialogueData.GetCondition();
+        dialogueData.interactionEndAct += () =>
+        {
+            dialogueData = dialogueData.GetAfterDialogue(out bool _isAfter);
+            if (_isAfter) SetDialogueData();
+        };
     }
 
     [HideInInspector]
@@ -37,6 +52,7 @@ public class InteractionEvent : MonoBehaviour
         gameObject.SetActive(CheckEventAppearCondition(dialogueEvents[CurrentEventNumber]));
     }
 
+    Transform currentTarget = null;
     // 하나의 이벤트 대화 세팅
     Dialogue[] SetDialogueEvent(Dialogue[] p_Dialogue, string eventName)
     {
