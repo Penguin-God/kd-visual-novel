@@ -13,7 +13,17 @@ public enum DialogueTriggerType
 [CreateAssetMenu(fileName = "new Dialogue", menuName = "Scriptable Object / Dialogue Data")]
 public class DialogueData : ScriptableObject
 {
-    [SerializeField] DialogueFileData fileData = null;
+    void OnEnable()
+    {
+        Debug.Log("On!!!!");
+    }
+
+    void OnDisable() // 이게 먼저 실행됨
+    {
+        Debug.Log("Off!!!!TTTaaaaaaaaaaaaaaaaaaaa");
+    }
+
+    [SerializeField] DialogueDataParser dataParser = null;
     // 컴포넌트를 가지고 있는 오브젝트가 진행하는 이벤트 이름 (진행하면 EventManager의 eventFlags의 eventName에 맞는 value가 true가 됨)
     [SerializeField] string eventName;
 
@@ -22,12 +32,12 @@ public class DialogueData : ScriptableObject
 
     [Header("대화 관련 변수")]
     [Space][Space][Space]
-    [SerializeField] LineData[] liens;
+    [SerializeField] CharacterDialogueData[] liens;
 
     [Header("이벤트 조건 관련 변수")]
     [SerializeField] EventCondition eventCondition;
 
-    public LineData[] GetDialogue() => fileData.GetDialogue(eventName);
+    public CharacterDialogueData[] GetDialogue() => dataParser.GetDialogue(eventName);
     public EventCondition GetCondition() => eventCondition;
 
     [SerializeField] DialogueData afterDialogue = null;
@@ -48,7 +58,7 @@ public class DialogueData : ScriptableObject
 
 
 [Serializable]
-public class LineData
+public class CharacterDialogueData
 {
     [Tooltip("카메라가 타겟팅할 대상")]
     public Transform tf_Target;

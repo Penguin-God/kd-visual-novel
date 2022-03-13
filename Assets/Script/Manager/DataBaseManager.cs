@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -12,6 +12,7 @@ public class DataBaseManager : MonoBehaviour
 
     private void Awake()
     {
+        Debug.Log("Sciript Awake");
         if(instance == null)
         {
             instance = this;
@@ -37,7 +38,13 @@ public class DataBaseManager : MonoBehaviour
 
     private void Start()
     {
+        Debug.Log("Sciript Start");
         SetEventData();
+    }
+
+    void OnEnable()
+    {
+        Debug.Log("Sciript OnEnable");
     }
 
     void SetEventData()
