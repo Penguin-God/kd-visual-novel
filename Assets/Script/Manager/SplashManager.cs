@@ -19,7 +19,7 @@ public class SplashManager : MonoBehaviour
 
     private void Start()
     {
-        DialogueManager.instance.BeforeTalkEvent += FadeCamara_byTalk;
+        //DialogueManager.instance.BeforeTalkEvent += FadeCamara_byTalk;
 
         SoundManager.instance.EffectSoundEvent += Splash;
     }

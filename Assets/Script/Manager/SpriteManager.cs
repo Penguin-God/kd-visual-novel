@@ -7,7 +7,7 @@ public class SpriteManager : MonoBehaviour
 
     private void Start()
     {
-        FindObjectOfType<DialogueManager>().AfterTalkEvent += ChangeSprite_byTalk;
+        //FindObjectOfType<DialogueManager>().AfterTalkEvent += ChangeSprite_byTalk;
     }
 
     void ChangeSprite_byTalk(Dialogue dialogue, int contextCount)
@@ -33,7 +33,7 @@ public class SpriteManager : MonoBehaviour
     IEnumerator Co_SpriteChange(Transform targer, string spriteName)
     {
         SpriteRenderer[] sr = targer.GetComponentsInChildren<SpriteRenderer>();
-        spriteName = spriteName.Trim(); // ¿øÀÎÀº ¸ğ¸£°ÚÁö¸¸ ±ÛÀÚ ¸¶Áö¸·¿¡ °ø¹éÀÌ µé¾î°¡¼­ °ø¹é Áö¿ì´Â ÇÔ¼ö »ç¿ë
+        spriteName = spriteName.Trim(); // ì›ì¸ì€ ëª¨ë¥´ê² ì§€ë§Œ ê¸€ì ë§ˆì§€ë§‰ì— ê³µë°±ì´ ë“¤ì–´ê°€ì„œ ê³µë°± ì§€ìš°ëŠ” í•¨ìˆ˜ ì‚¬ìš©
         Sprite sprite = Resources.Load("Characters/" + spriteName, typeof(Sprite)) as Sprite;
 
         if (sprite != null && !Check_SameSprite(sr[0], sprite))

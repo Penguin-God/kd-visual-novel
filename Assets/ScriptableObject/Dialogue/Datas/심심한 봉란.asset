@@ -12,8 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d6d636acc1ca6540b34fc33cbf34d4a, type: 3}
   m_Name: "\uC2EC\uC2EC\uD55C \uBD09\uB780"
   m_EditorClassIdentifier: 
-  fileData: {fileID: 11400000, guid: c165e695077d67b418504212b8dd6ee7, type: 2}
+  dataParser: {fileID: 11400000, guid: c165e695077d67b418504212b8dd6ee7, type: 2}
   eventName: "\uC2EC\uC2EC\uD55C \uBD09\uB780"
+  dialogueData: []
   liens: []
   eventCondition:
     mustSeeEvents: []

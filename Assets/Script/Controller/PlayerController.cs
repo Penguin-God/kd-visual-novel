@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -24,9 +24,10 @@ public class PlayerController : MonoBehaviour
         originPos_CameraY = tf_Camera.localPosition.y;
     }
 
+    [SerializeField] DialogueCannel dialogueCannel;
     private void Start()
     {
-        DialogueManager.instance.OnEndTalk += AngleValueReset;
+        dialogueCannel.endDialogueEvent += AngleValueReset;
     }
 
     public void AngleValueReset()

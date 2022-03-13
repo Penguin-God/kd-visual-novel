@@ -9,12 +9,12 @@ public class CutSceneManager : MonoBehaviour
 
     [SerializeField] Image cutSceneImage;
 
-    // ÇöÀç ÄÆ¾À ÁøÇàÁßÀÎÁö È®ÀÎÇÏ´Â ÇÁ·ÎÆÛÆ¼ º¯¼ö
+    // í˜„ì¬ ì»·ì”¬ ì§„í–‰ì¤‘ì¸ì§€ í™•ì¸í•˜ëŠ” í”„ë¡œí¼í‹° ë³€ìˆ˜
     public bool CheckCutScene {get { return cutSceneImage.gameObject.activeSelf; } }
 
     private void Start()
     {
-        DialogueManager.instance.BeforeTalkEvent += CutScene_byTalk;
+        //DialogueManager.instance.BeforeTalkEvent += CutScene_byTalk;
     }
 
     void CutScene_byTalk(Dialogue dialogue, int contextCount)
@@ -41,7 +41,7 @@ public class CutSceneManager : MonoBehaviour
             cutSceneImage.sprite = _sprite;
             StartCoroutine(Co_CutScene(true));
         }
-        else Debug.LogWarning("Ã£À» ¼ö ¾ø´Â ÄÆ¾À ÀÌ¸§ : " + cutSceneName);
+        else Debug.LogWarning("ì°¾ì„ ìˆ˜ ì—†ëŠ” ì»·ì”¬ ì´ë¦„ : " + cutSceneName);
 
     }
 
@@ -56,7 +56,7 @@ public class CutSceneManager : MonoBehaviour
         splashManager.FadeIn(true);
         yield return new WaitUntil(() => !splashManager.isFade);
 
-        yield return new WaitForSeconds(0.5f); // ¿¬ÃâÀ» À§ÇÑ ´ë±â
+        yield return new WaitForSeconds(0.5f); // ì—°ì¶œì„ ìœ„í•œ ëŒ€ê¸°
         DialogueManager.instance.isCameraEffect = false;
     }
 }

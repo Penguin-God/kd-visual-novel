@@ -17,7 +17,7 @@ public class GameManager : MonoBehaviour
     }
 
     /// <summary>
-    /// ´Ù¸¥ ´ëÈ­, ¸Ê ÀÌµ¿ µî ¿¬Ãâ·Î ÀÎÇÏ¿© ÇÃ·¹ÀÌ°¡ ºÒ°¡´ÉÇÒ¶§ false
+    /// ë‹¤ë¥¸ ëŒ€í™”, ë§µ ì´ë™ ë“± ì—°ì¶œë¡œ ì¸í•˜ì—¬ í”Œë ˆì´ê°€ ë¶ˆê°€ëŠ¥í• ë•Œ false
     /// </summary>
     public bool IsPlayable
     {

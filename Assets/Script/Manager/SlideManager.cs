@@ -18,7 +18,7 @@ public class SlideManager : MonoBehaviour
 
     private void Start()
     {
-        DialogueManager.instance.BeforeTalkEvent += SlideAnimation_byTalk;
+        //DialogueManager.instance.BeforeTalkEvent += SlideAnimation_byTalk;
     }
 
     void SlideAnimation_byTalk(Dialogue dialogue, int contextCount)
@@ -43,7 +43,7 @@ public class SlideManager : MonoBehaviour
             img_Slide.sprite = _sprite;
             anim.Play("Appear_MenuPad");
         }
-        else Debug.LogWarning("Ã£À» ¼ö ¾ø´Â ½½¶óÀÌ´õ ÀÌ¸§ : " + name);
+        else Debug.LogWarning("ì°¾ì„ ìˆ˜ ì—†ëŠ” ìŠ¬ë¼ì´ë” ì´ë¦„ : " + name);
 
         yield return new WaitForSeconds(0.5f);
         isSildeMoving = false;

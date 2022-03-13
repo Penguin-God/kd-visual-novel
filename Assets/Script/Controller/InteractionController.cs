@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -31,6 +31,7 @@ public class InteractionController : MonoBehaviour
             obj_Qestion.SetActive(true);
             obj_Qestion.transform.position = cam.transform.position;
             questionEffect.Throw_QuestionMark(interactTransform.position);
+
             StartCoroutine(Co_Interaction(interactTransform));
         }
     }

@@ -4,30 +4,34 @@ using UnityEngine;
 
 public class InteractionEvent : MonoBehaviour
 {
-    [SerializeField] DialogueData dialogueData;
-    [SerializeField] CharacterDialogueData[] currentDialogue;
+    [SerializeField] protected DialogueDataContainer container;
+    [SerializeField] CharacterDialogueData[] dialogueData;
+    [SerializeField] protected DialogueCannel dialogueCannel;
+    public CharacterDialogueData[] DialogueData => dialogueData;
+
     [SerializeField] EventCondition eventCondition;
 
     [SerializeField] protected DialogueEvent[] dialogueEvents;
 
     private void Start()
     {
-        SetDialogueData();
+        SetDialogueData(container);
+
         if (dialogueEvents.Length > 0)
         {
             StartCoroutine(Co_SetDialogueEvent());
         }
-        DialogueManager.instance.OnEndTalk += dialogueData.interactionEndAct;
     }
 
-    void SetDialogueData()
+    void SetDialogueData(DialogueDataContainer _setContainer)
     {
-        currentDialogue = dialogueData.GetDialogue();
-        eventCondition = dialogueData.GetCondition();
-        dialogueData.interactionEndAct += () =>
+        container = _setContainer;
+        dialogueData = container.DialogueData;
+
+        container.interactionEndAct += () =>
         {
-            dialogueData = dialogueData.GetAfterDialogue(out bool _isAfter);
-            if (_isAfter) SetDialogueData();
+            DialogueDataContainer _container = container.GetAfterDialogue(out bool _isAfter);
+            if (_isAfter) SetDialogueData(_container);
         };
     }
 

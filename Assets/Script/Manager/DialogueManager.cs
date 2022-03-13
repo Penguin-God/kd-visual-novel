@@ -16,16 +16,42 @@ public class DialogueManager : MonoBehaviour
         }
     }
 
+    [SerializeField] DialogueCannel dialogueCannel;
     private void Start()
     {
+        dialogueCannel.startTalk += StartTalk;
+
         EventManager eventManager = FindObjectOfType<EventManager>();
         OnEndTalk += () => eventManager.GameEventByTalkEnd(eventByTalk);
     }
 
-    [SerializeField] CutSceneManager cutSceneManager;
+    private CharacterDialogueData[] dialogues;
+    public bool isTalking;
+    bool isNextable = false;
+    int talkIndex;
+    int contextCount;
+    // 이벤트 scriptable object 이용해서 리펙토링하기
+    public event Action<Transform> OnStartTalk;
+
+    void StartTalk(DialogueDataContainer _container)
+    {
+        UIManager.instance.HideUI();
+        isTalking = true;
+        dialogues = _container.DialogueData;
+        // 대화 시작
+        StartCoroutine(Co_TypeWriter());
+        //if (OnStartTalk != null) OnStartTalk(dialogues[talkIndex].tf_Target);
+        //StartCoroutine(Wait_StartTartting()); // 카메라 타겟팅 대기
+    }
+    IEnumerator Wait_StartTartting()
+    {
+        yield return new WaitUntil(() => !isCameraEffect);
+        StartCoroutine(Co_TypeWriter());
+    }
+
     private void Update()
     {
-        if(isNext && isTalking && ( Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0) || Input.GetButton("Ctrl")) )
+        if(isNextable && isTalking && ( Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0) || Input.GetButton("Ctrl")) )
         {
             Talk();
         }
@@ -33,7 +59,7 @@ public class DialogueManager : MonoBehaviour
 
     void Talk()
     {
-        isNext = false;
+        isNextable = false;
         txt_Dialogue.text = "";
         if (++contextCount >= dialogues[talkIndex].contexts.Length) // 대화의 화자가 바뀔 때
         {
@@ -50,40 +76,17 @@ public class DialogueManager : MonoBehaviour
     }
 
     public bool isCameraEffect = false;
-    public event Action<Dialogue, int> BeforeTalkEvent;
-    IEnumerator Co_BeforeTalkEvent(Dialogue dialogue, int contextCount)
+    public event Action<CharacterDialogueData, int> BeforeTalkEvent;
+    IEnumerator Co_BeforeTalkEvent(CharacterDialogueData dialogue, int contextCount)
     {
-        if(BeforeTalkEvent != null) BeforeTalkEvent(dialogue, contextCount);
+        dialogueCannel.EndTalk();
+        if (BeforeTalkEvent != null) BeforeTalkEvent(dialogue, contextCount);
         Set_DialogueUI(false);
         yield return new WaitUntil(() => !isCameraEffect);
         StartCoroutine(Co_TypeWriter());
     }
 
-
-    private Dialogue[] dialogues;
-    public bool isTalking;
-    bool isNext = false;
-    int talkIndex;
-    int contextCount;
-    // 이벤트 scriptable object 이용해서 리펙토링하기
-    public event Action<Transform> OnStartTalk;
-
-    public void StartTalk(Dialogue[] p_Dialogues)
-    {
-        UIManager.instance.HideUI();
-        isTalking = true;
-        // 대화 시작
-        dialogues = p_Dialogues;
-        if(OnStartTalk != null) OnStartTalk(dialogues[talkIndex].tf_Target);
-        StartCoroutine(Wait_StartTartting()); // 카메라 타겟팅 대기
-    }
-    IEnumerator Wait_StartTartting()
-    {
-        yield return new WaitUntil(() => !isCameraEffect);
-        StartCoroutine(Co_TypeWriter());
-    }
-
-
+    [SerializeField] CutSceneManager cutSceneManager;
     public event Action OnEndTalk;
     private EventByTalk eventByTalk = null;
     IEnumerator EndTalk()
@@ -100,7 +103,8 @@ public class DialogueManager : MonoBehaviour
         contextCount = 0;
         Set_DialogueUI(false);
 
-        if(OnEndTalk != null) OnEndTalk();
+        dialogueCannel.EndDialogueEvent();
+        //if(OnEndTalk != null) OnEndTalk();
     }
 
     public void SetEvent(Transform target)
@@ -112,7 +116,7 @@ public class DialogueManager : MonoBehaviour
 
     [SerializeField] float textDelayTime;
     private float ApplyTextDelayTime { get { return Input.GetButton("Ctrl") ? 0 : textDelayTime; } }
-    public event Action<Dialogue, int> AfterTalkEvent;
+    public event Action<CharacterDialogueData, int> AfterTalkEvent;
 
     IEnumerator Co_TypeWriter()
     {
@@ -143,7 +147,7 @@ public class DialogueManager : MonoBehaviour
             txt_Dialogue.text += (effectChar != ' ' && effectChar != 'ⓦ') ? ColoringText(effectChar, addText) : addText;
             yield return new WaitForSeconds(ApplyTextDelayTime);
         }
-        isNext = true;
+        isNextable = true;
     }
 
     string ReplaceText(string p_Context) // 특수문자 치환
@@ -223,7 +227,7 @@ public class DialogueManager : MonoBehaviour
 
     void SetNameBar(bool p_Flag)
     {
-        if (!p_Flag || dialogues[talkIndex].name == "" || dialogues[talkIndex].name == "독백")
+        if (!p_Flag || dialogues[talkIndex].characterName == "" || dialogues[talkIndex].characterName == "독백")
         {
             obj_NameBar.SetActive(false);
             txt_Name.text = "";
@@ -236,7 +240,7 @@ public class DialogueManager : MonoBehaviour
     }
     string ReturnName()
     {
-        string name = dialogues[talkIndex].name;
+        string name = dialogues[talkIndex].characterName;
         if (name[0] == '⒳') name = name.Replace("⒳", "");
         return name;
     }

@@ -38,6 +38,6 @@ public class InteractionDoor : InteractionEvent
     {
         base.StartInteraction();
         if (IsTransfer) SceneTransfer();
-        else DialogueManager.instance.StartTalk(GetDialogues());
+        //else DialogueManager.instance.StartTalk(GetDialogues());
     }
 }

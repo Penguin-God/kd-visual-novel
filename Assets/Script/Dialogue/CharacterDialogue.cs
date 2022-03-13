@@ -11,8 +11,9 @@ public class CharacterDialogue : InteractionEvent
 
     public override void StartInteraction()
     {
-        base.StartInteraction();
+        //base.StartInteraction(); // 현재 비었음
         DialogueManager.instance.SetEvent(transform);
-        DialogueManager.instance.StartTalk(GetDialogues());
+
+        dialogueCannel.StartDialogueEvent(transform, container);
     }
 }

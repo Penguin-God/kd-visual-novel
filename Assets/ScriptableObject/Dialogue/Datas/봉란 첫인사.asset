@@ -12,8 +12,97 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d6d636acc1ca6540b34fc33cbf34d4a, type: 3}
   m_Name: "\uBD09\uB780 \uCCAB\uC778\uC0AC"
   m_EditorClassIdentifier: 
-  fileData: {fileID: 11400000, guid: c165e695077d67b418504212b8dd6ee7, type: 2}
+  dataParser: {fileID: 11400000, guid: c165e695077d67b418504212b8dd6ee7, type: 2}
   eventName: "\uBD09\uB780 \uCCAB\uC778\uC0AC"
+  dialogueData:
+  - tf_Target: {fileID: 0}
+    cameraType: 0
+    characterName: "\uBD09\uB780"
+    contexts:
+    - "\uC548\uB155| \uBC29\uAE08 \uCC98\uC74C \uC654\uB098\uBCF4\uB124 \\n\uC774\uB984\uC774
+      \uBB50\uC57C?"
+    spriteNames:
+    - BongRan0
+    voiceNames:
+    - bongran00
+    cutSceneName:
+    - "\r"
+  - tf_Target: {fileID: 0}
+    cameraType: 0
+    characterName: "\uC8FC\uC778\uACF5"
+    contexts:
+    - "\uB09C \uD3AD\uADC4\uAC13"
+    spriteNames:
+    - 
+    voiceNames:
+    - 
+    cutSceneName:
+    - "MenuPad\r"
+  - tf_Target: {fileID: 0}
+    cameraType: 0
+    characterName: "\uBD09\uB780"
+    contexts:
+    - "\uADF8\uB798 \uC774\uB984 \uD55C\uBC88 \u24E8\uADF8\uC9C0\uAC19\uB124\u24E6"
+    - "\uB0B4 \uC774\uB984\uC740 \u24E8\uBD09\uB780\u24E6\uC774\uC57C \uC798 \uBD80\uD0C1\uD574"
+    spriteNames:
+    - 
+    - 
+    voiceNames:
+    - 
+    - 
+    cutSceneName:
+    - "\r"
+    - "\r"
+  - tf_Target: {fileID: 0}
+    cameraType: 0
+    characterName: "\uB3C5\uBC31"
+    contexts:
+    - "\u24D2\uBD09\uB780\uC774\uB77C\uACE0 \uD558\uB294 \uC774\uCE5C\uAD6C "
+    - "\u24D2\uCC98\uC74C\uBCF4\uB294 \uAC70\uC9C0\uB9CC \uC0C1\uB2F9\uD788 \uC2F8\uAC00\uC9C0\uAC00
+      \uC5C6\uB294\uB4EF\uD558\uB2E4"
+    spriteNames:
+    - 
+    - 
+    voiceNames:
+    - 
+    - 
+    cutSceneName:
+    - "\r"
+    - "\r"
+  - tf_Target: {fileID: 0}
+    cameraType: 0
+    characterName: "\uBD09\uB780"
+    contexts:
+    - "\uB108 \uD639\uC2DC \uB9C8\uC74C\uC18D\uC73C\uB85C \uB098 \uAE4C\uACE0 \uC788\uB2C8?
+      \\n\uD45C\uC815\uC774 \uADF8\uB798\uBCF4\uC5EC\uC11C"
+    spriteNames:
+    - BongRan1
+    voiceNames:
+    - bongran01
+    cutSceneName:
+    - "\r"
+  - tf_Target: {fileID: 0}
+    cameraType: 0
+    characterName: "\uC8FC\uC778\uACF5"
+    contexts:
+    - "\uC544... \uC544\uB2C8 \uBCC4\uC0DD\uAC01 \uC548\uD588\uC5B4"
+    spriteNames:
+    - 
+    voiceNames:
+    - 
+    cutSceneName:
+    - "\r"
+  - tf_Target: {fileID: 0}
+    cameraType: 0
+    characterName: "\uB3C5\uBC31"
+    contexts:
+    - "\u24D2\uB610\uD55C \uB3C5\uC2EC\uC220\uC5D0\uB3C4 \uB2A5\uD574 \uBCF4\uC778\uB2E4"
+    spriteNames:
+    - BongRan0
+    voiceNames:
+    - 
+    cutSceneName:
+    - "\r"
   liens:
   - tf_Target: {fileID: 0}
     cameraType: 0
@@ -104,10 +193,7 @@ MonoBehaviour:
     cutSceneName:
     - "\r"
   eventCondition:
-    mustSeeEvents: []
-    mustDontSeeEvents: []
-    eventConditions: []
-    conditionFlag: 0
-    endEvnetName: 
-  afterDialogues: []
+    defaultEventConditions: []
+    nextEventConditions:
+    - {fileID: 11400000}
   afterDialogue: {fileID: 11400000, guid: 86e82820317005a4a8a0ad2244242ca2, type: 2}

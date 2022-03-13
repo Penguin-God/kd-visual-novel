@@ -1661,14 +1661,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 263ddd96e2d49eb489ef725ca60bffa7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dialogueData: {fileID: 0}
-  currentDialogue: []
+  container: {fileID: 0}
+  dialogueData: []
+  dialogueCannel: {fileID: 0}
   eventCondition:
-    mustSeeEvents: []
-    mustDontSeeEvents: []
-    eventConditions: []
-    conditionFlag: 0
-    endEvnetName: 
+    defaultEventConditions: []
+    nextEventConditions: []
   dialogueEvents: []
   isSetDialogeu: 0
 --- !u!114 &616996588
@@ -1815,6 +1813,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b3c35fbbe6153c4f86182eb2b884b8c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dialogueCannel: {fileID: 11400000, guid: 7a460b213184a38419d6bef3306602c4, type: 2}
   walkSpeed: 5
   runSpeed: 8
   rotationSpeed: 2
@@ -2445,14 +2444,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82b8f7f4067024e41809246c7f07ef80, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dialogueData: {fileID: 11400000, guid: 50907faebd10a154aa92df6d6b5a0dac, type: 2}
-  currentDialogue: []
+  container: {fileID: 11400000, guid: 50907faebd10a154aa92df6d6b5a0dac, type: 2}
+  dialogueData: []
+  dialogueCannel: {fileID: 11400000, guid: 7a460b213184a38419d6bef3306602c4, type: 2}
   eventCondition:
-    mustSeeEvents: []
-    mustDontSeeEvents: []
-    eventConditions: []
-    conditionFlag: 0
-    endEvnetName: 
+    defaultEventConditions: []
+    nextEventConditions: []
   dialogueEvents:
   - eventName: "\uBD09\uB780 \uCCAB\uC778\uC0AC"
     talkCondition:
@@ -2813,14 +2810,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e85b66a27f652854b9c54e2012434cd5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dialogueData: {fileID: 0}
-  currentDialogue: []
+  container: {fileID: 0}
+  dialogueData: []
+  dialogueCannel: {fileID: 0}
   eventCondition:
-    mustSeeEvents: []
-    mustDontSeeEvents: []
-    eventConditions: []
-    conditionFlag: 0
-    endEvnetName: 
+    defaultEventConditions: []
+    nextEventConditions: []
   dialogueEvents: []
   isSetDialogeu: 0
   isNextMapOnlyView: 0
@@ -3452,7 +3447,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &898257033
 Transform:
   m_ObjectHideFlags: 0
@@ -8511,19 +8506,17 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 933719027}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 82b8f7f4067024e41809246c7f07ef80, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dialogueData: {fileID: 0}
-  currentDialogue: []
+  container: {fileID: 0}
+  dialogueData: []
+  dialogueCannel: {fileID: 0}
   eventCondition:
-    mustSeeEvents: []
-    mustDontSeeEvents: []
-    eventConditions: []
-    conditionFlag: 0
-    endEvnetName: 
+    defaultEventConditions: []
+    nextEventConditions: []
   dialogueEvents:
   - eventName: 
     talkCondition:
@@ -8786,6 +8779,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a4b8e49c0c0eb5b4ca497d3f74757af6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dialogueCannel: {fileID: 11400000, guid: 7a460b213184a38419d6bef3306602c4, type: 2}
   viewUp: 0.15
 --- !u!114 &963194230
 MonoBehaviour:
@@ -9492,9 +9486,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40f7dcb56cf0ac14cadd3adf3116b720, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cutSceneManager: {fileID: 1382397820}
-  isCameraEffect: 0
+  dialogueCannel: {fileID: 11400000, guid: 7a460b213184a38419d6bef3306602c4, type: 2}
   isTalking: 0
+  isCameraEffect: 0
+  cutSceneManager: {fileID: 1382397820}
   textDelayTime: 0.02
   obj_DialogueBar: {fileID: 323562174}
   obj_NameBar: {fileID: 243655922}
@@ -10057,17 +10052,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82b8f7f4067024e41809246c7f07ef80, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dialogueData: {fileID: 11400000, guid: 50907faebd10a154aa92df6d6b5a0dac, type: 2}
-  currentDialogue: []
+  container: {fileID: 0}
+  dialogueData: []
+  dialogueCannel: {fileID: 0}
   eventCondition:
-    mustSeeEvents: []
-    mustDontSeeEvents: []
-    eventConditions:
-    - 
-    - 
-    - 
-    conditionFlag: 0
-    endEvnetName: 
+    defaultEventConditions: []
+    nextEventConditions: []
   dialogueEvents:
   - eventName: "\uAD34\uC0C1\uD55C \uB3C4\uAD6C"
     talkCondition:
@@ -16604,14 +16594,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e85b66a27f652854b9c54e2012434cd5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dialogueData: {fileID: 0}
-  currentDialogue: []
+  container: {fileID: 0}
+  dialogueData: []
+  dialogueCannel: {fileID: 0}
   eventCondition:
-    mustSeeEvents: []
-    mustDontSeeEvents: []
-    eventConditions: []
-    conditionFlag: 0
-    endEvnetName: 
+    defaultEventConditions: []
+    nextEventConditions: []
   dialogueEvents:
   - eventName: "\uBB38 \uB2EB\uD600\uC788\uC74C"
     talkCondition:
@@ -16724,14 +16712,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 263ddd96e2d49eb489ef725ca60bffa7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dialogueData: {fileID: 0}
-  currentDialogue: []
+  container: {fileID: 0}
+  dialogueData: []
+  dialogueCannel: {fileID: 0}
   eventCondition:
-    mustSeeEvents: []
-    mustDontSeeEvents: []
-    eventConditions: []
-    conditionFlag: 0
-    endEvnetName: 
+    defaultEventConditions: []
+    nextEventConditions: []
   dialogueEvents: []
   isSetDialogeu: 0
 --- !u!114 &1943139039
