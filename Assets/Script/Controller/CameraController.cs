@@ -12,8 +12,8 @@ public class CameraController : MonoBehaviour
     
     private void Start()
     {
-        dialogueCannel.startDialogueEvent += CameraEffect_byEventStart;
-        dialogueCannel.endDialogueEvent += CameraReset;
+        dialogueCannel.StartDialogueEvent += CameraEffect_byEventStart;
+        dialogueCannel.EndTalkEvent += CameraReset;
     }
 
     void CameraEffect_byEventStart(Transform target, DialogueDataContainer _container)
@@ -43,6 +43,7 @@ public class CameraController : MonoBehaviour
     [SerializeField] float viewUp;
     IEnumerator Co_CameraTargetting(Transform p_Targer, DialogueDataContainer _container, float p_CameraSpeed = 0.05f)
     {
+        DialogueManager.instance.isCameraEffect = true;
         Vector3 targetPosition = p_Targer.position + (Vector3.up * viewUp);
         Vector3 forwardTargerPosition = targetPosition + p_Targer.forward * 1.2f;
         Vector3 camDirection = (targetPosition - forwardTargerPosition).normalized;
@@ -54,7 +55,8 @@ public class CameraController : MonoBehaviour
         }
 
         SetCameraTransform(forwardTargerPosition, Quaternion.LookRotation(camDirection)); // 오차 없애기
-        dialogueCannel.StartTalk(_container); // 대화 시작
+        dialogueCannel.Raise_StartTalkEvent(_container); // 대화 시작
+        DialogueManager.instance.isCameraEffect = false;
     }
 
     Vector3 originPosition;

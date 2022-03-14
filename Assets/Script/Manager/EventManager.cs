@@ -10,7 +10,7 @@ public class EventManager : MonoBehaviour
     public static EventManager instance;
     public static bool isEvent = false;
     public static bool isAutoEvent = false;
-    public EventFlagsDictionary eventFlags; // 0¹øÂ°´Â °Çµå¸®Áö ¾ÊÀ½
+    public EventFlagsDictionary eventFlags; // 0ë²ˆì§¸ëŠ” ê±´ë“œë¦¬ì§€ ì•ŠìŒ
 
     private void Awake()
     {

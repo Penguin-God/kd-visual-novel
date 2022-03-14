@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-[CreateAssetMenu(fileName = "new parser", menuName = "Scriptable Object / Dialogue File Data")]
+[CreateAssetMenu(fileName = "new parser", menuName = "Scriptable Object / Dialogue Parser")]
 public class DialogueDataParser : ScriptableObject
 {
     [SerializeField] TextAsset targetFile = null;
@@ -11,7 +11,7 @@ public class DialogueDataParser : ScriptableObject
 
     void OnEnable() => fileLineDatas = Parse(targetFile);
 
-    public CharacterDialogueData[] GetDialogue(string _name)
+    public DialogueData[] GetDialogue(string _name)
     {
         for (int i = 0; i < fileLineDatas.Count; i++)
         {
@@ -46,9 +46,9 @@ public class DialogueDataParser : ScriptableObject
         return fileLineDatas;
     }
 
-    CharacterDialogueData[] GetEventData(string[] _datas, ref int _index)
+    DialogueData[] GetEventData(string[] _datas, ref int _index)
     {
-        List<CharacterDialogueData> lineDataList = new List<CharacterDialogueData>();
+        List<DialogueData> lineDataList = new List<DialogueData>();
         string[] _rows = _datas[_index].Split(new char[] { ',' });
 
         // DialogueEventData 하나를 만드는 반복문
@@ -59,9 +59,10 @@ public class DialogueDataParser : ScriptableObject
             List<string> spriteList = new List<string>();
             List<string> voiceList = new List<string>();
             List<string> sceneList = new List<string>();
+            List<string> fadeList = new List<string>();
 
             _rows = _datas[_index].Split(new char[] { ',' });
-            CharacterDialogueData lineData = new CharacterDialogueData();
+            DialogueData lineData = new DialogueData();
             lineData.characterName = _rows[1]; // 캐릭터 이름 세팅
 
             do
@@ -71,6 +72,7 @@ public class DialogueDataParser : ScriptableObject
                 spriteList.Add(_rows[3]);
                 voiceList.Add(_rows[4]);
                 sceneList.Add(_rows[5]);
+                fadeList.Add(_rows[6]);
 
                 // 줄바꿈 및 탈출
                 if (_datas.Length > ++_index) _rows = _datas[_index].Split(new char[] { ',' });
@@ -82,6 +84,7 @@ public class DialogueDataParser : ScriptableObject
             lineData.spriteNames = spriteList.ToArray();
             lineData.voiceNames = voiceList.ToArray();
             lineData.cutSceneName = sceneList.ToArray();
+            lineData.fadeType = fadeList.ToArray();
 
             lineDataList.Add(lineData);
         }
@@ -95,5 +98,5 @@ public class DialogueDataParser : ScriptableObject
 public class DialogueEventData
 {
     public string dialogueName;
-    public CharacterDialogueData[] characterDialogueDatas;
+    public DialogueData[] characterDialogueDatas;
 }

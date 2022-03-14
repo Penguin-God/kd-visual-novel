@@ -1043,7 +1043,6 @@ GameObject:
   m_Component:
   - component: {fileID: 492846734}
   - component: {fileID: 492846744}
-  - component: {fileID: 492846735}
   - component: {fileID: 492846736}
   - component: {fileID: 492846737}
   - component: {fileID: 492846739}
@@ -1073,20 +1072,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &492846735
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 492846732}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3e7c6993e1ae6344097ab15dde55320d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  csvAsset: {fileID: 4900000, guid: 76bc545f324521b4f9e650b3febcf66c, type: 3}
-  isFinish: 0
 --- !u!114 &492846736
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1099,6 +1084,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fff76a60c9b19814a982205fc6d9e15e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dialogueCannel: {fileID: 11400000, guid: 7a460b213184a38419d6bef3306602c4, type: 2}
   fadeSpeed: 0.1
 --- !u!114 &492846737
 MonoBehaviour:
@@ -1112,6 +1098,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e5a64f358a52494fb840a64fdfaa677, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dialogueCannel: {fileID: 11400000, guid: 7a460b213184a38419d6bef3306602c4, type: 2}
   fadeImage: {fileID: 781617415}
   whiteColor: {r: 1, g: 1, b: 1, a: 0}
   blackColor: {r: 0, g: 0, b: 0, a: 0}
@@ -1226,6 +1213,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b5987589aabc37c478ef556d6bd5a051, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dialogueCannel: {fileID: 11400000, guid: 7a460b213184a38419d6bef3306602c4, type: 2}
   bgmSounds:
   - name: bgmDeath
     clip: {fileID: 8300000, guid: ccb96f8c777a02f4aa2a6730a7f6699a, type: 3}
@@ -2444,7 +2432,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82b8f7f4067024e41809246c7f07ef80, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  container: {fileID: 11400000, guid: 50907faebd10a154aa92df6d6b5a0dac, type: 2}
+  container: {fileID: 11400000, guid: f131d7a721c526d4cab5295df5188ae2, type: 2}
   dialogueData: []
   dialogueCannel: {fileID: 11400000, guid: 7a460b213184a38419d6bef3306602c4, type: 2}
   eventCondition:
@@ -8475,6 +8463,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9990168695d09764db523673f0c039ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dialogueCannel: {fileID: 11400000, guid: 7a460b213184a38419d6bef3306602c4, type: 2}
   UI_Crosshair: {fileID: 707307362}
   UI_Arrow: {fileID: 465359968}
   UI_FiledArrow: {fileID: 799725359}
@@ -9489,7 +9478,6 @@ MonoBehaviour:
   dialogueCannel: {fileID: 11400000, guid: 7a460b213184a38419d6bef3306602c4, type: 2}
   isTalking: 0
   isCameraEffect: 0
-  cutSceneManager: {fileID: 1382397820}
   textDelayTime: 0.02
   obj_DialogueBar: {fileID: 323562174}
   obj_NameBar: {fileID: 243655922}
@@ -10523,6 +10511,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65023a9840f0e3449b8543357c53ec86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dialogueCannel: {fileID: 11400000, guid: 7a460b213184a38419d6bef3306602c4, type: 2}
   splashManager: {fileID: 492846737}
   cutSceneImage: {fileID: 1250764606}
 --- !u!1 &1423542214
@@ -16468,6 +16457,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isSildeMoving: 0
+  dialogueCannel: {fileID: 11400000, guid: 7a460b213184a38419d6bef3306602c4, type: 2}
   isSlideChange: 0
 --- !u!23 &1883793846
 MeshRenderer:

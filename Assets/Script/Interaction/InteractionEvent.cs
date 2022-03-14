@@ -5,9 +5,9 @@ using UnityEngine;
 public class InteractionEvent : MonoBehaviour
 {
     [SerializeField] protected DialogueDataContainer container;
-    [SerializeField] CharacterDialogueData[] dialogueData;
+    [SerializeField] DialogueData[] dialogueData;
     [SerializeField] protected DialogueCannel dialogueCannel;
-    public CharacterDialogueData[] DialogueData => dialogueData;
+    public DialogueData[] DialogueData => dialogueData;
 
     [SerializeField] EventCondition eventCondition;
 
@@ -17,10 +17,10 @@ public class InteractionEvent : MonoBehaviour
     {
         SetDialogueData(container);
 
-        if (dialogueEvents.Length > 0)
-        {
-            StartCoroutine(Co_SetDialogueEvent());
-        }
+        //if (dialogueEvents.Length > 0)
+        //{
+        //    StartCoroutine(Co_SetDialogueEvent());
+        //}
     }
 
     void SetDialogueData(DialogueDataContainer _setContainer)

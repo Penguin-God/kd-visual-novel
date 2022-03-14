@@ -26,14 +26,16 @@ public class SoundManager : MonoBehaviour
         }
     }
 
+    [SerializeField] DialogueCannel dialogueCannel = null;
     private void Start()
     {
+        dialogueCannel.ChangeContextEvent += PlayVoice_byTalk;
         //FindObjectOfType<DialogueManager>().AfterTalkEvent += PlayVoice_byTalk;
     }
 
-    void PlayVoice_byTalk(Dialogue dialogue, int contextCount)
+    void PlayVoice_byTalk(DialogueData dialogue, int contextCount)
     {
-        string _voiceName = dialogue.voiceNames[contextCount].Trim(); // Trim()Àº °¨Áö°¡ ¾ÈµÇ´Â " " °¡ Á¸ÀçÇÏ´Â¿À·ù ¶§¹®¿¡ »ç¿ë
+        string _voiceName = dialogue.voiceNames[contextCount].Trim(); // Trim()ì€ ê°ì§€ê°€ ì•ˆë˜ëŠ” " " ê°€ ì¡´ì¬í•˜ëŠ”ì˜¤ë¥˜ ë•Œë¬¸ì— ì‚¬ìš©
         if (_voiceName != "") PlayVoiceSound(_voiceName);
     }
 
@@ -50,7 +52,7 @@ public class SoundManager : MonoBehaviour
                 return;
             }
         }
-        Debug.LogWarning("Ã£À» ¼ö ¾ø´Â ºê±İ ÀÌ¸§ : " + p_Name);
+        Debug.LogWarning("ì°¾ì„ ìˆ˜ ì—†ëŠ” ë¸Œê¸ˆ ì´ë¦„ : " + p_Name);
     }
 
     void StopBgm()
@@ -83,7 +85,7 @@ public class SoundManager : MonoBehaviour
                 return;
             }
         }
-        Debug.LogWarning("Ã£À» ¼ö ¾ø´Â È¿°úÀ½ ÀÌ¸§ : " + p_Name);
+        Debug.LogWarning("ì°¾ì„ ìˆ˜ ì—†ëŠ” íš¨ê³¼ìŒ ì´ë¦„ : " + p_Name);
     }
 
     void StopEffectSound()
@@ -101,6 +103,6 @@ public class SoundManager : MonoBehaviour
             voicePlayer.clip = _clip;
             voicePlayer.Play();
         }
-        else Debug.LogWarning("Ã£À» ¼ö ¾ø´Â º¸ÀÌ½º : " + p_Name);
+        else Debug.LogWarning("ì°¾ì„ ìˆ˜ ì—†ëŠ” ë³´ì´ìŠ¤ : " + p_Name);
     }
 }

@@ -17,20 +17,20 @@ public class DialogueDataContainer : ScriptableObject
     // 컴포넌트를 가지고 있는 오브젝트가 진행하는 이벤트 이름 (진행하면 EventManager의 eventFlags의 eventName에 맞는 value가 true가 됨)
     [SerializeField] string eventName;
 
-    [SerializeField] CharacterDialogueData[] dialogueData = null;
-    public CharacterDialogueData[] DialogueData => dialogueData;
+    [SerializeField] DialogueData[] dialogueData = null;
+    public DialogueData[] DialogueData => dialogueData;
 
     public bool Interactionable => eventCondition.GetCondition();
     void OnEnable()
     {
         Debug.Log(eventName);
         dialogueData = dataParser.GetDialogue(eventName);
-        eventCondition.SetEventCondition();
+        eventCondition.Init();
     }
 
     [Header("대화 관련 변수")]
     [Space][Space][Space]
-    [SerializeField] CharacterDialogueData[] liens;
+    [SerializeField] DialogueData[] liens;
 
 
     [Header("이벤트 조건 관련 변수")]
@@ -53,7 +53,7 @@ public class DialogueDataContainer : ScriptableObject
 
 
 [Serializable]
-public class CharacterDialogueData
+public class DialogueData
 {
     [Tooltip("카메라가 타겟팅할 대상")]
     public Transform tf_Target;
@@ -62,18 +62,16 @@ public class CharacterDialogueData
     public string characterName;
     public string[] contexts;
 
-    [HideInInspector]
     public string[] spriteNames;
-    [HideInInspector]
     public string[] voiceNames;
-    //[HideInInspector]
     public string[] cutSceneName;
+    public string[] fadeType;
 }
 
 [Serializable]
 public class EventCondition
 {
-    public void SetEventCondition() // 사실상 생성자 함수
+    public void Init() // 사실상 생성자 함수
     {
         SubscribeOtherEvents(defaultEventConditions, defaultEventConditionQueue);
         SubscribeOtherEvents(nextEventConditions, nextEventConditionQueue);

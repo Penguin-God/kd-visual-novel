@@ -14,6 +14,6 @@ public class CharacterDialogue : InteractionEvent
         //base.StartInteraction(); // 현재 비었음
         DialogueManager.instance.SetEvent(transform);
 
-        dialogueCannel.StartDialogueEvent(transform, container);
+        dialogueCannel.Raise_StartDialogueEvent(transform, container);
     }
 }

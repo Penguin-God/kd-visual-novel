@@ -24,7 +24,7 @@ public class SceneTrasnferManager : MonoBehaviour
     {
         isTransfer = true;
         UIManager.instance.HideUI();
-        spManager.FadeOut(false, true);
+        spManager.FadeOut(FadeType.Black, true);
         yield return new WaitUntil(() => !spManager.isFade);
         
         locationName = p_locationName;
@@ -39,7 +39,7 @@ public class SceneTrasnferManager : MonoBehaviour
 
     IEnumerator Co_SceneChangeDone()
     {
-        spManager.FadeIn(false, true);
+        spManager.FadeIn(FadeType.Black, true);
         yield return new WaitUntil(() => !spManager.isFade);
         if(!EventManager.isAutoEvent) UIManager.instance.ShowUI();
         isTransfer = false;

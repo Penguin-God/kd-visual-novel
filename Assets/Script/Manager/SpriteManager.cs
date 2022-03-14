@@ -4,16 +4,16 @@ using UnityEngine;
 
 public class SpriteManager : MonoBehaviour
 {
-
+    [SerializeField] DialogueCannel dialogueCannel = null;
     private void Start()
     {
-        //FindObjectOfType<DialogueManager>().AfterTalkEvent += ChangeSprite_byTalk;
+        dialogueCannel.ChangeContextEvent += ChangeSprite_byTalk;
     }
 
-    void ChangeSprite_byTalk(Dialogue dialogue, int contextCount)
+    void ChangeSprite_byTalk(DialogueData _data, int _contextCount)
     {
-        Transform target = dialogue.tf_Target;
-        if (target != null) SpriteChange(target, dialogue.spriteNames[contextCount]);
+        Transform _target = _data.tf_Target;
+        if (_target != null) SpriteChange(_target, _data.spriteNames[_contextCount]);
     }
 
     [SerializeField] float fadeSpeed;

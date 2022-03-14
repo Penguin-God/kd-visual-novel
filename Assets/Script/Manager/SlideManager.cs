@@ -16,12 +16,13 @@ public class SlideManager : MonoBehaviour
         transform.GetChild(0).gameObject.SetActive(false);
     }
 
+    [SerializeField] DialogueCannel dialogueCannel = null;
     private void Start()
     {
-        //DialogueManager.instance.BeforeTalkEvent += SlideAnimation_byTalk;
+        dialogueCannel.ChangeContextEvent += SlideAnimation_byTalk;
     }
 
-    void SlideAnimation_byTalk(Dialogue dialogue, int contextCount)
+    void SlideAnimation_byTalk(DialogueData dialogue, int contextCount)
     {
         string cutName = dialogue.cutSceneName[contextCount].Trim();
         switch (dialogue.cameraType)
