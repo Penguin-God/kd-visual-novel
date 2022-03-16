@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using UnityEngine.Events;
 using UnityEditor;
 
 public enum DialogueTriggerType
@@ -10,45 +11,67 @@ public enum DialogueTriggerType
     GameProduction, // 게임 내에서 컷씬같은 느낌으로 실행
 }
 
-[CreateAssetMenu(fileName = "new DialogueData Container", menuName = "Scriptable Object / Dialogue Data")]
+[CreateAssetMenu(fileName = "new DialogueData Container", menuName = "Scriptable Object / Dialogue Container")]
 public class DialogueDataContainer : ScriptableObject
 {
-    [SerializeField] DialogueDataParser dataParser = null;
-    // 컴포넌트를 가지고 있는 오브젝트가 진행하는 이벤트 이름 (진행하면 EventManager의 eventFlags의 eventName에 맞는 value가 true가 됨)
     [SerializeField] string eventName;
-
+    [SerializeField] DialogueDataParser dataParser = null;
+    
     [SerializeField] DialogueData[] dialogueData = null;
     public DialogueData[] DialogueData => dialogueData;
 
-    public bool Interactionable => eventCondition.GetCondition();
+    //public bool Interactionable => eventCondition.GetCondition();
     void OnEnable()
     {
         Debug.Log(eventName);
         dialogueData = dataParser.GetDialogue(eventName);
-        eventCondition.Init();
+        eventCondition.Init(this);
     }
 
-    [Header("대화 관련 변수")]
-    [Space][Space][Space]
-    [SerializeField] DialogueData[] liens;
-
-
-    [Header("이벤트 조건 관련 변수")]
+    
+    public void Raise_InteractionEndEvent()
+    {
+        if (interactionEndEvent == null) return;
+        interactionEndEvent.Invoke();
+    }
+    void OnDisable()
+    {
+        interactable = false;
+        // 인스펙터에서 설정한거 빼고 다 없애는 기능임
+        interactionEndEvent.RemoveAllListeners();
+        ChangeDialogueEvent = null;
+    }
+    
+    [Header("이벤트 조건 관련 필드")]
     [SerializeField] EventCondition eventCondition;
-    public Action interactionEndAct;
+
+    [SerializeField] bool interactable = false;
+    public bool Interactable => interactable;
+    public void SetInteraction() => interactable = true;
 
     [SerializeField] DialogueDataContainer afterDialogue = null;
-    public DialogueDataContainer GetAfterDialogue(out bool _ischange)
+    public DialogueDataContainer AfterDialogue => afterDialogue;
+    public event Action ChangeDialogueEvent;
+    public void Raise_ChangeDialogueEvent()
     {
-        if (afterDialogue == null)
-        {
-            _ischange = false;
-            return this;
-        }
-
-        _ischange = eventCondition.GetAfterEventConditoin();
-        return afterDialogue;
+        if (afterDialogue == null || ChangeDialogueEvent == null) return;
+        ChangeDialogueEvent.Invoke();
     }
+
+    [Space][Space][Space]
+    public UnityEvent interactionEndEvent;
+
+    //public DialogueDataContainer GetAfterDialogue(out bool _ischange)
+    //{
+    //    if (afterDialogue == null)
+    //    {
+    //        _ischange = false;
+    //        return this;
+    //    }
+
+    //    _ischange = eventCondition.GetAfterEventConditoin();
+    //    return afterDialogue;
+    //}
 }
 
 
@@ -71,47 +94,50 @@ public class DialogueData
 [Serializable]
 public class EventCondition
 {
-    public void Init() // 사실상 생성자 함수
+    public void Init(DialogueDataContainer _container) // 사실상 생성자 함수
     {
-        SubscribeOtherEvents(defaultEventConditions, defaultEventConditionQueue);
-        SubscribeOtherEvents(nextEventConditions, nextEventConditionQueue);
+        SetFirstNextEventConditon(_container);
+
+        SubscribeOthersEvent(defaultEventConditions, _container.SetInteraction);
+        SubscribeOthersEvent(nextEventConditions, _container.Raise_ChangeDialogueEvent);
     }
 
     // EventCondition은 하나의 이벤트에 대응하는 하나의 조건
     // EventCondition에 대응하는 이벤트를 보기 위해서는 interactionAble이 true여야 함
     // interactionAble이 true이기 위해서는 특정 이벤트들을 진행했어야 함
-    // 진행했어야 하는 이벤트의 경우 차곡차곡 쌓아둔 큐가 날라가고 카운트가 0이 되면 상호작용 허용
-    private bool interactionAble = false;
-    public bool GetCondition() => interactionAble;
-    [SerializeField] DialogueDataContainer[] defaultEventConditions;
-    Queue<bool> defaultEventConditionQueue = new Queue<bool>();
+    // 기본 이벤트의 경우 리스트의 요소가 하나씩 삭제되고 카운트가 0이 되면 상호작용 허용
+    [SerializeField] List<DialogueDataContainer> defaultEventConditions = new List<DialogueDataContainer>();
 
-
-    private bool isNextEvent = false;
-    public bool GetAfterEventConditoin() => isNextEvent;
-    [SerializeField] DialogueDataContainer[] nextEventConditions;
-    Queue<bool> nextEventConditionQueue = new Queue<bool>();
-
-    void SubscribeOtherEvents(DialogueDataContainer[] _datas, Queue<bool> _conditionQueue)
+    [SerializeField] List<DialogueDataContainer> nextEventConditions = new List<DialogueDataContainer>();
+    void SetFirstNextEventConditon(DialogueDataContainer _container)
     {
-        if (_datas == null) return;
+        nextEventConditions.Clear();
+        nextEventConditions.Add(_container);
+    }
 
-        for (int i = 0; i < _datas.Length; i++)
+    void SubscribeOthersEvent(List<DialogueDataContainer> _datas, Action _satisfyCondtionAct)
+    {
+        if (_datas == null || _datas.Count == 0)
         {
-            _conditionQueue.Enqueue(false);
+            _satisfyCondtionAct();
+            return;
+        }
 
-            // 한번만 실행하고 다시 뺌
-            _datas[i].interactionEndAct += () =>
-            {
-                SubscribeEvent(_conditionQueue);
-                _datas[i].interactionEndAct -= () => SubscribeEvent(_conditionQueue);
-            };
+        for (int i = 0; i < _datas.Count; i++)
+        {
+            DialogueDataContainer _container = _datas[i];
+            _datas[i].interactionEndEvent.AddListener(() => SubscribeEvent(_datas, _container, _satisfyCondtionAct));
         }
     }
 
-    void SubscribeEvent(Queue<bool> _conditionQueue)
+    // 한번만 실행하고 다시 뺌
+    void SubscribeEvent(List<DialogueDataContainer> _datas, DialogueDataContainer _otherContainer, Action _satisfyCondtionAct)
     {
-        _conditionQueue.Dequeue();
-        if (_conditionQueue.Count == 0) interactionAble = true;
+        Debug.Log(_otherContainer.name);
+        _otherContainer.interactionEndEvent.RemoveListener( () => SubscribeEvent(_datas, _otherContainer, _satisfyCondtionAct));
+
+        _datas.Remove(_otherContainer);
+        // 조건 만족 시 행동
+        if (_datas.Count == 0) _satisfyCondtionAct();
     }
 }

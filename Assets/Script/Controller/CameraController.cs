@@ -12,7 +12,7 @@ public class CameraController : MonoBehaviour
     
     private void Start()
     {
-        dialogueCannel.StartDialogueEvent += CameraEffect_byEventStart;
+        dialogueCannel.StartInteractionEvent += CameraEffect_byEventStart;
         dialogueCannel.EndTalkEvent += CameraReset;
     }
 
@@ -78,9 +78,10 @@ public class CameraController : MonoBehaviour
         }
 
         SetCameraTransform(originPosition, originRotation);
-        DialogueManager.instance.isTalking = false;
-        yield return null; // EventManager.isAutoEvent 선언 대기
-        if (!EventManager.isAutoEvent) UIManager.instance.ShowUI();
+        //DialogueManager.instance.isTalking = false;
+        //yield return null; // EventManager.isAutoEvent 선언 대기
+        //if (!EventManager.isAutoEvent) UIManager.instance.ShowUI();
+        dialogueCannel.Raise_EndInteractionEvent();
     }
 
     void CameraMove(Vector3 target_Position, Quaternion target_Rotation, float speed)

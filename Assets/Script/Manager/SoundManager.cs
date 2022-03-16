@@ -30,7 +30,6 @@ public class SoundManager : MonoBehaviour
     private void Start()
     {
         dialogueCannel.ChangeContextEvent += PlayVoice_byTalk;
-        //FindObjectOfType<DialogueManager>().AfterTalkEvent += PlayVoice_byTalk;
     }
 
     void PlayVoice_byTalk(DialogueData dialogue, int contextCount)

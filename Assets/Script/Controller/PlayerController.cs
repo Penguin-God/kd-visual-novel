@@ -27,7 +27,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] DialogueCannel dialogueCannel;
     private void Start()
     {
-        dialogueCannel.EndDialogueEvent += AngleValueReset;
+        dialogueCannel.EndInteractionEvent += AngleValueReset;
     }
 
     public void AngleValueReset()

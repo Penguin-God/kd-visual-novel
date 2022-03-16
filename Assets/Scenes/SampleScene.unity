@@ -1649,14 +1649,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 263ddd96e2d49eb489ef725ca60bffa7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  container: {fileID: 0}
-  dialogueData: []
+  dialogueMC: {fileID: 0}
   dialogueCannel: {fileID: 0}
-  eventCondition:
-    defaultEventConditions: []
-    nextEventConditions: []
-  dialogueEvents: []
-  isSetDialogeu: 0
 --- !u!114 &616996588
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2432,30 +2426,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82b8f7f4067024e41809246c7f07ef80, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  container: {fileID: 11400000, guid: 50907faebd10a154aa92df6d6b5a0dac, type: 2}
-  dialogueData: []
+  dialogueMC: {fileID: 11400000, guid: ac95047ad72b9b54d96ac1fb7e9c26c3, type: 2}
   dialogueCannel: {fileID: 11400000, guid: 7a460b213184a38419d6bef3306602c4, type: 2}
-  eventCondition:
-    defaultEventConditions: []
-    nextEventConditions: []
-  dialogueEvents:
-  - eventName: "\uBD09\uB780 \uCCAB\uC778\uC0AC"
-    talkCondition:
-      eventConditions: []
-      conditionFlag: 0
-      endEvnetName: 
-    dialogues: []
-    isAfter: 0
-    afterDialogues: []
-  - eventName: "\uC2EC\uC2EC\uD55C \uBD09\uB780"
-    talkCondition:
-      eventConditions: []
-      conditionFlag: 0
-      endEvnetName: 
-    dialogues: []
-    isAfter: 0
-    afterDialogues: []
-  isSetDialogeu: 0
 --- !u!1 &750452588
 GameObject:
   m_ObjectHideFlags: 0
@@ -2798,18 +2770,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e85b66a27f652854b9c54e2012434cd5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  container: {fileID: 0}
-  dialogueData: []
+  dialogueMC: {fileID: 0}
   dialogueCannel: {fileID: 0}
-  eventCondition:
-    defaultEventConditions: []
-    nextEventConditions: []
-  dialogueEvents: []
-  isSetDialogeu: 0
-  isNextMapOnlyView: 0
-  changeSceneName: Cafeteria
-  locationName: CafeEntrance2
-  transferNumber: 0
 --- !u!114 &771693896
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8471,65 +8433,6 @@ MonoBehaviour:
   obj_Interaction: {fileID: 211758838}
   img_Interaction: {fileID: 1018372196}
   img_InteractionEffect: {fileID: 1014662044}
---- !u!1 &933719027
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 933719029}
-  - component: {fileID: 933719028}
-  m_Layer: 0
-  m_Name: Test Scriptable Object
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &933719028
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 933719027}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 82b8f7f4067024e41809246c7f07ef80, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  container: {fileID: 0}
-  dialogueData: []
-  dialogueCannel: {fileID: 0}
-  eventCondition:
-    defaultEventConditions: []
-    nextEventConditions: []
-  dialogueEvents:
-  - eventName: 
-    talkCondition:
-      eventConditions: []
-      conditionFlag: 0
-      endEvnetName: 
-    dialogues: []
-    isAfter: 0
-    afterDialogues: []
-  isSetDialogeu: 0
---- !u!4 &933719029
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 933719027}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.95729584, y: 5.4554434, z: -0.52875733}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 8
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &938628805
 GameObject:
   m_ObjectHideFlags: 0
@@ -10040,22 +9943,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82b8f7f4067024e41809246c7f07ef80, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  container: {fileID: 0}
-  dialogueData: []
+  dialogueMC: {fileID: 0}
   dialogueCannel: {fileID: 0}
-  eventCondition:
-    defaultEventConditions: []
-    nextEventConditions: []
-  dialogueEvents:
-  - eventName: "\uAD34\uC0C1\uD55C \uB3C4\uAD6C"
-    talkCondition:
-      eventConditions: []
-      conditionFlag: 0
-      endEvnetName: 
-    dialogues: []
-    isAfter: 0
-    afterDialogues: []
-  isSetDialogeu: 0
 --- !u!1 &1265648990
 GameObject:
   m_ObjectHideFlags: 0
@@ -16545,7 +16434,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1885960109
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16584,34 +16473,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e85b66a27f652854b9c54e2012434cd5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  container: {fileID: 0}
-  dialogueData: []
-  dialogueCannel: {fileID: 0}
-  eventCondition:
-    defaultEventConditions: []
-    nextEventConditions: []
-  dialogueEvents:
-  - eventName: "\uBB38 \uB2EB\uD600\uC788\uC74C"
-    talkCondition:
-      eventConditions: []
-      conditionFlag: 0
-      endEvnetName: 
-    dialogues: []
-    isAfter: 0
-    afterDialogues: []
-  - eventName: "\uBB38 \uB2EB\uD600\uC788\uC74C"
-    talkCondition:
-      eventConditions: []
-      conditionFlag: 0
-      endEvnetName: 
-    dialogues: []
-    isAfter: 0
-    afterDialogues: []
-  isSetDialogeu: 0
-  isNextMapOnlyView: 0
-  changeSceneName: Cafeteria
-  locationName: CafeEntrance
-  transferNumber: 1
+  dialogueMC: {fileID: 11400000, guid: 81169326b2b564a4482f083531d82ff7, type: 2}
+  dialogueCannel: {fileID: 11400000, guid: 7a460b213184a38419d6bef3306602c4, type: 2}
 --- !u!4 &1886254738
 Transform:
   m_ObjectHideFlags: 0
@@ -16702,14 +16565,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 263ddd96e2d49eb489ef725ca60bffa7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  container: {fileID: 0}
-  dialogueData: []
+  dialogueMC: {fileID: 0}
   dialogueCannel: {fileID: 0}
-  eventCondition:
-    defaultEventConditions: []
-    nextEventConditions: []
-  dialogueEvents: []
-  isSetDialogeu: 0
 --- !u!114 &1943139039
 MonoBehaviour:
   m_ObjectHideFlags: 0

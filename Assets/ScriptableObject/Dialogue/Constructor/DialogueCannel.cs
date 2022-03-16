@@ -8,29 +8,30 @@ public class DialogueCannel : ScriptableObject
 {
     void OnDisable()
     {
-        StartDialogueEvent = null;
+        StartInteractionEvent = null;
         StartTalkEvent = null;
-        EndDialogueEvent = null;
+        EndInteractionEvent = null;
         EndTalkEvent = null;
     }
 
-    public event Action<Transform, DialogueDataContainer> StartDialogueEvent = null;
-    public void Raise_StartDialogueEvent(Transform _tf, DialogueDataContainer _container)
+    // 상호작용 시작, 끝 이벤트
+    public event Action<Transform, DialogueDataContainer> StartInteractionEvent = null;
+    public void Raise_StartInteractionEvent(Transform _tf, DialogueDataContainer _container)
     {
-        if(StartDialogueEvent != null) StartDialogueEvent.Invoke(_tf, _container);
+        if(StartInteractionEvent != null) StartInteractionEvent.Invoke(_tf, _container);
     }
 
-    
+    public event Action EndInteractionEvent = null;
+    public void Raise_EndInteractionEvent()
+    {
+        if (EndInteractionEvent != null) EndInteractionEvent.Invoke();
+    }
+
+    // 대화 중 이벤트
     public event Action<DialogueDataContainer> StartTalkEvent = null;
     public void Raise_StartTalkEvent(DialogueDataContainer _container)
     {
         if (StartTalkEvent != null) StartTalkEvent.Invoke(_container);
-    }
-
-    public event Action EndDialogueEvent = null;
-    public void Raise_EndDialogueEvent()
-    {
-        if (EndDialogueEvent != null) EndDialogueEvent.Invoke();
     }
 
     public event Action EndTalkEvent= null;

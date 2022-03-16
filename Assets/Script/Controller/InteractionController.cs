@@ -71,7 +71,8 @@ public class InteractionController : MonoBehaviour
     {
         get
         {
-            if (rayHit.transform != null && rayHit.transform.CompareTag("Interaction")) return true;
+            if (rayHit.transform != null && rayHit.transform.GetComponent<InteractionEvent>() != null 
+                && rayHit.transform.GetComponent<InteractionEvent>().Interactalbe) return true;
             else return false;
         }
     }

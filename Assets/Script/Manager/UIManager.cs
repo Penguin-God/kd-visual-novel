@@ -23,7 +23,7 @@ public class UIManager : MonoBehaviour
     void Start()
     {
         dialogueCannel.StartTalkEvent += (DialogueDataContainer _con) => HideUI();
-        dialogueCannel.EndDialogueEvent += ShowUI;
+        dialogueCannel.EndInteractionEvent += ShowUI;
     }
 
     [SerializeField] GameObject UI_Crosshair;
