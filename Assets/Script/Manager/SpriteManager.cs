@@ -5,6 +5,7 @@ using UnityEngine;
 public class SpriteManager : MonoBehaviour
 {
     [SerializeField] DialogueCannel dialogueCannel = null;
+    
     private void Start()
     {
         dialogueCannel.ChangeContextEvent += ChangeSprite_byTalk;

@@ -44,7 +44,7 @@ public class CutSceneManager : MonoBehaviour
             cutSceneImage.sprite = _sprite;
             StartCoroutine(Co_CutScene(true));
         }
-        else Debug.LogWarning("찾을 수 없는 컷씬 이름 : " + cutSceneName);
+        //else Debug.LogWarning("찾을 수 없는 컷씬 이름 : " + cutSceneName);
 
     }
 

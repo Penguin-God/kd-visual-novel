@@ -26,7 +26,7 @@ public class SplashManager : MonoBehaviour
 
     private void Start()
     {
-        //DialogueManager.instance.BeforeTalkEvent += FadeCamara_byTalk;
+        dialogueCannel.ChangeContextEvent += FadeCamara_byTalk;
 
         SoundManager.instance.EffectSoundEvent += Splash;
     }
@@ -34,6 +34,7 @@ public class SplashManager : MonoBehaviour
     void FadeCamara_byTalk(DialogueData _data, int _count)
     {
         string _effectType = _data.fadeType[_count];
+
         switch (_effectType)
         {
             case "FadeOut : Balck": FadeOut(FadeType.Black); break;

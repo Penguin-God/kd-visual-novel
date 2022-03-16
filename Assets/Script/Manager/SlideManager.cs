@@ -24,13 +24,25 @@ public class SlideManager : MonoBehaviour
 
     void SlideAnimation_byTalk(DialogueData dialogue, int contextCount)
     {
-        string cutName = dialogue.cutSceneName[contextCount].Trim();
-        switch (dialogue.cameraType)
+        string slideCommand = dialogue.cutSceneName[contextCount].Trim();
+        string[] slideCommands = new string[2];
+        if(slideCommand != "")
         {
-            case CameraType.AppearSlide: StartCoroutine(Co_AppearSlide(cutName)); break;
-            case CameraType.DisappearSlide: StartCoroutine(Co_DisappearSlide()); break;
-            case CameraType.ChangeSlide: StartCoroutine(Co_ChangeSlide(cutName)); break;
+            slideCommands = slideCommand.Split('/');
+            switch (slideCommands[0])
+            {
+                case "AppearSlide": StartCoroutine(Co_AppearSlide(slideCommands[1])); break;
+                case "DisappearSlide": StartCoroutine(Co_DisappearSlide()); break;
+                case "ChangeSlide": StartCoroutine(Co_ChangeSlide(slideCommands[1])); break;
+            }
         }
+
+        //switch (dialogue.cameraType)
+        //{
+        //    case CameraType.AppearSlide: StartCoroutine(Co_AppearSlide(cutName)); break;
+        //    case CameraType.DisappearSlide: StartCoroutine(Co_DisappearSlide()); break;
+        //    case CameraType.ChangeSlide: StartCoroutine(Co_ChangeSlide(cutName)); break;
+        //}
     }
 
     IEnumerator Co_AppearSlide(string name)
