@@ -23,4 +23,11 @@ public class DialogueMC : ScriptableObject
             dialogues[i].ChangeDialogueEvent += () => ChangeCurrentDialogue(_afterContainer);
         }
     }
+
+    [ContextMenu("Data Reset")]
+    public void DataReset()
+    {
+        currentDialogue = dialogues[0];
+        for (int i = 0; i < dialogues.Length; i++) dialogues[i].DataReset();
+    }
 }

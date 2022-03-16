@@ -29,11 +29,14 @@ MonoBehaviour:
     fadeType:
     - "\r"
   eventCondition:
+    const_DefaultEventCondition:
+    - {fileID: 11400000, guid: 642e0c2bcfaf223408251de7b6c15009, type: 2}
     defaultEventConditions:
     - {fileID: 11400000, guid: 642e0c2bcfaf223408251de7b6c15009, type: 2}
+    const_nextEventConditions: []
     nextEventConditions:
     - {fileID: 11400000}
-  interactable: 1
+  interactable: 0
   afterDialogue: {fileID: 0}
   interactionEndEvent:
     m_PersistentCalls:

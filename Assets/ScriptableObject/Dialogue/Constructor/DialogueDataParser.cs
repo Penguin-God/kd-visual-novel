@@ -2,14 +2,42 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using UnityEditor;
 
 [CreateAssetMenu(fileName = "new parser", menuName = "Scriptable Object / Dialogue Parser")]
 public class DialogueDataParser : ScriptableObject
 {
     [SerializeField] TextAsset targetFile = null;
     [SerializeField] List<DialogueEventData> fileLineDatas = null;
+    
+    [MenuItem("Assets/Create/My DialogueContainers")]
+    public static void CreateMyAsset()
+    {
+        for (int i = 0; i < staticFileLineDatas.Count; i++)
+        {
+            DialogueDataContainer _asset = ScriptableObject.CreateInstance<DialogueDataContainer>();
+            _asset.Init(my, staticFileLineDatas[i].dialogueName);
 
-    void OnEnable() => fileLineDatas = Parse(targetFile);
+            string eventName = staticFileLineDatas[i].dialogueName;
+            string _name = UnityEditor.AssetDatabase.GenerateUniqueAssetPath($"Assets/ScriptableObject/Dialogue/Datas/Test/{eventName}.asset");
+            AssetDatabase.CreateAsset(_asset, _name);
+            AssetDatabase.SaveAssets();
+
+            EditorUtility.FocusProjectWindow();
+
+            Selection.activeObject = _asset;
+        }
+    }
+
+    static List<DialogueEventData> staticFileLineDatas;
+    static DialogueDataParser my;
+    void OnEnable()
+    {
+        fileLineDatas = Parse(targetFile);
+
+        staticFileLineDatas = fileLineDatas;
+        my = this;
+    }
 
     public DialogueData[] GetDialogue(string _name)
     {

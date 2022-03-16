@@ -20,9 +20,17 @@ public class DialogueDataContainer : ScriptableObject
     [SerializeField] DialogueData[] dialogueData = null;
     public DialogueData[] DialogueData => dialogueData;
 
+    public void Init(DialogueDataParser _dataParser, string _eventName)
+    {
+        dataParser = _dataParser;
+        eventName = _eventName;
+    }
+
     //public bool Interactionable => eventCondition.GetCondition();
     void OnEnable()
     {
+        if (dataParser == null) return;
+
         Debug.Log(eventName);
         dialogueData = dataParser.GetDialogue(eventName);
         eventCondition.Init(this);
@@ -61,6 +69,11 @@ public class DialogueDataContainer : ScriptableObject
     [Space][Space][Space]
     public UnityEvent interactionEndEvent;
 
+    public void DataReset()
+    {
+        interactable = false;
+        eventCondition.Reset();
+    }
     //public DialogueDataContainer GetAfterDialogue(out bool _ischange)
     //{
     //    if (afterDialogue == null)
@@ -101,13 +114,21 @@ public class EventCondition
         SubscribeOthersEvent(defaultEventConditions, _container.SetInteraction);
         SubscribeOthersEvent(nextEventConditions, _container.Raise_ChangeDialogueEvent);
     }
+    
+    public void Reset()
+    {
+        defaultEventConditions = const_DefaultEventCondition;
+        nextEventConditions = const_nextEventConditions;
+    }
 
     // EventCondition은 하나의 이벤트에 대응하는 하나의 조건
     // EventCondition에 대응하는 이벤트를 보기 위해서는 interactionAble이 true여야 함
     // interactionAble이 true이기 위해서는 특정 이벤트들을 진행했어야 함
     // 기본 이벤트의 경우 리스트의 요소가 하나씩 삭제되고 카운트가 0이 되면 상호작용 허용
+    [SerializeField] List<DialogueDataContainer> const_DefaultEventCondition = null;
     [SerializeField] List<DialogueDataContainer> defaultEventConditions = new List<DialogueDataContainer>();
 
+    [SerializeField] List<DialogueDataContainer> const_nextEventConditions = null;
     [SerializeField] List<DialogueDataContainer> nextEventConditions = new List<DialogueDataContainer>();
     void SetFirstNextEventConditon(DialogueDataContainer _container)
     {

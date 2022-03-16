@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58d03af9001bd1646b9e5cece30c83f3, type: 3}
   m_Name: "\uCC98\uC74C \uBD09\uB780"
   m_EditorClassIdentifier: 
-  currentDialogue: {fileID: 11400000, guid: 642e0c2bcfaf223408251de7b6c15009, type: 2}
+  currentDialogue: {fileID: 11400000, guid: 50907faebd10a154aa92df6d6b5a0dac, type: 2}
   dialogues:
   - {fileID: 11400000, guid: 50907faebd10a154aa92df6d6b5a0dac, type: 2}
   - {fileID: 11400000, guid: f131d7a721c526d4cab5295df5188ae2, type: 2}
