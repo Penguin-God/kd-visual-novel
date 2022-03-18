@@ -18,17 +18,22 @@ public class InteractionEvent : MonoBehaviour
     // 가상 함수
     public virtual void StartInteraction() 
     {
-        RaiseEvent();
+        SetDialogueEvent();
+        gameObject.SetActive(false);
     }
-    void RaiseEvent()
+    void SetDialogueEvent()
     {
         dialogueCannel.EndInteractionEvent += SubscribeEvent;
+
         dialogueCannel.Raise_StartInteractionEvent(transform, Container);
     }
 
+    // 여기 안에 있는 내용은 실행 후 바로 구취됨. 즉 1회용 이벤트
     void SubscribeEvent()
     {
-        Container.Raise_InteractionEndEvent();
+        gameObject.SetActive(true);
+        Container.Raise_ContainerDialogueEndEvent();
+
         dialogueCannel.EndInteractionEvent -= SubscribeEvent;
     }
 

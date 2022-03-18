@@ -87,7 +87,7 @@ public class DialogueDataParser : ScriptableObject
             List<string> spriteList = new List<string>();
             List<string> voiceList = new List<string>();
             List<string> sceneList = new List<string>();
-            List<string> fadeList = new List<string>();
+            List<string> torqueList = new List<string>();
 
             _rows = _datas[_index].Split(new char[] { ',' });
             DialogueData lineData = new DialogueData();
@@ -96,11 +96,11 @@ public class DialogueDataParser : ScriptableObject
             do
             {
                 // 데이터 Add
-                contextList.Add(_rows[2]);
-                spriteList.Add(_rows[3]);
-                voiceList.Add(_rows[4]);
-                sceneList.Add(_rows[5]);
-                fadeList.Add(_rows[6]);
+                contextList.Add(_rows[2].Trim());
+                spriteList.Add(_rows[3].Trim());
+                voiceList.Add(_rows[4].Trim());
+                sceneList.Add(_rows[5].Trim());
+                torqueList.Add(_rows[6].Trim());
 
                 // 줄바꿈 및 탈출
                 if (_datas.Length > ++_index) _rows = _datas[_index].Split(new char[] { ',' });
@@ -112,7 +112,7 @@ public class DialogueDataParser : ScriptableObject
             lineData.spriteNames = spriteList.ToArray();
             lineData.voiceNames = voiceList.ToArray();
             lineData.cutSceneName = sceneList.ToArray();
-            lineData.fadeType = fadeList.ToArray();
+            lineData.cameraTorque = torqueList.ToArray();
 
             lineDataList.Add(lineData);
         }

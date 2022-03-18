@@ -26,14 +26,14 @@ public class SplashManager : MonoBehaviour
 
     private void Start()
     {
-        dialogueCannel.ChangeContextEvent += FadeCamara_byTalk;
+        //dialogueCannel.ChangeContextEvent += FadeCamara_byTalk;
 
         SoundManager.instance.EffectSoundEvent += Splash;
     }
 
     void FadeCamara_byTalk(DialogueData _data, int _count)
     {
-        string _effectType = _data.fadeType[_count];
+        string _effectType = "";  //_data.fadeType[_count];
 
         switch (_effectType)
         {

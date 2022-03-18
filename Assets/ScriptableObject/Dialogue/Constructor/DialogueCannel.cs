@@ -18,7 +18,7 @@ public class DialogueCannel : ScriptableObject
     public event Action<Transform, DialogueDataContainer> StartInteractionEvent = null;
     public void Raise_StartInteractionEvent(Transform _tf, DialogueDataContainer _container)
     {
-        if(StartInteractionEvent != null) StartInteractionEvent.Invoke(_tf, _container);
+        if (StartInteractionEvent != null) StartInteractionEvent.Invoke(_tf, _container);
     }
 
     public event Action EndInteractionEvent = null;

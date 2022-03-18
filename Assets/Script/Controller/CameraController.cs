@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,12 +9,13 @@ public class CameraController : MonoBehaviour
     [SerializeField] DialogueCannel dialogueCannel = null;
 
     Transform tf_CurrentTalkCharacter = null;
-    WaitForSeconds ws = new WaitForSeconds(0.008f);
+    WaitForSeconds ws = new WaitForSeconds(0.02f);
     
     private void Start()
     {
         dialogueCannel.StartInteractionEvent += CameraEffect_byEventStart;
         dialogueCannel.EndTalkEvent += CameraReset;
+        dialogueCannel.ChangeContextEvent += CameraRotate_byTalk;
     }
 
     void CameraEffect_byEventStart(Transform target, DialogueDataContainer _container)
@@ -22,9 +24,14 @@ public class CameraController : MonoBehaviour
         CameraTargettion(target, _container);
     }
 
-    void CameraTargetTing_byTalk(Dialogue dialogue, int contextCount)
+    [SerializeField] float rotateSpeed = 0;
+    void CameraRotate_byTalk(DialogueData _data, int contextCount)
     {
         //if(dialogue.cameraType == CameraType.Default) CameraTargettion(dialogue.tf_Target);
+        if (!Int32.TryParse(_data.cameraTorque[contextCount], out int _torque)) return;
+        Vector3 currentEuler = transform.eulerAngles;
+        Quaternion _targetRatation = Quaternion.Euler(currentEuler += (Vector3.up * _torque));
+        StartCoroutine(Co_CameraTargetting(_targetRatation));
     }
 
     void CameraReset()
@@ -33,7 +40,7 @@ public class CameraController : MonoBehaviour
         StartCoroutine(Co_CameraReset());
     }
 
-    void CameraTargettion(Transform p_Targer, DialogueDataContainer _container, float p_CameraSpeed = 0.05f)
+    void CameraTargettion(Transform p_Targer, DialogueDataContainer _container, float p_CameraSpeed = 0.15f)
     {
         if (p_Targer == null || p_Targer == tf_CurrentTalkCharacter) return;
         StopAllCoroutines();
@@ -59,6 +66,15 @@ public class CameraController : MonoBehaviour
         DialogueManager.instance.isCameraEffect = false;
     }
 
+    IEnumerator Co_CameraTargetting(Quaternion _targetRatation, float p_CameraSpeed = 0.05f)
+    {
+        while (Quaternion.Angle(transform.rotation, _targetRatation) >= 3f)
+        {
+            transform.rotation = Quaternion.Lerp(transform.rotation, _targetRatation, p_CameraSpeed);
+            yield return ws;
+        }
+    }
+
     Vector3 originPosition;
     Quaternion originRotation;
     void CamOriginSetting()
@@ -69,6 +85,7 @@ public class CameraController : MonoBehaviour
     
     IEnumerator Co_CameraReset(float camSpeed = 0.05f)
     {
+        DialogueManager.instance.isCameraEffect = true;
         yield return new WaitForSeconds(0.2f);
         
         while (transform.position != originPosition || Quaternion.Angle(transform.rotation, originRotation ) >= 1f)
@@ -82,6 +99,7 @@ public class CameraController : MonoBehaviour
         //yield return null; // EventManager.isAutoEvent 선언 대기
         //if (!EventManager.isAutoEvent) UIManager.instance.ShowUI();
         dialogueCannel.Raise_EndInteractionEvent();
+        DialogueManager.instance.isCameraEffect = false;
     }
 
     void CameraMove(Vector3 target_Position, Quaternion target_Rotation, float speed)

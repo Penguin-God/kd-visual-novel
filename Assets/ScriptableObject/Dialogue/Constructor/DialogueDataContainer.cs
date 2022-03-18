@@ -37,17 +37,18 @@ public class DialogueDataContainer : ScriptableObject
     }
 
     
-    public void Raise_InteractionEndEvent()
+    public void Raise_ContainerDialogueEndEvent()
     {
-        if (interactionEndEvent == null) return;
-        interactionEndEvent.Invoke();
+        if (ContainerDialogueEndEvent == null) return;
+        ContainerDialogueEndEvent.Invoke();
     }
+
     void OnDisable()
     {
         interactable = false;
         // 인스펙터에서 설정한거 빼고 다 없애는 기능임
-        interactionEndEvent.RemoveAllListeners();
-        ChangeDialogueEvent = null;
+        ContainerDialogueEndEvent.RemoveAllListeners();
+        ChangeContainerEvent = null;
     }
     
     [Header("이벤트 조건 관련 필드")]
@@ -59,15 +60,15 @@ public class DialogueDataContainer : ScriptableObject
 
     [SerializeField] DialogueDataContainer afterDialogue = null;
     public DialogueDataContainer AfterDialogue => afterDialogue;
-    public event Action ChangeDialogueEvent;
-    public void Raise_ChangeDialogueEvent()
+    public event Action ChangeContainerEvent;
+    public void Raise_ChangeContainerEvent()
     {
-        if (afterDialogue == null || ChangeDialogueEvent == null) return;
-        ChangeDialogueEvent.Invoke();
+        if (afterDialogue == null || ChangeContainerEvent == null) return;
+        ChangeContainerEvent.Invoke();
     }
 
     [Space][Space][Space]
-    public UnityEvent interactionEndEvent;
+    public UnityEvent ContainerDialogueEndEvent;
 
     public void DataReset()
     {
@@ -92,16 +93,16 @@ public class DialogueDataContainer : ScriptableObject
 public class DialogueData
 {
     [Tooltip("카메라가 타겟팅할 대상")]
-    public Transform tf_Target;
     public CameraType cameraType;
 
     public string characterName;
     public string[] contexts;
 
+    public bool IsTalkEffect => (spriteNames.Length > 0 || voiceNames.Length > 0 || cutSceneName.Length > 0 || cameraTorque.Length > 0);
     public string[] spriteNames;
     public string[] voiceNames;
     public string[] cutSceneName;
-    public string[] fadeType;
+    public string[] cameraTorque;
 }
 
 [Serializable]
@@ -112,7 +113,7 @@ public class EventCondition
         SetFirstNextEventConditon(_container);
 
         SubscribeOthersEvent(defaultEventConditions, _container.SetInteraction);
-        SubscribeOthersEvent(nextEventConditions, _container.Raise_ChangeDialogueEvent);
+        SubscribeOthersEvent(nextEventConditions, _container.Raise_ChangeContainerEvent);
     }
     
     public void Reset()
@@ -147,7 +148,7 @@ public class EventCondition
         for (int i = 0; i < _datas.Count; i++)
         {
             DialogueDataContainer _container = _datas[i];
-            _datas[i].interactionEndEvent.AddListener(() => SubscribeEvent(_datas, _container, _satisfyCondtionAct));
+            _datas[i].ContainerDialogueEndEvent.AddListener(() => SubscribeEvent(_datas, _container, _satisfyCondtionAct));
         }
     }
 
@@ -155,7 +156,7 @@ public class EventCondition
     void SubscribeEvent(List<DialogueDataContainer> _datas, DialogueDataContainer _otherContainer, Action _satisfyCondtionAct)
     {
         Debug.Log(_otherContainer.name);
-        _otherContainer.interactionEndEvent.RemoveListener( () => SubscribeEvent(_datas, _otherContainer, _satisfyCondtionAct));
+        _otherContainer.ContainerDialogueEndEvent.RemoveListener( () => SubscribeEvent(_datas, _otherContainer, _satisfyCondtionAct));
 
         _datas.Remove(_otherContainer);
         // 조건 만족 시 행동
