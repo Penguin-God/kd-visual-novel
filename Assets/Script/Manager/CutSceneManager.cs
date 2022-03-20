@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class CutSceneManager : MonoBehaviour
 {
-    [SerializeField] DialogueCannel dialogueCannel = null;
+    [SerializeField] DialogueChannel dialogueChannel = null;
     [SerializeField] SplashManager splashManager;
     [SerializeField] Image cutSceneImage;
 
@@ -14,7 +14,7 @@ public class CutSceneManager : MonoBehaviour
 
     private void Start()
     {
-        dialogueCannel.ChangeContextEvent += CutScene_byTalk;
+        dialogueChannel.ChangeContextEvent += CutScene_byTalk;
     }
 
     void CutScene_byTalk(DialogueData dialogue, int contextCount)

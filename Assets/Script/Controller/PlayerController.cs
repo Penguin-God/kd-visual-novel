@@ -24,10 +24,10 @@ public class PlayerController : MonoBehaviour
         originPos_CameraY = tf_Camera.localPosition.y;
     }
 
-    [SerializeField] DialogueCannel dialogueCannel;
+    [SerializeField] DialogueChannel dialogueChannel;
     private void Start()
     {
-        dialogueCannel.EndInteractionEvent += AngleValueReset;
+        dialogueChannel.EndInteractionEvent += AngleValueReset;
     }
 
     public void AngleValueReset()

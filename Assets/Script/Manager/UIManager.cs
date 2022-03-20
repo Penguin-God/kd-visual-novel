@@ -19,11 +19,11 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    [SerializeField] DialogueCannel dialogueCannel = null;
+    [SerializeField] DialogueChannel dialogueChannel = null;
     void Start()
     {
-        dialogueCannel.StartTalkEvent += (DialogueDataContainer _con) => HideUI();
-        dialogueCannel.EndInteractionEvent += ShowUI;
+        dialogueChannel.StartTalkEvent += (DialogueDataContainer _con) => HideUI();
+        dialogueChannel.EndInteractionEvent += ShowUI;
     }
 
     [SerializeField] GameObject UI_Crosshair;

@@ -6,32 +6,38 @@ using UnityEngine;
 public class CameraController : MonoBehaviour
 {
     public static bool isOnlyView = true;
-    [SerializeField] DialogueCannel dialogueCannel = null;
+    [SerializeField] DialogueChannel dialogueChannel = null;
+    [SerializeField] float targettionDistance;
+    [SerializeField] float moveSpeed;
+    [SerializeField] float rotateSpeed;
 
-    Transform tf_CurrentTalkCharacter = null;
-    WaitForSeconds ws = new WaitForSeconds(0.02f);
+    //Transform tf_CurrentTalkCharacter = null;
+    WaitForSeconds ws = new WaitForSeconds(0.03f);
     
     private void Start()
     {
-        dialogueCannel.StartInteractionEvent += CameraEffect_byEventStart;
-        dialogueCannel.EndTalkEvent += CameraReset;
-        dialogueCannel.ChangeContextEvent += CameraRotate_byTalk;
+        dialogueChannel.StartInteractionEvent += (_taget, _con) => CameraTargetting(_taget);
+        dialogueChannel.ChangeContextEvent += CameraRotate_byTalk;
+        dialogueChannel.EndTalkEvent += CameraReset;
     }
 
-    void CameraEffect_byEventStart(Transform target, DialogueDataContainer _container)
+    [SerializeField] float viewUp;
+    void CameraTargetting(Transform p_Targer)
     {
-        CamOriginSetting();
-        CameraTargettion(target, _container);
+        Vector3 targetPosition = p_Targer.position + (Vector3.up * viewUp);
+        Vector3 forwardTargerPosition = targetPosition + p_Targer.forward * targettionDistance;
+        Vector3 camDirection = (targetPosition - forwardTargerPosition).normalized;
+
+        CameraTargetttig(forwardTargerPosition, Quaternion.LookRotation(camDirection));
     }
 
-    [SerializeField] float rotateSpeed = 0;
     void CameraRotate_byTalk(DialogueData _data, int contextCount)
     {
-        //if(dialogue.cameraType == CameraType.Default) CameraTargettion(dialogue.tf_Target);
         if (!Int32.TryParse(_data.cameraTorque[contextCount], out int _torque)) return;
+
         Vector3 currentEuler = transform.eulerAngles;
-        Quaternion _targetRatation = Quaternion.Euler(currentEuler += (Vector3.up * _torque));
-        StartCoroutine(Co_CameraTargetting(_targetRatation));
+        Quaternion _targetRotation = Quaternion.Euler(currentEuler += (Vector3.up * _torque));
+        CameraRotateToTarget(_targetRotation);
     }
 
     void CameraReset()
@@ -40,39 +46,25 @@ public class CameraController : MonoBehaviour
         StartCoroutine(Co_CameraReset());
     }
 
-    void CameraTargettion(Transform p_Targer, DialogueDataContainer _container, float p_CameraSpeed = 0.15f)
-    {
-        if (p_Targer == null || p_Targer == tf_CurrentTalkCharacter) return;
-        StopAllCoroutines();
-        StartCoroutine(Co_CameraTargetting(p_Targer, _container, p_CameraSpeed));
-    }
-
-    [SerializeField] float viewUp;
-    IEnumerator Co_CameraTargetting(Transform p_Targer, DialogueDataContainer _container, float p_CameraSpeed = 0.05f)
+    
+    void CameraTargetttig(Vector3 _targetPos, Quaternion _LookTargetRot, Action _targettingEndAct = null)
+    { 
+        CamOriginSetting();  
+        StartCoroutine(Co_CameraTargetttig(_targetPos, _LookTargetRot, _targettingEndAct)); 
+    }             
+    IEnumerator Co_CameraTargetttig(Vector3 _targetPos, Quaternion _LookTargetRot, Action _targettingEndAct = null)
     {
         DialogueManager.instance.isCameraEffect = true;
-        Vector3 targetPosition = p_Targer.position + (Vector3.up * viewUp);
-        Vector3 forwardTargerPosition = targetPosition + p_Targer.forward * 1.2f;
-        Vector3 camDirection = (targetPosition - forwardTargerPosition).normalized;
-        
-        while (Vector3.Distance(transform.position, forwardTargerPosition) > 0.1 || Quaternion.Angle(transform.rotation, Quaternion.LookRotation(camDirection) ) >= 3f )
+        while (Vector3.Distance(transform.position, _targetPos) > 0.1f)
         {
-            CameraMove(forwardTargerPosition, Quaternion.LookRotation(camDirection), p_CameraSpeed);
+            transform.position = Vector3.Lerp(transform.position, _targetPos, moveSpeed);
+            transform.rotation = Quaternion.Lerp(transform.rotation, _LookTargetRot, rotateSpeed);
             yield return ws;
         }
 
-        SetCameraTransform(forwardTargerPosition, Quaternion.LookRotation(camDirection)); // 오차 없애기
-        dialogueCannel.Raise_StartTalkEvent(_container); // 대화 시작
+        SetCameraTransform(_targetPos, _LookTargetRot);
         DialogueManager.instance.isCameraEffect = false;
-    }
-
-    IEnumerator Co_CameraTargetting(Quaternion _targetRatation, float p_CameraSpeed = 0.05f)
-    {
-        while (Quaternion.Angle(transform.rotation, _targetRatation) >= 3f)
-        {
-            transform.rotation = Quaternion.Lerp(transform.rotation, _targetRatation, p_CameraSpeed);
-            yield return ws;
-        }
+        if (_targettingEndAct != null) _targettingEndAct();
     }
 
     Vector3 originPosition;
@@ -82,35 +74,42 @@ public class CameraController : MonoBehaviour
         originPosition = transform.position;
         originRotation = transform.rotation;
     }
-    
-    IEnumerator Co_CameraReset(float camSpeed = 0.05f)
-    {
-        DialogueManager.instance.isCameraEffect = true;
-        yield return new WaitForSeconds(0.2f);
-        
-        while (transform.position != originPosition || Quaternion.Angle(transform.rotation, originRotation ) >= 1f)
-        {
-            CameraMove(originPosition, originRotation, camSpeed);
-            yield return ws;
-        }
-
-        SetCameraTransform(originPosition, originRotation);
-        //DialogueManager.instance.isTalking = false;
-        //yield return null; // EventManager.isAutoEvent 선언 대기
-        //if (!EventManager.isAutoEvent) UIManager.instance.ShowUI();
-        dialogueCannel.Raise_EndInteractionEvent();
-        DialogueManager.instance.isCameraEffect = false;
-    }
-
-    void CameraMove(Vector3 target_Position, Quaternion target_Rotation, float speed)
-    {
-        transform.position = Vector3.MoveTowards(transform.position, target_Position, speed);
-        transform.rotation = Quaternion.Lerp(transform.rotation, target_Rotation, speed);
-    }
 
     void SetCameraTransform(Vector3 p_Position, Quaternion p_Rotation)
     {
         transform.position = p_Position;
         transform.rotation = p_Rotation;
+    }
+
+
+    void CameraMoveToTarget(Vector3 _targetPos, Action _moveEndAct = null) => StartCoroutine(Co_CameraMoveToTarget(_targetPos, _moveEndAct));
+    IEnumerator Co_CameraMoveToTarget(Vector3 _targetPos, Action _moveEndAct = null)
+    {
+        while (Vector3.Distance(transform.position, _targetPos ) > 0.1f)
+        {
+            transform.position = Vector3.Lerp(transform.position, _targetPos, moveSpeed);
+            yield return ws;
+        }
+        transform.position = _targetPos;
+        if (_moveEndAct != null) _moveEndAct();
+    }
+
+    void CameraRotateToTarget(Quaternion _LookTargetRot, Action _rotateEndAct = null) => StartCoroutine(Co_CameraRotateToTarget(_LookTargetRot, _rotateEndAct));
+    IEnumerator Co_CameraRotateToTarget(Quaternion _LookTargetRot, Action _rotateEndAct = null)
+    {
+        while (Quaternion.Angle(transform.rotation, _LookTargetRot) > 0.1f)
+        {
+            transform.rotation = Quaternion.Lerp(transform.rotation, _LookTargetRot, rotateSpeed);
+            yield return ws;
+        }
+        transform.rotation = _LookTargetRot;
+        if (_rotateEndAct != null) _rotateEndAct();
+    }
+
+
+    IEnumerator Co_CameraReset()
+    {
+        yield return new WaitForSeconds(0.2f);
+        CameraTargetttig(originPosition, originRotation, dialogueChannel.Raise_EndInteractionEvent);
     }
 }

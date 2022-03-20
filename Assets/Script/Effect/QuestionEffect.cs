@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,7 +6,6 @@ public class QuestionEffect : MonoBehaviour
 {
     [SerializeField] float moveSpeed;
     [SerializeField] ParticleSystem ps_HitEffect;
-
     public void Throw_QuestionMark(Vector3 _target)
     {
         StartCoroutine(Throw_Coroutine(_target));
@@ -28,18 +27,18 @@ public class QuestionEffect : MonoBehaviour
         gameObject.SetActive(false);
     }
 
-    public bool isQuestionHit = false;
+    public bool isQuestionEffectEnd = false;
     void Play_HitEffect()
     {
         ps_HitEffect.gameObject.SetActive(true);
         ps_HitEffect.transform.position = transform.position;
         ps_HitEffect.Play();
-        Invoke("Hide_HitEffect", ps_HitEffect.main.startLifetimeMultiplier);
-        isQuestionHit = true;
+        Invoke("Hide_HitEffect", ps_HitEffect.main.startLifetimeMultiplier - 0.1f);
     }
 
     void Hide_HitEffect()
     {
         ps_HitEffect.gameObject.SetActive(false);
+        isQuestionEffectEnd = true;
     }
 }

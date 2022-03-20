@@ -5,8 +5,8 @@ using UnityEngine;
 public class InteractionEvent : MonoBehaviour
 {
     [SerializeField] DialogueMC dialogueMC = null;
-    DialogueDataContainer Container => dialogueMC.CurrentDialogue;
-    [SerializeField] DialogueCannel dialogueCannel;
+    public DialogueDataContainer Container => dialogueMC.CurrentDialogue;
+    [SerializeField] DialogueChannel dialogueChannel;
 
     public bool Interactalbe => Container.Interactable;
 
@@ -19,13 +19,12 @@ public class InteractionEvent : MonoBehaviour
     public virtual void StartInteraction() 
     {
         SetDialogueEvent();
-        gameObject.SetActive(false);
     }
     void SetDialogueEvent()
     {
-        dialogueCannel.EndInteractionEvent += SubscribeEvent;
+        dialogueChannel.EndInteractionEvent += SubscribeEvent;
 
-        dialogueCannel.Raise_StartInteractionEvent(transform, Container);
+        dialogueChannel.Raise_StartTalkEvent(transform, Container);
     }
 
     // 여기 안에 있는 내용은 실행 후 바로 구취됨. 즉 1회용 이벤트
@@ -34,7 +33,7 @@ public class InteractionEvent : MonoBehaviour
         gameObject.SetActive(true);
         Container.Raise_ContainerDialogueEndEvent();
 
-        dialogueCannel.EndInteractionEvent -= SubscribeEvent;
+        dialogueChannel.EndInteractionEvent -= SubscribeEvent;
     }
 
     private void Start()

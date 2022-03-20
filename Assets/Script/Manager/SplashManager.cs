@@ -11,7 +11,6 @@ public enum FadeType
 
 public class SplashManager : MonoBehaviour
 {
-    [SerializeField] DialogueCannel dialogueCannel = null;
     [SerializeField] Image fadeImage;
 
     [SerializeField] Color whiteColor;

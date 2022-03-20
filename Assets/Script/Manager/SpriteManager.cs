@@ -5,16 +5,16 @@ using UnityEngine.UI;
 
 public class SpriteManager : MonoBehaviour
 {
-    [SerializeField] DialogueCannel dialogueCannel = null;
+    [SerializeField] DialogueChannel dialogueChannel = null;
     
     private void Start()
     {
-        dialogueCannel.StartInteractionEvent += (_target, _container) => ChangeSprite(characterUI_Images, _target.gameObject);
+        dialogueChannel.StartInteractionEvent += (_target, _container) => ChangeSprite(characterUI_Images, _target.gameObject);
 
-        dialogueCannel.StartTalkEvent += (_con) => characterImageField.SetActive(true);
-        dialogueCannel.EndTalkEvent += () => characterImageField.SetActive(false);
+        dialogueChannel.StartTalkEvent += (_con) => characterImageField.SetActive(true);
+        dialogueChannel.EndTalkEvent += () => characterImageField.SetActive(false);
 
-        dialogueCannel.ChangeContextEvent += ChangeSprite_byTalk;
+        dialogueChannel.ChangeContextEvent += ChangeSprite_byTalk;
     }
 
     [SerializeField] GameObject characterImageField = null;

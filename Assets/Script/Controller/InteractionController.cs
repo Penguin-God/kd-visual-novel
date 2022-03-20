@@ -8,6 +8,8 @@ public class InteractionController : MonoBehaviour
     private void Awake()
     {
         cam = GetComponentInChildren<Camera>();
+        questionEffect = GetComponentInChildren<QuestionEffect>();
+        questionEffect.gameObject.SetActive(false);
     }
 
     //private bool interactable = false;
@@ -19,32 +21,27 @@ public class InteractionController : MonoBehaviour
         ClickLeftButton();
     }
 
-    [SerializeField] GameObject obj_Qestion;
+    QuestionEffect questionEffect;
     private Transform interactTransform = null;
     void ClickLeftButton()
     {
-        QuestionEffect questionEffect = obj_Qestion.GetComponent<QuestionEffect>();
-
         if (Input.GetMouseButtonDown(0) && !DialogueManager.instance.isTalking && InteractionAble && !questionEffect.isThrow && rayHit.transform != null)
         {
             interactTransform = rayHit.transform;
-            obj_Qestion.SetActive(true);
-            obj_Qestion.transform.position = cam.transform.position;
+            questionEffect.gameObject.SetActive(true);
+            questionEffect.transform.position = cam.transform.position;
             questionEffect.Throw_QuestionMark(interactTransform.position);
 
-            StartCoroutine(Co_Interaction(interactTransform));
+            StartCoroutine(Co_Interaction(interactTransform.GetComponent<InteractionEvent>()));
         }
     }
 
-    
-    IEnumerator Co_Interaction(Transform interactTransform)
+    [SerializeField] DialogueChannel dialogueChannel = null;
+    IEnumerator Co_Interaction(InteractionEvent interactionEvent)
     {
-        QuestionEffect questionEffect = obj_Qestion.GetComponent<QuestionEffect>();
-        yield return new WaitUntil(() => questionEffect.isQuestionHit);
-        questionEffect.isQuestionHit = false;
+        yield return new WaitUntil(() => questionEffect.isQuestionEffectEnd);
+        questionEffect.isQuestionEffectEnd = false;
 
-        // InteractionEvent 상속시켜서 가상함수로 대화 이벤트 시작
-        InteractionEvent interactionEvent = interactTransform.GetComponent<InteractionEvent>();
         if (interactionEvent != null) interactionEvent.StartInteraction();
     }
 

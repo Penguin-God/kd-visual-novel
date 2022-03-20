@@ -26,10 +26,10 @@ public class SoundManager : MonoBehaviour
         }
     }
 
-    [SerializeField] DialogueCannel dialogueCannel = null;
+    [SerializeField] DialogueChannel dialogueChannel = null;
     private void Start()
     {
-        dialogueCannel.ChangeContextEvent += PlayVoice_byTalk;
+        dialogueChannel.ChangeContextEvent += PlayVoice_byTalk;
     }
 
     void PlayVoice_byTalk(DialogueData dialogue, int contextCount)

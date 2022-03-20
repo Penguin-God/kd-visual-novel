@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class SlideManager : MonoBehaviour
 {
+    [SerializeField] DialogueChannel dialogueChannel = null;
     Animation anim;
     Image img_Slide;
     public bool isSildeMoving;
@@ -16,10 +17,10 @@ public class SlideManager : MonoBehaviour
         transform.GetChild(0).gameObject.SetActive(false);
     }
 
-    [SerializeField] DialogueCannel dialogueCannel = null;
+    
     private void Start()
     {
-        dialogueCannel.ChangeContextEvent += SlideAnimation_byTalk;
+        dialogueChannel.ChangeContextEvent += SlideAnimation_byTalk;
     }
 
     void SlideAnimation_byTalk(DialogueData dialogue, int contextCount)

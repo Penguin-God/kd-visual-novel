@@ -16,11 +16,11 @@ public class DialogueManager : MonoBehaviour
         }
     }
 
-    [SerializeField] DialogueCannel dialogueCannel;
+    [SerializeField] DialogueChannel dialogueChannel;
     private void Start()
     {
-        dialogueCannel.StartTalkEvent += StartTalk;
-        dialogueCannel.EndTalkEvent += () => Set_DialogueUI(false);
+        dialogueChannel.StartTalkEvent += StartTalk;
+        dialogueChannel.EndTalkEvent += () => Set_DialogueUI(false);
 
         EventManager eventManager = FindObjectOfType<EventManager>();
         //OnEndTalk += () => eventManager.GameEventByTalkEnd(eventByTalk);
@@ -61,7 +61,7 @@ public class DialogueManager : MonoBehaviour
             for (int _contextIndex = 0; _contextIndex < _data[_talkIndex].contexts.Length; _contextIndex++)
             {
                 // 이벤트
-                dialogueCannel.Raise_ChangeContextEvent(_data[_talkIndex], _contextIndex);
+                dialogueChannel.Raise_ChangeContextEvent(_data[_talkIndex], _contextIndex);
                 // 대사 타이핑
                 string _typingText = _data[_talkIndex].contexts[_contextIndex];
                 StartCoroutine(Co_TypeWriter(_typingText));
@@ -70,7 +70,7 @@ public class DialogueManager : MonoBehaviour
             }
         }
 
-        dialogueCannel.Raise_EndTalkEvent();
+        dialogueChannel.Raise_EndTalkEvent();
         isTalking = false;
     }
 
