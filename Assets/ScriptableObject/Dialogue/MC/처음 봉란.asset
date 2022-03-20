@@ -13,7 +13,28 @@ MonoBehaviour:
   m_Name: "\uCC98\uC74C \uBD09\uB780"
   m_EditorClassIdentifier: 
   currentDialogue: {fileID: 11400000, guid: 50907faebd10a154aa92df6d6b5a0dac, type: 2}
-  dialogues:
-  - {fileID: 11400000, guid: 50907faebd10a154aa92df6d6b5a0dac, type: 2}
-  - {fileID: 11400000, guid: f131d7a721c526d4cab5295df5188ae2, type: 2}
-  - {fileID: 11400000, guid: 642e0c2bcfaf223408251de7b6c15009, type: 2}
+  conditoins:
+  - container: {fileID: 11400000, guid: 50907faebd10a154aa92df6d6b5a0dac, type: 2}
+    eventCondition:
+      afterDialogue: {fileID: 11400000, guid: f131d7a721c526d4cab5295df5188ae2, type: 2}
+      isNextConditionOnlySelf: 1
+      const_DefaultEventCondition: []
+      defaultEventConditions: []
+      const_nextEventConditions: []
+      nextEventConditions: []
+  - container: {fileID: 11400000, guid: f131d7a721c526d4cab5295df5188ae2, type: 2}
+    eventCondition:
+      afterDialogue: {fileID: 11400000, guid: 642e0c2bcfaf223408251de7b6c15009, type: 2}
+      isNextConditionOnlySelf: 1
+      const_DefaultEventCondition: []
+      defaultEventConditions: []
+      const_nextEventConditions: []
+      nextEventConditions: []
+  - container: {fileID: 11400000, guid: 642e0c2bcfaf223408251de7b6c15009, type: 2}
+    eventCondition:
+      afterDialogue: {fileID: 0}
+      isNextConditionOnlySelf: 0
+      const_DefaultEventCondition: []
+      defaultEventConditions: []
+      const_nextEventConditions: []
+      nextEventConditions: []

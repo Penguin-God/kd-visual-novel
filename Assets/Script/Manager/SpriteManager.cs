@@ -9,9 +9,7 @@ public class SpriteManager : MonoBehaviour
     
     private void Start()
     {
-        dialogueChannel.StartInteractionEvent += (_target, _container) => ChangeSprite(characterUI_Images, _target.gameObject);
-
-        dialogueChannel.StartTalkEvent += (_con) => characterImageField.SetActive(true);
+        //dialogueChannel.StartInteractionEvent += (_target, _container) => ChangeSprite(characterUI_Images, _target.gameObject);
         dialogueChannel.EndTalkEvent += () => characterImageField.SetActive(false);
 
         dialogueChannel.ChangeContextEvent += ChangeSprite_byTalk;
@@ -52,11 +50,13 @@ public class SpriteManager : MonoBehaviour
     // 모든 ChangeSprite의 종점
     void ChangeSprite(Image[] _images, Sprite _newsprite)
     {
+        characterImageField.SetActive(true);
         StopAllCoroutines();
         StartCoroutine(Co_ChangeSprite(_images, _newsprite));
     }
     void ChangeSprite(SpriteRenderer[] _srs, Sprite _newsprite)
     {
+        characterImageField.SetActive(true);
         StopAllCoroutines();
         StartCoroutine(Co_ChangeSprite(_srs, _newsprite));
     }
@@ -64,7 +64,6 @@ public class SpriteManager : MonoBehaviour
     [SerializeField] float fadeSpeed;
     IEnumerator Co_ChangeSprite(Image[] _images,  Sprite _newsprite)
     {
-
         if (_newsprite != null && !Check_SameSprite(_images[0].sprite, _newsprite))
         {
             Color _front_color = _images[0].color;

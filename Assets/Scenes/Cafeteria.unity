@@ -243,8 +243,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 263ddd96e2d49eb489ef725ca60bffa7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dialogueEvents: []
-  isSetDialogeu: 0
+  dialogueMC: {fileID: 0}
+  dialogueChannel: {fileID: 0}
 --- !u!1001 &114733874
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -694,8 +694,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 263ddd96e2d49eb489ef725ca60bffa7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dialogueEvents: []
-  isSetDialogeu: 0
+  dialogueMC: {fileID: 0}
+  dialogueChannel: {fileID: 0}
 --- !u!1001 &356488427
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -919,9 +919,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e85b66a27f652854b9c54e2012434cd5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isNextMapOnlyView: 1
-  changeSceneName: SampleScene
-  locationName: Class1-1
+  dialogueMC: {fileID: 0}
+  dialogueChannel: {fileID: 0}
 --- !u!114 &437465135
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -934,8 +933,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9bfcfbe7e5a42d64582b04b938547dee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isDoor: 1
-  isObject: 0
   interactionName: "\uBB38"
 --- !u!1001 &477628604
 PrefabInstance:
@@ -2269,8 +2266,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 263ddd96e2d49eb489ef725ca60bffa7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dialogueEvents: []
-  isSetDialogeu: 0
+  dialogueMC: {fileID: 0}
+  dialogueChannel: {fileID: 0}
 --- !u!114 &2062080258
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2283,8 +2280,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9bfcfbe7e5a42d64582b04b938547dee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isDoor: 0
-  isObject: 1
   interactionName: "\uBD09\uB780"
 --- !u!65 &2062080259
 BoxCollider:
@@ -2332,7 +2327,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!81 &2070356967
 AudioListener:
   m_ObjectHideFlags: 0

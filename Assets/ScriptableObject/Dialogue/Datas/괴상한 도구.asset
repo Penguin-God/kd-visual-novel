@@ -12,24 +12,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d6d636acc1ca6540b34fc33cbf34d4a, type: 3}
   m_Name: "\uAD34\uC0C1\uD55C \uB3C4\uAD6C"
   m_EditorClassIdentifier: 
-  dataParser: {fileID: 11400000, guid: c165e695077d67b418504212b8dd6ee7, type: 2}
   eventName: "\uAD34\uC0C1\uD55C \uB3C4\uAD6C"
+  dataParser: {fileID: 11400000, guid: c165e695077d67b418504212b8dd6ee7, type: 2}
   dialogueData:
-  - tf_Target: {fileID: 0}
-    cameraType: 0
+  - cameraType: 0
     characterName: "\uBD09\uB780"
     contexts:
     - "\uC57C \uB108 \uC800\uAC70 \uBD24\uB0D0?"
     spriteNames:
-    - 
+    - BongRan0
     voiceNames:
     - 
     cutSceneName:
     - 
-    fadeType:
-    - "\r"
-  - tf_Target: {fileID: 0}
-    cameraType: 0
+    cameraTorque:
+    - 
+  - cameraType: 0
     characterName: "\uC8FC\uC778\uACF5"
     contexts:
     - "\uC800\uAC70\uB77C\uB2C8? \uBB34\uC2A8 \uB9D0\uC744\u2026"
@@ -39,10 +37,9 @@ MonoBehaviour:
     - 
     cutSceneName:
     - 
-    fadeType:
-    - "\r"
-  - tf_Target: {fileID: 0}
-    cameraType: 0
+    cameraTorque:
+    - 
+  - cameraType: 0
     characterName: "\uB3C5\uBC31"
     contexts:
     - "\uB098\uB294 \uBD09\uB780\uC758 \uC190\uB05D\uC744 \uBCF4\uACE0 \uC21C\uAC04
@@ -68,13 +65,12 @@ MonoBehaviour:
     - 
     - 
     - 
-    fadeType:
-    - "\r"
-    - "\r"
-    - "\r"
-    - "\r"
-  - tf_Target: {fileID: 0}
-    cameraType: 0
+    cameraTorque:
+    - 
+    - 
+    - 
+    - 
+  - cameraType: 0
     characterName: "\uBD09\uB780"
     contexts:
     - "\uBB50\uC57C \uC644\uC804 \uBAA8\uB974\uB294 \uB208\uBE5B\uC774\uC796\uC544"
@@ -89,11 +85,16 @@ MonoBehaviour:
     cutSceneName:
     - Hide
     - 
-    fadeType:
-    - "\r"
-    - "\r"
-  liens: []
+    cameraTorque:
+    - 
+    - 
   eventCondition:
+    const_DefaultEventCondition: []
     defaultEventConditions: []
+    const_nextEventConditions: []
     nextEventConditions: []
+  interactable: 1
   afterDialogue: {fileID: 11400000, guid: 642e0c2bcfaf223408251de7b6c15009, type: 2}
+  ContainerDialogueEndEvent:
+    m_PersistentCalls:
+      m_Calls: []

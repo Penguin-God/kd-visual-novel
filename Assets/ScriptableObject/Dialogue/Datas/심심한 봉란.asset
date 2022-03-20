@@ -12,14 +12,62 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d6d636acc1ca6540b34fc33cbf34d4a, type: 3}
   m_Name: "\uC2EC\uC2EC\uD55C \uBD09\uB780"
   m_EditorClassIdentifier: 
-  dataParser: {fileID: 11400000, guid: c165e695077d67b418504212b8dd6ee7, type: 2}
   eventName: "\uC2EC\uC2EC\uD55C \uBD09\uB780"
-  dialogueData: []
-  liens: []
+  dataParser: {fileID: 11400000, guid: c165e695077d67b418504212b8dd6ee7, type: 2}
+  dialogueData:
+  - cameraType: 0
+    characterName: "\uBD09\uB780"
+    contexts:
+    - "\u2462\uC680\uCF00 \uC9C0\uB8E8\uD574\uBCF4\uC774\uB0D0"
+    - "\uB0B4\uAC00 \uC7AC\uBC0C\uB294\uAC78 \uBCF4\uC5EC\uC8FC\uC9C0"
+    - "\uD558! \uBD84\uC2E0\uC220!!!"
+    spriteNames:
+    - BongRan0
+    - 
+    - 
+    voiceNames:
+    - 
+    - 
+    - 
+    cutSceneName:
+    - 
+    - 
+    - 
+    cameraTorque:
+    - 
+    - 
+    - 
+  - cameraType: 0
+    characterName: "\uBD09\uB7801"
+    contexts:
+    - "\uB0B4\uAC00 1\uBC88\uC9F8 \uBD84\uC2E0"
+    spriteNames:
+    - 
+    voiceNames:
+    - 
+    cutSceneName:
+    - 
+    cameraTorque:
+    - 
+  - cameraType: 0
+    characterName: "\u24B3\uBD09\uB7802"
+    contexts:
+    - "\uB0B4\uAC00 2\uBC88\uC9F8 \uBD84\uC2E0\uC774\uB2E4 !!"
+    spriteNames:
+    - 
+    voiceNames:
+    - 
+    cutSceneName:
+    - 
+    cameraTorque:
+    - 
   eventCondition:
-    mustSeeEvents: []
-    mustDontSeeEvents: []
-    eventConditions: []
-    conditionFlag: 0
-    endEvnetName: 
+    const_DefaultEventCondition: []
+    defaultEventConditions: []
+    const_nextEventConditions: []
+    nextEventConditions: []
+  interactable: 1
   afterDialogue: {fileID: 0}
+  ContainerDialogueEndEvent:
+    m_PersistentCalls:
+      m_Calls: []

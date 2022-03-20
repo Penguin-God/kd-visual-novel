@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using UnityEditor;
+using System.IO;
 
 [CreateAssetMenu(fileName = "new parser", menuName = "Scriptable Object / Dialogue Parser")]
 public class DialogueDataParser : ScriptableObject
@@ -10,16 +11,19 @@ public class DialogueDataParser : ScriptableObject
     [SerializeField] TextAsset targetFile = null;
     [SerializeField] List<DialogueEventData> fileLineDatas = null;
     
-    [MenuItem("Assets/Create/My DialogueContainers")]
-    public static void CreateMyAsset()
+    [ContextMenu("Create Dialogue Data")]
+    public void CreateMyAsset()
     {
         for (int i = 0; i < staticFileLineDatas.Count; i++)
         {
+            string eventName = staticFileLineDatas[i].dialogueName;
+            string _name = $"Assets/ScriptableObject/Dialogue/Datas/{eventName}.asset";
+            if (File.Exists(_name)) continue;
+
             DialogueDataContainer _asset = ScriptableObject.CreateInstance<DialogueDataContainer>();
             _asset.Init(my, staticFileLineDatas[i].dialogueName);
+            _name = UnityEditor.AssetDatabase.GenerateUniqueAssetPath($"Assets/ScriptableObject/Dialogue/Datas/{eventName}.asset");
 
-            string eventName = staticFileLineDatas[i].dialogueName;
-            string _name = UnityEditor.AssetDatabase.GenerateUniqueAssetPath($"Assets/ScriptableObject/Dialogue/Datas/Test/{eventName}.asset");
             AssetDatabase.CreateAsset(_asset, _name);
             AssetDatabase.SaveAssets();
 
