@@ -23,21 +23,7 @@ public class DialogueManager : MonoBehaviour
         dialogueChannel.EndTalkEvent += () => Set_DialogueUI(false);
 
         EventManager eventManager = FindObjectOfType<EventManager>();
-        //OnEndTalk += () => eventManager.GameEventByTalkEnd(eventByTalk);
     }
-
-    //private void Update()
-    //{
-    //    if (isContextTyping && isTalking && (Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0) || Input.GetButton("Ctrl")))
-    //    {
-    //        Talk();
-    //    }
-    //}
-
-    //private DialogueData[] dialogues;
-    //int talkIndex;
-    //int contextCount;
-    //public event Action<Transform> OnStartTalk;
 
     public bool isTalking;
     bool isContextTyping = false;
@@ -71,6 +57,7 @@ public class DialogueManager : MonoBehaviour
         }
 
         dialogueChannel.Raise_EndTalkEvent();
+        isCameraEffect = true;
         isTalking = false;
     }
 

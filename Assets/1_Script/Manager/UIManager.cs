@@ -24,7 +24,7 @@ public class UIManager : MonoBehaviour
     void Start()
     {
         ShowUI();
-        dialogueChannel.StartTalkEvent += (DialogueDataContainer _con) => HideUI();
+        dialogueChannel.StartInteractionEvent += (_target, _con) => HideUI();
         dialogueChannel.EndInteractionEvent += ShowUI;
     }
 

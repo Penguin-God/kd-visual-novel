@@ -16,14 +16,18 @@ public class DialogueChannel : ScriptableObject
 
     // 상호작용 시작, 끝 이벤트
     public event Action<Transform, DialogueDataContainer> StartInteractionEvent = null;
-    // 대화 시작 이벤트
-    public event Action<DialogueDataContainer> StartTalkEvent = null;
-    // 두개 이벤트 묶어서 같이 사용함
-    public void Raise_StartTalkEvent(Transform _tf, DialogueDataContainer _container)
+    public void Raise_StartInteractionEvent(Transform _tf, DialogueDataContainer _container)
     {
         if (StartInteractionEvent != null) StartInteractionEvent.Invoke(_tf, _container);
+    }
+
+    // 대화 시작 이벤트
+    public event Action<DialogueDataContainer> StartTalkEvent = null;
+    public void Raise_StartTalkEvent(DialogueDataContainer _container)
+    {
         if (StartTalkEvent != null) StartTalkEvent.Invoke(_container);
     }
+
 
     public event Action EndInteractionEvent = null;
     public void Raise_EndInteractionEvent()

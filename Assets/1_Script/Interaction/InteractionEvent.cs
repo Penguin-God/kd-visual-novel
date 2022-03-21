@@ -24,7 +24,7 @@ public class InteractionEvent : MonoBehaviour
     {
         dialogueChannel.EndInteractionEvent += SubscribeEvent;
 
-        dialogueChannel.Raise_StartTalkEvent(transform, Container);
+        dialogueChannel.Raise_StartInteractionEvent(transform, Container);
     }
 
     // 여기 안에 있는 내용은 실행 후 바로 구취됨. 즉 1회용 이벤트

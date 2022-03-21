@@ -29,7 +29,6 @@ public class PlayerController : MonoBehaviour
     private void Start()
     {
         dialogueChannel.EndInteractionEvent += AngleValueReset;
-        
     }
 
     public void AngleValueReset()

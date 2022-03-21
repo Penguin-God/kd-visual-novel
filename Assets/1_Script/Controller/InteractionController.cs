@@ -27,6 +27,7 @@ public class InteractionController : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0) && !DialogueManager.instance.isTalking && InteractionAble && !questionEffect.isThrow && rayHit.transform != null)
         {
+            DialogueManager.instance.isCameraEffect = true;
             interactTransform = rayHit.transform;
             questionEffect.gameObject.SetActive(true);
             questionEffect.transform.position = cam.transform.position;
@@ -41,7 +42,6 @@ public class InteractionController : MonoBehaviour
     {
         yield return new WaitUntil(() => questionEffect.isQuestionEffectEnd);
         questionEffect.isQuestionEffectEnd = false;
-
         if (interactionEvent != null) interactionEvent.StartInteraction();
     }
 
