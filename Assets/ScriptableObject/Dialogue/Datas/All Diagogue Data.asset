@@ -531,3 +531,65 @@ MonoBehaviour:
       - 
       cameraTorque:
       - 
+  - dialogueName: "\uC9C0\uC218 \uCCAB\uC778\uC0AC"
+    characterDialogueDatas:
+    - cameraType: 0
+      characterName: "\uC9C0\uC218"
+      contexts:
+      - "\uB0B4 \uC774\uB984\uC740 \uC9C0\uC218\uC57C."
+      spriteNames:
+      - Sol0
+      voiceNames:
+      - 
+      cutSceneName:
+      - 
+      cameraTorque:
+      - 
+    - cameraType: 0
+      characterName: "\uC8FC\uC778\uACF5"
+      contexts:
+      - "\uC5B4 \uB0B4 \uC774\uB984\uC740 \uD3AD\uADC4\uAC13\uC774\uC57C"
+      spriteNames:
+      - 
+      voiceNames:
+      - 
+      cutSceneName:
+      - 
+      cameraTorque:
+      - 
+    - cameraType: 0
+      characterName: "\uC9C0\uC218"
+      contexts:
+      - "\uB108 \uC774\uB984\uC774 \uC880 \uC774\uC0C1\uD558\uAD6C\uB098"
+      spriteNames:
+      - Sol1
+      voiceNames:
+      - 
+      cutSceneName:
+      - 
+      cameraTorque:
+      - 
+    - cameraType: 0
+      characterName: "\uBD09\uB780"
+      contexts:
+      - "\uC880\uC774 \uC544\uB2C8\uB77C \uB9CE\uC774 \uC774\uC0C1\uD558\uC9C0 \uC54A\uB0D0?"
+      spriteNames:
+      - 
+      voiceNames:
+      - 
+      cutSceneName:
+      - 
+      cameraTorque:
+      - 
+    - cameraType: 0
+      characterName: "\uB3C5\uBC31"
+      contexts:
+      - "\u24D2\uC0AC\uB78C \uC774\uB984 \uAC00\uC9C0\uACE0 \uADF8\uB9CC\uC880 \uB180\uB824\uB77C\u2026."
+      spriteNames:
+      - 
+      voiceNames:
+      - 
+      cutSceneName:
+      - 
+      cameraTorque:
+      - 

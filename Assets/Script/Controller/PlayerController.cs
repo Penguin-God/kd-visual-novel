@@ -25,9 +25,11 @@ public class PlayerController : MonoBehaviour
     }
 
     [SerializeField] DialogueChannel dialogueChannel;
+    [SerializeField] SceneChannel sceneChannel;
     private void Start()
     {
         dialogueChannel.EndInteractionEvent += AngleValueReset;
+        
     }
 
     public void AngleValueReset()
@@ -47,7 +49,7 @@ public class PlayerController : MonoBehaviour
     {
         if (!GameManager.instance.IsPlayable) return;
 
-        if (CameraController.isOnlyView)
+        if (sceneChannel.CurrentSceneIsOnlyView)
         {
             // 크로스 헤어 이동
             MovingCorsshair();

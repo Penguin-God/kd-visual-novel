@@ -32,7 +32,7 @@ public class CharacterSpin : MonoBehaviour
             StartCoroutine(Co_Appear()); 
         }
         else StartCoroutine(Co_DIsappear());
-        StartCoroutine(Co_Spin(3)); // Åõ¸íµµ Ã³¸®¶û È¸ÀüÀÌ¶û µû·ÎÀÓ
+        StartCoroutine(Co_Spin(3)); // íˆ¬ëª…ë„ ì²˜ë¦¬ë‘ íšŒì „ì´ë‘ ë”°ë¡œì„
     }
 
     IEnumerator Co_Appear()

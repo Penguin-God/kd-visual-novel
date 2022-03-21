@@ -20,8 +20,10 @@ public class UIManager : MonoBehaviour
     }
 
     [SerializeField] DialogueChannel dialogueChannel = null;
+    [SerializeField] SceneChannel sceneChannel = null;
     void Start()
     {
+        ShowUI();
         dialogueChannel.StartTalkEvent += (DialogueDataContainer _con) => HideUI();
         dialogueChannel.EndInteractionEvent += ShowUI;
     }
@@ -53,8 +55,8 @@ public class UIManager : MonoBehaviour
     public void ShowUI()
     {
         UI_Crosshair.SetActive(true);
-        if (CameraController.isOnlyView) UI_Arrow.SetActive(true);
+        if (sceneChannel.CurrentSceneIsOnlyView) UI_Arrow.SetActive(true);
         else UI_FiledArrow.SetActive(true);
-        obj_Interaction.SetActive(!CameraController.isOnlyView);
+        obj_Interaction.SetActive(!sceneChannel.CurrentSceneIsOnlyView);
     }
 }
