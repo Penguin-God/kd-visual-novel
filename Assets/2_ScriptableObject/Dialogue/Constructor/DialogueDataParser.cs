@@ -67,7 +67,7 @@ public class DialogueDataParser : ScriptableObject
 
             // 유효한 이벤트 이름이 나올때까지 
             if (row[0].Trim() == "") continue;
-            Debug.Log("do  :  " + i);
+            Debug.Log("do  :  " + row[0]);
 
             DialogueEventData _fileData = new DialogueEventData();
             _fileData.dialogueName = row[0].Trim();
