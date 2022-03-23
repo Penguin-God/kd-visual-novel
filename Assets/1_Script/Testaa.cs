@@ -10,20 +10,25 @@ public class Testaa : MonoBehaviour
     [SerializeField] RectTransform targetRect = null;
     [SerializeField] RectTransform imageRect = null;
 
+    private void Update()
+    {
+        DialogueManager.instance.isCameraEffect = true;
+    }
+
     [ContextMenu("test rect")]
     public void TestRect()
     {
-
-        StartCoroutine(Co_Test());
+        Debug.Log(imageRect.localPosition);
         CameraRotate_byTalk();
     }
 
     IEnumerator Co_Test()
     {
-        while (Vector3.Distance(targetRect.position, imageRect.position) > 2)
+        Vector3 _targetPos = new Vector3(imageRect.position.x - 35, imageRect.position.y, imageRect.position.z);
+        while (Vector3.Distance(_targetPos, imageRect.position) > 2)
         {
-            imageRect.position = Vector3.Lerp(imageRect.position, targetRect.position, speed * 0.5f);
-            yield return null;
+            imageRect.position = Vector3.Lerp(imageRect.position, _targetPos, speed * 0.5f);
+            yield return new WaitForSeconds(0.05f);
         }
     }
 
@@ -37,10 +42,13 @@ public class Testaa : MonoBehaviour
 
     IEnumerator Co_CameraTargetting(Quaternion _targetRatation)
     {
-        while (Quaternion.Angle(cameraTrasn.rotation, _targetRatation) >= 3f)
+        Vector3 _targetPos = new Vector3(imageRect.localPosition.x - 52, imageRect.localPosition.y, imageRect.localPosition.z);
+
+        while (Quaternion.Angle(cameraTrasn.rotation, _targetRatation) >= 0.1f)
         {
-            cameraTrasn.rotation = Quaternion.Lerp(cameraTrasn.rotation, _targetRatation, speed);
-            yield return null;
+            imageRect.localPosition = Vector3.Lerp(imageRect.localPosition, _targetPos, speed);
+            cameraTrasn.rotation = Quaternion.Lerp(cameraTrasn.rotation, _targetRatation, speed * 0.8f);
+            yield return new WaitForSeconds(1f);
         }
     }
 }

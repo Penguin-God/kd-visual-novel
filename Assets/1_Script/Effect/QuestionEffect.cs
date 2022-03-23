@@ -27,18 +27,19 @@ public class QuestionEffect : MonoBehaviour
         gameObject.SetActive(false);
     }
 
-    public bool isQuestionEffectEnd = false;
+    public bool isQuestionEffect = false;
     void Play_HitEffect()
     {
+        isQuestionEffect = true;
         ps_HitEffect.gameObject.SetActive(true);
         ps_HitEffect.transform.position = transform.position;
         ps_HitEffect.Play();
-        Invoke("Hide_HitEffect", ps_HitEffect.main.startLifetimeMultiplier - 0.1f);
+        Invoke("Hide_HitEffect", ps_HitEffect.main.startLifetimeMultiplier);
     }
 
     void Hide_HitEffect()
     {
         ps_HitEffect.gameObject.SetActive(false);
-        isQuestionEffectEnd = true;
+        isQuestionEffect = false;
     }
 }

@@ -40,8 +40,7 @@ public class InteractionController : MonoBehaviour
     [SerializeField] DialogueChannel dialogueChannel = null;
     IEnumerator Co_Interaction(InteractionEvent interactionEvent)
     {
-        yield return new WaitUntil(() => questionEffect.isQuestionEffectEnd);
-        questionEffect.isQuestionEffectEnd = false;
+        yield return new WaitUntil(() => questionEffect.isQuestionEffect);
         if (interactionEvent != null) interactionEvent.StartInteraction();
     }
 

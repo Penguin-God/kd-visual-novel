@@ -111,7 +111,7 @@ public class CameraController : MonoBehaviour
     IEnumerator Co_CameraLookTarget(Quaternion _LookTargetRot, Action _rotateEndAct = null)
     {
         DialogueManager.instance.isCameraEffect = true;
-        while (Quaternion.Angle(transform.rotation, _LookTargetRot) > 0.1f)
+        while (Quaternion.Angle(transform.rotation, _LookTargetRot) > 0.5f)
         {
             transform.rotation = Quaternion.Lerp(transform.rotation, _LookTargetRot, rotateSpeed);
             yield return ws;
