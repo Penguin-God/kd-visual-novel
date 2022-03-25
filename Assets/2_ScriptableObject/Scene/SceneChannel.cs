@@ -16,6 +16,9 @@ public class SceneChannel : ScriptableObject
     public bool CurrentSceneIsOnlyView { get; private set; }
     public void SetSceneView(bool _isOnlyViewScene) => CurrentSceneIsOnlyView = _isOnlyViewScene;
 
+    public GameObject[] CurrentSceneCharacters { get; private set; }
+    public void SetSceneCharacters(GameObject[] _characters) => CurrentSceneCharacters = _characters;
+
     public void LoadCafeScene()
     {
         SceneManager.LoadScene("Cafeteria");

@@ -1,4 +1,4 @@
-﻿EventName,"캐릭터 이름, 대화 조건","대사, 조건 확인 미확인 여부","sprite name, 퇴장 조건",VoiceName,SceneName/SlideName ,Camera Torque
+EventName,"캐릭터 이름, 대화 조건","대사, 조건 확인 미확인 여부","sprite name, 퇴장 조건",VoiceName,SceneName/SlideName ,CameraRotateDir
 봉란 첫인사,봉란,안녕| 방금 처음 왔나보네 \n이름이 뭐야?,BongRan0,bongran00,,
 봉란 첫인사,주인공,난 펭귄갓,,,AppearSlide/MenuPad,
 봉란 첫인사,봉란,그래 이름 한번 ⓨ그지같네ⓦ,,,DisappearSlide,
@@ -44,8 +44,8 @@
 ,,,,,,
 처음 문열기,독백,ⓒ무슨 문이 있다.,,,,
 처음 문열기,은성,다들 인사도 한거 같으니 이 거슬렸던 문을 열어볼까?,GR0,,,
-처음 문열기,봉란,그래 이 좁아터진 곳에 있기 싫었어.,GR1,,,
-처음 문열기,주인공,좋아 그럼 열어볼게..,,,,
+처음 문열기,봉란,그래 이 좁아터진 곳에 있기 싫었어.,BongRan1,,,+
+처음 문열기,주인공,좋아 그럼 열어볼게..,,,,-
 ,,, ,,,
 ,,,,,,
 지수 첫만남,독백,ⓒ문을 열고 나온 그곳에는…......,,,,

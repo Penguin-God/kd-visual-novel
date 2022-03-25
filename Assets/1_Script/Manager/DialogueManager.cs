@@ -7,7 +7,7 @@ using System;
 public class DialogueManager : MonoBehaviour
 {
     public static DialogueManager instance { get; private set; }
-    private void Awake()
+    void Awake()
     {
         if (instance == null) instance = this;
         else
@@ -17,12 +17,12 @@ public class DialogueManager : MonoBehaviour
     }
 
     [SerializeField] DialogueChannel dialogueChannel;
-    private void Start()
+    void Start()
     {
         dialogueChannel.StartTalkEvent += StartTalk;
         dialogueChannel.EndTalkEvent += () => Set_DialogueUI(false);
 
-        EventManager eventManager = FindObjectOfType<EventManager>();
+        //EventManager eventManager = FindObjectOfType<EventManager>();
     }
 
     public bool isTalking;
@@ -229,7 +229,7 @@ public class DialogueManager : MonoBehaviour
         obj_DialogueBar.SetActive(_flag);
         SetNameBar(_flag);
     }
-
+    
     void SetNameBar(bool p_Flag, DialogueData _data = null)
     {
         if (!p_Flag || _data == null)

@@ -7,10 +7,13 @@ public class MySceneManager : MonoBehaviour
 {
     [SerializeField] SceneChannel sceneChannel = null;
     [SerializeField] bool isOnlyViewScene;
+    [SerializeField] GameObject[] characters = null;
+    public GameObject[] Characters => characters;
 
     void Awake()
     {
         sceneChannel.SetSceneView(isOnlyViewScene);
+        sceneChannel.SetSceneCharacters(characters);
         StartCoroutine(LoadDefaultScene());
     }
 

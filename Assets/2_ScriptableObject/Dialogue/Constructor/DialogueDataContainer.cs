@@ -74,9 +74,9 @@ public class DialogueData
     public string characterName;
     public string[] contexts;
 
-    public bool IsTalkEffect => (spriteNames.Length > 0 || voiceNames.Length > 0 || cutSceneName.Length > 0 || cameraTorque.Length > 0);
+    //public bool IsTalkEffect => (spriteNames.Length > 0 || voiceNames.Length > 0 || cutSceneName.Length > 0 || cameraTorque.Length > 0);
     public string[] spriteNames;
     public string[] voiceNames;
     public string[] cutSceneName;
-    public string[] cameraTorque;
+    public string[] cameraRotateDir;
 }
