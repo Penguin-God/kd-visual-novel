@@ -6,9 +6,8 @@ using UnityEngine.UI;
 public class SpriteManager : MonoBehaviour
 {
     [SerializeField] DialogueChannel dialogueChannel = null;
-    [SerializeField] ImageFieldMover imageFieldMover = null;
-    [SerializeField] CameraController cameraController = null;
-    Image[] CurrentChacterImages => imageFieldMover.CurrentImageField.GetComponentsInChildren<Image>();
+    [SerializeField] CameraRotateTalkDirector rotateTalkDirector = null;
+    Image[] CurrentChacterImages => rotateTalkDirector.CurrentImageField.GetComponentsInChildren<Image>();
 
     [SerializeField] GameObject characterImageFieldContainer = null;
     SpriteFadeManager spriteFadeManager;

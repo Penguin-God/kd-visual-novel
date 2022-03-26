@@ -7,7 +7,6 @@ public class CameraController : MonoBehaviour
 {
     public static bool isOnlyView = true;
     [SerializeField] DialogueChannel dialogueChannel = null;
-    [SerializeField] ImageFieldMover imageFieldMover = null;
     [SerializeField] float targettionDistance;
     [SerializeField] float moveSpeed;
     [SerializeField] float rotateSpeed;
@@ -72,18 +71,16 @@ public class CameraController : MonoBehaviour
         }
     }
 
-    public void FiledMove_ByTalk(DialogueData _data, int _index)
-    {
-        string _dirSymbol = _data.cameraRotateDir[_index].Trim();
+    //public void FiledMove_ByTalk(DialogueData _data, int _index)
+    //{
+    //    string _dirSymbol = _data.cameraRotateDir[_index].Trim();
         
-        if (_dirSymbol != "" && (_dirSymbol == "+" || _dirSymbol == "-"))
-        {
-            bool _cameraRotateDirIsRight = (_dirSymbol == "+") ? true : false;
-            imageFieldMover.ChangeCurrentField(_cameraRotateDirIsRight);
-        }
-
-
-    }
+    //    if (_dirSymbol != "" && (_dirSymbol == "+" || _dirSymbol == "-"))
+    //    {
+    //        bool _cameraRotateDirIsRight = (_dirSymbol == "+") ? true : false;
+    //        imageFieldMover.ChangeCurrentField(_cameraRotateDirIsRight);
+    //    }
+    //}
 
     void RotateEffect_ByTalk(DialogueData _data, int contextCount)
     {
