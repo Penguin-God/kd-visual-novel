@@ -6,14 +6,14 @@ using UnityEngine.SceneManagement;
 public class MySceneManager : MonoBehaviour
 {
     [SerializeField] SceneChannel sceneChannel = null;
-    [SerializeField] bool isOnlyViewScene;
-    [SerializeField] GameObject[] characters = null;
-    public GameObject[] Characters => characters;
-
+    [SerializeField] SceneData sceneData = null;
+    [SerializeField] List<GameObject> sceneCurrentInteractionObjects = new List<GameObject>();
     void Awake()
     {
-        sceneChannel.SetSceneView(isOnlyViewScene);
-        sceneChannel.SetSceneCharacters(characters);
+        sceneChannel.SetSceneView(sceneData.IsOnlyCameraView);
+        for (int i = 0; i < sceneData.SpawnObjects.Count; i++) sceneCurrentInteractionObjects.Add(sceneData.SpawnObjects[i].GetInteractionObject());
+        sceneChannel.SetSceneCharacters(sceneCurrentInteractionObjects.ToArray());
+
         StartCoroutine(LoadDefaultScene());
     }
 
@@ -25,8 +25,13 @@ public class MySceneManager : MonoBehaviour
     }
     IEnumerator LoadDefaultScene()
     {
-        AsyncOperation _async = SceneManager.LoadSceneAsync("DefaultScene", LoadSceneMode.Additive);
-        yield return new WaitUntil(() => _async.isDone);
+        if (!sceneChannel.isLoadDefualtScene)
+        {
+            AsyncOperation _async = SceneManager.LoadSceneAsync("DefaultScene", LoadSceneMode.Additive);
+            yield return new WaitUntil(() => _async.isDone);
+            sceneChannel.isLoadDefualtScene = true;
+        }
+        
         DestroyChildObject();
     }
 }

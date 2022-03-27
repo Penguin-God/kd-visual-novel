@@ -20,6 +20,12 @@ public class CameraRotateTalkDirector : MonoBehaviour
         dialogueChannel.EndInteractionEvent += ResetField;
     }
 
+    //private void OnDestroy()
+    //{
+    //    dialogueChannel.ChangeContextEvent -= CameraRotateTalk;
+    //    dialogueChannel.EndInteractionEvent -= ResetField;
+    //}
+
     [SerializeField] GameObject currentImageField = null;
     public GameObject CurrentImageField => currentImageField;
 
@@ -72,33 +78,6 @@ public class CameraRotateTalkDirector : MonoBehaviour
         cameraTransform.rotation = _targetLookRotation;
         filedContainerRect.localPosition = _targetImageFieldPos;
     }
-    
-
-
-    //void FieldMove(bool _cameraRotateDirIsRight)
-    //{
-    //    fieldDistance *= (_cameraRotateDirIsRight) ? -1 : 1;
-    //    Vector3 _targetPos = new Vector3(filedContainerRect.position.x + fieldDistance, filedContainerRect.position.y, filedContainerRect.position.z);
-    //    StartCoroutine(Co_FieldMove(_targetPos));
-    //}
-
-    //IEnumerator Co_FieldMove(Vector3 _targetPos)
-    //{
-    //    while (Vector3.Distance(_targetPos, filedContainerRect.position) > 2)
-    //    {
-    //        filedContainerRect.position = Vector3.Lerp(filedContainerRect.position, _targetPos, moveSpeed);
-    //        yield return new WaitForSeconds(0.03f);
-    //    }
-    //    fieldDistance = Math.Abs(fieldDistance);
-    //}
-
-    public Vector3 GetTargetFieldPos(bool _cameraRotateDirIsRight)
-    {
-        fieldDistance *= (_cameraRotateDirIsRight) ? -1 : 1;
-        Vector3 _targetPos = new Vector3(filedContainerRect.position.x + fieldDistance, filedContainerRect.position.y, filedContainerRect.position.z);
-        fieldDistance = Math.Abs(fieldDistance);
-        return _targetPos;
-    }
 
     [SerializeField] Vector3 originPos;
     void ResetField()
@@ -108,7 +87,6 @@ public class CameraRotateTalkDirector : MonoBehaviour
         currentImageField = MAIN_IMAGE_FIELD;
         previousImageField = null;
     }
-
 
 
     [ContextMenu("test rotate talk")]

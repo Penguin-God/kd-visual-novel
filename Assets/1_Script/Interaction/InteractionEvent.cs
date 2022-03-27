@@ -5,6 +5,8 @@ using UnityEngine;
 public class InteractionEvent : MonoBehaviour
 {
     [SerializeField] DialogueMC dialogueMC = null;
+    public void SetMC(DialogueMC _newMC) => dialogueMC = _newMC;
+
     public DialogueDataContainer Container => dialogueMC.CurrentDialogue;
     [SerializeField] DialogueChannel dialogueChannel;
 

@@ -22,7 +22,8 @@ public class ScenePositonManger : MonoBehaviour
         }
     }
 
-    private void Start() // Start¿¡ ´Ş·ÁÀÖÀ¸´Ï±î ÀÚµ¿À¸·Î ½ºÆùµÊ
+
+    private void Start() // Startì— ë‹¬ë ¤ìˆìœ¼ë‹ˆê¹Œ ìë™ìœ¼ë¡œ ìŠ¤í°ë¨
     {
         AddDic();
         if (spawn_able)
@@ -34,7 +35,7 @@ public class ScenePositonManger : MonoBehaviour
     void SetPlayerSpawnTransform()
     {
         SceneTrasnferManager theSceneMove = FindObjectOfType<SceneTrasnferManager>();
-        string locationName = theSceneMove.GetLocationName(); // Àå¼Ò ÀÌ¸§ °¡Á®¿À±â
+        string locationName = theSceneMove.GetLocationName(); // ì¥ì†Œ ì´ë¦„ ê°€ì ¸ì˜¤ê¸°
         Transform spawnTransform = null;
         if (dic_Location.TryGetValue(locationName, out spawnTransform))
         {
@@ -46,6 +47,6 @@ public class ScenePositonManger : MonoBehaviour
             spawn_able = false;
             theSceneMove.SceneChangeDone();
         }
-        else Debug.LogWarning("Ã£À» ¼ö ¾ø´Â ½ºÆù À§Ä¡ : " + locationName);
+        else Debug.LogWarning("ì°¾ì„ ìˆ˜ ì—†ëŠ” ìŠ¤í° ìœ„ì¹˜ : " + locationName);
     }
 }

@@ -371,10 +371,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sceneChannel: {fileID: 11400000, guid: d72bbd3953b852849a2d10183253885e, type: 2}
-  isOnlyViewScene: 1
-  characters:
-  - {fileID: 604849224}
-  - {fileID: 747055789}
+  sceneData: {fileID: 11400000, guid: 8568df2357ac8144ea76b816dfda6200, type: 2}
+  sceneCurrentInteractionObjects: []
 --- !u!850595691 &408729275
 LightingSettings:
   m_ObjectHideFlags: 0
@@ -521,7 +519,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &604849225
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -912,7 +910,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &747055790
 Transform:
   m_ObjectHideFlags: 0

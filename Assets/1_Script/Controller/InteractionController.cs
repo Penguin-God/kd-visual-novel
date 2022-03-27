@@ -92,7 +92,7 @@ public class InteractionController : MonoBehaviour
 
         // 상호작용 객체 툴팁 설정
         obj_TargetNameBar.SetActive(interactable);
-        txt_TargetName.text = (interactable) ? rayHit.transform.GetComponent<InteractionType>().GetName() : "";
+        txt_TargetName.text = (interactable) ? rayHit.transform.GetComponent<InteractionName>().GetName() : "";
 
         // 상호작용 이펙트 설정
         if (CameraController.isOnlyView) // 움직일 떄만 이펙트 보여줌

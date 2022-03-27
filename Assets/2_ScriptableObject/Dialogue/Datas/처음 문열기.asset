@@ -25,7 +25,7 @@ MonoBehaviour:
     - 
     cutSceneName:
     - 
-    cameraTorque:
+    cameraRotateDir:
     - 
   - cameraType: 0
     characterName: "\uC740\uC131"
@@ -38,20 +38,20 @@ MonoBehaviour:
     - 
     cutSceneName:
     - 
-    cameraTorque:
+    cameraRotateDir:
     - 
   - cameraType: 0
     characterName: "\uBD09\uB780"
     contexts:
     - "\uADF8\uB798 \uC774 \uC881\uC544\uD130\uC9C4 \uACF3\uC5D0 \uC788\uAE30 \uC2EB\uC5C8\uC5B4."
     spriteNames:
-    - GR1
+    - BongRan1
     voiceNames:
     - 
     cutSceneName:
     - 
-    cameraTorque:
-    - 
+    cameraRotateDir:
+    - +
   - cameraType: 0
     characterName: "\uC8FC\uC778\uACF5"
     contexts:
@@ -62,20 +62,20 @@ MonoBehaviour:
     - 
     cutSceneName:
     - 
-    cameraTorque:
-    - 
-  interactable: 0
+    cameraRotateDir:
+    - '-'
+  interactable: 1
   ContainerDialogueEndEvent:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 11400000, guid: d72bbd3953b852849a2d10183253885e, type: 2}
         m_TargetAssemblyTypeName: SceneChannel, Assembly-CSharp
-        m_MethodName: LoadCafeScene
-        m_Mode: 1
+        m_MethodName: LoadScene
+        m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
+          m_IntArgument: 1
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
