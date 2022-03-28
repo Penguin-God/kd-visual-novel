@@ -1762,8 +1762,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sceneChannel: {fileID: 11400000, guid: d72bbd3953b852849a2d10183253885e, type: 2}
-  sceneData: {fileID: 11400000, guid: baba2e39a8056fa45a8f6a7d5488530c, type: 2}
-  sceneCurrentInteractionObjects: []
+  sceneManagerISo: {fileID: 11400000, guid: bc6c7fab76104f2448636479a0dda62e, type: 2}
 --- !u!4 &1540705425
 Transform:
   m_ObjectHideFlags: 0

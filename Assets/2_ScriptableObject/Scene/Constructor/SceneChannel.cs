@@ -43,8 +43,13 @@ public class SceneChannel : ScriptableObject
     public bool CurrentSceneIsOnlyView { get; private set; }
     public void SetSceneView(bool _isOnlyViewScene) => CurrentSceneIsOnlyView = _isOnlyViewScene;
 
+    [SerializeField] GameObject[] debugCharacters = null;
     public GameObject[] CurrentSceneCharacters { get; private set; }
-    public void SetSceneCharacters(GameObject[] _characters) => CurrentSceneCharacters = _characters;
+    public void SetSceneCharacters(GameObject[] _characters)
+    {
+        CurrentSceneCharacters = _characters;
+        debugCharacters = _characters;
+    }
 
     public event Action OnSceneLoadEnd = null;
     public void Raise_SceneLoadEndEvent()

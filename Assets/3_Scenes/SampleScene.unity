@@ -371,8 +371,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sceneChannel: {fileID: 11400000, guid: d72bbd3953b852849a2d10183253885e, type: 2}
-  sceneData: {fileID: 11400000, guid: 8568df2357ac8144ea76b816dfda6200, type: 2}
-  sceneCurrentInteractionObjects: []
+  sceneManagerISo: {fileID: 11400000, guid: a37cdb771a246484cb0b2adedf76faeb, type: 2}
 --- !u!850595691 &408729275
 LightingSettings:
   m_ObjectHideFlags: 0

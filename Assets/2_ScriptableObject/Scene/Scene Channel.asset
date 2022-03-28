@@ -12,3 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 398e47841510a81438b4a44aefc42677, type: 3}
   m_Name: Scene Channel
   m_EditorClassIdentifier: 
+  isLoadDefualtScene: 0
+  debugCharacters: []

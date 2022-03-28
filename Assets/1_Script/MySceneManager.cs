@@ -6,14 +6,11 @@ using UnityEngine.SceneManagement;
 public class MySceneManager : MonoBehaviour
 {
     [SerializeField] SceneChannel sceneChannel = null;
-    [SerializeField] SceneData sceneData = null;
-    [SerializeField] List<GameObject> sceneCurrentInteractionObjects = new List<GameObject>();
+    [SerializeField] SceneManagerISo sceneManagerISo = null;
+
     void Awake()
     {
-        sceneChannel.SetSceneView(sceneData.IsOnlyCameraView);
-        for (int i = 0; i < sceneData.SpawnObjects.Count; i++) sceneCurrentInteractionObjects.Add(sceneData.SpawnObjects[i].GetInteractionObject());
-        sceneChannel.SetSceneCharacters(sceneCurrentInteractionObjects.ToArray());
-
+        sceneManagerISo.SetUp();
         StartCoroutine(LoadDefaultScene());
     }
 
