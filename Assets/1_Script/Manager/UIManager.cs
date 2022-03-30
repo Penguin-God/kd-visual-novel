@@ -5,20 +5,6 @@ using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
-    public static UIManager instance;
-    private void Awake()
-    {
-        if (instance == null)
-        {
-            instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
-    }
-
     [SerializeField] DialogueChannel dialogueChannel = null;
     [SerializeField] SceneChannel sceneChannel = null;
     void Start()

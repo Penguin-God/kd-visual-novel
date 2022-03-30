@@ -22,12 +22,6 @@ public class CutSceneManager : MonoBehaviour
         string cutName = dialogue.cutSceneName[contextCount].Trim();
         if(cutName != "" && cutName != "Hide") CutScene(cutName, false);
         else if(cutName == "Hide") CutScene("", true);
-
-        //switch (dialogue.cameraType)
-        //{
-        //    case CameraType.ShowCutScene: CutScene(cutName, false); break;
-        //    case CameraType.HideCutScene: CutScene("", true); break;
-        //}
     }
 
     public void CutScene(string cutSceneName, bool isFinish)
@@ -44,13 +38,10 @@ public class CutSceneManager : MonoBehaviour
             cutSceneImage.sprite = _sprite;
             StartCoroutine(Co_CutScene(true));
         }
-        //else Debug.LogWarning("찾을 수 없는 컷씬 이름 : " + cutSceneName);
-
     }
 
     IEnumerator Co_CutScene(bool isShow)
     {
-        DialogueManager.instance.isCameraEffect = true;
         splashManager.FadeOut(FadeType.White);
         yield return new WaitUntil(() => !splashManager.isFade);
 
@@ -60,6 +51,5 @@ public class CutSceneManager : MonoBehaviour
         yield return new WaitUntil(() => !splashManager.isFade);
 
         yield return new WaitForSeconds(0.5f); // 연출을 위한 대기
-        DialogueManager.instance.isCameraEffect = false;
     }
 }

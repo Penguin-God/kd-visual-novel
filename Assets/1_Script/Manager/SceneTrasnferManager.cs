@@ -23,7 +23,7 @@ public class SceneTrasnferManager : MonoBehaviour
     IEnumerator Co_SceneTransfer(string sceneName, string p_locationName)
     {
         isTransfer = true;
-        UIManager.instance.HideUI();
+        //UIManager.instance.HideUI();
         spManager.FadeOut(FadeType.Black, true);
         yield return new WaitUntil(() => !spManager.isFade);
         
@@ -41,7 +41,7 @@ public class SceneTrasnferManager : MonoBehaviour
     {
         spManager.FadeIn(FadeType.Black, true);
         yield return new WaitUntil(() => !spManager.isFade);
-        if(!EventManager.isAutoEvent) UIManager.instance.ShowUI();
+        //if(!EventManager.isAutoEvent) UIManager.instance.ShowUI();
         isTransfer = false;
     }
 

@@ -6,31 +6,16 @@ using System;
 
 public class DialogueManager : MonoBehaviour
 {
-    public static DialogueManager instance { get; private set; }
-    void Awake()
-    {
-        if (instance == null) instance = this;
-        else
-        {
-            Destroy(gameObject);
-        }
-    }
-
     [SerializeField] DialogueChannel dialogueChannel;
     void Start()
     {
         dialogueChannel.StartTalkEvent += StartTalk;
         dialogueChannel.EndTalkEvent += () => Set_DialogueUI(false);
-
-        //EventManager eventManager = FindObjectOfType<EventManager>();
     }
 
-    public bool isTalking;
     bool isContextTyping = false;
-
     void StartTalk(DialogueDataContainer _container)
     {
-        isTalking = true;
 
         // 대화 시작
         Set_DialogueUI(true);
@@ -57,11 +42,7 @@ public class DialogueManager : MonoBehaviour
         }
 
         dialogueChannel.Raise_EndTalkEvent();
-        isCameraEffect = true;
-        isTalking = false;
     }
-
-    public bool isCameraEffect = false; // 나중에 없애야 됨
     //void Talk()
     //{
     //    txt_Dialogue.text = "";
@@ -143,7 +124,8 @@ public class DialogueManager : MonoBehaviour
             }
             else if(Check_IsEffectSoundText(replaceText[i]) != ' ') // 이펙트 사운드 재생
             {
-                SoundManager.instance.PlayEffectSound(ReturnSoundEffectName(replaceText[i]));
+                // 어떻게 바꿔야 할지 고민을 좀 해야할듯
+                //SoundManager.instance.PlayEffectSound(ReturnSoundEffectName(replaceText[i]));
                 continue;
             }
 

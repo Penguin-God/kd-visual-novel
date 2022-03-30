@@ -11,6 +11,7 @@ public enum FadeType
 
 public class SplashManager : MonoBehaviour
 {
+    [SerializeField] DialogueChannel dialogueChannel = null;
     [SerializeField] Image fadeImage;
 
     [SerializeField] Color whiteColor;
@@ -25,9 +26,7 @@ public class SplashManager : MonoBehaviour
 
     private void Start()
     {
-        //dialogueCannel.ChangeContextEvent += FadeCamara_byTalk;
-
-        SoundManager.instance.EffectSoundEvent += Splash;
+        dialogueChannel.ChangeContextEvent += FadeCamara_byTalk;
     }
 
     void FadeCamara_byTalk(DialogueData _data, int _count)
@@ -51,12 +50,12 @@ public class SplashManager : MonoBehaviour
 
     IEnumerator Co_Splash()
     {
-        DialogueManager.instance.isCameraEffect = true;
+        //DialogueManager.instance.isCameraEffect = true;
         isFade = true;
         FadeOut(FadeType.White);
         yield return new WaitUntil(() => !isFade);
         FadeIn(FadeType.White);
-        DialogueManager.instance.isCameraEffect = false;
+        //DialogueManager.instance.isCameraEffect = false;
     }
 
     // 창이 생기고 빛이 없어짐
@@ -75,7 +74,7 @@ public class SplashManager : MonoBehaviour
 
     IEnumerator Co_FadeOut(Color color, float speed)
     {
-        DialogueManager.instance.isCameraEffect = true;
+        //DialogueManager.instance.isCameraEffect = true;
         isFade = true;
         color.a = 0;
         fadeImage.color = color;
@@ -88,7 +87,7 @@ public class SplashManager : MonoBehaviour
             yield return ws;
         }
         isFade = false;
-        DialogueManager.instance.isCameraEffect = false;
+        //DialogueManager.instance.isCameraEffect = false;
     }
 
     // 창이 걷히고 빛이 바래짐
@@ -106,7 +105,7 @@ public class SplashManager : MonoBehaviour
 
     IEnumerator Co_FadeIn(Color color, float speed)
     {
-        DialogueManager.instance.isCameraEffect = true;
+        //DialogueManager.instance.isCameraEffect = true;
         isFade = true;
         color.a = 1;
         fadeImage.color = color;
@@ -118,6 +117,6 @@ public class SplashManager : MonoBehaviour
             yield return ws;
         }
         isFade = false;
-        DialogueManager.instance.isCameraEffect = false;
+        //DialogueManager.instance.isCameraEffect = false;
     }
 }

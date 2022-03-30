@@ -12,19 +12,19 @@ public class Sound
 
 public class SoundManager : MonoBehaviour
 {
-    public static SoundManager instance;
-    private void Awake()
-    {
-        if(instance == null)
-        {
-            instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
-    }
+    //public static SoundManager instance;
+    //private void Awake()
+    //{
+    //    if(instance == null)
+    //    {
+    //        instance = this;
+    //        DontDestroyOnLoad(gameObject);
+    //    }
+    //    else
+    //    {
+    //        Destroy(gameObject);
+    //    }
+    //}
 
     [SerializeField] DialogueChannel dialogueChannel = null;
     private void Start()
@@ -72,7 +72,7 @@ public class SoundManager : MonoBehaviour
 
     [SerializeField] Sound[] effectSounds;
     [SerializeField] AudioSource effectPlayer;
-    public event Action EffectSoundEvent;
+    //public event Action EffectSoundEvent;
     public void PlayEffectSound(string p_Name)
     {
         for (int i = 0; i < effectSounds.Length; i++)
@@ -80,7 +80,7 @@ public class SoundManager : MonoBehaviour
             if (p_Name == effectSounds[i].name)
             { 
                 effectPlayer.PlayOneShot(effectSounds[i].clip);
-                if(EffectSoundEvent != null) EffectSoundEvent();
+                //if(EffectSoundEvent != null) EffectSoundEvent();
                 return;
             }
         }

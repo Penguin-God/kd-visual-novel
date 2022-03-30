@@ -20,7 +20,6 @@ public class CameraController : MonoBehaviour
             CamOriginSetting();
             CameraLookTarget(_target, () => CameraTargetting(_target));
         };
-        //dialogueChannel.ChangeContextEvent += CameraRotate_byTalk;
         dialogueChannel.EndTalkEvent += CameraReset;
     }
 
@@ -36,11 +35,10 @@ public class CameraController : MonoBehaviour
     }
     void CameraTargettig(Vector3 _targetPos, Quaternion _LookTargetRot, Action _targettingEndAct = null)
     {
-        StartCoroutine(Co_CameraTargetttig(_targetPos, _LookTargetRot, _targettingEndAct));
+        StartCoroutine(Co_CameraTargettig(_targetPos, _LookTargetRot, _targettingEndAct));
     }
-    IEnumerator Co_CameraTargetttig(Vector3 _targetPos, Quaternion _LookTargetRot, Action _targettingEndAct = null)
+    IEnumerator Co_CameraTargettig(Vector3 _targetPos, Quaternion _LookTargetRot, Action _targettingEndAct = null)
     {
-        DialogueManager.instance.isCameraEffect = true;
         while (Vector3.Distance(transform.position, _targetPos) > 0.1f || Quaternion.Angle(transform.rotation, _LookTargetRot) > 0.1f)
         {
             transform.position = Vector3.Lerp(transform.position, _targetPos, moveSpeed);
@@ -49,7 +47,6 @@ public class CameraController : MonoBehaviour
         }
 
         SetCameraTransform(_targetPos, _LookTargetRot);
-        DialogueManager.instance.isCameraEffect = false;
         if (_targettingEndAct != null) _targettingEndAct();
     }
 
@@ -93,8 +90,8 @@ public class CameraController : MonoBehaviour
         }
     }
 
-    Vector3 originPosition;
-    Quaternion originRotation;
+    [SerializeField] Vector3 originPosition;
+    [SerializeField] Quaternion originRotation;
     void CamOriginSetting()
     {
         originPosition = transform.position;
@@ -124,7 +121,6 @@ public class CameraController : MonoBehaviour
         }
         transform.position = _targetPos;
         if (_moveEndAct != null) _moveEndAct();
-        DialogueManager.instance.isCameraEffect = false;
     }
 
     // Rotate
@@ -137,7 +133,6 @@ public class CameraController : MonoBehaviour
     void CameraLookTarget(Quaternion _LookTargetRot, Action _rotateEndAct = null) => StartCoroutine(Co_CameraLookTarget(_LookTargetRot, _rotateEndAct));
     IEnumerator Co_CameraLookTarget(Quaternion _LookTargetRot, Action _rotateEndAct = null)
     {
-        DialogueManager.instance.isCameraEffect = true;
         while (Quaternion.Angle(transform.rotation, _LookTargetRot) > 0.1f)
         {
             transform.rotation = Quaternion.Lerp(transform.rotation, _LookTargetRot, rotateSpeed);
@@ -145,6 +140,5 @@ public class CameraController : MonoBehaviour
         }
         transform.rotation = _LookTargetRot;
         if (_rotateEndAct != null) _rotateEndAct();
-        DialogueManager.instance.isCameraEffect = false;
     }
 }

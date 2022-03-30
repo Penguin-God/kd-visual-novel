@@ -31,9 +31,9 @@ public class AutoEvent : MonoBehaviour
 
         yield return new WaitForSeconds(0.5f);
         //DialogueManager.instance.StartTalk(talkEvent.GetDialogues());
-        DialogueManager.instance.SetEvent(transform);
+        //DialogueManager.instance.SetEvent(transform);
 
-        yield return new WaitUntil(() => !DialogueManager.instance.isTalking);
+        //yield return new WaitUntil(() => !DialogueManager.instance.isTalking);
         gameObject.SetActive(false);
     }
 

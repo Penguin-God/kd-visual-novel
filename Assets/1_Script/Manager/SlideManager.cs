@@ -37,19 +37,12 @@ public class SlideManager : MonoBehaviour
                 case "ChangeSlide": StartCoroutine(Co_ChangeSlide(slideCommands[1])); break;
             }
         }
-
-        //switch (dialogue.cameraType)
-        //{
-        //    case CameraType.AppearSlide: StartCoroutine(Co_AppearSlide(cutName)); break;
-        //    case CameraType.DisappearSlide: StartCoroutine(Co_DisappearSlide()); break;
-        //    case CameraType.ChangeSlide: StartCoroutine(Co_ChangeSlide(cutName)); break;
-        //}
     }
 
     IEnumerator Co_AppearSlide(string name)
     {
         isSildeMoving = true;
-        DialogueManager.instance.isCameraEffect = true;
+        //DialogueManager.instance.isCameraEffect = true;
         Sprite _sprite = Resources.Load<Sprite>("Slide_Image/" + name);
         if (_sprite != null)
         {
@@ -61,26 +54,26 @@ public class SlideManager : MonoBehaviour
 
         yield return new WaitForSeconds(0.5f);
         isSildeMoving = false;
-        DialogueManager.instance.isCameraEffect = false;
+        //DialogueManager.instance.isCameraEffect = false;
     }
 
     IEnumerator Co_DisappearSlide()
     {
         isSildeMoving = true;
-        DialogueManager.instance.isCameraEffect = true;
+        //DialogueManager.instance.isCameraEffect = true;
         anim.Play("Disappear_MenuPad");
 
         yield return new WaitForSeconds(0.5f);
         img_Slide.sprite = null;
         isSildeMoving = false;
         img_Slide.gameObject.SetActive(false);
-        DialogueManager.instance.isCameraEffect = false;
+        //DialogueManager.instance.isCameraEffect = false;
     }
 
     public bool isSlideChange;
     IEnumerator Co_ChangeSlide(string name)
     {
-        DialogueManager.instance.isCameraEffect = true;
+        //DialogueManager.instance.isCameraEffect = true;
         isSlideChange = true;
 
         StartCoroutine(Co_DisappearSlide());
@@ -90,6 +83,6 @@ public class SlideManager : MonoBehaviour
         yield return new WaitUntil(() => isSildeMoving);
 
         isSlideChange = false;
-        DialogueManager.instance.isCameraEffect = false;
+        //DialogueManager.instance.isCameraEffect = false;
     }
 }

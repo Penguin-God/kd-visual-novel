@@ -12,10 +12,9 @@ public class InteractionController : MonoBehaviour
         questionEffect.gameObject.SetActive(false);
     }
 
-    //private bool interactable = false;
     void Update()
     {
-        if (!GameManager.instance.IsPlayable) return;
+        if (dialogueChannel.IsInteraction) return;
 
         ObjectInteraction();
         ClickLeftButton();
@@ -25,9 +24,8 @@ public class InteractionController : MonoBehaviour
     private Transform interactTransform = null;
     void ClickLeftButton()
     {
-        if (Input.GetMouseButtonDown(0) && !DialogueManager.instance.isTalking && InteractionAble && !questionEffect.isThrow && rayHit.transform != null)
+        if (Input.GetMouseButtonDown(0) && InteractionAble && !questionEffect.isThrow && rayHit.transform != null)
         {
-            DialogueManager.instance.isCameraEffect = true;
             interactTransform = rayHit.transform;
             questionEffect.gameObject.SetActive(true);
             questionEffect.transform.position = cam.transform.position;
@@ -80,6 +78,7 @@ public class InteractionController : MonoBehaviour
     [SerializeField] Text txt_TargetName;
 
     private Transform contactTransform = null;
+    [SerializeField] UIManager UIManager = null;
     void Set_InteractionUI(bool interactable)
     {
         // 중복 실행 방지 코드
@@ -97,7 +96,7 @@ public class InteractionController : MonoBehaviour
         // 상호작용 이펙트 설정
         if (CameraController.isOnlyView) // 움직일 떄만 이펙트 보여줌
         {
-            UIManager.instance.HideInteractionImage();
+            UIManager.HideInteractionImage();
         }
         else
         {
@@ -124,7 +123,7 @@ public class InteractionController : MonoBehaviour
         if (_appear)
         {
             color.a = 0;
-            while(color.a < 1 && !DialogueManager.instance.isTalking)
+            while(color.a < 1 && dialogueChannel.IsInteraction)
             {
                 color.a += 0.1f;
                 img_Interaction.color = color;
@@ -133,7 +132,7 @@ public class InteractionController : MonoBehaviour
         }
         else
         {
-            while (color.a > 0 && !DialogueManager.instance.isTalking)
+            while (color.a > 0 && dialogueChannel.IsInteraction)
             {
                 color.a -= 0.1f;
                 img_Interaction.color = color;
@@ -155,7 +154,7 @@ public class InteractionController : MonoBehaviour
         WaitForSeconds ws = new WaitForSeconds(delayTime);
 
         // 상호작용 가능한 객체에 크로스헤어를 올리고 있으며 대화중이 아닌 상태에서 계속 돌아가는 무한반복 코루틴
-        while (InteractionAble && !DialogueManager.instance.isTalking)
+        while (InteractionAble && dialogueChannel.IsInteraction)
         {
             Color color = img_InteractionEffect.color;
             color.a = 0.5f;
@@ -163,7 +162,7 @@ public class InteractionController : MonoBehaviour
             img_InteractionEffect.transform.localScale = new Vector3(1.3f, 1.3f, 1.3f);
             Vector3 img_Scale = img_InteractionEffect.transform.localScale;
 
-            while(color.a > 0 && !DialogueManager.instance.isTalking)
+            while(color.a > 0 && dialogueChannel.IsInteraction)
             {
                 color.a -= 0.01f;
                 img_InteractionEffect.color = color;

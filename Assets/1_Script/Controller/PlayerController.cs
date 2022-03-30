@@ -14,7 +14,6 @@ public class PlayerController : MonoBehaviour
         if (instance == null)
         {
             instance = this;
-            DontDestroyOnLoad(gameObject);
         }
         else Destroy(gameObject);
 
@@ -26,10 +25,6 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] DialogueChannel dialogueChannel;
     [SerializeField] SceneChannel sceneChannel;
-    private void Start()
-    {
-        dialogueChannel.EndInteractionEvent += AngleValueReset;
-    }
 
     public void AngleValueReset()
     {
@@ -46,7 +41,7 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        if (!GameManager.instance.IsPlayable) return;
+        if (dialogueChannel.IsInteraction) return;
 
         if (sceneChannel.CurrentSceneIsOnlyView)
         {
@@ -134,8 +129,8 @@ public class PlayerController : MonoBehaviour
 
 
     [SerializeField] float playerRotateSpeed;
-    private float currentCameraAngle_X;
-    private float currentCameraAngle_Y;
+    [SerializeField] private float currentCameraAngle_X;
+    [SerializeField] private float currentCameraAngle_Y;
 
     [SerializeField] float playerMoveSpeed;
     private readonly float sideMargin = 80;
