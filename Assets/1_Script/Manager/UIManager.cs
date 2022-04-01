@@ -9,9 +9,10 @@ public class UIManager : MonoBehaviour
     [SerializeField] SceneChannel sceneChannel = null;
     void Start()
     {
-        ShowUI();
         dialogueChannel.StartInteractionEvent += (_target, _con) => HideUI();
-        dialogueChannel.EndInteractionEvent += ShowUI;
+        dialogueChannel.EndInteractionEvent += () => ShowUI(sceneChannel.CurrentSceneIsOnlyView);
+
+        sceneChannel.OnSceneLoadComplete += ShowUI;
     }
 
     [SerializeField] GameObject UI_Crosshair;
@@ -21,7 +22,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] GameObject obj_Interaction;
     [SerializeField] Image img_Interaction;
     [SerializeField] Image img_InteractionEffect;
-    public void HideUI()
+    void HideUI()
     {
         UI_Crosshair.SetActive(false);
         UI_Arrow.SetActive(false);
@@ -38,11 +39,12 @@ public class UIManager : MonoBehaviour
         obj_Interaction.SetActive(false);
     }
 
-    public void ShowUI()
+    
+    void ShowUI(bool _isOnlyView)
     {
         UI_Crosshair.SetActive(true);
-        if (sceneChannel.CurrentSceneIsOnlyView) UI_Arrow.SetActive(true);
+        if (_isOnlyView) UI_Arrow.SetActive(true);
         else UI_FiledArrow.SetActive(true);
-        obj_Interaction.SetActive(!sceneChannel.CurrentSceneIsOnlyView);
+        obj_Interaction.SetActive(!_isOnlyView);
     }
 }

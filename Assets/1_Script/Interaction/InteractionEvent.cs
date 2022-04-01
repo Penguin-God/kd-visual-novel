@@ -8,7 +8,8 @@ public class InteractionEvent : MonoBehaviour
     public void SetMC(DialogueMC _newMC) => dialogueMC = _newMC;
 
     public DialogueDataContainer Container => dialogueMC.CurrentDialogue;
-    [SerializeField] DialogueChannel dialogueChannel;
+    [SerializeField] protected DialogueChannel dialogueChannel = null;
+    [SerializeField] protected SceneChannel sceneChannel = null;
 
     public bool Interactalbe => Container.Interactable;
 
@@ -24,7 +25,7 @@ public class InteractionEvent : MonoBehaviour
     }
     void SetDialogueEvent()
     {
-        dialogueChannel.EndInteractionEvent += SubscribeEvent;
+        dialogueChannel.EndTalkEvent += SubscribeEvent;
 
         dialogueChannel.Raise_StartInteractionEvent(transform, Container);
     }
@@ -32,10 +33,9 @@ public class InteractionEvent : MonoBehaviour
     // 여기 안에 있는 내용은 실행 후 바로 구취됨. 즉 1회용 이벤트
     void SubscribeEvent()
     {
-        gameObject.SetActive(true);
-        Container.Raise_ContainerDialogueEndEvent();
+        Container.Raise_OnDialogueEnd();
 
-        dialogueChannel.EndInteractionEvent -= SubscribeEvent;
+        dialogueChannel.EndTalkEvent -= SubscribeEvent;
     }
 
     private void Start()

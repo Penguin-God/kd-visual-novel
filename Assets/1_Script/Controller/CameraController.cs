@@ -6,6 +6,7 @@ using UnityEngine;
 public class CameraController : MonoBehaviour
 {
     public static bool isOnlyView = true;
+    public static bool isCameraEffect = false;
     [SerializeField] DialogueChannel dialogueChannel = null;
     [SerializeField] float targettionDistance;
     [SerializeField] float moveSpeed;
@@ -18,7 +19,8 @@ public class CameraController : MonoBehaviour
         dialogueChannel.StartInteractionEvent += (_target, _con) =>
         {
             CamOriginSetting();
-            CameraLookTarget(_target, () => CameraTargetting(_target));
+            if(_target != null) CameraLookTarget(_target, () => CameraTargetting(_target));
+            else dialogueChannel.Raise_StartTalkEvent(_con);
         };
         dialogueChannel.EndTalkEvent += CameraReset;
     }
@@ -30,6 +32,7 @@ public class CameraController : MonoBehaviour
         Vector3 forwardTargerPosition = targetPosition + p_Targer.forward * targettionDistance;
         Vector3 camDirection = (targetPosition - forwardTargerPosition).normalized;
         CameraTargettig(forwardTargerPosition, Quaternion.LookRotation(camDirection));
+
         // 카메라 타겟팅 하면서 대화 시작
         dialogueChannel.Raise_StartTalkEvent(p_Targer.GetComponent<InteractionEvent>().Container);
     }
@@ -39,6 +42,7 @@ public class CameraController : MonoBehaviour
     }
     IEnumerator Co_CameraTargettig(Vector3 _targetPos, Quaternion _LookTargetRot, Action _targettingEndAct = null)
     {
+        isCameraEffect = true;
         while (Vector3.Distance(transform.position, _targetPos) > 0.1f || Quaternion.Angle(transform.rotation, _LookTargetRot) > 0.1f)
         {
             transform.position = Vector3.Lerp(transform.position, _targetPos, moveSpeed);
@@ -46,6 +50,7 @@ public class CameraController : MonoBehaviour
             yield return ws;
         }
 
+        isCameraEffect = false;
         SetCameraTransform(_targetPos, _LookTargetRot);
         if (_targettingEndAct != null) _targettingEndAct();
     }
@@ -114,12 +119,14 @@ public class CameraController : MonoBehaviour
     void CameraMoveToTarget(Vector3 _targetPos, Action _moveEndAct = null) => StartCoroutine(Co_CameraMoveToTarget(_targetPos, _moveEndAct));
     IEnumerator Co_CameraMoveToTarget(Vector3 _targetPos, Action _moveEndAct = null)
     {
+        isCameraEffect = true;
         while (Vector3.Distance(transform.position, _targetPos ) > 0.1f)
         {
             transform.position = Vector3.Lerp(transform.position, _targetPos, moveSpeed);
             yield return ws;
         }
         transform.position = _targetPos;
+        isCameraEffect = false;
         if (_moveEndAct != null) _moveEndAct();
     }
 
@@ -133,12 +140,14 @@ public class CameraController : MonoBehaviour
     void CameraLookTarget(Quaternion _LookTargetRot, Action _rotateEndAct = null) => StartCoroutine(Co_CameraLookTarget(_LookTargetRot, _rotateEndAct));
     IEnumerator Co_CameraLookTarget(Quaternion _LookTargetRot, Action _rotateEndAct = null)
     {
+        isCameraEffect = true;
         while (Quaternion.Angle(transform.rotation, _LookTargetRot) > 0.1f)
         {
             transform.rotation = Quaternion.Lerp(transform.rotation, _LookTargetRot, rotateSpeed);
             yield return ws;
         }
         transform.rotation = _LookTargetRot;
+        isCameraEffect = false;
         if (_rotateEndAct != null) _rotateEndAct();
     }
 }

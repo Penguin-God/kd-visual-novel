@@ -65,12 +65,12 @@ MonoBehaviour:
     cameraRotateDir:
     - '-'
   interactable: 1
-  ContainerDialogueEndEvent:
+  OnDialogueEnd:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 11400000, guid: d72bbd3953b852849a2d10183253885e, type: 2}
         m_TargetAssemblyTypeName: SceneChannel, Assembly-CSharp
-        m_MethodName: LoadScene
+        m_MethodName: Raise_OnTryOtherSceneLoad
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -80,15 +80,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 11400000, guid: bc6c7fab76104f2448636479a0dda62e, type: 2}
-        m_TargetAssemblyTypeName: SceneManagerISo, Assembly-CSharp
-        m_MethodName: ChangeData
+      - m_Target: {fileID: 11400000, guid: d72bbd3953b852849a2d10183253885e, type: 2}
+        m_TargetAssemblyTypeName: SceneChannel, Assembly-CSharp
+        m_MethodName: SetCutScene
         m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 11400000, guid: 8568df2357ac8144ea76b816dfda6200, type: 2}
-          m_ObjectArgumentAssemblyTypeName: SceneData, Assembly-CSharp
+          m_ObjectArgument: {fileID: 11400000, guid: 3f15a957d9c3a004aa016d546ee51f69, type: 2}
+          m_ObjectArgumentAssemblyTypeName: DialogueDataContainer, Assembly-CSharp
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  ContainerDialogueEndEvent:
+    m_PersistentCalls:
+      m_Calls: []

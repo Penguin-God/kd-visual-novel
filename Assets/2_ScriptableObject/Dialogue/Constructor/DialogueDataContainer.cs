@@ -32,7 +32,7 @@ public class DialogueDataContainer : ScriptableObject
     {
         if (dataParser == null) return;
 
-        Debug.Log(eventName);
+        //Debug.Log(eventName);
         dialogueData = dataParser.GetDialogue(eventName);
     }
 
@@ -42,21 +42,18 @@ public class DialogueDataContainer : ScriptableObject
         // 인스펙터에서 설정한거 빼고 다 없애는 기능임
         ContainerDialogueEndEvent.RemoveAllListeners();
     }
-    
 
     [SerializeField] bool interactable = false;
     public bool Interactable => interactable;
     public void SetInteraction() => interactable = true;
 
 
-    [Space][Space][Space]
-    public UnityEvent ContainerDialogueEndEvent;
-    public void Raise_ContainerDialogueEndEvent()
-    {
-        if (ContainerDialogueEndEvent == null) return;
-        ContainerDialogueEndEvent.Invoke();
-    }
+    [Header("Unity Event")]  [Space]
+    [SerializeField] UnityEvent OnDialogueEnd;
+    public void Raise_OnDialogueEnd() => OnDialogueEnd?.Invoke();
 
+    public UnityEvent ContainerDialogueEndEvent;
+    public void Raise_ContainerDialogueEndEvent() => ContainerDialogueEndEvent?.Invoke();
 
     public void DataReset()
     {

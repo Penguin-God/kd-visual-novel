@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using System;
+
 public class CameraRotateTalkDirector : MonoBehaviour
 {
     [SerializeField] DialogueChannel dialogueChannel = null;
@@ -14,17 +16,15 @@ public class CameraRotateTalkDirector : MonoBehaviour
 
     private void Awake()
     {
+        dialogueChannel.StartTalkEvent += (_con) => filedContainerRect.gameObject.SetActive(true);
+        dialogueChannel.EndTalkEvent += () => filedContainerRect.gameObject.SetActive(false);
+
         fieldDistance = Mathf.Abs(IMAGE_FIELDS[0].transform.position.x - IMAGE_FIELDS[1].transform.position.x);
 
         dialogueChannel.ChangeContextEvent += CameraRotateTalk;
+
         dialogueChannel.EndInteractionEvent += ResetField;
     }
-
-    //private void OnDestroy()
-    //{
-    //    dialogueChannel.ChangeContextEvent -= CameraRotateTalk;
-    //    dialogueChannel.EndInteractionEvent -= ResetField;
-    //}
 
     [SerializeField] GameObject currentImageField = null;
     public GameObject CurrentImageField => currentImageField;
@@ -32,12 +32,12 @@ public class CameraRotateTalkDirector : MonoBehaviour
     [SerializeField] GameObject previousImageField = null;
     public GameObject PerviousImageField => previousImageField;
 
-
-    public void CameraRotateTalk(DialogueData _data, int _index)
+    void CameraRotateTalk(DialogueData _data, int _index)
     {
         string _dirSymbol = _data.cameraRotateDir[_index].Trim();
         if (_dirSymbol != "" && (_dirSymbol == "+" || _dirSymbol == "-"))
         {
+            dialogueChannel.IsTalkable = false;
             bool _cameraRotateDirIsRight = (_dirSymbol == "+") ? true : false;
             ChangeCurrentImageField(_cameraRotateDirIsRight);
             CameraRotate_And_ImageMove(_cameraRotateDirIsRight);
@@ -69,23 +69,39 @@ public class CameraRotateTalkDirector : MonoBehaviour
     [SerializeField] float fieldMoveSpeed;
     IEnumerator Co_CameraRotate_And_ImageMove(Quaternion _targetLookRotation, Vector3 _targetImageFieldPos)
     {
-        while (Quaternion.Angle(cameraTransform.rotation, _targetLookRotation) >= 0.5f)
+        while (Quaternion.Angle(cameraTransform.rotation, _targetLookRotation) >= 0.8f)
         {
             cameraTransform.rotation = Quaternion.Lerp(cameraTransform.rotation, _targetLookRotation, cameraRotateSpeed);
             filedContainerRect.localPosition = Vector3.Lerp(filedContainerRect.localPosition, _targetImageFieldPos, fieldMoveSpeed);
             yield return new WaitForSeconds(0.02f);
         }
+
         cameraTransform.rotation = _targetLookRotation;
         filedContainerRect.localPosition = _targetImageFieldPos;
+        dialogueChannel.IsTalkable = true;
     }
 
     [SerializeField] Vector3 originPos;
     void ResetField()
     {
+        AllSpiteReset();
         fieldDistance = Math.Abs(fieldDistance);
         filedContainerRect.localPosition = originPos;
         currentImageField = MAIN_IMAGE_FIELD;
         previousImageField = null;
+    }
+
+    void AllSpiteReset()
+    {
+        for (int i = 0; i < filedContainerRect.childCount; i++)
+        {
+            Image[] _imges = filedContainerRect.GetChild(i).gameObject.GetComponentsInChildren<Image>();
+            for (int j = 0; j < _imges.Length; j++)
+            {
+                _imges[j].sprite = null;
+                _imges[j].color = new Color(1, 1, 1, 0);
+            }
+        }
     }
 
 

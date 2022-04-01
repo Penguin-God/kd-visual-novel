@@ -16,7 +16,6 @@ public class DialogueManager : MonoBehaviour
     bool isContextTyping = false;
     void StartTalk(DialogueDataContainer _container)
     {
-
         // 대화 시작
         Set_DialogueUI(true);
         StartCoroutine(Co_Talk(_container.DialogueData));
@@ -37,12 +36,13 @@ public class DialogueManager : MonoBehaviour
                 string _typingText = _data[_talkIndex].contexts[_contextIndex];
                 StartCoroutine(Co_TypeWriter(_typingText));
                 // 대기 후 반복문 넘김
-                yield return new WaitUntil(() => !isContextTyping && TalkInput);
+                yield return new WaitUntil(() => !isContextTyping && TalkInput && !CameraController.isCameraEffect);
             }
         }
 
         dialogueChannel.Raise_EndTalkEvent();
     }
+
     //void Talk()
     //{
     //    txt_Dialogue.text = "";
@@ -107,13 +107,12 @@ public class DialogueManager : MonoBehaviour
     IEnumerator Co_TypeWriter(string _context)
     {
         isContextTyping = true;
-        //if (AfterTalkEvent != null) AfterTalkEvent(dialogues[talkIndex], contextCount);
         txt_Dialogue.text = "";
 
         string replaceText = ReplaceText(_context);
-
         char effectChar = ' '; // 어떤 효과를 줄지 구분하는 문자
 
+        yield return new WaitUntil(() => dialogueChannel.IsTalkable);
         for (int i = 0; i < replaceText.Length; i++) // 글자 크기만큼 한글자씩 더하는 반복문
         {
             if (Check_IsColorText(replaceText[i])) // 더할 텍스트가 특수문자라면

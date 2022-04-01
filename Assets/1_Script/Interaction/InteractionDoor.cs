@@ -4,13 +4,11 @@ using UnityEngine;
 
 public class InteractionDoor : InteractionEvent
 {
-    //[SerializeField] SceneCannel SceneCannel;
+    [SerializeField] SceneChannel SceneCannel;
+
     //[SerializeField] bool isNextMapOnlyView;
     //[SerializeField] string changeSceneName;
     //[SerializeField] string locationName;
-
-    //[SerializeField] int transferNumber;
-    ////bool IsTransfer{ get { return CurrentEventNumber == transferNumber; } }
 
     //public bool GetMapView()
     //{

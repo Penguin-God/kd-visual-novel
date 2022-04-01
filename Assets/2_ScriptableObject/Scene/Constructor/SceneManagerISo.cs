@@ -6,10 +6,15 @@ using System;
 [CreateAssetMenu(fileName = "new scene manager", menuName = "Scriptable Object / Scenes / Scene Manager")]
 public class SceneManagerISo : ScriptableObject
 {
-    [SerializeField] bool isOnlyCameraView;
-    public bool IsOnlyCameraView => isOnlyCameraView;
     [SerializeField] string sceneName;
     public string SceneName => sceneName;
+
+    [SerializeField] bool isOnlyCameraView;
+    public bool IsOnlyCameraView => isOnlyCameraView;
+
+    [SerializeField] Vector3 playerSpawnPos;
+    public Vector3 PlayerSpawnPos => playerSpawnPos;
+
 
     [SerializeField] SceneData sceneData = null;
     [SerializeField] SceneChannel sceneChannel = null;
@@ -17,7 +22,9 @@ public class SceneManagerISo : ScriptableObject
     public void SetUp()
     {
         sceneChannel.SetSceneView(isOnlyCameraView);
+        // 소환 겸 세팅
         sceneChannel.SetSceneCharacters(CreateInteractionObjects().ToArray());
+        sceneChannel.Raise_OnSceneLoadComplete(isOnlyCameraView);
     }
 
     public List<GameObject> CreateInteractionObjects()

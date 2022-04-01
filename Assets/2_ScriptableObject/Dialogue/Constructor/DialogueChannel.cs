@@ -9,8 +9,12 @@ public class DialogueChannel : ScriptableObject
     [SerializeField] bool isInteractoin;
     public bool IsInteraction => isInteractoin;
 
-    [SerializeField] bool isTalking;
-    public bool IsTalking => isTalking;
+    [SerializeField] bool isTalkable;
+    public bool IsTalkable
+    {
+        get => isTalkable;
+        set => isTalkable = value;
+    }
 
     void OnDisable()
     {
@@ -19,7 +23,7 @@ public class DialogueChannel : ScriptableObject
         EndInteractionEvent = null;
         EndTalkEvent = null;
         isInteractoin = false;
-        isTalking = false;
+        isTalkable = true;
     }
 
     // 상호작용 시작, 끝 이벤트
@@ -34,7 +38,6 @@ public class DialogueChannel : ScriptableObject
     public event Action<DialogueDataContainer> StartTalkEvent = null;
     public void Raise_StartTalkEvent(DialogueDataContainer _container)
     {
-        isTalking = true;
         StartTalkEvent?.Invoke(_container);
     }
 
@@ -49,7 +52,6 @@ public class DialogueChannel : ScriptableObject
     public event Action EndTalkEvent= null;
     public void Raise_EndTalkEvent()
     {
-        isTalking = false;
         EndTalkEvent?.Invoke();
     }
 

@@ -2,15 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using System;
 
 public class MySceneManager : MonoBehaviour
 {
     [SerializeField] SceneChannel sceneChannel = null;
     [SerializeField] SceneManagerISo sceneManagerISo = null;
+    SplashManager splashManager = null;
 
     void Awake()
     {
-        sceneManagerISo.SetUp();
+        DestroyChildObject();
         StartCoroutine(LoadDefaultScene());
     }
 
@@ -28,7 +30,13 @@ public class MySceneManager : MonoBehaviour
             yield return new WaitUntil(() => _async.isDone);
             sceneChannel.isLoadDefualtScene = true;
         }
-        
-        DestroyChildObject();
+
+        yield return new WaitUntil(() => !sceneChannel.IsSceneLoading);
+        yield return new WaitUntil(() => !CameraController.isCameraEffect);
+        splashManager = FindObjectOfType<SplashManager>();
+        Action _sceneLoadCompleteAct = 
+            (sceneChannel.OnCutScene == null) ? () => sceneChannel.Raise_OnSceneLoadComplete(sceneChannel.CurrentSceneIsOnlyView) : sceneChannel.OnCutScene + sceneManagerISo.SetUp;
+
+        splashManager.FadeIn(FadeType.Black, _endAct: _sceneLoadCompleteAct);
     }
 }

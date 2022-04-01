@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 009952de499e61a4aa3207063e435b04, type: 3}
   m_Name: All Diagogue Data
   m_EditorClassIdentifier: 
-  targetFile: {fileID: 4900000, guid: 76bc545f324521b4f9e650b3febcf66c, type: 3}
+  targetFile: {fileID: 4900000, guid: 899d9ed1c0527d54c9f1054df108ca83, type: 3}
   fileLineDatas:
   - dialogueName: "\uBD09\uB780 \uCCAB\uC778\uC0AC"
     characterDialogueDatas:
@@ -27,7 +27,7 @@ MonoBehaviour:
       - bongran00
       cutSceneName:
       - 
-      cameraTorque:
+      cameraRotateDir:
       - 
     - cameraType: 0
       characterName: "\uC8FC\uC778\uACF5"
@@ -39,7 +39,7 @@ MonoBehaviour:
       - 
       cutSceneName:
       - AppearSlide/MenuPad
-      cameraTorque:
+      cameraRotateDir:
       - 
     - cameraType: 0
       characterName: "\uBD09\uB780"
@@ -55,7 +55,7 @@ MonoBehaviour:
       cutSceneName:
       - DisappearSlide
       - 
-      cameraTorque:
+      cameraRotateDir:
       - 
       - 
     - cameraType: 0
@@ -73,7 +73,7 @@ MonoBehaviour:
       cutSceneName:
       - 
       - 
-      cameraTorque:
+      cameraRotateDir:
       - 
       - 
     - cameraType: 0
@@ -87,7 +87,7 @@ MonoBehaviour:
       - bongran01
       cutSceneName:
       - 
-      cameraTorque:
+      cameraRotateDir:
       - 
     - cameraType: 0
       characterName: "\uC8FC\uC778\uACF5"
@@ -99,7 +99,7 @@ MonoBehaviour:
       - 
       cutSceneName:
       - 
-      cameraTorque:
+      cameraRotateDir:
       - 
     - cameraType: 0
       characterName: "\uB3C5\uBC31"
@@ -111,7 +111,7 @@ MonoBehaviour:
       - 
       cutSceneName:
       - 
-      cameraTorque:
+      cameraRotateDir:
       - 
   - dialogueName: "\uC2EC\uC2EC\uD55C \uBD09\uB780"
     characterDialogueDatas:
@@ -133,7 +133,7 @@ MonoBehaviour:
       - 
       - 
       - 
-      cameraTorque:
+      cameraRotateDir:
       - 
       - 
       - 
@@ -147,7 +147,7 @@ MonoBehaviour:
       - 
       cutSceneName:
       - 
-      cameraTorque:
+      cameraRotateDir:
       - 
     - cameraType: 0
       characterName: "\u24B3\uBD09\uB7802"
@@ -159,7 +159,7 @@ MonoBehaviour:
       - 
       cutSceneName:
       - 
-      cameraTorque:
+      cameraRotateDir:
       - 
   - dialogueName: "\uAD34\uC0C1\uD55C \uB3C4\uAD6C"
     characterDialogueDatas:
@@ -173,7 +173,7 @@ MonoBehaviour:
       - 
       cutSceneName:
       - 
-      cameraTorque:
+      cameraRotateDir:
       - 
     - cameraType: 0
       characterName: "\uC8FC\uC778\uACF5"
@@ -185,7 +185,7 @@ MonoBehaviour:
       - 
       cutSceneName:
       - 
-      cameraTorque:
+      cameraRotateDir:
       - 
     - cameraType: 0
       characterName: "\uB3C5\uBC31"
@@ -213,7 +213,7 @@ MonoBehaviour:
       - 
       - 
       - 
-      cameraTorque:
+      cameraRotateDir:
       - 
       - 
       - 
@@ -233,7 +233,7 @@ MonoBehaviour:
       cutSceneName:
       - Hide
       - 
-      cameraTorque:
+      cameraRotateDir:
       - 
       - 
   - dialogueName: "\uAD34\uC0C1\uD55C \uB3C4\uAD6CAfter"
@@ -248,7 +248,7 @@ MonoBehaviour:
       - 
       cutSceneName:
       - 
-      cameraTorque:
+      cameraRotateDir:
       - 
     - cameraType: 0
       characterName: "\uC8FC\uC778\uACF5"
@@ -260,7 +260,7 @@ MonoBehaviour:
       - 
       cutSceneName:
       - 
-      cameraTorque:
+      cameraRotateDir:
       - 
     - cameraType: 0
       characterName: "\uBD09\uB780"
@@ -277,7 +277,7 @@ MonoBehaviour:
       cutSceneName:
       - 
       - 
-      cameraTorque:
+      cameraRotateDir:
       - 
       - 
     - cameraType: 0
@@ -290,7 +290,7 @@ MonoBehaviour:
       - 
       cutSceneName:
       - 
-      cameraTorque:
+      cameraRotateDir:
       - 
   - dialogueName: "\uBB38 \uB2EB\uD600\uC788\uC74C"
     characterDialogueDatas:
@@ -304,7 +304,7 @@ MonoBehaviour:
       - 
       cutSceneName:
       - 
-      cameraTorque:
+      cameraRotateDir:
       - 
   - dialogueName: "\uC740\uC131 \uCCAB\uC778\uC0AC"
     characterDialogueDatas:
@@ -318,19 +318,19 @@ MonoBehaviour:
       - 
       cutSceneName:
       - 
-      cameraTorque:
+      cameraRotateDir:
       - 
     - cameraType: 0
       characterName: "\uC8FC\uC778\uACF5"
       contexts:
-      - "\"\uC5B4"
+      - "\uC5B4, \uB9DE\uC544"
       spriteNames:
-      - "\uB9DE\uC544\""
+      - 
       voiceNames:
       - 
       cutSceneName:
       - 
-      cameraTorque:
+      cameraRotateDir:
       - 
     - cameraType: 0
       characterName: "\uC740\uC131"
@@ -343,7 +343,7 @@ MonoBehaviour:
       - 
       cutSceneName:
       - 
-      cameraTorque:
+      cameraRotateDir:
       - 
     - cameraType: 0
       characterName: "\uC8FC\uC778\uACF5"
@@ -355,7 +355,7 @@ MonoBehaviour:
       - 
       cutSceneName:
       - 
-      cameraTorque:
+      cameraRotateDir:
       - 
     - cameraType: 0
       characterName: "\uB3C5\uBC31"
@@ -367,7 +367,7 @@ MonoBehaviour:
       - 
       cutSceneName:
       - 
-      cameraTorque:
+      cameraRotateDir:
       - 
     - cameraType: 0
       characterName: "\uB3C5\uBC31"
@@ -379,7 +379,7 @@ MonoBehaviour:
       - 
       cutSceneName:
       - 
-      cameraTorque:
+      cameraRotateDir:
       - 
   - dialogueName: "\uCC98\uC74C \uBB38\uC5F4\uAE30"
     characterDialogueDatas:
@@ -393,7 +393,7 @@ MonoBehaviour:
       - 
       cutSceneName:
       - 
-      cameraTorque:
+      cameraRotateDir:
       - 
     - cameraType: 0
       characterName: "\uC740\uC131"
@@ -406,20 +406,20 @@ MonoBehaviour:
       - 
       cutSceneName:
       - 
-      cameraTorque:
+      cameraRotateDir:
       - 
     - cameraType: 0
       characterName: "\uBD09\uB780"
       contexts:
       - "\uADF8\uB798 \uC774 \uC881\uC544\uD130\uC9C4 \uACF3\uC5D0 \uC788\uAE30 \uC2EB\uC5C8\uC5B4."
       spriteNames:
-      - GR1
+      - BongRan1
       voiceNames:
       - 
       cutSceneName:
       - 
-      cameraTorque:
-      - 
+      cameraRotateDir:
+      - +
     - cameraType: 0
       characterName: "\uC8FC\uC778\uACF5"
       contexts:
@@ -430,8 +430,8 @@ MonoBehaviour:
       - 
       cutSceneName:
       - 
-      cameraTorque:
-      - 
+      cameraRotateDir:
+      - '-'
   - dialogueName: "\uC9C0\uC218 \uCCAB\uB9CC\uB0A8"
     characterDialogueDatas:
     - cameraType: 0
@@ -444,55 +444,55 @@ MonoBehaviour:
       - 
       cutSceneName:
       - 
-      cameraTorque:
+      cameraRotateDir:
       - 
     - cameraType: 0
       characterName: "\uC9C0\uC218"
       contexts:
       - "\u2026........................"
       spriteNames:
-      - 
+      - Sol0
       voiceNames:
       - 
       cutSceneName:
       - 
-      cameraTorque:
+      cameraRotateDir:
       - 
     - cameraType: 0
       characterName: "\uC9C0\uC218"
       contexts:
       - "\uB204\uAD6C?"
       spriteNames:
-      - 
+      - Sol1
       voiceNames:
       - 
       cutSceneName:
       - 
-      cameraTorque:
+      cameraRotateDir:
       - 
     - cameraType: 0
       characterName: "\uC740\uC131"
       contexts:
       - "\uB10C \uB204\uAD70\uC57C?"
       spriteNames:
-      - 
+      - GR0
       voiceNames:
       - 
       cutSceneName:
       - 
-      cameraTorque:
+      cameraRotateDir:
       - 
     - cameraType: 0
       characterName: "\uC9C0\uC218"
       contexts:
-      - "\"\uBA3C\uC800"
+      - "\uBA3C\uC800, \uB0B4 \uC9C8\uBB38\uC5D0 \uB300\uB2F5\uD574."
       spriteNames:
-      - "\uB0B4 \uC9C8\uBB38\uC5D0 \uB300\uB2F5\uD574.\""
+      - Sol1
       voiceNames:
       - 
       cutSceneName:
       - 
-      cameraTorque:
+      cameraRotateDir:
       - 
     - cameraType: 0
       characterName: "\uC740\uC131"
@@ -500,36 +500,36 @@ MonoBehaviour:
       - "\uC74C.. \uB098\uB294 \uC740\uC131\uC774\uACE0 \uC6B0\uB9AC \uC14B \uB2E4
         \uC601\uBB38\uB3C4 \uBAA8\uB978 \uCC44 \uC5EC\uAE30\uC5D0\uC11C \uC77C\uC5B4\uB0AC\uB294\uB370."
       spriteNames:
-      - 
+      - GR0
       voiceNames:
       - 
       cutSceneName:
       - 
-      cameraTorque:
+      cameraRotateDir:
       - 
     - cameraType: 0
       characterName: "\uC740\uC131"
       contexts:
       - "\uB108\uB294?"
       spriteNames:
-      - 
+      - GR0
       voiceNames:
       - 
       cutSceneName:
       - 
-      cameraTorque:
+      cameraRotateDir:
       - 
     - cameraType: 0
       characterName: "\uC9C0\uC218"
       contexts:
       - "\uB098\uB3C4 \uB9C8\uCC2C\uAC00\uC9C0.."
       spriteNames:
-      - 
+      - Sol0
       voiceNames:
       - 
       cutSceneName:
       - 
-      cameraTorque:
+      cameraRotateDir:
       - 
   - dialogueName: "\uC9C0\uC218 \uCCAB\uC778\uC0AC"
     characterDialogueDatas:
@@ -543,7 +543,7 @@ MonoBehaviour:
       - 
       cutSceneName:
       - 
-      cameraTorque:
+      cameraRotateDir:
       - 
     - cameraType: 0
       characterName: "\uC8FC\uC778\uACF5"
@@ -555,7 +555,7 @@ MonoBehaviour:
       - 
       cutSceneName:
       - 
-      cameraTorque:
+      cameraRotateDir:
       - 
     - cameraType: 0
       characterName: "\uC9C0\uC218"
@@ -567,7 +567,7 @@ MonoBehaviour:
       - 
       cutSceneName:
       - 
-      cameraTorque:
+      cameraRotateDir:
       - 
     - cameraType: 0
       characterName: "\uBD09\uB780"
@@ -579,7 +579,7 @@ MonoBehaviour:
       - 
       cutSceneName:
       - 
-      cameraTorque:
+      cameraRotateDir:
       - 
     - cameraType: 0
       characterName: "\uB3C5\uBC31"
@@ -591,5 +591,5 @@ MonoBehaviour:
       - 
       cutSceneName:
       - 
-      cameraTorque:
+      cameraRotateDir:
       - 

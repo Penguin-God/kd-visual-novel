@@ -13,12 +13,26 @@ public enum SceneKey
 [CreateAssetMenu(fileName = "new Scene Cannel", menuName = "Scriptable Object / Scenes / Scene Channel")]
 public class SceneChannel : ScriptableObject
 {
+    [SerializeField] DialogueChannel dialogueChannel = null;
     public bool isLoadDefualtScene = false;
-    private void OnDisable()
+
+    AsyncOperation CurrentSceneAscy = null;
+    public bool IsSceneLoading
     {
-        isLoadDefualtScene = false;
+        get
+        {
+            if (CurrentSceneAscy == null) return false;
+            else return !CurrentSceneAscy.isDone;
+        }
     }
 
+    [SerializeField] bool isSceneLoading;
+    private void OnDisable()
+    {
+        CurrentSceneAscy = null;
+        isLoadDefualtScene = false;
+        isSceneLoading = false;
+    }
 
     public Dictionary<SceneKey, string> sceneNameData = new Dictionary<SceneKey, string>();
     private void OnEnable()
@@ -30,14 +44,9 @@ public class SceneChannel : ScriptableObject
 
     public void LoadScene(int _key)
     {
+        CurrentSceneCharacters = null;
         SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene());
-        SceneManager.LoadSceneAsync(sceneNameData[(SceneKey)_key], LoadSceneMode.Additive);
-    }
-
-    public event Action<bool> SceneLoadEvent = null;
-    public void Raise_SceneLoadEvent(bool _isOnlyViewScene)
-    {
-        if (SceneLoadEvent != null) SceneLoadEvent.Invoke(_isOnlyViewScene);
+        CurrentSceneAscy = SceneManager.LoadSceneAsync(sceneNameData[(SceneKey)_key], LoadSceneMode.Additive);
     }
 
     public bool CurrentSceneIsOnlyView { get; private set; }
@@ -51,10 +60,14 @@ public class SceneChannel : ScriptableObject
         debugCharacters = _characters;
     }
 
-    public event Action OnSceneLoadEnd = null;
-    public void Raise_SceneLoadEndEvent()
-    {
-        OnSceneLoadEnd?.Invoke();
-        OnSceneLoadEnd = null;
-    }
+    #region events
+    public Action OnCutScene = null;
+    public void SetCutScene(DialogueDataContainer _data) => OnCutScene = () => dialogueChannel.Raise_StartInteractionEvent(null, _data);
+
+    public event Action<bool> OnSceneLoadComplete = null;
+    public void Raise_OnSceneLoadComplete(bool _isCameraOnlyView) => OnSceneLoadComplete?.Invoke(_isCameraOnlyView);
+
+    public event Action<int> OnTryOtherSceneLoad = null;
+    public void Raise_OnTryOtherSceneLoad(int _sceneNumber) => OnTryOtherSceneLoad?.Invoke(_sceneNumber);
+    #endregion
 }

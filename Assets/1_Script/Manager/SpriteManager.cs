@@ -15,13 +15,10 @@ public class SpriteManager : MonoBehaviour
     private void Awake() => spriteFadeManager = gameObject.AddComponent<SpriteFadeManager>();
     private void Start()
     {
-        dialogueChannel.StartTalkEvent += (_con) => characterImageFieldContainer.SetActive(true);
-        dialogueChannel.StartTalkEvent += (_con) => FadeOut_AllSceneCharacters();
-
-        dialogueChannel.EndTalkEvent += () => characterImageFieldContainer.SetActive(false);
-        dialogueChannel.EndTalkEvent += FadeIn_AllSceneCharacters;
-
         dialogueChannel.ChangeContextEvent += ChangeSprite_byTalk;
+
+        dialogueChannel.StartTalkEvent += (_con) => FadeOut_AllSceneCharacters();
+        dialogueChannel.EndTalkEvent += FadeIn_AllSceneCharacters;
     }
 
     void ChangeSprite_byTalk(DialogueData _data, int _contextCount)
@@ -64,15 +61,16 @@ public class SpriteManager : MonoBehaviour
     SpriteRenderer[] GetSpriteRenderers(GameObject _object) => _object.GetComponentsInChildren<SpriteRenderer>();
 
 
-
     [SerializeField] SceneChannel sceneChannel = null;
     void FadeOut_AllSceneCharacters()
     {
+        if (sceneChannel.CurrentSceneCharacters == null) return;
         for (int i = 0; i < sceneChannel.CurrentSceneCharacters.Length; i++)
             spriteFadeManager.SpriteFadeOut(GetSpriteRenderers(sceneChannel.CurrentSceneCharacters[i]));
     }
     void FadeIn_AllSceneCharacters()
     {
+        if (sceneChannel.CurrentSceneCharacters == null) return;
         for (int i = 0; i < sceneChannel.CurrentSceneCharacters.Length; i++)
             spriteFadeManager.SpriteFadeIn(GetSpriteRenderers(sceneChannel.CurrentSceneCharacters[i]));
     }

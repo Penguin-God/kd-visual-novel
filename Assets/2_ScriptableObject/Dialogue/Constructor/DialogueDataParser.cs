@@ -21,7 +21,7 @@ public class DialogueDataParser : ScriptableObject
             if (File.Exists(_name)) continue;
 
             DialogueDataContainer _asset = ScriptableObject.CreateInstance<DialogueDataContainer>();
-            _asset.Init(my, staticFileLineDatas[i].dialogueName);
+            _asset.Init(this, staticFileLineDatas[i].dialogueName);
             _name = UnityEditor.AssetDatabase.GenerateUniqueAssetPath($"Assets/ScriptableObject/Dialogue/Datas/{eventName}.asset");
 
             AssetDatabase.CreateAsset(_asset, _name);
@@ -33,14 +33,13 @@ public class DialogueDataParser : ScriptableObject
         }
     }
 
+
     static List<DialogueEventData> staticFileLineDatas;
-    static DialogueDataParser my;
     void OnEnable()
     {
         fileLineDatas = Parse(targetFile);
 
         staticFileLineDatas = fileLineDatas;
-        my = this;
     }
 
     public DialogueData[] GetDialogue(string _name)
@@ -53,6 +52,7 @@ public class DialogueDataParser : ScriptableObject
         return null;
     }
 
+    string[] GetSell(string _row) => _row.Split(new char[] { '\t' });
     public List<DialogueEventData> Parse(TextAsset _csv)
     {
         List<DialogueEventData> fileLineDatas = new List<DialogueEventData>();
@@ -63,11 +63,12 @@ public class DialogueDataParser : ScriptableObject
         for (int i = 1; i < datas.Length; i++) // 엑셀 파일 1번째 줄은 편의를 위한 분류이므로 i = 1부터 시작
         {
             // A, B, C열을 쪼개서 배열에 담음 (CSV파일은 ,로 데이터를 구분하기 때문에 ,를 기준으로 짜름)
-            string[] row = datas[i].Split(new char[] { ',' });
+            string[] row = GetSell(datas[i]);
 
             // 유효한 이벤트 이름이 나올때까지 
             if (row[0].Trim() == "") continue;
-            Debug.Log("do  :  " + row[0]);
+
+            //Debug.Log("do  :  " + row[0]);
 
             DialogueEventData _fileData = new DialogueEventData();
             _fileData.dialogueName = row[0].Trim();
@@ -81,7 +82,7 @@ public class DialogueDataParser : ScriptableObject
     DialogueData[] GetEventData(string[] _datas, ref int _index)
     {
         List<DialogueData> lineDataList = new List<DialogueData>();
-        string[] _rows = _datas[_index].Split(new char[] { ',' });
+        string[] _rows = GetSell(_datas[_index]);
 
         // DialogueEventData 하나를 만드는 반복문
         while (_datas.Length > _index && _rows[0] != "")
@@ -93,7 +94,7 @@ public class DialogueDataParser : ScriptableObject
             List<string> sceneList = new List<string>();
             List<string> dirList = new List<string>();
 
-            _rows = _datas[_index].Split(new char[] { ',' });
+            _rows = GetSell(_datas[_index]);
             DialogueData lineData = new DialogueData();
             lineData.characterName = _rows[1]; // 캐릭터 이름 세팅
 
@@ -107,7 +108,7 @@ public class DialogueDataParser : ScriptableObject
                 dirList.Add(_rows[6].Trim());
 
                 // 줄바꿈 및 탈출
-                if (_datas.Length > ++_index) _rows = _datas[_index].Split(new char[] { ',' });
+                if (_datas.Length > ++_index) _rows = GetSell(_datas[_index]);
                 else break;
 
             } while (_rows[1] == "" && _rows[0] != ""); // ++_index해서 _rows[0] 해도 됨

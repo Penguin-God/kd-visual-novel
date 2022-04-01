@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System;
 
 public enum FadeType
 {
@@ -12,6 +13,7 @@ public enum FadeType
 public class SplashManager : MonoBehaviour
 {
     [SerializeField] DialogueChannel dialogueChannel = null;
+    [SerializeField] SceneChannel sceneChannel = null;
     [SerializeField] Image fadeImage;
 
     [SerializeField] Color whiteColor;
@@ -27,6 +29,8 @@ public class SplashManager : MonoBehaviour
     private void Start()
     {
         dialogueChannel.ChangeContextEvent += FadeCamara_byTalk;
+
+        sceneChannel.OnTryOtherSceneLoad += (_sceneNumber) => FadeOut(FadeType.Black, _endAct : () => sceneChannel.LoadScene(_sceneNumber));
     }
 
     void FadeCamara_byTalk(DialogueData _data, int _count)
@@ -43,24 +47,19 @@ public class SplashManager : MonoBehaviour
         }
     }
 
-    public void Splash()
-    {
-        StartCoroutine(Co_Splash());
-    }
-
+    public void Splash() => StartCoroutine(Co_Splash());
     IEnumerator Co_Splash()
     {
-        //DialogueManager.instance.isCameraEffect = true;
         isFade = true;
         FadeOut(FadeType.White);
         yield return new WaitUntil(() => !isFade);
         FadeIn(FadeType.White);
-        //DialogueManager.instance.isCameraEffect = false;
     }
 
     // 창이 생기고 빛이 없어짐
-    public void FadeOut(FadeType _fadeType, bool isSpeed = false)
+    public void FadeOut(FadeType _fadeType, bool isSpeed = false, Action _endAct = null)
     {
+        isFade = true;
         Color _color = new Color();
         switch (_fadeType)
         {
@@ -69,16 +68,13 @@ public class SplashManager : MonoBehaviour
         }
 
         float speed = isSpeed ? fadeSlowSpeed : fadeSpeed;
-        StartCoroutine(Co_FadeOut(_color, speed));
+        StartCoroutine(Co_FadeOut(_color, speed, _endAct));
     }
 
-    IEnumerator Co_FadeOut(Color color, float speed)
+    IEnumerator Co_FadeOut(Color color, float speed, Action _endAct = null)
     {
-        //DialogueManager.instance.isCameraEffect = true;
-        isFade = true;
         color.a = 0;
         fadeImage.color = color;
-
 
         while(color.a < 1)
         {
@@ -87,11 +83,11 @@ public class SplashManager : MonoBehaviour
             yield return ws;
         }
         isFade = false;
-        //DialogueManager.instance.isCameraEffect = false;
+        _endAct?.Invoke();
     }
 
     // 창이 걷히고 빛이 바래짐
-    public void FadeIn(FadeType _fadeType, bool isSpeed = false)
+    public void FadeIn(FadeType _fadeType, bool isSpeed = false, Action _endAct = null)
     {
         Color _color = new Color();
         switch (_fadeType)
@@ -100,12 +96,11 @@ public class SplashManager : MonoBehaviour
             case FadeType.Black: _color = blackColor; break;
         }
         float speed = isSpeed ? fadeSlowSpeed : fadeSpeed;
-        StartCoroutine(Co_FadeIn(_color, speed));
+        StartCoroutine(Co_FadeIn(_color, speed, _endAct));
     }
 
-    IEnumerator Co_FadeIn(Color color, float speed)
+    IEnumerator Co_FadeIn(Color color, float speed, Action _endAct = null)
     {
-        //DialogueManager.instance.isCameraEffect = true;
         isFade = true;
         color.a = 1;
         fadeImage.color = color;
@@ -117,6 +112,6 @@ public class SplashManager : MonoBehaviour
             yield return ws;
         }
         isFade = false;
-        //DialogueManager.instance.isCameraEffect = false;
+        _endAct?.Invoke();
     }
 }
