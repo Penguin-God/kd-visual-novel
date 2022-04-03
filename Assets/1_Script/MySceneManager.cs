@@ -31,12 +31,14 @@ public class MySceneManager : MonoBehaviour
             sceneChannel.isLoadDefualtScene = true;
         }
 
-        yield return new WaitUntil(() => !sceneChannel.IsSceneLoading);
-        yield return new WaitUntil(() => !CameraController.isCameraEffect);
-        splashManager = FindObjectOfType<SplashManager>();
-        Action _sceneLoadCompleteAct = 
-            (sceneChannel.OnCutScene == null) ? () => sceneChannel.Raise_OnSceneLoadComplete(sceneChannel.CurrentSceneIsOnlyView) : sceneChannel.OnCutScene + sceneManagerISo.SetUp;
+        yield return new WaitUntil(() => !sceneChannel.IsSceneLoading && !CameraController.isCameraEffect);
+        sceneManagerISo.Setup();
+        sceneChannel.Raise_OnSceneLoadComplete();
 
-        splashManager.FadeIn(FadeType.Black, _endAct: _sceneLoadCompleteAct);
+        splashManager = FindObjectOfType<SplashManager>();
+        Action _fadeInAct = sceneChannel.Raise_OnSceneFadeIn;
+        _fadeInAct += sceneManagerISo.StartDialogueByLoad;
+
+        splashManager.FadeIn(FadeType.Black, true, _fadeInAct);
     }
 }

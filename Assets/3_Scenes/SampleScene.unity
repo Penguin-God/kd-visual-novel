@@ -587,6 +587,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dialogueMC: {fileID: 11400000, guid: 3a4b742902a14fa4599c5634fa4b2c2b, type: 2}
   dialogueChannel: {fileID: 11400000, guid: 7a460b213184a38419d6bef3306602c4, type: 2}
+  sceneChannel: {fileID: 0}
 --- !u!1 &616996585
 GameObject:
   m_ObjectHideFlags: 0
@@ -634,6 +635,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dialogueMC: {fileID: 0}
   dialogueChannel: {fileID: 0}
+  sceneChannel: {fileID: 0}
 --- !u!114 &616996588
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -978,6 +980,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dialogueMC: {fileID: 11400000, guid: ac95047ad72b9b54d96ac1fb7e9c26c3, type: 2}
   dialogueChannel: {fileID: 11400000, guid: 7a460b213184a38419d6bef3306602c4, type: 2}
+  sceneChannel: {fileID: 11400000, guid: d72bbd3953b852849a2d10183253885e, type: 2}
 --- !u!1 &750452588
 GameObject:
   m_ObjectHideFlags: 0
@@ -1121,6 +1124,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dialogueMC: {fileID: 0}
   dialogueChannel: {fileID: 0}
+  sceneChannel: {fileID: 0}
   SceneCannel: {fileID: 0}
 --- !u!114 &771693896
 MonoBehaviour:
@@ -2695,6 +2699,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dialogueMC: {fileID: 11400000, guid: 81169326b2b564a4482f083531d82ff7, type: 2}
   dialogueChannel: {fileID: 11400000, guid: 7a460b213184a38419d6bef3306602c4, type: 2}
+  sceneChannel: {fileID: 11400000, guid: d72bbd3953b852849a2d10183253885e, type: 2}
   SceneCannel: {fileID: 11400000, guid: d72bbd3953b852849a2d10183253885e, type: 2}
 --- !u!4 &1886254738
 Transform:
@@ -2818,6 +2823,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dialogueMC: {fileID: 0}
   dialogueChannel: {fileID: 0}
+  sceneChannel: {fileID: 0}
 --- !u!114 &1943139039
 MonoBehaviour:
   m_ObjectHideFlags: 0

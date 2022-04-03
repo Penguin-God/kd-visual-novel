@@ -729,8 +729,8 @@ MonoBehaviour:
   fadeImage: {fileID: 166711384}
   whiteColor: {r: 1, g: 1, b: 1, a: 0}
   blackColor: {r: 0, g: 0, b: 0, a: 0}
-  fadeSpeed: 0.16
-  fadeSlowSpeed: 0.02
+  fadeSpeed: 0.1
+  fadeSlowSpeed: 0.05
   isFade: 0
 --- !u!114 &257826694
 MonoBehaviour:
@@ -1093,9 +1093,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dialogueChannel: {fileID: 11400000, guid: 7a460b213184a38419d6bef3306602c4, type: 2}
+  sceneChannel: {fileID: 11400000, guid: d72bbd3953b852849a2d10183253885e, type: 2}
   rotateTalkDirector: {fileID: 1903722957}
   characterImageFieldContainer: {fileID: 1977547598}
-  sceneChannel: {fileID: 11400000, guid: d72bbd3953b852849a2d10183253885e, type: 2}
 --- !u!114 &257826701
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1567,6 +1567,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dialogueChannel: {fileID: 11400000, guid: 7a460b213184a38419d6bef3306602c4, type: 2}
   sceneChannel: {fileID: 11400000, guid: d72bbd3953b852849a2d10183253885e, type: 2}
+  status: {fileID: 1884782161}
   UI_Crosshair: {fileID: 1481750985}
   UI_Arrow: {fileID: 2106570815}
   UI_FiledArrow: {fileID: 1324377072}
@@ -2929,7 +2930,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1120874624
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3495,6 +3496,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 575461919}
     - target: {fileID: 414017322494420891, guid: c689924001e4fa74889cba590b68e6d7, type: 3}
+      propertyPath: sceneChannel
+      value: 
+      objectReference: {fileID: 11400000, guid: d72bbd3953b852849a2d10183253885e, type: 2}
+    - target: {fileID: 414017322494420891, guid: c689924001e4fa74889cba590b68e6d7, type: 3}
       propertyPath: txt_TargetName
       value: 
       objectReference: {fileID: 1227073729}
@@ -3526,6 +3531,10 @@ PrefabInstance:
       propertyPath: rotateTorque
       value: 50
       objectReference: {fileID: 0}
+    - target: {fileID: 414017322552641477, guid: c689924001e4fa74889cba590b68e6d7, type: 3}
+      propertyPath: sceneChannel
+      value: 
+      objectReference: {fileID: 11400000, guid: d72bbd3953b852849a2d10183253885e, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c689924001e4fa74889cba590b68e6d7, type: 3}
 --- !u!4 &1233565873 stripped
@@ -3817,7 +3826,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1481750986
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4671,7 +4680,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1884782162
 RectTransform:
   m_ObjectHideFlags: 0

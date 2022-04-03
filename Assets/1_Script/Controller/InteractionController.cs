@@ -12,9 +12,11 @@ public class InteractionController : MonoBehaviour
         questionEffect.gameObject.SetActive(false);
     }
 
+    [SerializeField] DialogueChannel dialogueChannel = null;
+    [SerializeField] SceneChannel sceneChannel = null;
     void Update()
     {
-        if (dialogueChannel.IsInteraction) return;
+        if (dialogueChannel.IsInteraction || sceneChannel.IsSceneLoadingEffect) return;
 
         ObjectInteraction();
         ClickLeftButton();
@@ -34,8 +36,6 @@ public class InteractionController : MonoBehaviour
             StartCoroutine(Co_Interaction(interactTransform.GetComponent<InteractionEvent>()));
         }
     }
-
-    [SerializeField] DialogueChannel dialogueChannel = null;
     IEnumerator Co_Interaction(InteractionEvent interactionEvent)
     {
         yield return new WaitUntil(() => questionEffect.isQuestionEffect);

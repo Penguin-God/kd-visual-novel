@@ -24,13 +24,13 @@ public class SplashManager : MonoBehaviour
 
     public bool isFade = false;
 
-    WaitForSeconds ws = new WaitForSeconds(0.05f);
+    WaitForSeconds ws = new WaitForSeconds(0.1f);
 
     private void Start()
     {
         dialogueChannel.ChangeContextEvent += FadeCamara_byTalk;
 
-        sceneChannel.OnTryOtherSceneLoad += (_sceneNumber) => FadeOut(FadeType.Black, _endAct : () => sceneChannel.LoadScene(_sceneNumber));
+        sceneChannel.OnOtherSceneLoad += (_sceneNumber) => FadeOut(FadeType.Black, _endAct : () => sceneChannel.LoadScene(_sceneNumber));
     }
 
     void FadeCamara_byTalk(DialogueData _data, int _count)
@@ -57,7 +57,7 @@ public class SplashManager : MonoBehaviour
     }
 
     // 창이 생기고 빛이 없어짐
-    public void FadeOut(FadeType _fadeType, bool isSpeed = false, Action _endAct = null)
+    public void FadeOut(FadeType _fadeType, bool isSlow = false, Action _endAct = null)
     {
         isFade = true;
         Color _color = new Color();
@@ -67,7 +67,7 @@ public class SplashManager : MonoBehaviour
             case FadeType.Black: _color = blackColor; break;
         }
 
-        float speed = isSpeed ? fadeSlowSpeed : fadeSpeed;
+        float speed = isSlow ? fadeSlowSpeed : fadeSpeed;
         StartCoroutine(Co_FadeOut(_color, speed, _endAct));
     }
 
@@ -87,7 +87,7 @@ public class SplashManager : MonoBehaviour
     }
 
     // 창이 걷히고 빛이 바래짐
-    public void FadeIn(FadeType _fadeType, bool isSpeed = false, Action _endAct = null)
+    public void FadeIn(FadeType _fadeType, bool isSlow = false, Action _endAct = null)
     {
         Color _color = new Color();
         switch (_fadeType)
@@ -95,7 +95,7 @@ public class SplashManager : MonoBehaviour
             case FadeType.White: _color = whiteColor; break;
             case FadeType.Black: _color = blackColor; break;
         }
-        float speed = isSpeed ? fadeSlowSpeed : fadeSpeed;
+        float speed = isSlow ? fadeSlowSpeed : fadeSpeed;
         StartCoroutine(Co_FadeIn(_color, speed, _endAct));
     }
 

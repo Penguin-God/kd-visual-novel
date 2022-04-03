@@ -8,6 +8,7 @@ public class CameraController : MonoBehaviour
     public static bool isOnlyView = true;
     public static bool isCameraEffect = false;
     [SerializeField] DialogueChannel dialogueChannel = null;
+    [SerializeField] SceneChannel sceneChannel = null;
     [SerializeField] float targettionDistance;
     [SerializeField] float moveSpeed;
     [SerializeField] float rotateSpeed;
@@ -22,7 +23,12 @@ public class CameraController : MonoBehaviour
             if(_target != null) CameraLookTarget(_target, () => CameraTargetting(_target));
             else dialogueChannel.Raise_StartTalkEvent(_con);
         };
-        dialogueChannel.EndTalkEvent += CameraReset;
+
+        dialogueChannel.EndTalkEvent += () =>
+        {
+            if (!sceneChannel.IsInteraction_With_SceneLoadTrigger)
+                CameraReset();
+        };
     }
 
     [SerializeField] float viewUp;

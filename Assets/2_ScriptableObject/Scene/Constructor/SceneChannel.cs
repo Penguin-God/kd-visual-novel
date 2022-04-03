@@ -16,22 +16,33 @@ public class SceneChannel : ScriptableObject
     [SerializeField] DialogueChannel dialogueChannel = null;
     public bool isLoadDefualtScene = false;
 
-    AsyncOperation CurrentSceneAscy = null;
-    public bool IsSceneLoading
+    [SerializeField] bool isSceneLoadingEffect; // 화면 연출하는 동안도 포함
+    public bool IsSceneLoadingEffect => isSceneLoadingEffect; 
+
+    AsyncOperation async;
+    public bool IsSceneLoading // 씬 로딩하는 시간만 포함
     {
         get
         {
-            if (CurrentSceneAscy == null) return false;
-            else return !CurrentSceneAscy.isDone;
+            if (async == null) return false;
+            return !async.isDone;
         }
     }
 
-    [SerializeField] bool isSceneLoading;
+
+    [SerializeField] bool isInteraction_With_SceneLoadTrigger;
+    public bool IsInteraction_With_SceneLoadTrigger => isInteraction_With_SceneLoadTrigger;
+
     private void OnDisable()
     {
-        CurrentSceneAscy = null;
+        OnOtherSceneLoad = null;
+        //OnCutScene = null;
+        OnSceneLoadComplete = null;
+        OnSceneFadeIn = null;
+
         isLoadDefualtScene = false;
-        isSceneLoading = false;
+        isSceneLoadingEffect = true; // 게임을 어떻게 시작하든지 씬을 로딩하기 때문에 기본 상태가 true
+        isInteraction_With_SceneLoadTrigger = false; 
     }
 
     public Dictionary<SceneKey, string> sceneNameData = new Dictionary<SceneKey, string>();
@@ -46,7 +57,7 @@ public class SceneChannel : ScriptableObject
     {
         CurrentSceneCharacters = null;
         SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene());
-        CurrentSceneAscy = SceneManager.LoadSceneAsync(sceneNameData[(SceneKey)_key], LoadSceneMode.Additive);
+        async = SceneManager.LoadSceneAsync(sceneNameData[(SceneKey)_key], LoadSceneMode.Additive);
     }
 
     public bool CurrentSceneIsOnlyView { get; private set; }
@@ -60,14 +71,37 @@ public class SceneChannel : ScriptableObject
         debugCharacters = _characters;
     }
 
+
     #region events
-    public Action OnCutScene = null;
-    public void SetCutScene(DialogueDataContainer _data) => OnCutScene = () => dialogueChannel.Raise_StartInteractionEvent(null, _data);
+    public event Action OnInteraction_With_SceneLoadTrigger = null;
+    public void Raise_OnInteraction_With_SceneLoadTrigger()
+    {
+        isInteraction_With_SceneLoadTrigger = true;
+        OnInteraction_With_SceneLoadTrigger?.Invoke();
+    }
 
-    public event Action<bool> OnSceneLoadComplete = null;
-    public void Raise_OnSceneLoadComplete(bool _isCameraOnlyView) => OnSceneLoadComplete?.Invoke(_isCameraOnlyView);
+    public event Action<int> OnOtherSceneLoad = null;
+    public void Raise_OnOtherSceneLoad(int _sceneNumber) // 유니티 이벤트 매서드로 등록해서 많이 사용함
+    {
+        isSceneLoadingEffect = true;
+        OnOtherSceneLoad?.Invoke(_sceneNumber);
+    }
 
-    public event Action<int> OnTryOtherSceneLoad = null;
-    public void Raise_OnTryOtherSceneLoad(int _sceneNumber) => OnTryOtherSceneLoad?.Invoke(_sceneNumber);
+    //public Action OnCutScene = null;
+    //public void SetCutScene(DialogueDataContainer _data) => OnCutScene = () => dialogueChannel.Raise_StartInteractionEvent(null, _data);
+
+    public event Action OnSceneLoadComplete = null;
+    public void Raise_OnSceneLoadComplete()
+    {
+        OnSceneLoadComplete?.Invoke(); 
+        isInteraction_With_SceneLoadTrigger = false;
+    }
+
+    public event Action OnSceneFadeIn = null;
+    public void Raise_OnSceneFadeIn()
+    {
+        isSceneLoadingEffect = false;
+        OnSceneFadeIn?.Invoke();
+    }
     #endregion
 }

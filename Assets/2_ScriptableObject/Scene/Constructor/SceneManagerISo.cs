@@ -6,28 +6,50 @@ using System;
 [CreateAssetMenu(fileName = "new scene manager", menuName = "Scriptable Object / Scenes / Scene Manager")]
 public class SceneManagerISo : ScriptableObject
 {
+    [Header("Constant Value")]
     [SerializeField] string sceneName;
     public string SceneName => sceneName;
 
     [SerializeField] bool isOnlyCameraView;
     public bool IsOnlyCameraView => isOnlyCameraView;
 
+
+    [Header("Variable Value")]
     [SerializeField] Vector3 playerSpawnPos;
     public Vector3 PlayerSpawnPos => playerSpawnPos;
 
+    [SerializeField] DialogueDataContainer dialogueByLoad;
+    public DialogueDataContainer DialogueByLoad => dialogueByLoad;
+    public void ChangeDialougeByLoad(DialogueDataContainer _newData) => dialogueByLoad = _newData;
 
     [SerializeField] SceneData sceneData = null;
-    [SerializeField] SceneChannel sceneChannel = null;
+    public void ChangeData(SceneData _newSceneData) => sceneData = _newSceneData;
 
-    public void SetUp()
+
+    [Header("Channel")]
+    [SerializeField] SceneChannel sceneChannel = null;
+    [SerializeField] DialogueChannel dialogueChannel = null;
+
+    private void OnEnable()
+    {
+        //sceneChannel.OnSceneLoadComplete += Setup;
+        //sceneChannel.OnSceneFadeIn += StartDialogueByLoad;
+    }
+
+    public void Setup()
     {
         sceneChannel.SetSceneView(isOnlyCameraView);
         // 소환 겸 세팅
         sceneChannel.SetSceneCharacters(CreateInteractionObjects().ToArray());
-        sceneChannel.Raise_OnSceneLoadComplete(isOnlyCameraView);
     }
 
-    public List<GameObject> CreateInteractionObjects()
+    public void StartDialogueByLoad()
+    {
+        if (dialogueByLoad != null) 
+            dialogueChannel.Raise_StartInteractionEvent(null, dialogueByLoad);
+    }
+
+    List<GameObject> CreateInteractionObjects()
     {
         List<GameObject> _objs = new List<GameObject>();
         for (int i = 0; i < sceneData.SpawnObjects.Count; i++)
@@ -41,11 +63,5 @@ public class SceneManagerISo : ScriptableObject
     {
         sceneData.SpawnObjects.Add(_data);
         OnChangeList?.Invoke();
-    }
-
-
-    public void ChangeData(SceneData _newSceneData)
-    {
-        sceneData = _newSceneData;
     }
 }

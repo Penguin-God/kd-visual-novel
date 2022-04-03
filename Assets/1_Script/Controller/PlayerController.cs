@@ -21,6 +21,9 @@ public class PlayerController : MonoBehaviour
         half_ScreenHeight = Screen.height / 2;
 
         originPos_CameraY = tf_Camera.localPosition.y;
+
+        sceneChannel.OnSceneLoadComplete += AngleValueReset;
+        sceneChannel.OnSceneLoadComplete += ResetCamera;
     }
 
     [SerializeField] DialogueChannel dialogueChannel;
@@ -41,7 +44,7 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        if (dialogueChannel.IsInteraction) return;
+        if (dialogueChannel.IsInteraction || sceneChannel.IsSceneLoadingEffect) return;
 
         if (sceneChannel.CurrentSceneIsOnlyView)
         {

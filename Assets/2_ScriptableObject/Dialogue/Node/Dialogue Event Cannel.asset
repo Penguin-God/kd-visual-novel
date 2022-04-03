@@ -12,4 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c89dbc0155ef64541a85677b3c05bb6c, type: 3}
   m_Name: Dialogue Event Cannel
   m_EditorClassIdentifier: 
-  names: 
+  sceneChannel: {fileID: 11400000, guid: d72bbd3953b852849a2d10183253885e, type: 2}
+  isInteractoin: 0
+  isTalkable: 1

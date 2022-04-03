@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class InteractionDoor : InteractionEvent
 {
-    [SerializeField] SceneChannel SceneCannel;
-
     //[SerializeField] bool isNextMapOnlyView;
     //[SerializeField] string changeSceneName;
     //[SerializeField] string locationName;
@@ -36,6 +34,7 @@ public class InteractionDoor : InteractionEvent
     public override void StartInteraction()
     {
         base.StartInteraction();
+        sceneChannel.Raise_OnInteraction_With_SceneLoadTrigger();
         //if (IsTransfer) SceneTransfer();
         //else DialogueManager.instance.StartTalk(GetDialogues());
     }

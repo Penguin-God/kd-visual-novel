@@ -23,7 +23,7 @@ public class CameraRotateTalkDirector : MonoBehaviour
 
         dialogueChannel.ChangeContextEvent += CameraRotateTalk;
 
-        dialogueChannel.EndInteractionEvent += ResetField;
+        dialogueChannel.EndTalkEvent += ResetField;
     }
 
     [SerializeField] GameObject currentImageField = null;
