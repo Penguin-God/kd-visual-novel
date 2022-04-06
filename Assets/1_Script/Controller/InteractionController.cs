@@ -16,7 +16,7 @@ public class InteractionController : MonoBehaviour
     [SerializeField] SceneChannel sceneChannel = null;
     void Update()
     {
-        if (dialogueChannel.IsInteraction || sceneChannel.IsSceneLoadingEffect) return;
+        if (dialogueChannel.IsInteraction || MySceneManager.Instance.IsSceneLoadingEffect) return;
 
         ObjectInteraction();
         ClickLeftButton();

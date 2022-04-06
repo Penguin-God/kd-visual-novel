@@ -245,6 +245,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dialogueMC: {fileID: 0}
   dialogueChannel: {fileID: 0}
+  sceneChannel: {fileID: 0}
 --- !u!1001 &114733874
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -532,6 +533,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dialogueMC: {fileID: 0}
   dialogueChannel: {fileID: 0}
+  sceneChannel: {fileID: 0}
 --- !u!1001 &356488427
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -757,6 +759,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dialogueMC: {fileID: 0}
   dialogueChannel: {fileID: 0}
+  sceneChannel: {fileID: 0}
 --- !u!114 &437465135
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1758,7 +1761,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1540705423}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 158846101bce2cd4c8324715692f9349, type: 3}
+  m_Script: {fileID: 11500000, guid: 612bcafbacf5efb4fad9323a01267a1f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   sceneChannel: {fileID: 11400000, guid: d72bbd3953b852849a2d10183253885e, type: 2}
@@ -2506,6 +2509,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dialogueMC: {fileID: 11400000, guid: fe0d8d6b9cd0996438f8273bfba40ed9, type: 2}
   dialogueChannel: {fileID: 11400000, guid: 7a460b213184a38419d6bef3306602c4, type: 2}
+  sceneChannel: {fileID: 0}
 --- !u!4 &10729962868566164
 Transform:
   m_ObjectHideFlags: 0

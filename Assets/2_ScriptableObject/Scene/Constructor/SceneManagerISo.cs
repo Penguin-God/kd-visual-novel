@@ -18,38 +18,10 @@ public class SceneManagerISo : ScriptableObject
     [SerializeField] Vector3 playerSpawnPos;
     public Vector3 PlayerSpawnPos => playerSpawnPos;
 
-    [SerializeField] DialogueDataContainer dialogueByLoad;
-    public DialogueDataContainer DialogueByLoad => dialogueByLoad;
-    public void ChangeDialougeByLoad(DialogueDataContainer _newData) => dialogueByLoad = _newData;
-
     [SerializeField] SceneData sceneData = null;
     public void ChangeData(SceneData _newSceneData) => sceneData = _newSceneData;
 
-
-    [Header("Channel")]
-    [SerializeField] SceneChannel sceneChannel = null;
-    [SerializeField] DialogueChannel dialogueChannel = null;
-
-    private void OnEnable()
-    {
-        //sceneChannel.OnSceneLoadComplete += Setup;
-        //sceneChannel.OnSceneFadeIn += StartDialogueByLoad;
-    }
-
-    public void Setup()
-    {
-        sceneChannel.SetSceneView(isOnlyCameraView);
-        // 소환 겸 세팅
-        sceneChannel.SetSceneCharacters(CreateInteractionObjects().ToArray());
-    }
-
-    public void StartDialogueByLoad()
-    {
-        if (dialogueByLoad != null) 
-            dialogueChannel.Raise_StartInteractionEvent(null, dialogueByLoad);
-    }
-
-    List<GameObject> CreateInteractionObjects()
+    public List<GameObject> CreateInteractionObjects()
     {
         List<GameObject> _objs = new List<GameObject>();
         for (int i = 0; i < sceneData.SpawnObjects.Count; i++)

@@ -13,7 +13,6 @@ public enum FadeType
 public class SplashManager : MonoBehaviour
 {
     [SerializeField] DialogueChannel dialogueChannel = null;
-    [SerializeField] SceneChannel sceneChannel = null;
     [SerializeField] Image fadeImage;
 
     [SerializeField] Color whiteColor;
@@ -29,8 +28,6 @@ public class SplashManager : MonoBehaviour
     private void Start()
     {
         dialogueChannel.ChangeContextEvent += FadeCamara_byTalk;
-
-        sceneChannel.OnOtherSceneLoad += (_sceneNumber) => FadeOut(FadeType.Black, _endAct : () => sceneChannel.LoadScene(_sceneNumber));
     }
 
     void FadeCamara_byTalk(DialogueData _data, int _count)
@@ -57,7 +54,7 @@ public class SplashManager : MonoBehaviour
     }
 
     // 창이 생기고 빛이 없어짐
-    public void FadeOut(FadeType _fadeType, bool isSlow = false, Action _endAct = null)
+    public void FadeOut(FadeType _fadeType, bool isSlow = false)
     {
         isFade = true;
         Color _color = new Color();
@@ -68,10 +65,10 @@ public class SplashManager : MonoBehaviour
         }
 
         float speed = isSlow ? fadeSlowSpeed : fadeSpeed;
-        StartCoroutine(Co_FadeOut(_color, speed, _endAct));
+        StartCoroutine(Co_FadeOut(_color, speed));
     }
 
-    IEnumerator Co_FadeOut(Color color, float speed, Action _endAct = null)
+    IEnumerator Co_FadeOut(Color color, float speed)
     {
         color.a = 0;
         fadeImage.color = color;
@@ -83,11 +80,10 @@ public class SplashManager : MonoBehaviour
             yield return ws;
         }
         isFade = false;
-        _endAct?.Invoke();
     }
 
     // 창이 걷히고 빛이 바래짐
-    public void FadeIn(FadeType _fadeType, bool isSlow = false, Action _endAct = null)
+    public void FadeIn(FadeType _fadeType, bool isSlow = false)
     {
         Color _color = new Color();
         switch (_fadeType)
@@ -96,10 +92,10 @@ public class SplashManager : MonoBehaviour
             case FadeType.Black: _color = blackColor; break;
         }
         float speed = isSlow ? fadeSlowSpeed : fadeSpeed;
-        StartCoroutine(Co_FadeIn(_color, speed, _endAct));
+        StartCoroutine(Co_FadeIn(_color, speed));
     }
 
-    IEnumerator Co_FadeIn(Color color, float speed, Action _endAct = null)
+    IEnumerator Co_FadeIn(Color color, float speed)
     {
         isFade = true;
         color.a = 1;
@@ -112,6 +108,5 @@ public class SplashManager : MonoBehaviour
             yield return ws;
         }
         isFade = false;
-        _endAct?.Invoke();
     }
 }

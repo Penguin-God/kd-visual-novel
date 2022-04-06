@@ -725,7 +725,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dialogueChannel: {fileID: 11400000, guid: 7a460b213184a38419d6bef3306602c4, type: 2}
-  sceneChannel: {fileID: 11400000, guid: d72bbd3953b852849a2d10183253885e, type: 2}
   fadeImage: {fileID: 166711384}
   whiteColor: {r: 1, g: 1, b: 1, a: 0}
   blackColor: {r: 0, g: 0, b: 0, a: 0}
@@ -1120,7 +1119,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &307653870
 GameObject:
@@ -1324,7 +1323,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
 --- !u!1 &515989165
 GameObject:
@@ -1671,7 +1670,7 @@ RectTransform:
   - {fileID: 609713948}
   - {fileID: 1529964470}
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -2299,6 +2298,54 @@ RectTransform:
   m_AnchoredPosition: {x: 2600, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &855794480
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 855794481}
+  - component: {fileID: 855794482}
+  m_Layer: 0
+  m_Name: SceneManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &855794481
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 855794480}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.21904233, y: -3.082756, z: 5.5679207}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &855794482
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 855794480}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 158846101bce2cd4c8324715692f9349, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneChannel: {fileID: 11400000, guid: d72bbd3953b852849a2d10183253885e, type: 2}
+  splashManager: {fileID: 257826693}
+  currentSceneIsOnlyView: 0
+  currentSceneCharacters: []
+  isSceneLoadingEffect: 0
 --- !u!1 &909488823
 GameObject:
   m_ObjectHideFlags: 0
@@ -3425,7 +3472,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 414017322494420889, guid: c689924001e4fa74889cba590b68e6d7, type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 414017322494420889, guid: c689924001e4fa74889cba590b68e6d7, type: 3}
       propertyPath: m_LocalPosition.x

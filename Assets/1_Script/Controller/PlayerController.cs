@@ -22,8 +22,9 @@ public class PlayerController : MonoBehaviour
 
         originPos_CameraY = tf_Camera.localPosition.y;
 
-        sceneChannel.OnSceneLoadComplete += AngleValueReset;
-        sceneChannel.OnSceneLoadComplete += ResetCamera;
+        sceneChannel.OnEnterOtherScene += (_data) => transform.position = _data.PlayerSpawnPos;
+        sceneChannel.OnEnterOtherScene += (_data) => AngleValueReset();
+        sceneChannel.OnEnterOtherScene += (_data) => ResetCamera();
     }
 
     [SerializeField] DialogueChannel dialogueChannel;
@@ -44,9 +45,9 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        if (dialogueChannel.IsInteraction || sceneChannel.IsSceneLoadingEffect) return;
+        if (dialogueChannel.IsInteraction || MySceneManager.Instance.IsSceneLoadingEffect) return;
 
-        if (sceneChannel.CurrentSceneIsOnlyView)
+        if (MySceneManager.Instance.CurrentSceneIsOnlyView)
         {
             // 크로스 헤어 이동
             MovingCorsshair();

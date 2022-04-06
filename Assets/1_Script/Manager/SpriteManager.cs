@@ -21,7 +21,7 @@ public class SpriteManager : MonoBehaviour
         dialogueChannel.StartTalkEvent += (_con) => FadeOut_AllSceneCharacters();
         dialogueChannel.EndTalkEvent += FadeIn_AllSceneCharacters;
 
-        sceneChannel.OnSceneFadeIn += FadeIn_AllSceneCharacters;
+        sceneChannel.OnSceneLoadComplete += (_data) => FadeIn_AllSceneCharacters();
     }
 
     void ChangeSprite_byTalk(DialogueData _data, int _contextCount)
@@ -63,17 +63,19 @@ public class SpriteManager : MonoBehaviour
     Sprite GetSprite(GameObject _obj) => _obj.GetComponentInChildren<SpriteRenderer>().sprite;
     SpriteRenderer[] GetSpriteRenderers(GameObject _object) => _object.GetComponentsInChildren<SpriteRenderer>();
 
+
+    GameObject[] CurrentSceneCharacters => MySceneManager.Instance.CurrentSceneCharacters;
     void FadeOut_AllSceneCharacters()
     {
-        if (sceneChannel.CurrentSceneCharacters == null) return;
-        for (int i = 0; i < sceneChannel.CurrentSceneCharacters.Length; i++)
-            spriteFadeManager.SpriteFadeOut(GetSpriteRenderers(sceneChannel.CurrentSceneCharacters[i]));
+        if (CurrentSceneCharacters == null) return;
+        for (int i = 0; i < CurrentSceneCharacters.Length; i++)
+            spriteFadeManager.SpriteFadeOut(GetSpriteRenderers(CurrentSceneCharacters[i]));
     }
     void FadeIn_AllSceneCharacters()
     {
-        if (sceneChannel.CurrentSceneCharacters == null) return;
-        for (int i = 0; i < sceneChannel.CurrentSceneCharacters.Length; i++)
-            spriteFadeManager.SpriteFadeIn(GetSpriteRenderers(sceneChannel.CurrentSceneCharacters[i]));
+        if (CurrentSceneCharacters == null) return;
+        for (int i = 0; i < CurrentSceneCharacters.Length; i++)
+            spriteFadeManager.SpriteFadeIn(GetSpriteRenderers(CurrentSceneCharacters[i]));
     }
 }
 

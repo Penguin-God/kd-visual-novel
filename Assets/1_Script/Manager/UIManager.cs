@@ -10,11 +10,12 @@ public class UIManager : MonoBehaviour
     void Start()
     {
         dialogueChannel.StartInteractionEvent += (_target, _con) => HideUI();
-        dialogueChannel.EndInteractionEvent += () => ShowUI(sceneChannel.CurrentSceneIsOnlyView);
+        dialogueChannel.EndInteractionEvent += () => ShowUI(MySceneManager.Instance.CurrentSceneIsOnlyView);
 
-        sceneChannel.OnSceneFadeIn += () => status.gameObject.SetActive(true);
-        sceneChannel.OnOtherSceneLoad += (_num) => status.gameObject.SetActive(false);
-        sceneChannel.OnSceneFadeIn += () => ShowUI(sceneChannel.CurrentSceneIsOnlyView);
+        sceneChannel.OnOtherSceneLoad += (_data) => status.gameObject.SetActive(false);
+
+        sceneChannel.OnSceneLoadComplete += (_data) => status.gameObject.SetActive(true);
+        sceneChannel.OnSceneLoadComplete += (_data) => ShowUI(MySceneManager.Instance.CurrentSceneIsOnlyView);
     }
 
     [SerializeField] GameObject status;
