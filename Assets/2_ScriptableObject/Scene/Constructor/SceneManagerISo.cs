@@ -21,6 +21,9 @@ public class SceneManagerISo : ScriptableObject
     [SerializeField] SceneData sceneData = null;
     public void ChangeData(SceneData _newSceneData) => sceneData = _newSceneData;
 
+    [SerializeField] List<DialogueGroup> dialogueGroups;
+    public List<DialogueGroup> DialogueGroups => dialogueGroups;
+
     public List<GameObject> CreateInteractionObjects()
     {
         List<GameObject> _objs = new List<GameObject>();

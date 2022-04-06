@@ -15,45 +15,72 @@ public enum DialogueTriggerType
 [CreateAssetMenu(fileName = "new DialogueData Container", menuName = "Scriptable Object / Dialogue Container")]
 public class DialogueDataContainer : ScriptableObject
 {
-    [SerializeField] string eventName;
+    [Header("data")]
+    [SerializeField] string codeName;
+    public string CodeName => codeName;
+
     [SerializeField] DialogueDataParser dataParser = null;
     
     [SerializeField] DialogueData[] dialogueData = null;
     public DialogueData[] DialogueData => dialogueData;
 
+    #region interact
+    [SerializeField] bool interactable = false;
+    public bool Interactable => interactable;
+    public void SetInteraction() => interactable = true;
+    #endregion
+
     public void Init(DialogueDataParser _dataParser, string _eventName)
     {
         dataParser = _dataParser;
-        eventName = _eventName;
+        codeName = _eventName;
     }
 
-    //public bool Interactionable => eventCondition.GetCondition();
     void OnEnable()
     {
         if (dataParser == null) return;
 
-        //Debug.Log(eventName);
-        dialogueData = dataParser.GetDialogue(eventName);
+        codeName = name;
+        dialogueData = dataParser.GetDialogue(codeName);
     }
 
     void OnDisable()
     {
         interactable = false;
-        // 인스펙터에서 설정한거 빼고 다 없애는 기능임
-        ContainerDialogueEndEvent.RemoveAllListeners();
+        OnFirstDialogueEnd = null;
     }
 
-    [SerializeField] bool interactable = false;
-    public bool Interactable => interactable;
-    public void SetInteraction() => interactable = true;
+    [Header("Condition")]
+    [SerializeField] DialogueCondition dialogueCondition = null;
+    public DialogueCondition DialogueCondition => dialogueCondition;
 
+    [SerializeField] bool isSaw;
+    #region events
 
-    [Header("Unity Event")]  [Space]
+    [Header("Unity Event"), Space]
     [SerializeField] UnityEvent OnDialogueEnd;
     public void Raise_OnDialogueEnd() => OnDialogueEnd?.Invoke();
 
     public UnityEvent ContainerDialogueEndEvent;
-    public void Raise_ContainerDialogueEndEvent() => ContainerDialogueEndEvent?.Invoke();
+
+    public event Action OnFirstDialogueEnd;
+    public void Raise_ContainerDialogueEndEvent()
+    {
+        if (!isSaw)
+        {
+            OnFirstDialogueEnd?.Invoke();
+            isSaw = true;
+        }
+    }
+
+    #endregion
+
+    public event Action OnDialogueCountChange;
+    public void Setup()
+    {
+        dialogueCondition.Setup();
+        dialogueCondition.OnConditionCountChange += () => OnDialogueCountChange();
+    }
 
     public void DataReset()
     {

@@ -9,11 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 598794d1fc3be3d45b7f0b08612c8780, type: 3}
-  m_Name: Cafeteria
+  m_Script: {fileID: 11500000, guid: 9e189b4bbeaddbc43bd357d31b886e65, type: 3}
+  m_Name: new Dialogue Group
   m_EditorClassIdentifier: 
-  sceneName: Cafeteria
-  isOnlyCameraView: 0
-  playerSpawnPos: {x: 0, y: 1, z: -5}
-  sceneData: {fileID: 11400000, guid: baba2e39a8056fa45a8f6a7d5488530c, type: 2}
-  dialogueGroups: []
+  target: {fileID: 0}
+  dialogueDataContainers: []

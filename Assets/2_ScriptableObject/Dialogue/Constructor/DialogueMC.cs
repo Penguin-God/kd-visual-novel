@@ -5,12 +5,12 @@ using System;
 using UnityEngine.Events;
 
 [Serializable]
-class DialogueCondition
+class DialogueConditionss
 {
     public DialogueDataContainer container;
     public EventCondition eventCondition;
 
-    public DialogueCondition(DialogueCondition _init, Action<DialogueDataContainer> _containerChageAct)
+    public DialogueConditionss(DialogueConditionss _init, Action<DialogueDataContainer> _containerChageAct)
     {
         container = _init.container;
         eventCondition = _init.eventCondition;
@@ -18,18 +18,20 @@ class DialogueCondition
     }
 }
 
+
+
 [CreateAssetMenu(fileName = "new Dialogue MC", menuName = "Scriptable Object / Dialogue MC")]
 public class DialogueMC : ScriptableObject
 {
     [SerializeField] DialogueDataContainer currentDialogue = null;
     public DialogueDataContainer CurrentDialogue => currentDialogue;
 
-    [SerializeField] DialogueCondition[] conditoins = null;
+    [SerializeField] DialogueConditionss[] conditoins = null;
 
     void OnEnable()
     {
         for (int i = 0; i < conditoins.Length; i++)
-            conditoins[i] = new DialogueCondition(conditoins[i], ChangeCurrentDialogue);
+            conditoins[i] = new DialogueConditionss(conditoins[i], ChangeCurrentDialogue);
     }
 
     void ChangeCurrentDialogue(DialogueDataContainer _newDialogue)

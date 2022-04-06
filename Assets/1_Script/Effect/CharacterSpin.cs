@@ -14,7 +14,7 @@ public class CharacterSpin : MonoBehaviour
     }
 
     void Update()
-    {
+    { 
         if (tf_Target == null || isSpin) return;
 
         lookAngle = Quaternion.LookRotation(tf_Target.position);

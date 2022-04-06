@@ -11,12 +11,13 @@ public class InteractionEvent : MonoBehaviour
     [SerializeField] protected DialogueChannel dialogueChannel = null;
     [SerializeField] protected SceneChannel sceneChannel = null;
 
-    public bool Interactalbe => Container.Interactable;
 
-    //[SerializeField] DialogueData[] dialogueData;
-    //public DialogueData[] DialogueData => dialogueData;
-    //[SerializeField] EventCondition eventCondition;
-    //[SerializeField] protected DialogueEvent[] dialogueEvents;
+    [SerializeField] DialogueDataContainer currentDialogue;
+    public DialogueDataContainer CurrentDialogue => currentDialogue;
+    public void ChangeDialogue(DialogueDataContainer _newDialogue) => currentDialogue = _newDialogue;
+
+
+    public bool Interactalbe => Container.Interactable;
 
     // 가상 함수
     public virtual void StartInteraction() 
@@ -37,6 +38,8 @@ public class InteractionEvent : MonoBehaviour
 
         dialogueChannel.EndTalkEvent -= SubscribeEvent;
     }
+
+
 
     private void Start()
     {
