@@ -12,7 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58d03af9001bd1646b9e5cece30c83f3, type: 3}
   m_Name: "\uCC98\uC74C \uBB38"
   m_EditorClassIdentifier: 
-  currentDialogue: {fileID: 11400000, guid: 91eb5f170aaf6e14a8cf6ae004564a92, type: 2}
+  TestDialogues:
+  - {fileID: 11400000, guid: 5bc9fa79453aa55469de856fd0fee735, type: 2}
+  - {fileID: 11400000, guid: 91eb5f170aaf6e14a8cf6ae004564a92, type: 2}
+  currentDialogue: {fileID: 11400000, guid: 5bc9fa79453aa55469de856fd0fee735, type: 2}
   conditoins:
   - container: {fileID: 11400000, guid: 5bc9fa79453aa55469de856fd0fee735, type: 2}
     eventCondition:

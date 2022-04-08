@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58d03af9001bd1646b9e5cece30c83f3, type: 3}
   m_Name: "\uCC98\uC74C \uC740\uC131"
   m_EditorClassIdentifier: 
+  TestDialogues:
+  - {fileID: 11400000, guid: a8ea15e0a60a2a54e903b538727bbbfb, type: 2}
   currentDialogue: {fileID: 11400000, guid: a8ea15e0a60a2a54e903b538727bbbfb, type: 2}
   conditoins:
   - container: {fileID: 11400000, guid: a8ea15e0a60a2a54e903b538727bbbfb, type: 2}

@@ -46,8 +46,9 @@ public class DialogueDataContainer : ScriptableObject
 
     void OnDisable()
     {
-        interactable = false;
-        OnFirstDialogueEnd = null;
+        isSaw = false;
+        interactable = true;
+        OnFirstInteraction = null;
     }
 
     [Header("Condition")]
@@ -63,23 +64,23 @@ public class DialogueDataContainer : ScriptableObject
 
     public UnityEvent ContainerDialogueEndEvent;
 
-    public event Action OnFirstDialogueEnd;
+    public event Action OnFirstInteraction;
     public void Raise_ContainerDialogueEndEvent()
     {
         if (!isSaw)
         {
-            OnFirstDialogueEnd?.Invoke();
+            OnFirstInteraction?.Invoke();
             isSaw = true;
         }
     }
 
     #endregion
 
-    public event Action OnDialogueCountChange;
-    public void Setup()
+    public event Action<InteractionEvent, DialogueDataContainer> OnDialogueCountChange;
+    public void Setup(InteractionEvent _interaction)
     {
-        dialogueCondition.Setup();
-        dialogueCondition.OnConditionCountChange += () => OnDialogueCountChange();
+        dialogueCondition.Setup(_interaction, this);
+        dialogueCondition.OnConditionCountChange += OnDialogueCountChange;
     }
 
     public void DataReset()

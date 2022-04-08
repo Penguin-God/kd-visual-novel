@@ -5,9 +5,11 @@ using UnityEngine;
 public class InteractionEvent : MonoBehaviour
 {
     [SerializeField] DialogueMC dialogueMC = null;
+    public DialogueMC DialogueMC => dialogueMC;
     public void SetMC(DialogueMC _newMC) => dialogueMC = _newMC;
 
-    public DialogueDataContainer Container => dialogueMC.CurrentDialogue;
+    //public DialogueDataContainer Container => dialogueMC.CurrentDialogue;
+    public DialogueDataContainer Container => currentDialogue; // test code
     [SerializeField] protected DialogueChannel dialogueChannel = null;
     [SerializeField] protected SceneChannel sceneChannel = null;
 
@@ -15,7 +17,6 @@ public class InteractionEvent : MonoBehaviour
     [SerializeField] DialogueDataContainer currentDialogue;
     public DialogueDataContainer CurrentDialogue => currentDialogue;
     public void ChangeDialogue(DialogueDataContainer _newDialogue) => currentDialogue = _newDialogue;
-
 
     public bool Interactalbe => Container.Interactable;
 
@@ -43,12 +44,13 @@ public class InteractionEvent : MonoBehaviour
 
     private void Start()
     {
-        //SetDialogueData(container);
-
-        //if (dialogueEvents.Length > 0)
-        //{
-        //    StartCoroutine(Co_SetDialogueEvent());
-        //}
+        currentDialogue = dialogueMC.TestDialogues[0];
+        // 이거 한번만 사용하면 끝나서 여기가 아니라 퀘스트 시스템 같은 곳에서 하거나
+        // dialgoue 전체 배열을 돌면서 구독해줘야 함
+        currentDialogue.DialogueCondition.OnConditionCountChange += (_interaction, _con) =>
+        {
+            currentDialogue = _con;
+        };
     }
 
     void SetDialogueData(DialogueDataContainer _setContainer)

@@ -13,13 +13,13 @@ public class DialogueGroup : ScriptableObject
     [SerializeField] DialogueDataContainer[] dialogueDataContainers;
     public IReadOnlyList<DialogueDataContainer> DialogueDataContainers => dialogueDataContainers;
 
-    public event Action OnDialogueCountChange;
-    public void Setup()
-    {
-        foreach(var _con in dialogueDataContainers)
-        {
-            _con.OnDialogueCountChange += () => target.ChangeDialogue(_con);
-            _con.Setup();
-        }
-    }
+    //public event Action OnDialogueCountChange;
+    //public void Setup()
+    //{
+    //    foreach(var _con in dialogueDataContainers)
+    //    {
+    //        _con.OnDialogueCountChange += () => target.ChangeDialogue(_con);
+    //        _con.Setup();
+    //    }
+    //}
 }

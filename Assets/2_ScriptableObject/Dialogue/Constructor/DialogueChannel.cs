@@ -38,6 +38,7 @@ public class DialogueChannel : ScriptableObject
     public event Action<DialogueDataContainer> StartTalkEvent = null;
     public void Raise_StartTalkEvent(DialogueDataContainer _container)
     {
+        _container.Raise_ContainerDialogueEndEvent();
         StartTalkEvent?.Invoke(_container);
     }
 

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d6d636acc1ca6540b34fc33cbf34d4a, type: 3}
   m_Name: "\uAD34\uC0C1\uD55C \uB3C4\uAD6CAfter"
   m_EditorClassIdentifier: 
-  eventName: "\uAD34\uC0C1\uD55C \uB3C4\uAD6CAfter"
+  codeName: "\uAD34\uC0C1\uD55C \uB3C4\uAD6CAfter"
   dataParser: {fileID: 11400000, guid: c165e695077d67b418504212b8dd6ee7, type: 2}
   dialogueData:
   - cameraType: 0
@@ -25,7 +25,7 @@ MonoBehaviour:
     - 
     cutSceneName:
     - 
-    cameraTorque:
+    cameraRotateDir:
     - 
   - cameraType: 0
     characterName: "\uC8FC\uC778\uACF5"
@@ -37,7 +37,7 @@ MonoBehaviour:
     - 
     cutSceneName:
     - 
-    cameraTorque:
+    cameraRotateDir:
     - 
   - cameraType: 0
     characterName: "\uBD09\uB780"
@@ -54,7 +54,7 @@ MonoBehaviour:
     cutSceneName:
     - 
     - 
-    cameraTorque:
+    cameraRotateDir:
     - 
     - 
   - cameraType: 0
@@ -67,15 +67,17 @@ MonoBehaviour:
     - 
     cutSceneName:
     - 
-    cameraTorque:
+    cameraRotateDir:
     - 
-  eventCondition:
-    const_DefaultEventCondition: []
-    defaultEventConditions: []
-    const_nextEventConditions: []
-    nextEventConditions: []
   interactable: 1
-  afterDialogue: {fileID: 0}
+  dialogueCondition:
+    target: {fileID: 0}
+    prevConditions:
+    - {fileID: 11400000, guid: f131d7a721c526d4cab5295df5188ae2, type: 2}
+  isSaw: 0
+  OnDialogueEnd:
+    m_PersistentCalls:
+      m_Calls: []
   ContainerDialogueEndEvent:
     m_PersistentCalls:
       m_Calls: []

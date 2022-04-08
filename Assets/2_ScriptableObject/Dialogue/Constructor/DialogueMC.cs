@@ -23,16 +23,18 @@ class DialogueConditionss
 [CreateAssetMenu(fileName = "new Dialogue MC", menuName = "Scriptable Object / Dialogue MC")]
 public class DialogueMC : ScriptableObject
 {
+    public DialogueDataContainer[] TestDialogues;
+
     [SerializeField] DialogueDataContainer currentDialogue = null;
     public DialogueDataContainer CurrentDialogue => currentDialogue;
 
     [SerializeField] DialogueConditionss[] conditoins = null;
 
-    void OnEnable()
-    {
-        for (int i = 0; i < conditoins.Length; i++)
-            conditoins[i] = new DialogueConditionss(conditoins[i], ChangeCurrentDialogue);
-    }
+    //void OnEnable()
+    //{
+    //    for (int i = 0; i < conditoins.Length; i++)
+    //        conditoins[i] = new DialogueConditionss(conditoins[i], ChangeCurrentDialogue);
+    //}
 
     void ChangeCurrentDialogue(DialogueDataContainer _newDialogue)
     {

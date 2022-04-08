@@ -45,9 +45,12 @@ public class MySceneManager : MonoBehaviour
     {
         sceneChannel.OnOtherSceneLoad += LoadedScene;
         sceneChannel.OnEnterOtherScene += Setup;
+        sceneChannel.OnSceneLoadComplete += (_iso) => OnDoneSceneSetup?.Invoke(currentSceneIsOnlyView, currentSceneCharacters);
     }
 
-    void LoadedScene(SceneManagerISo _data) => StartCoroutine(Co_LoadedScene(_data));
+    public event Action<bool, GameObject[]> OnDoneSceneSetup = null;
+
+    public void LoadedScene(SceneManagerISo _data) => StartCoroutine(Co_LoadedScene(_data));
     IEnumerator Co_LoadedScene(SceneManagerISo _data)
     {
         isSceneLoadingEffect = true;

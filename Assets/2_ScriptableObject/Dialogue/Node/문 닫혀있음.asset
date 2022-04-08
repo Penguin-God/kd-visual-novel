@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d6d636acc1ca6540b34fc33cbf34d4a, type: 3}
   m_Name: "\uBB38 \uB2EB\uD600\uC788\uC74C"
   m_EditorClassIdentifier: 
-  eventName: "\uBB38 \uB2EB\uD600\uC788\uC74C"
+  codeName: "\uBB38 \uB2EB\uD600\uC788\uC74C"
   dataParser: {fileID: 11400000, guid: c165e695077d67b418504212b8dd6ee7, type: 2}
   dialogueData:
   - cameraType: 0
@@ -25,19 +25,18 @@ MonoBehaviour:
     - 
     cutSceneName:
     - 
-    cameraTorque:
+    cameraRotateDir:
     - 
-  eventCondition:
-    const_DefaultEventCondition: []
-    defaultEventConditions: []
-    const_nextEventConditions:
-    - {fileID: 11400000, guid: 50907faebd10a154aa92df6d6b5a0dac, type: 2}
-    - {fileID: 11400000, guid: a8ea15e0a60a2a54e903b538727bbbfb, type: 2}
-    nextEventConditions:
-    - {fileID: 11400000, guid: 50907faebd10a154aa92df6d6b5a0dac, type: 2}
-    - {fileID: 11400000, guid: 50907faebd10a154aa92df6d6b5a0dac, type: 2}
   interactable: 1
-  afterDialogue: {fileID: 11400000, guid: 91eb5f170aaf6e14a8cf6ae004564a92, type: 2}
+  dialogueCondition:
+    target: {fileID: 0}
+    prevConditions:
+    - {fileID: 11400000, guid: f131d7a721c526d4cab5295df5188ae2, type: 2}
+    - {fileID: 11400000, guid: a8ea15e0a60a2a54e903b538727bbbfb, type: 2}
+  isSaw: 0
+  OnDialogueEnd:
+    m_PersistentCalls:
+      m_Calls: []
   ContainerDialogueEndEvent:
     m_PersistentCalls:
       m_Calls: []
