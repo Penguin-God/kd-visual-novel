@@ -4,20 +4,7 @@ using UnityEngine;
 using System;
 
 [Serializable]
-class DialogueTargetData
-{
-    public InteractionEvent interaction;
-    public DialogueDataContainer[] dialogues;
-
-    public DialogueTargetData(InteractionEvent _interaction, DialogueDataContainer[] _dialogues)
-    {
-        interaction = _interaction;
-        dialogues = _dialogues;
-    }
-}
-
-[Serializable]
-public class InteractionEventByName : SerializableDictionary<string, InteractionEvent>
+public class InteractionEventByName : SerializableDictionary<string, InteractionObject>
 {
 
 }
@@ -25,12 +12,9 @@ public class InteractionEventByName : SerializableDictionary<string, Interaction
 public class DialogueSystem : MonoBehaviour
 {
     [SerializeField] SceneChannel sceneChannel;
-    [SerializeField] List<DialogueTargetData> dialogueTargetDatas;
-
-    [SerializeField] List<DialogueObject> dialogueObjects;
 
     public InteractionEventByName interactionEventByName;
-    public event Action<Dictionary<string, InteractionEvent>> OnSetup;
+    public event Action<Dictionary<string, InteractionObject>> OnSetup;
 
     private static DialogueSystem instance;
     public static DialogueSystem Instance
@@ -52,8 +36,8 @@ public class DialogueSystem : MonoBehaviour
 
             foreach (DialogueObject _obj in _dialogueObjs)
             {
-                interactionEventByName.TryGetValue(_obj.CodeName, out InteractionEvent _interactionEvent);
-                if(_interactionEvent != null) _obj.Setup(_interactionEvent);
+                interactionEventByName.TryGetValue(_obj.CodeName, out InteractionObject interactionObject);
+                if(interactionObject != null) _obj.Setup(interactionObject);
             }
         };
     }

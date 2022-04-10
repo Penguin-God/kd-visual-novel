@@ -43,66 +43,8 @@ public class DialogueManager : MonoBehaviour
         dialogueChannel.Raise_EndTalkEvent();
     }
 
-    //void Talk()
-    //{
-    //    txt_Dialogue.text = "";
-    //    dialogueCannel.Raise_ChangeContextEvent(, contextCount);
-
-    //    if (++contextCount >= dialogues[talkIndex].contexts.Length) // 대화의 화자가 바뀔 때
-    //    {
-    //        contextCount = 0; // 대사 순번 초기화
-    //        if (++talkIndex < dialogues.Length) // 화자는 바뀌지만 대화의 끝이 아닐 때 각종 연출
-    //        {
-    //            StartCoroutine(Co_BeforeTalkEvent(dialogues[talkIndex], contextCount));
-    //        }
-    //        else StartCoroutine(EndTalk()); // 화자가 바뀔때만 talkIndex가 오르기 때문에 여기서 대화 종료 여부 결정
-    //        return;
-    //    }
-    //    // 똑같은 화자가 2번 이상 말할 때 별도의 조건 없이 그냥 대사 출력
-    //    StartCoroutine(Co_TypeWriter());
-    //}
-
-    //public event Action<DialogueData, int> BeforeTalkEvent;
-    //IEnumerator Co_BeforeTalkEvent(DialogueData dialogue, int contextCount)
-    //{
-    //    dialogueCannel.Raise_EndTalkEvent();
-    //    if (BeforeTalkEvent != null) BeforeTalkEvent(dialogue, contextCount);
-    //    Set_DialogueUI(false);
-    //    yield return new WaitUntil(() => !isCameraEffect);
-    //    StartCoroutine(Co_TypeWriter());
-    //}
-
-    //[SerializeField] CutSceneManager cutSceneManager;
-    //public event Action OnEndTalk;
-    //private EventByTalk eventByTalk = null;
-    //IEnumerator EndTalk()
-    //{
-    //    if (cutSceneManager.CheckCutScene)
-    //    {
-    //        cutSceneManager.CutScene("", true);
-    //        Set_DialogueUI(false);
-    //        yield return new WaitUntil(() => !isCameraEffect);
-    //    }
-
-    //    dialogues = null;
-    //    talkIndex = 0;
-    //    contextCount = 0;
-    //    Set_DialogueUI(false);
-
-    //    dialogueCannel.Raise_EndDialogueEvent();
-    //    //if(OnEndTalk != null) OnEndTalk();
-    //}
-
-    public void SetEvent(Transform target)
-    {
-        //if (target.GetComponent<EventByTalk>() != null) eventByTalk = target.GetComponent<EventByTalk>();
-        //else eventByTalk = null;
-    }
-
-
     [SerializeField] float textDelayTime;
     private float ApplyTextDelayTime { get { return Input.GetButton("Ctrl") ? 0 : textDelayTime; } }
-    public event Action<DialogueData, int> AfterTalkEvent;
 
     IEnumerator Co_TypeWriter(string _context)
     {
@@ -238,6 +180,4 @@ public class DialogueManager : MonoBehaviour
         if (name[0] == '⒳') name = name.Replace("⒳", "");
         return name;
     }
-
-    
 }

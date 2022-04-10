@@ -18,25 +18,6 @@ public class SceneManagerISo : ScriptableObject
     [SerializeField] Vector3 playerSpawnPos;
     public Vector3 PlayerSpawnPos => playerSpawnPos;
 
-    [SerializeField] SceneData sceneData = null;
-    public void ChangeData(SceneData _newSceneData) => sceneData = _newSceneData;
-
-    public List<GameObject> CreateInteractionObjects()
-    {
-        List<GameObject> _objs = new List<GameObject>();
-        for (int i = 0; i < sceneData.DialougeObjects.Count; i++)
-            _objs.Add(sceneData.DialougeObjects[i].GetInteractionObject());
-
-        return _objs;
-    }
-
-    public event Action OnChangeList = null;
-    public void AddInteractionObject(SpawnInteractionObjectData _data)
-    {
-        sceneData.DialougeObjects.Add(_data);
-        OnChangeList?.Invoke();
-    }
-
 
     [SerializeField] List<DialogueObject> dialogueObjects;
     public List<DialogueObject> DialogueObjects => dialogueObjects;

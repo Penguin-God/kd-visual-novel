@@ -40,7 +40,7 @@ public class CameraController : MonoBehaviour
         CameraTargettig(forwardTargerPosition, Quaternion.LookRotation(camDirection));
 
         // 카메라 타겟팅 하면서 대화 시작
-        dialogueChannel.Raise_StartTalkEvent(p_Targer.GetComponent<InteractionEvent>().Container);
+        dialogueChannel.Raise_StartTalkEvent(p_Targer.GetComponent<InteractionObject>().CurrentDialogue);
     }
     void CameraTargettig(Vector3 _targetPos, Quaternion _LookTargetRot, Action _targettingEndAct = null)
     {

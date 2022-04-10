@@ -30,14 +30,14 @@ public class PlayerController : MonoBehaviour
     [SerializeField] DialogueChannel dialogueChannel;
     [SerializeField] SceneChannel sceneChannel;
 
-    public void AngleValueReset()
+    void AngleValueReset()
     {
         tf_Corsshair.localPosition = Vector3.zero;
         currentCameraAngle_X = 0;
         currentCameraAngle_Y = 0;
     }
 
-    public void ResetCamera()
+    void ResetCamera()
     {
         tf_Camera.localPosition = Vector3.up;
         tf_Camera.localEulerAngles = Vector3.zero;

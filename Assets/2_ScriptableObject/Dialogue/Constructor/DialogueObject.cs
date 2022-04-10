@@ -31,9 +31,9 @@ public class DialogueObject : ScriptableObject
     [SerializeField] SpawnData spawnData;
     public SpawnData SpawnData => spawnData;
 
-    public void Setup(InteractionEvent _interactionEvent)
+    public void Setup(InteractionObject _interactionObject)
     {
         for (int i = 0; i < dialogues.Length; i++)
-            dialogues[i].Setup(_interactionEvent);
+            dialogues[i].Setup(_interactionObject);
     }
 }

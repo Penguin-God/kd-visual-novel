@@ -1,0 +1,2 @@
+현재 대화 부분 코드 다듬기 (InteractionObject 쪽 구독헀다 바로 빼는데 별로임)
+Scriptable Object 복사본 만들어서 원본에 지장 안가는 식으로 게임 진행하고 Save, Load 기능 구현

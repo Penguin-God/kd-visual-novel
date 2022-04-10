@@ -12,8 +12,6 @@ public enum SceneKey
 [CreateAssetMenu(fileName = "new Scene Cannel", menuName = "Scriptable Object / Scenes / Scene Channel")]
 public class SceneChannel : ScriptableObject
 {
-    [SerializeField] DialogueChannel dialogueChannel = null;
-
     [SerializeField] bool isInteraction_With_SceneLoadTrigger;
     public bool IsInteraction_With_SceneLoadTrigger => isInteraction_With_SceneLoadTrigger;
 

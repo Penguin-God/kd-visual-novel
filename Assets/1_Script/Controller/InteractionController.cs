@@ -13,7 +13,6 @@ public class InteractionController : MonoBehaviour
     }
 
     [SerializeField] DialogueChannel dialogueChannel = null;
-    [SerializeField] SceneChannel sceneChannel = null;
     void Update()
     {
         if (dialogueChannel.IsInteraction || MySceneManager.Instance.IsSceneLoadingEffect) return;
@@ -33,13 +32,13 @@ public class InteractionController : MonoBehaviour
             questionEffect.transform.position = cam.transform.position;
             questionEffect.Throw_QuestionMark(interactTransform.position);
 
-            StartCoroutine(Co_Interaction(interactTransform.GetComponent<InteractionEvent>()));
+            StartCoroutine(Co_Interaction(interactTransform.GetComponent<InteractionObject>()));
         }
     }
-    IEnumerator Co_Interaction(InteractionEvent interactionEvent)
+    IEnumerator Co_Interaction(InteractionObject _interactionObject)
     {
         yield return new WaitUntil(() => questionEffect.isQuestionEffect);
-        if (interactionEvent != null) interactionEvent.StartInteraction();
+        if (_interactionObject != null) _interactionObject.StartInteraction();
     }
 
     private Camera cam;
@@ -65,8 +64,8 @@ public class InteractionController : MonoBehaviour
     {
         get
         {
-            if (rayHit.transform != null && rayHit.transform.GetComponent<InteractionEvent>() != null 
-                && rayHit.transform.GetComponent<InteractionEvent>().Interactalbe) return true;
+            if (rayHit.transform != null && rayHit.transform.GetComponent<InteractionObject>() != null 
+                && rayHit.transform.GetComponent<InteractionObject>().Interactalbe) return true;
             else return false;
         }
     }
@@ -91,7 +90,7 @@ public class InteractionController : MonoBehaviour
 
         // 상호작용 객체 툴팁 설정
         obj_TargetNameBar.SetActive(interactable);
-        txt_TargetName.text = (interactable) ? rayHit.transform.GetComponent<InteractionEvent>().InteractionName : "";
+        txt_TargetName.text = (interactable) ? rayHit.transform.GetComponent<InteractionObject>().InteractionName : "";
 
         // 상호작용 이펙트 설정
         if (CameraController.isOnlyView) // 움직일 떄만 이펙트 보여줌

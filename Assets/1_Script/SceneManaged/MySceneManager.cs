@@ -102,7 +102,7 @@ public class MySceneManager : MonoBehaviour
                 _srs[i].sprite = _dialogueObject.SpawnData.spawnSprite;
             }
 
-            _obj.GetComponent<InteractionEvent>().Setup(_dialogueObject.CodeName, _dialogueObject.InteractionName, _dialogueObject);
+            _obj.GetComponent<InteractionObject>().Setup(_dialogueObject.CodeName, _dialogueObject.InteractionName, _dialogueObject);
             dynamicDialogueObjects.Add(_obj);
         }
     }

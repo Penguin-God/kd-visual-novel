@@ -79,7 +79,7 @@ public class DialogueDataContainer : ScriptableObject
     #endregion
 
     //public event Action<InteractionEvent, DialogueDataContainer> OnDialogueCountChange;
-    public void Setup(InteractionEvent _interaction)
+    public void Setup(InteractionObject _interaction)
     {
         dialogueCondition.Setup(_interaction, this);
         //dialogueCondition.OnConditionCountChange += OnDialogueCountChange;
@@ -91,6 +91,21 @@ public class DialogueDataContainer : ScriptableObject
     }
 }
 
+
+
+public enum CameraType
+{
+    Default,
+    FadeIn,
+    FadeOut,
+    FlashIn,
+    FlashOut,
+    ShowCutScene,
+    HideCutScene,
+    AppearSlide,
+    DisappearSlide,
+    ChangeSlide,
+}
 
 [Serializable]
 public class DialogueData

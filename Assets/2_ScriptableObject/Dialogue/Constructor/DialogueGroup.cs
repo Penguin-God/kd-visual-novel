@@ -7,9 +7,6 @@ using System;
 [CreateAssetMenu(fileName = "new Dialogue Group", menuName = "Scriptable Object / Dialogue / Dialogue Group")]
 public class DialogueGroup : ScriptableObject
 {
-    [SerializeField] InteractionEvent target;
-    public InteractionEvent Target => target;
-
     [SerializeField] DialogueDataContainer[] dialogueDataContainers;
     public IReadOnlyList<DialogueDataContainer> DialogueDataContainers => dialogueDataContainers;
 

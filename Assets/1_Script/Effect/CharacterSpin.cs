@@ -87,6 +87,5 @@ public class CharacterSpin : MonoBehaviour
             yield return new WaitForSeconds(delayTime);
         }
         isSpin = false;
-        EventManager.isEvent = false;
     }
 }

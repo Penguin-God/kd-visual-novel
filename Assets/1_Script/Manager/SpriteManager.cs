@@ -10,9 +10,7 @@ public class SpriteManager : MonoBehaviour
     [SerializeField] CameraRotateTalkDirector rotateTalkDirector = null;
     Image[] CurrentChacterImages => rotateTalkDirector.CurrentImageField.GetComponentsInChildren<Image>();
 
-    [SerializeField] GameObject characterImageFieldContainer = null;
     SpriteFadeManager spriteFadeManager;
-
     private void Awake() => spriteFadeManager = gameObject.AddComponent<SpriteFadeManager>();
     private void Start()
     {

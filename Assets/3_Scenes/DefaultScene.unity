@@ -703,8 +703,6 @@ GameObject:
   - component: {fileID: 257826698}
   - component: {fileID: 257826697}
   - component: {fileID: 257826696}
-  - component: {fileID: 257826695}
-  - component: {fileID: 257826694}
   m_Layer: 0
   m_Name: Manager
   m_TagString: Untagged
@@ -731,34 +729,6 @@ MonoBehaviour:
   fadeSpeed: 0.1
   fadeSlowSpeed: 0.05
   isFade: 0
---- !u!114 &257826694
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 257826692}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 013910ebc64cff94383b1209b267d594, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  locationName: 
---- !u!114 &257826695
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 257826692}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7c11ab8d6041ddc4faed9b253545885e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  eventFlags:
-    m_keys: []
-    m_values: 
 --- !u!82 &257826696
 AudioSource:
   m_ObjectHideFlags: 0
@@ -1094,7 +1064,6 @@ MonoBehaviour:
   dialogueChannel: {fileID: 11400000, guid: 7a460b213184a38419d6bef3306602c4, type: 2}
   sceneChannel: {fileID: 11400000, guid: d72bbd3953b852849a2d10183253885e, type: 2}
   rotateTalkDirector: {fileID: 1903722957}
-  characterImageFieldContainer: {fileID: 1977547598}
 --- !u!114 &257826701
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3353,8 +3322,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sceneChannel: {fileID: 11400000, guid: d72bbd3953b852849a2d10183253885e, type: 2}
-  dialogueTargetDatas: []
-  dialogueObjects: []
   interactionEventByName:
     m_keys: []
     m_values: []
