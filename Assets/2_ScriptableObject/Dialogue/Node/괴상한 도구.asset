@@ -90,7 +90,6 @@ MonoBehaviour:
     - 
   interactable: 1
   dialogueCondition:
-    target: {fileID: 0}
     prevConditions:
     - {fileID: 11400000, guid: 50907faebd10a154aa92df6d6b5a0dac, type: 2}
   isSaw: 0

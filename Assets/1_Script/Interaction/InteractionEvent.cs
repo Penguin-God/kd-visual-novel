@@ -4,6 +4,18 @@ using UnityEngine;
 
 public class InteractionEvent : MonoBehaviour
 {
+    [SerializeField] string codeName;
+    [SerializeField] string interactionName;
+    public string InteractionName => interactionName;
+    public void Setup(string _codeName, string _interactionName, DialogueObject _dialogueObject)
+    {
+        codeName = _codeName;
+        interactionName = _interactionName;
+        dialogueObject = _dialogueObject;
+        currentDialogue = _dialogueObject.Dialogues[0];
+        DialogueSystem.Instance.OnSetup += (_dic) => _dic.Add(codeName, this);
+    }
+
     [SerializeField] DialogueMC dialogueMC = null;
     public DialogueMC DialogueMC => dialogueMC;
     public void SetMC(DialogueMC _newMC) => dialogueMC = _newMC;
@@ -40,17 +52,22 @@ public class InteractionEvent : MonoBehaviour
         dialogueChannel.EndTalkEvent -= SubscribeEvent;
     }
 
-
-
+    [SerializeField] DialogueObject dialogueObject = null;
     private void Start()
     {
-        currentDialogue = dialogueMC.TestDialogues[0];
-        // 이거 한번만 사용하면 끝나서 여기가 아니라 퀘스트 시스템 같은 곳에서 하거나
-        // dialgoue 전체 배열을 돌면서 구독해줘야 함
-        currentDialogue.DialogueCondition.OnConditionCountChange += (_interaction, _con) =>
+        if (!dialogueObject.IsSpawn)
         {
-            currentDialogue = _con;
-        };
+            DialogueSystem.Instance.OnSetup += (_dic) => _dic.Add(codeName, this);
+            currentDialogue = dialogueObject.Dialogues[0];
+        }
+
+        //currentDialogue = dialogueMC.TestDialogues[0];
+        //// 이거 한번만 사용하면 끝나서 여기가 아니라 퀘스트 시스템 같은 곳에서 하거나
+        //// dialgoue 전체 배열을 돌면서 구독해줘야 함
+        //currentDialogue.DialogueCondition.OnConditionCountChange += (_interaction, _con) =>
+        //{
+        //    currentDialogue = _con;
+        //};
     }
 
     void SetDialogueData(DialogueDataContainer _setContainer)

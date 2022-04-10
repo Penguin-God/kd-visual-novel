@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "new parser", menuName = "Scriptable Object / Scenes / CharacterSpawnData")]
+[CreateAssetMenu(fileName = "new Dialogue MC", menuName = "Scriptable Object / Scene / Dialogue CharacterObject")]
 public class CharacterSpawnData : SpawnInteractionObjectData
 {
     [SerializeField] GameObject characterContainer = null;

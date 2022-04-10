@@ -5,23 +5,25 @@ using System;
 [Serializable]
 public class DialogueCondition
 {
-    [SerializeField] InteractionEvent target = null;
     [SerializeField] List<DialogueDataContainer> prevConditions = null;
     public bool IsReady => prevConditions.Count == 0;
 
-    public event Action<InteractionEvent, DialogueDataContainer> OnConditionCountChange;
-    void RemoveCondition(InteractionEvent _interaction, DialogueDataContainer _removeDialogue, DialogueDataContainer _afterDialogu)
+    public event Action<InteractionEvent, DialogueDataContainer> OnDialogueChange;
+    void RemoveCondition(InteractionEvent _interaction, DialogueDataContainer _removeDialogue, DialogueDataContainer _newDialogue)
     {
         prevConditions.Remove(_removeDialogue);
         Debug.Log(_removeDialogue.name);
-        Debug.Log(_removeDialogue.DialogueCondition.OnConditionCountChange == null);
-        Debug.Log(_afterDialogu.name);
-        if (IsReady) _removeDialogue.DialogueCondition.OnConditionCountChange?.Invoke(_interaction, _afterDialogu);
+        Debug.Log(_newDialogue.name);
+        if (IsReady)
+        {
+            _interaction.ChangeDialogue(_newDialogue);
+            OnDialogueChange?.Invoke(_interaction, _newDialogue);
+        }
     }
 
-    public void Setup(InteractionEvent _interaction, DialogueDataContainer _afterDialogue)
+    public void Setup(InteractionEvent _interaction, DialogueDataContainer _newDialogue)
     {
         foreach (var _con in prevConditions)
-            _con.OnFirstInteraction += () => RemoveCondition(_interaction, _con, _afterDialogue);
+            _con.OnFirstInteraction += () => RemoveCondition(_interaction, _con, _newDialogue);
     }
 }

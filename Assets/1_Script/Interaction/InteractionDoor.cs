@@ -34,7 +34,7 @@ public class InteractionDoor : InteractionEvent
     public override void StartInteraction()
     {
         base.StartInteraction();
-        sceneChannel.Raise_OnInteraction_With_SceneLoadTrigger();
+        //sceneChannel.Raise_OnInteraction_With_SceneLoadTrigger();
         //if (IsTransfer) SceneTransfer();
         //else DialogueManager.instance.StartTalk(GetDialogues());
     }

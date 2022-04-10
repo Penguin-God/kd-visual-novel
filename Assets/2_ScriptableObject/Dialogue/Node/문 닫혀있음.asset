@@ -29,14 +29,11 @@ MonoBehaviour:
     - 
   interactable: 1
   dialogueCondition:
-    target: {fileID: 0}
-    prevConditions:
-    - {fileID: 11400000, guid: f131d7a721c526d4cab5295df5188ae2, type: 2}
-    - {fileID: 11400000, guid: a8ea15e0a60a2a54e903b538727bbbfb, type: 2}
+    prevConditions: []
   isSaw: 0
   OnDialogueEnd:
     m_PersistentCalls:
       m_Calls: []
-  ContainerDialogueEndEvent:
+  OnDialogueStart:
     m_PersistentCalls:
       m_Calls: []

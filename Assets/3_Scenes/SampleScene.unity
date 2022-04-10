@@ -585,10 +585,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82b8f7f4067024e41809246c7f07ef80, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  codeName: 
+  interactionName: 
   dialogueMC: {fileID: 11400000, guid: 3a4b742902a14fa4599c5634fa4b2c2b, type: 2}
   dialogueChannel: {fileID: 11400000, guid: 7a460b213184a38419d6bef3306602c4, type: 2}
   sceneChannel: {fileID: 0}
   currentDialogue: {fileID: 0}
+  dialogueObject: {fileID: 0}
 --- !u!1 &616996585
 GameObject:
   m_ObjectHideFlags: 0
@@ -634,10 +637,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 263ddd96e2d49eb489ef725ca60bffa7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  codeName: 
+  interactionName: 
   dialogueMC: {fileID: 0}
   dialogueChannel: {fileID: 0}
   sceneChannel: {fileID: 0}
   currentDialogue: {fileID: 0}
+  dialogueObject: {fileID: 0}
 --- !u!114 &616996588
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -980,10 +986,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82b8f7f4067024e41809246c7f07ef80, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  codeName: 
+  interactionName: 
   dialogueMC: {fileID: 11400000, guid: ac95047ad72b9b54d96ac1fb7e9c26c3, type: 2}
   dialogueChannel: {fileID: 11400000, guid: 7a460b213184a38419d6bef3306602c4, type: 2}
   sceneChannel: {fileID: 11400000, guid: d72bbd3953b852849a2d10183253885e, type: 2}
   currentDialogue: {fileID: 0}
+  dialogueObject: {fileID: 0}
 --- !u!1 &750452588
 GameObject:
   m_ObjectHideFlags: 0
@@ -1125,10 +1134,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e85b66a27f652854b9c54e2012434cd5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  codeName: 
+  interactionName: 
   dialogueMC: {fileID: 0}
   dialogueChannel: {fileID: 0}
   sceneChannel: {fileID: 0}
   currentDialogue: {fileID: 0}
+  dialogueObject: {fileID: 0}
 --- !u!114 &771693896
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2700,10 +2712,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e85b66a27f652854b9c54e2012434cd5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  codeName: "\uBB38 1-1"
+  interactionName: "\uBB38"
   dialogueMC: {fileID: 11400000, guid: 81169326b2b564a4482f083531d82ff7, type: 2}
   dialogueChannel: {fileID: 11400000, guid: 7a460b213184a38419d6bef3306602c4, type: 2}
   sceneChannel: {fileID: 11400000, guid: d72bbd3953b852849a2d10183253885e, type: 2}
   currentDialogue: {fileID: 0}
+  dialogueObject: {fileID: 11400000, guid: 1b03bf7fdc623e147a743cb203099e28, type: 2}
 --- !u!4 &1886254738
 Transform:
   m_ObjectHideFlags: 0
@@ -2824,10 +2839,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 263ddd96e2d49eb489ef725ca60bffa7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  codeName: 
+  interactionName: 
   dialogueMC: {fileID: 0}
   dialogueChannel: {fileID: 0}
   sceneChannel: {fileID: 0}
   currentDialogue: {fileID: 0}
+  dialogueObject: {fileID: 0}
 --- !u!114 &1943139039
 MonoBehaviour:
   m_ObjectHideFlags: 0

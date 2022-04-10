@@ -62,11 +62,13 @@ public class DialogueDataContainer : ScriptableObject
     [SerializeField] UnityEvent OnDialogueEnd;
     public void Raise_OnDialogueEnd() => OnDialogueEnd?.Invoke();
 
-    public UnityEvent ContainerDialogueEndEvent;
+
+    public UnityEvent OnDialogueStart;
 
     public event Action OnFirstInteraction;
-    public void Raise_ContainerDialogueEndEvent()
+    public void Raise_OnDialogueStart()
     {
+        OnDialogueStart?.Invoke();
         if (!isSaw)
         {
             OnFirstInteraction?.Invoke();
@@ -76,11 +78,11 @@ public class DialogueDataContainer : ScriptableObject
 
     #endregion
 
-    public event Action<InteractionEvent, DialogueDataContainer> OnDialogueCountChange;
+    //public event Action<InteractionEvent, DialogueDataContainer> OnDialogueCountChange;
     public void Setup(InteractionEvent _interaction)
     {
         dialogueCondition.Setup(_interaction, this);
-        dialogueCondition.OnConditionCountChange += OnDialogueCountChange;
+        //dialogueCondition.OnConditionCountChange += OnDialogueCountChange;
     }
 
     public void DataReset()

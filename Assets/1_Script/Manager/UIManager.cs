@@ -7,6 +7,7 @@ public class UIManager : MonoBehaviour
 {
     [SerializeField] DialogueChannel dialogueChannel = null;
     [SerializeField] SceneChannel sceneChannel = null;
+    [SerializeField] SceneLoadDialogueProducer loadDialogueProducer;
     void Start()
     {
         dialogueChannel.StartInteractionEvent += (_target, _con) => HideUI();
@@ -16,6 +17,8 @@ public class UIManager : MonoBehaviour
 
         sceneChannel.OnSceneLoadComplete += (_data) => status.gameObject.SetActive(true);
         sceneChannel.OnSceneLoadComplete += (_data) => ShowUI(MySceneManager.Instance.CurrentSceneIsOnlyView);
+
+        loadDialogueProducer.OnLoadDialogue += HideUI;
     }
 
     [SerializeField] GameObject status;

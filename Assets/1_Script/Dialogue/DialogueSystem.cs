@@ -16,28 +16,44 @@ class DialogueTargetData
     }
 }
 
+[Serializable]
+public class InteractionEventByName : SerializableDictionary<string, InteractionEvent>
+{
+
+}
+
 public class DialogueSystem : MonoBehaviour
 {
     [SerializeField] SceneChannel sceneChannel;
     [SerializeField] List<DialogueTargetData> dialogueTargetDatas;
 
+    [SerializeField] List<DialogueObject> dialogueObjects;
+
+    public InteractionEventByName interactionEventByName;
+    public event Action<Dictionary<string, InteractionEvent>> OnSetup;
+
+    private static DialogueSystem instance;
+    public static DialogueSystem Instance
+    {
+        get
+        {
+            if (instance == null) instance = FindObjectOfType<DialogueSystem>();
+            return instance;
+        }
+    }
+
     private void Awake()
     {
-        MySceneManager.Instance.OnDoneSceneSetup += (_view, _chars) =>
+        MySceneManager.Instance.OnDoneSceneSetup += (_view, _dialogueObjs) =>
         {
-            dialogueTargetDatas.Clear();
-            foreach (var obj in _chars)
-            {
-                InteractionEvent _interaction = obj.GetComponent<InteractionEvent>();
-                if (_interaction == null) return;
+            interactionEventByName.Clear();
+            OnSetup?.Invoke(interactionEventByName);
+            OnSetup = null;
 
-                dialogueTargetDatas.Add(new DialogueTargetData(_interaction, _interaction.DialogueMC.TestDialogues));
-            };
-
-            foreach (DialogueTargetData _dialogueTargetData in dialogueTargetDatas)
+            foreach (DialogueObject _obj in _dialogueObjs)
             {
-                foreach (DialogueDataContainer _con in _dialogueTargetData.dialogues)
-                    _con.Setup(_dialogueTargetData.interaction);
+                interactionEventByName.TryGetValue(_obj.CodeName, out InteractionEvent _interactionEvent);
+                if(_interactionEvent != null) _obj.Setup(_interactionEvent);
             }
         };
     }

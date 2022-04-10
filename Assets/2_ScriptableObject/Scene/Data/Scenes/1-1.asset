@@ -12,7 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b5aaaf8a820d2b84fb8c24cffe9c40db, type: 3}
   m_Name: 1-1
   m_EditorClassIdentifier: 
-  isOnlyCameraView: 1
-  spawnObjects:
+  dialougeObjects:
   - {fileID: 11400000, guid: 2319a7aa9b3578848a1d8c921ccbb754, type: 2}
   - {fileID: 11400000, guid: 968d5af4b5e60f64fb19cafd2921c4b7, type: 2}

@@ -58,23 +58,23 @@ public class SpriteManager : MonoBehaviour
         spriteFadeManager.ChangeSprite(_srs, _newSprite);
     }
 
-    
+
     Sprite GetSprite(string spriteName) => Resources.Load("Characters/" + spriteName, typeof(Sprite)) as Sprite;
     Sprite GetSprite(GameObject _obj) => _obj.GetComponentInChildren<SpriteRenderer>().sprite;
     SpriteRenderer[] GetSpriteRenderers(GameObject _object) => _object.GetComponentsInChildren<SpriteRenderer>();
 
 
-    GameObject[] CurrentSceneCharacters => MySceneManager.Instance.CurrentSceneCharacters;
+    IReadOnlyList<GameObject> CurrentSceneCharacters => MySceneManager.Instance.DynamicDialogueObjects;
     void FadeOut_AllSceneCharacters()
     {
         if (CurrentSceneCharacters == null) return;
-        for (int i = 0; i < CurrentSceneCharacters.Length; i++)
+        for (int i = 0; i < CurrentSceneCharacters.Count; i++)
             spriteFadeManager.SpriteFadeOut(GetSpriteRenderers(CurrentSceneCharacters[i]));
     }
     void FadeIn_AllSceneCharacters()
     {
         if (CurrentSceneCharacters == null) return;
-        for (int i = 0; i < CurrentSceneCharacters.Length; i++)
+        for (int i = 0; i < CurrentSceneCharacters.Count; i++)
             spriteFadeManager.SpriteFadeIn(GetSpriteRenderers(CurrentSceneCharacters[i]));
     }
 }

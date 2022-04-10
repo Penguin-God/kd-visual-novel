@@ -21,14 +21,11 @@ public class SceneManagerISo : ScriptableObject
     [SerializeField] SceneData sceneData = null;
     public void ChangeData(SceneData _newSceneData) => sceneData = _newSceneData;
 
-    [SerializeField] List<DialogueGroup> dialogueGroups;
-    public List<DialogueGroup> DialogueGroups => dialogueGroups;
-
     public List<GameObject> CreateInteractionObjects()
     {
         List<GameObject> _objs = new List<GameObject>();
-        for (int i = 0; i < sceneData.SpawnObjects.Count; i++)
-            _objs.Add(sceneData.SpawnObjects[i].GetInteractionObject());
+        for (int i = 0; i < sceneData.DialougeObjects.Count; i++)
+            _objs.Add(sceneData.DialougeObjects[i].GetInteractionObject());
 
         return _objs;
     }
@@ -36,7 +33,23 @@ public class SceneManagerISo : ScriptableObject
     public event Action OnChangeList = null;
     public void AddInteractionObject(SpawnInteractionObjectData _data)
     {
-        sceneData.SpawnObjects.Add(_data);
+        sceneData.DialougeObjects.Add(_data);
         OnChangeList?.Invoke();
+    }
+
+
+    [SerializeField] List<DialogueObject> dialogueObjects;
+    public List<DialogueObject> DialogueObjects => dialogueObjects;
+
+    public List<DialogueObject> GetDynamicDialogueObjects()
+    {
+        List<DialogueObject> _datas = new List<DialogueObject>();
+        foreach (DialogueObject _dialogueObject in dialogueObjects)
+        {
+            if (_dialogueObject.IsSpawn)
+                _datas.Add(_dialogueObject);
+        }
+
+        return _datas;
     }
 }

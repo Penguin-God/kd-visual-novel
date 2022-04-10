@@ -71,7 +71,6 @@ MonoBehaviour:
     - 
   interactable: 1
   dialogueCondition:
-    target: {fileID: 0}
     prevConditions:
     - {fileID: 11400000, guid: f131d7a721c526d4cab5295df5188ae2, type: 2}
   isSaw: 0

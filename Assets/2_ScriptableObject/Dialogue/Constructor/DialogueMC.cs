@@ -69,7 +69,7 @@ public class EventCondition
     {
         SubscribeOthersEvent(defaultEventConditions, _container.SetInteraction);
 
-        if (isNextConditionOnlySelf) _container.ContainerDialogueEndEvent.AddListener(() => _containerChageAct(afterDialogue));
+        if (isNextConditionOnlySelf) _container.OnDialogueStart.AddListener(() => _containerChageAct(afterDialogue));
         else SubscribeOthersEvent(nextEventConditions, () => _containerChageAct(afterDialogue));
     }
 
@@ -94,14 +94,14 @@ public class EventCondition
         for (int i = 0; i < _datas.Count; i++)
         {
             DialogueDataContainer _container = _datas[i];
-            _datas[i].ContainerDialogueEndEvent.AddListener(() => SubscribeEvent(_datas, _container, _satisfyCondtionAct));
+            _datas[i].OnDialogueStart.AddListener(() => SubscribeEvent(_datas, _container, _satisfyCondtionAct));
         }
     }
 
     // 한번만 실행하고 다시 뺌
     void SubscribeEvent(List<DialogueDataContainer> _datas, DialogueDataContainer _otherContainer, Action _satisfyCondtionAct)
     {
-        _otherContainer.ContainerDialogueEndEvent.RemoveListener(() => SubscribeEvent(_datas, _otherContainer, _satisfyCondtionAct));
+        _otherContainer.OnDialogueStart.RemoveListener(() => SubscribeEvent(_datas, _otherContainer, _satisfyCondtionAct));
         _datas.Remove(_otherContainer);
         // 조건 만족 시 행동
         if (_datas.Count == 0) _satisfyCondtionAct();
