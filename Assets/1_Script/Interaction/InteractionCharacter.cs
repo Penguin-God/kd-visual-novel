@@ -8,10 +8,4 @@ public class InteractionCharacter : InteractionObject
     {
         if (GetComponent<CharacterSpin>() == null) gameObject.AddComponent<CharacterSpin>();
     }
-
-    public override void StartInteraction()
-    {
-        base.StartInteraction();
-        //DialogueManager.instance.SetEvent(transform);
-    }
 }

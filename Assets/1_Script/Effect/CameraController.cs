@@ -24,10 +24,10 @@ public class CameraController : MonoBehaviour
             else dialogueChannel.Raise_StartTalkEvent(_con);
         };
 
-        dialogueChannel.EndTalkEvent += () =>
+        dialogueChannel.EndTalkEvent += (_con) =>
         {
             if (!sceneChannel.IsInteraction_With_SceneLoadTrigger)
-                CameraReset();
+                CameraReset(_con);
         };
     }
 
@@ -110,15 +110,15 @@ public class CameraController : MonoBehaviour
     }
 
     // Reset
-    void CameraReset()
+    void CameraReset(DialogueDataContainer _container)
     {
         StopAllCoroutines();
-        StartCoroutine(Co_CameraReset());
+        StartCoroutine(Co_CameraReset(_container));
     }
-    IEnumerator Co_CameraReset()
+    IEnumerator Co_CameraReset(DialogueDataContainer _container)
     {
         yield return new WaitForSeconds(0.2f);
-        CameraTargettig(originPosition, originRotation, dialogueChannel.Raise_EndInteractionEvent);
+        CameraTargettig(originPosition, originRotation, () =>  dialogueChannel.Raise_EndInteractionEvent(_container));
     }
 
     // Move

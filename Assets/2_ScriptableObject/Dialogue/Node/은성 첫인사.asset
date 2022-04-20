@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d6d636acc1ca6540b34fc33cbf34d4a, type: 3}
   m_Name: "\uC740\uC131 \uCCAB\uC778\uC0AC"
   m_EditorClassIdentifier: 
-  eventName: "\uC740\uC131 \uCCAB\uC778\uC0AC"
+  codeName: "\uC740\uC131 \uCCAB\uC778\uC0AC"
   dataParser: {fileID: 11400000, guid: c165e695077d67b418504212b8dd6ee7, type: 2}
   dialogueData:
   - cameraType: 0
@@ -25,19 +25,19 @@ MonoBehaviour:
     - 
     cutSceneName:
     - 
-    cameraTorque:
+    cameraRotateDir:
     - 
   - cameraType: 0
     characterName: "\uC8FC\uC778\uACF5"
     contexts:
-    - "\"\uC5B4"
+    - "\uC5B4, \uB9DE\uC544"
     spriteNames:
-    - "\uB9DE\uC544\""
+    - 
     voiceNames:
     - 
     cutSceneName:
     - 
-    cameraTorque:
+    cameraRotateDir:
     - 
   - cameraType: 0
     characterName: "\uC740\uC131"
@@ -50,7 +50,7 @@ MonoBehaviour:
     - 
     cutSceneName:
     - 
-    cameraTorque:
+    cameraRotateDir:
     - 
   - cameraType: 0
     characterName: "\uC8FC\uC778\uACF5"
@@ -62,7 +62,7 @@ MonoBehaviour:
     - 
     cutSceneName:
     - 
-    cameraTorque:
+    cameraRotateDir:
     - 
   - cameraType: 0
     characterName: "\uB3C5\uBC31"
@@ -74,7 +74,7 @@ MonoBehaviour:
     - 
     cutSceneName:
     - 
-    cameraTorque:
+    cameraRotateDir:
     - 
   - cameraType: 0
     characterName: "\uB3C5\uBC31"
@@ -86,15 +86,11 @@ MonoBehaviour:
     - 
     cutSceneName:
     - 
-    cameraTorque:
+    cameraRotateDir:
     - 
-  eventCondition:
-    const_DefaultEventCondition: []
-    defaultEventConditions: []
-    const_nextEventConditions: []
-    nextEventConditions: []
-  interactable: 1
-  afterDialogue: {fileID: 0}
-  ContainerDialogueEndEvent:
+  interactable: 0
+  dialogueCondition:
+    prevConditions: []
+  OnDialogueEnd:
     m_PersistentCalls:
       m_Calls: []

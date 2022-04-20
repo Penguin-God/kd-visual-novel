@@ -42,17 +42,18 @@ public class DialogueChannel : ScriptableObject
         StartTalkEvent?.Invoke(_container);
     }
 
-    public event Action EndTalkEvent= null;
-    public void Raise_EndTalkEvent()
+    public event Action<DialogueDataContainer> EndTalkEvent = null;
+    public void Raise_EndTalkEvent(DialogueDataContainer _container)
     {
-        EndTalkEvent?.Invoke();
+        _container.Raise_OnDialogueEnd();
+        EndTalkEvent?.Invoke(_container);
     }
 
-    public event Action EndInteractionEvent = null;
-    public void Raise_EndInteractionEvent()
+    public event Action<DialogueDataContainer> EndInteractionEvent = null;
+    public void Raise_EndInteractionEvent(DialogueDataContainer _container)
     {
         isInteractoin = false;
-        EndInteractionEvent?.Invoke();
+        EndInteractionEvent?.Invoke(_container);
     }
 
     public event Action<DialogueData, int> ChangeContextEvent = null;

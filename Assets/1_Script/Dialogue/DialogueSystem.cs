@@ -3,17 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-[Serializable]
-public class InteractionEventByName : SerializableDictionary<string, InteractionObject>
-{
-
-}
+[Serializable] // View Dictionary In Inspector
+public class InteractionEventByName : SerializableDictionary<string, InteractionObject> {}
 
 public class DialogueSystem : MonoBehaviour
 {
     [SerializeField] SceneChannel sceneChannel;
 
-    public InteractionEventByName interactionEventByName;
+    public InteractionEventByName interactionEventByCodeName;
     public event Action<Dictionary<string, InteractionObject>> OnSetup;
 
     private static DialogueSystem instance;
@@ -28,15 +25,15 @@ public class DialogueSystem : MonoBehaviour
 
     private void Awake()
     {
-        MySceneManager.Instance.OnDoneSceneSetup += (_view, _dialogueObjs) =>
+        MySceneManager.Instance.OnSceneSetupDone += (_view, _dialogueObjs) =>
         {
-            interactionEventByName.Clear();
-            OnSetup?.Invoke(interactionEventByName);
+            interactionEventByCodeName.Clear();
+            OnSetup?.Invoke(interactionEventByCodeName);
             OnSetup = null;
 
             foreach (DialogueObject _obj in _dialogueObjs)
             {
-                interactionEventByName.TryGetValue(_obj.CodeName, out InteractionObject interactionObject);
+                interactionEventByCodeName.TryGetValue(_obj.CodeName, out InteractionObject interactionObject);
                 if(interactionObject != null) _obj.Setup(interactionObject);
             }
         };

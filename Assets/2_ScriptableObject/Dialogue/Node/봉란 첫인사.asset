@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d6d636acc1ca6540b34fc33cbf34d4a, type: 3}
   m_Name: "\uBD09\uB780 \uCCAB\uC778\uC0AC"
   m_EditorClassIdentifier: 
-  eventName: "\uBD09\uB780 \uCCAB\uC778\uC0AC"
+  codeName: "\uBD09\uB780 \uCCAB\uC778\uC0AC"
   dataParser: {fileID: 11400000, guid: c165e695077d67b418504212b8dd6ee7, type: 2}
   dialogueData:
   - cameraType: 0
@@ -26,7 +26,7 @@ MonoBehaviour:
     - bongran00
     cutSceneName:
     - 
-    cameraTorque:
+    cameraRotateDir:
     - 
   - cameraType: 0
     characterName: "\uC8FC\uC778\uACF5"
@@ -38,7 +38,7 @@ MonoBehaviour:
     - 
     cutSceneName:
     - AppearSlide/MenuPad
-    cameraTorque:
+    cameraRotateDir:
     - 
   - cameraType: 0
     characterName: "\uBD09\uB780"
@@ -54,7 +54,7 @@ MonoBehaviour:
     cutSceneName:
     - DisappearSlide
     - 
-    cameraTorque:
+    cameraRotateDir:
     - 
     - 
   - cameraType: 0
@@ -72,7 +72,7 @@ MonoBehaviour:
     cutSceneName:
     - 
     - 
-    cameraTorque:
+    cameraRotateDir:
     - 
     - 
   - cameraType: 0
@@ -86,7 +86,7 @@ MonoBehaviour:
     - bongran01
     cutSceneName:
     - 
-    cameraTorque:
+    cameraRotateDir:
     - 
   - cameraType: 0
     characterName: "\uC8FC\uC778\uACF5"
@@ -98,7 +98,7 @@ MonoBehaviour:
     - 
     cutSceneName:
     - 
-    cameraTorque:
+    cameraRotateDir:
     - 
   - cameraType: 0
     characterName: "\uB3C5\uBC31"
@@ -110,15 +110,11 @@ MonoBehaviour:
     - 
     cutSceneName:
     - 
-    cameraTorque:
+    cameraRotateDir:
     - 
-  eventCondition:
-    const_DefaultEventCondition: []
-    defaultEventConditions: []
-    const_nextEventConditions: []
-    nextEventConditions: []
   interactable: 1
-  afterDialogue: {fileID: 11400000, guid: f131d7a721c526d4cab5295df5188ae2, type: 2}
-  ContainerDialogueEndEvent:
+  dialogueCondition:
+    prevConditions: []
+  OnDialogueEnd:
     m_PersistentCalls:
       m_Calls: []

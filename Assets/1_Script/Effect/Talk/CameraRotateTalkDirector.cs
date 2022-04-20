@@ -17,13 +17,13 @@ public class CameraRotateTalkDirector : MonoBehaviour
     private void Awake()
     {
         dialogueChannel.StartTalkEvent += (_con) => filedContainerRect.gameObject.SetActive(true);
-        dialogueChannel.EndTalkEvent += () => filedContainerRect.gameObject.SetActive(false);
+        dialogueChannel.EndTalkEvent += (_con) => filedContainerRect.gameObject.SetActive(false);
 
         fieldDistance = Mathf.Abs(IMAGE_FIELDS[0].transform.position.x - IMAGE_FIELDS[1].transform.position.x);
 
         dialogueChannel.ChangeContextEvent += CameraRotateTalk;
 
-        dialogueChannel.EndTalkEvent += ResetField;
+        dialogueChannel.EndTalkEvent += (_con) => ResetField();
     }
 
     [SerializeField] GameObject currentImageField = null;

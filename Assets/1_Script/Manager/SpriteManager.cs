@@ -17,7 +17,7 @@ public class SpriteManager : MonoBehaviour
         dialogueChannel.ChangeContextEvent += ChangeSprite_byTalk;
 
         dialogueChannel.StartTalkEvent += (_con) => FadeOut_AllSceneCharacters();
-        dialogueChannel.EndTalkEvent += FadeIn_AllSceneCharacters;
+        dialogueChannel.EndTalkEvent += (_con) => FadeIn_AllSceneCharacters();
 
         sceneChannel.OnSceneLoadComplete += (_data) => FadeIn_AllSceneCharacters();
     }

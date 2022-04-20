@@ -11,7 +11,7 @@ public class UIManager : MonoBehaviour
     void Start()
     {
         dialogueChannel.StartInteractionEvent += (_target, _con) => HideUI();
-        dialogueChannel.EndInteractionEvent += () => ShowUI(MySceneManager.Instance.CurrentSceneIsOnlyView);
+        dialogueChannel.EndInteractionEvent += (_con) => ShowUI(MySceneManager.Instance.CurrentSceneIsOnlyView);
 
         sceneChannel.OnOtherSceneLoad += (_data) => status.gameObject.SetActive(false);
 

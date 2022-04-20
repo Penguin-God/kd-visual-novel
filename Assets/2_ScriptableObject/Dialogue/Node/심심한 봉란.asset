@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d6d636acc1ca6540b34fc33cbf34d4a, type: 3}
   m_Name: "\uC2EC\uC2EC\uD55C \uBD09\uB780"
   m_EditorClassIdentifier: 
-  eventName: "\uC2EC\uC2EC\uD55C \uBD09\uB780"
+  codeName: "\uC2EC\uC2EC\uD55C \uBD09\uB780"
   dataParser: {fileID: 11400000, guid: c165e695077d67b418504212b8dd6ee7, type: 2}
   dialogueData:
   - cameraType: 0
@@ -33,7 +33,7 @@ MonoBehaviour:
     - 
     - 
     - 
-    cameraTorque:
+    cameraRotateDir:
     - 
     - 
     - 
@@ -47,7 +47,7 @@ MonoBehaviour:
     - 
     cutSceneName:
     - 
-    cameraTorque:
+    cameraRotateDir:
     - 
   - cameraType: 0
     characterName: "\u24B3\uBD09\uB7802"
@@ -59,15 +59,12 @@ MonoBehaviour:
     - 
     cutSceneName:
     - 
-    cameraTorque:
+    cameraRotateDir:
     - 
-  eventCondition:
-    const_DefaultEventCondition: []
-    defaultEventConditions: []
-    const_nextEventConditions: []
-    nextEventConditions: []
   interactable: 1
-  afterDialogue: {fileID: 0}
-  ContainerDialogueEndEvent:
+  dialogueCondition:
+    prevConditions:
+    - {fileID: 11400000, guid: 642e0c2bcfaf223408251de7b6c15009, type: 2}
+  OnDialogueEnd:
     m_PersistentCalls:
       m_Calls: []

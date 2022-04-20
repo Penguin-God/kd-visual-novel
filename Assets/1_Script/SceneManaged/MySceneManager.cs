@@ -55,10 +55,10 @@ public class MySceneManager : MonoBehaviour
     {
         sceneChannel.OnOtherSceneLoad += LoadedScene;
         sceneChannel.OnEnterOtherScene += Setup;
-        sceneChannel.OnSceneLoadComplete += (_iso) => OnDoneSceneSetup?.Invoke(currentSceneIsOnlyView, allDialogueObjects);
+        sceneChannel.OnSceneLoadComplete += (_iso) => OnSceneSetupDone?.Invoke(currentSceneIsOnlyView, allDialogueObjects);
     }
 
-    public event Action<bool, List<DialogueObject>> OnDoneSceneSetup = null;
+    public event Action<bool, List<DialogueObject>> OnSceneSetupDone = null;
 
     public void LoadedScene(SceneManagerISo _data) => StartCoroutine(Co_LoadedScene(_data));
     IEnumerator Co_LoadedScene(SceneManagerISo _data)

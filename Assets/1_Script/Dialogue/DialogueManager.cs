@@ -10,7 +10,7 @@ public class DialogueManager : MonoBehaviour
     void Start()
     {
         dialogueChannel.StartTalkEvent += StartTalk;
-        dialogueChannel.EndTalkEvent += () => Set_DialogueUI(false);
+        dialogueChannel.EndTalkEvent += (_con) => Set_DialogueUI(false);
     }
 
     bool isContextTyping = false;
@@ -18,29 +18,30 @@ public class DialogueManager : MonoBehaviour
     {
         // 대화 시작
         Set_DialogueUI(true);
-        StartCoroutine(Co_Talk(_container.DialogueData));
+        StartCoroutine(Co_Talk(_container));
     }
 
     bool TalkInput => (Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0) || Input.GetButton("Ctrl"));
 
-    IEnumerator Co_Talk(DialogueData[] _data)
+    IEnumerator Co_Talk(DialogueDataContainer _container)
     {
-        for (int _talkIndex = 0; _talkIndex < _data.Length; _talkIndex++)
+        DialogueData[] _datas = _container.DialogueData;
+        for (int _talkIndex = 0; _talkIndex < _datas.Length; _talkIndex++)
         {
-            SetNameBar(true, _data[_talkIndex]);
-            for (int _contextIndex = 0; _contextIndex < _data[_talkIndex].contexts.Length; _contextIndex++)
+            SetNameBar(true, _datas[_talkIndex]);
+            for (int _contextIndex = 0; _contextIndex < _datas[_talkIndex].contexts.Length; _contextIndex++)
             {
-                // 이벤트
-                dialogueChannel.Raise_ChangeContextEvent(_data[_talkIndex], _contextIndex);
-                // 대사 타이핑
-                string _typingText = _data[_talkIndex].contexts[_contextIndex];
+                
+                dialogueChannel.Raise_ChangeContextEvent(_datas[_talkIndex], _contextIndex); // 대사 변경 이벤트
+                // 대사 세팅 및 타이핑
+                string _typingText = _datas[_talkIndex].contexts[_contextIndex];
                 StartCoroutine(Co_TypeWriter(_typingText));
-                // 대기 후 반복문 넘김
+                // 반복문 넘어가기 전 대기
                 yield return new WaitUntil(() => !isContextTyping && TalkInput && !CameraController.isCameraEffect);
             }
         }
 
-        dialogueChannel.Raise_EndTalkEvent();
+        dialogueChannel.Raise_EndTalkEvent(_container);
     }
 
     [SerializeField] float textDelayTime;
