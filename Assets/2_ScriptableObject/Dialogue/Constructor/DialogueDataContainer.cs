@@ -26,7 +26,6 @@ public class DialogueDataContainer : ScriptableObject
     {
         if (dataParser == null) return;
 
-        codeName = name;
         dialogueData = dataParser.GetDialogue(codeName);
     }
 
@@ -54,6 +53,7 @@ public class DialogueDataContainer : ScriptableObject
     public event Action OnFirstInteraction;
     public void Raise_OnDialogueStart()
     {
+        Debug.Log(OnFirstInteraction == null);
         OnFirstInteraction?.Invoke();
         OnFirstInteraction = null;
     }
@@ -80,6 +80,15 @@ public class DialogueDataContainer : ScriptableObject
     {
         interactable = false;
     }
+
+    public DialogueDataContainer GetClone()
+    {
+        var _newContainer = Instantiate(this);
+        _newContainer.SetClone += _newContainer.DialogueCondition.ConditionChange;
+        return _newContainer;
+    }
+
+    public Action<List<DialogueDataContainer>> SetClone = null;
 }
 
 

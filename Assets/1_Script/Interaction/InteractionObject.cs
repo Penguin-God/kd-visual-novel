@@ -16,20 +16,15 @@ public class InteractionObject : MonoBehaviour
 
     void Start()
     {
-        if (!dialogueObject.IsSpawn)
-        {
-            DialogueSystem.Instance.OnSetup += (_dic) => _dic.Add(codeName, this);
-            currentDialogue = dialogueObject.Dialogues[0];
-        }
+        if (dialogueObject != null && !dialogueObject.IsSpawn) DialogueSystem.Instance.OnSetup += (_dic) => _dic.Add(codeName, this);
     }
 
-    public void Setup(string _codeName, string _interactionName, DialogueObject _dialogueObject)
+    public void Setup(DialogueObject _dialogueObject)
     {
-        codeName = _codeName;
-        interactionName = _interactionName;
+        codeName = _dialogueObject.CodeName;
+        interactionName = _dialogueObject.InteractionName;
         dialogueObject = _dialogueObject;
         currentDialogue = _dialogueObject.Dialogues[0];
-        DialogueSystem.Instance.OnSetup += (_dic) => _dic.Add(codeName, this);
     }
 
     [Header("Channel")]
@@ -38,5 +33,10 @@ public class InteractionObject : MonoBehaviour
     public void StartInteraction() => dialogueChannel.Raise_StartInteractionEvent(transform, currentDialogue);
 
     public bool Interactalbe => currentDialogue.Interactable;
-    public void ChangeDialogue(DialogueDataContainer _newDialogue) => currentDialogue = _newDialogue;
+    public void ChangeDialogue(DialogueDataContainer _newDialogue)
+    {
+        print(currentDialogue.CodeName);
+        print(_newDialogue.CodeName);
+        currentDialogue = _newDialogue;
+    }
 }

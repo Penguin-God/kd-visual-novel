@@ -69,7 +69,6 @@ MonoBehaviour:
     prevConditions:
     - {fileID: 11400000, guid: f131d7a721c526d4cab5295df5188ae2, type: 2}
     - {fileID: 11400000, guid: a8ea15e0a60a2a54e903b538727bbbfb, type: 2}
-  isSaw: 0
   OnDialogueEnd:
     m_PersistentCalls:
       m_Calls:
@@ -92,21 +91,6 @@ MonoBehaviour:
         m_Arguments:
           m_ObjectArgument: {fileID: 11400000, guid: 3f15a957d9c3a004aa016d546ee51f69, type: 2}
           m_ObjectArgumentAssemblyTypeName: DialogueDataContainer, Assembly-CSharp
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  OnDialogueStart:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 11400000, guid: d72bbd3953b852849a2d10183253885e, type: 2}
-        m_TargetAssemblyTypeName: SceneChannel, Assembly-CSharp
-        m_MethodName: Raise_OnInteraction_With_SceneLoadTrigger
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 

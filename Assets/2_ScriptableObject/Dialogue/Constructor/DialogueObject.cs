@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 [System.Serializable]
 public class SpawnData
@@ -31,9 +32,16 @@ public class DialogueObject : ScriptableObject
     [SerializeField] SpawnData spawnData;
     public SpawnData SpawnData => spawnData;
 
-    public void Setup(InteractionObject _interactionObject)
+    public DialogueObject GetClone()
     {
-        for (int i = 0; i < dialogues.Length; i++)
-            dialogues[i].Setup(_interactionObject);
+        var _newDialogueObject = Instantiate(this);
+        _newDialogueObject.dialogues = dialogues.Select(x => x.GetClone()).ToArray();
+        return _newDialogueObject;
     }
+
+    //public void Setup(InteractionObject _interactionObject)
+    //{
+    //    for (int i = 0; i < dialogues.Length; i++)
+    //        dialogues[i].Setup(_interactionObject);
+    //}
 }

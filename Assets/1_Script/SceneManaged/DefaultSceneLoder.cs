@@ -13,9 +13,7 @@ public class DefaultSceneLoder : MonoBehaviour
     {
         DestroyChildObject();
 
-        //print(EditorSceneManager.sceneCount);
         if (EditorSceneManager.sceneCount == 1) StartCoroutine(LoadDefaultScene());
-        //print(EditorSceneManager.sceneCount);
     }
 
     IEnumerator LoadDefaultScene()

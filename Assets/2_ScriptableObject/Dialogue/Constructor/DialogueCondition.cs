@@ -15,13 +15,31 @@ public class DialogueCondition
 
         Debug.Log(_removeDialogue.name);
         Debug.Log(_newDialogue.name);
-
+        
         if (IsReadyToTalk) _interaction.ChangeDialogue(_newDialogue);
+        
     }
 
     public void Setup(InteractionObject _interaction, DialogueDataContainer _newDialogue)
     {
         foreach (var _con in prevConditions)
+        {
             _con.OnFirstInteraction += () => RemoveCondition(_interaction, _con, _newDialogue);
+        }
+    }
+
+    public void ConditionChange(List<DialogueDataContainer> _containers)
+    {
+        for (int conditionIndex = 0; conditionIndex <  prevConditions.Count; conditionIndex++)
+        {
+            for (int i = 0; i < _containers.Count; i++)
+            {
+                if(prevConditions[conditionIndex].CodeName == _containers[i].CodeName)
+                {
+                    prevConditions[conditionIndex] = _containers[i];
+                    break;
+                }
+            }
+        }
     }
 }

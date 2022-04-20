@@ -1835,7 +1835,7 @@ MonoBehaviour:
   codeName: "\uBB38 1-1"
   interactionName: "\uBB38"
   dialogueObject: {fileID: 11400000, guid: 1b03bf7fdc623e147a743cb203099e28, type: 2}
-  currentDialogue: {fileID: 0}
+  currentDialogue: {fileID: 11400000, guid: 5bc9fa79453aa55469de856fd0fee735, type: 2}
   dialogueChannel: {fileID: 11400000, guid: 7a460b213184a38419d6bef3306602c4, type: 2}
 --- !u!4 &1886254738
 Transform:
