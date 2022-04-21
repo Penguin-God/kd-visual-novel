@@ -16,6 +16,9 @@ public class MySceneManager : MonoBehaviour
         }
     }
 
+    [SerializeField] SceneManagerISo[] allSceneManagerISOs = null;
+    public Dictionary<SceneManagerISo, SceneManagerISo> sceneManagerByOriginal = new Dictionary<SceneManagerISo, SceneManagerISo>();
+
     [Header("Channel")]
     [SerializeField] SceneChannel sceneChannel = null;
     [SerializeField] SplashManager splashManager = null;
@@ -29,8 +32,8 @@ public class MySceneManager : MonoBehaviour
     public GameObject[] CurrentSceneCharacters => currentSceneCharacters;
 
 
-    [SerializeField] List<GameObject> dynamicDialogueObjects;
-    public IReadOnlyList<GameObject> DynamicDialogueObjects => dynamicDialogueObjects;
+    [SerializeField] List<GameObject> spawnDialogueObjects;
+    public IReadOnlyList<GameObject> DynamicDialogueObjects => spawnDialogueObjects;
 
     [SerializeField] List<DialogueObject> allDialogueObjects;
     public List<DialogueObject> AllDialogueObjects => allDialogueObjects;
@@ -39,9 +42,8 @@ public class MySceneManager : MonoBehaviour
     [SerializeField] bool isSceneLoadingEffect; // 화면 연출하는 동안도 포함
     public bool IsSceneLoadingEffect => isSceneLoadingEffect;
 
-    
     AsyncOperation async;
-    public bool IsSceneLoading // 씬 로딩하는 시간만 포함
+    public bool IsSceneLoading // 씬 로딩하는 동안 true
     {
         get
         {
@@ -50,17 +52,27 @@ public class MySceneManager : MonoBehaviour
         }
     }
 
+    public event Action<bool, List<DialogueObject>> OnSceneSetupDone = null;
 
     void Awake()
     {
         sceneChannel.OnOtherSceneLoad += LoadedScene;
         sceneChannel.OnEnterOtherScene += Setup;
         sceneChannel.OnSceneLoadComplete += (_iso) => OnSceneSetupDone?.Invoke(currentSceneIsOnlyView, allDialogueObjects);
+
+        for (int i = 0; i < allSceneManagerISOs.Length; i++)
+        {
+            SceneManagerISo _newManger = allSceneManagerISOs[i].GetClone();
+            sceneManagerByOriginal.Add(allSceneManagerISOs[i], _newManger);
+            allSceneManagerISOs[i] = _newManger;
+        }
     }
 
-    public event Action<bool, List<DialogueObject>> OnSceneSetupDone = null;
 
-    public void LoadedScene(SceneManagerISo _data) => StartCoroutine(Co_LoadedScene(_data));
+    public void LoadedScene(SceneManagerISo _data)
+    {
+        StartCoroutine(Co_LoadedScene(_data));
+    }
     IEnumerator Co_LoadedScene(SceneManagerISo _data)
     {
         isSceneLoadingEffect = true;
@@ -68,33 +80,37 @@ public class MySceneManager : MonoBehaviour
         yield return new WaitUntil(() => !splashManager.isFade);
         LoadScene(_data);
         yield return new WaitUntil(() => !IsSceneLoading && !CameraController.isCameraEffect);
-        sceneChannel.Raise_OnEnterOtherScene(_data);
+        sceneChannel.Raise_OnEnterOtherScene(_data); // 씬 입장 성공
         splashManager.FadeIn(FadeType.Black, true);
         yield return new WaitUntil(() => !splashManager.isFade);
         isSceneLoadingEffect = false;
+
         sceneChannel.Raise_OnSceneLoadComplete(_data);
-        loadDialogueProducer.Raise_OnLoadDialogue();
+        loadDialogueProducer.ShowDialogue_When_SceneFadeIn();
     }
 
     void LoadScene(SceneManagerISo _data)
     {
+        _data = sceneManagerByOriginal[_data];
         SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene());
         async = SceneManager.LoadSceneAsync(_data.SceneName, LoadSceneMode.Additive);
     }
     
     void Setup(SceneManagerISo _data)
     {
+        _data = sceneManagerByOriginal[_data];
+
         currentSceneIsOnlyView = _data.IsOnlyCameraView;
-
         allDialogueObjects = _data.DialogueObjects;
-        dynamicDialogueObjects.Clear();
 
-        List<DialogueObject> _dialogueObjects = _data.GetDynamicDialogueObjects();
-        foreach(DialogueObject _dialogueObject in _dialogueObjects)
+        // spawnDialogueObjects 세팅
+        spawnDialogueObjects.Clear();
+        foreach(DialogueObject _dialogueObject in _data.GetSpawnDialogueObjects())
         {
             GameObject _obj = 
                 Instantiate(_dialogueObject.SpawnData.characterContainer, _dialogueObject.SpawnData.spawnPos, Quaternion.Euler(_dialogueObject.SpawnData.spawnEulerAngles));
 
+            // 렌더러 세팅
             SpriteRenderer[] _srs = _obj.GetComponentsInChildren<SpriteRenderer>();
             for (int i = 0; i < _srs.Length; i++)
             {
@@ -102,9 +118,10 @@ public class MySceneManager : MonoBehaviour
                 _srs[i].sprite = _dialogueObject.SpawnData.spawnSprite;
             }
 
-            DialogueSystem.Instance.OnSetup += (_dic) => _dic.Add(_dialogueObject.CodeName, _obj.GetComponent<InteractionObject>());
-            // _obj.GetComponent<InteractionObject>().Setup(_dialogueObject.CodeName, _dialogueObject.InteractionName, _dialogueObject);
-            dynamicDialogueObjects.Add(_obj);
+            InteractionObject _interaction = _obj.GetComponent<InteractionObject>();
+            _interaction.Setup(_dialogueObject); // interactionObject Setup
+            DialogueSystem.Instance.interactionObjectByCodeName.Add(_dialogueObject.CodeName, _interaction);
+            spawnDialogueObjects.Add(_obj);
         }
     }
 }

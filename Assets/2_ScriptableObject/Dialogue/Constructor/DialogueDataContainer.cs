@@ -53,7 +53,6 @@ public class DialogueDataContainer : ScriptableObject
     public event Action OnFirstInteraction;
     public void Raise_OnDialogueStart()
     {
-        Debug.Log(OnFirstInteraction == null);
         OnFirstInteraction?.Invoke();
         OnFirstInteraction = null;
     }

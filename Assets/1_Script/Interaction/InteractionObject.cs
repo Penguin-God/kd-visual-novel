@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class InteractionObject : MonoBehaviour
 {
@@ -13,10 +14,21 @@ public class InteractionObject : MonoBehaviour
 
     [SerializeField] DialogueDataContainer currentDialogue;
     public DialogueDataContainer CurrentDialogue => currentDialogue;
+    // 아직 사용은 안하고 있고 언젠가는 쓸거 같은 유용한 이벤트라 만들어둠
+    public event Action<InteractionObject, DialogueDataContainer, DialogueDataContainer> OnDialogueChanged = null;
+    public void ChangeDialogue(DialogueDataContainer _newDialogue)
+    {
+        OnDialogueChanged?.Invoke(this, currentDialogue, _newDialogue);
+        currentDialogue = _newDialogue;
+    }
 
     void Start()
     {
-        if (dialogueObject != null && !dialogueObject.IsSpawn) DialogueSystem.Instance.OnSetup += (_dic) => _dic.Add(codeName, this);
+        if (dialogueObject != null && !dialogueObject.IsSpawn)
+        {
+            Setup(dialogueObject);
+            DialogueSystem.Instance.interactionObjectByCodeName.Add(codeName, this);
+        }
     }
 
     public void Setup(DialogueObject _dialogueObject)
@@ -33,10 +45,4 @@ public class InteractionObject : MonoBehaviour
     public void StartInteraction() => dialogueChannel.Raise_StartInteractionEvent(transform, currentDialogue);
 
     public bool Interactalbe => currentDialogue.Interactable;
-    public void ChangeDialogue(DialogueDataContainer _newDialogue)
-    {
-        print(currentDialogue.CodeName);
-        print(_newDialogue.CodeName);
-        currentDialogue = _newDialogue;
-    }
 }

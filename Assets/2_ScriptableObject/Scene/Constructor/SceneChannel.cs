@@ -33,13 +33,16 @@ public class SceneChannel : ScriptableObject
 
     public event Action<SceneManagerISo> OnOtherSceneLoad = null;
     public void Raise_OnOtherSceneLoad(SceneManagerISo _sceneData) // 유니티 이벤트 매서드로 등록해서 많이 사용함
-        => OnOtherSceneLoad?.Invoke(_sceneData);
+    {
+        isInteraction_With_SceneLoadTrigger = true;
+        OnOtherSceneLoad?.Invoke(_sceneData);
+    }
 
     public event Action<SceneManagerISo> OnEnterOtherScene = null;
     public void Raise_OnEnterOtherScene(SceneManagerISo _sceneManagerISo)
     {
-        OnEnterOtherScene?.Invoke(_sceneManagerISo);
         isInteraction_With_SceneLoadTrigger = false;
+        OnEnterOtherScene?.Invoke(_sceneManagerISo);
     }
 
     public event Action<SceneManagerISo> OnSceneLoadComplete = null;

@@ -2311,12 +2311,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 158846101bce2cd4c8324715692f9349, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  allSceneManagerISOs:
+  - {fileID: 11400000, guid: a37cdb771a246484cb0b2adedf76faeb, type: 2}
+  - {fileID: 11400000, guid: bc6c7fab76104f2448636479a0dda62e, type: 2}
   sceneChannel: {fileID: 11400000, guid: d72bbd3953b852849a2d10183253885e, type: 2}
   splashManager: {fileID: 257826693}
   loadDialogueProducer: {fileID: 11400000, guid: a988a52bc8410d647849e0a24435c130, type: 2}
   currentSceneIsOnlyView: 0
   currentSceneCharacters: []
-  dynamicDialogueObjects: []
+  spawnDialogueObjects: []
   allDialogueObjects: []
   isSceneLoadingEffect: 0
 --- !u!1 &909488823
@@ -3322,9 +3325,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sceneChannel: {fileID: 11400000, guid: d72bbd3953b852849a2d10183253885e, type: 2}
-  interactionEventByName:
+  interactionObjectByCodeName:
     m_keys: []
     m_values: []
+  allContainers: []
 --- !u!1 &1223806240
 GameObject:
   m_ObjectHideFlags: 0

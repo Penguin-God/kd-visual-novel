@@ -14,11 +14,10 @@ public class UIManager : MonoBehaviour
         dialogueChannel.EndInteractionEvent += (_con) => ShowUI(MySceneManager.Instance.CurrentSceneIsOnlyView);
 
         sceneChannel.OnOtherSceneLoad += (_data) => status.gameObject.SetActive(false);
-
         sceneChannel.OnSceneLoadComplete += (_data) => status.gameObject.SetActive(true);
         sceneChannel.OnSceneLoadComplete += (_data) => ShowUI(MySceneManager.Instance.CurrentSceneIsOnlyView);
 
-        loadDialogueProducer.OnLoadDialogue += HideUI;
+        //loadDialogueProducer.OnLoadDialogue += HideUI;
     }
 
     [SerializeField] GameObject status;

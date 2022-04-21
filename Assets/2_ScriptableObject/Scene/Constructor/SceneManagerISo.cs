@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System;
+using System.Linq;
 
 [CreateAssetMenu(fileName = "new scene manager", menuName = "Scriptable Object / Scenes / Scene Manager")]
 public class SceneManagerISo : ScriptableObject
@@ -22,7 +22,7 @@ public class SceneManagerISo : ScriptableObject
     [SerializeField] List<DialogueObject> dialogueObjects;
     public List<DialogueObject> DialogueObjects => dialogueObjects;
 
-    public List<DialogueObject> GetDynamicDialogueObjects()
+    public List<DialogueObject> GetSpawnDialogueObjects()
     {
         List<DialogueObject> _datas = new List<DialogueObject>();
         foreach (DialogueObject _dialogueObject in dialogueObjects)
@@ -32,5 +32,12 @@ public class SceneManagerISo : ScriptableObject
         }
 
         return _datas;
+    }
+
+    public SceneManagerISo GetClone()
+    {
+        SceneManagerISo _newManager = Instantiate(this);
+        _newManager.dialogueObjects = dialogueObjects.Select(x => x.GetClone()).ToList();
+        return _newManager;
     }
 }

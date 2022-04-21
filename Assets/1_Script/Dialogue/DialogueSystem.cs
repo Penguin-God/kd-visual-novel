@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
-using System.Linq;
 
 [Serializable] // View Dictionary In Inspector
 public class InteractionEventByName : SerializableDictionary<string, InteractionObject> {}
@@ -11,7 +10,7 @@ public class DialogueSystem : MonoBehaviour
 {
     [SerializeField] SceneChannel sceneChannel;
 
-    public InteractionEventByName interactionEventByCodeName;
+    public InteractionEventByName interactionObjectByCodeName; // dialogueObject의 코드네임은 interactionObject의 코드네임과 같음
     [SerializeField] List<DialogueDataContainer> allContainers = new List<DialogueDataContainer>();
     public event Action<Dictionary<string, InteractionObject>> OnSetup;
 
@@ -27,44 +26,32 @@ public class DialogueSystem : MonoBehaviour
 
     private void Awake()
     {
+        sceneChannel.OnOtherSceneLoad += (_so) => interactionObjectByCodeName.Clear();
+
         MySceneManager.Instance.OnSceneSetupDone += (_view, _dialogueObjs) =>
         {
-            interactionEventByCodeName.Clear();
-            OnSetup?.Invoke(interactionEventByCodeName);
-            OnSetup = null;
-
-            Dictionary<string, DialogueDataContainer[]> _containersByCodeName = new Dictionary<string, DialogueDataContainer[]>();
-
-            InteractionObject interactionObject = null;
-            foreach (DialogueObject _obj in _dialogueObjs)
-            {
-                List<DialogueDataContainer> containers = new List<DialogueDataContainer>();
-
-                interactionEventByCodeName.TryGetValue(_obj.CodeName, out interactionObject);
-                if(interactionObject != null)
-                {
-                    DialogueObject _newObj = _obj.GetClone();
-                    interactionObject.Setup(_newObj);
-                    foreach (var _container in _newObj.Dialogues)
-                    {
-                        allContainers.Add(_container);
-                        containers.Add(_container);
-                    }
-                    _containersByCodeName.Add(_obj.CodeName, containers.ToArray());
-                }
-            }
+            SetAllContainers(_dialogueObjs); // allContainers 세팅
 
             // container 값 복제값으로 변경
-            foreach (var _pair in _containersByCodeName)
+            foreach (var _dialogueObject in _dialogueObjs)
             {
-                interactionEventByCodeName.TryGetValue(_pair.Key, out interactionObject);
-                foreach (var _container in _pair.Value)
+                interactionObjectByCodeName.TryGetValue(_dialogueObject.CodeName, out InteractionObject interactionObject);
+                
+                foreach (var _container in _dialogueObject.Dialogues)
                 {
-                    //print(_container.SetClone == null);
                     _container.SetClone(allContainers);
                     _container.Setup(interactionObject);
                 }
             }
         };
+    }
+
+    void SetAllContainers(List<DialogueObject> _dialogueObjs)
+    {
+        foreach (var _dialogueObject in _dialogueObjs)
+        {
+            foreach (var _container in _dialogueObject.Dialogues)
+                allContainers.Add(_container);
+        }
     }
 }
