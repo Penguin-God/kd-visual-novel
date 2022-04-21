@@ -9,26 +9,26 @@ public class DialogueCondition
     public bool IsReadyToTalk => prevConditions.Count == 0;
 
     //public event Action<InteractionObject, DialogueDataContainer> OnDialogueChange;
-    void RemoveCondition(InteractionObject _interaction, DialogueDataContainer _removeDialogue, DialogueDataContainer _newDialogue)
+    void RemoveCondition(DialogueObject _dialogueObject, DialogueDataContainer _removeDialogue, DialogueDataContainer _newDialogue)
     {
         prevConditions.Remove(_removeDialogue);
 
         Debug.Log(_removeDialogue.name);
         Debug.Log(_newDialogue.name);
         
-        if (IsReadyToTalk) _interaction.ChangeDialogue(_newDialogue);
+        if (IsReadyToTalk) _dialogueObject.ChangeDialogue(_newDialogue);
         
     }
 
-    public void Setup(InteractionObject _interaction, DialogueDataContainer _newDialogue)
+    public void Setup(DialogueObject _dialogueObject, DialogueDataContainer _newDialogue)
     {
         foreach (var _con in prevConditions)
         {
-            _con.OnFirstInteraction += () => RemoveCondition(_interaction, _con, _newDialogue);
+            _con.OnFirstInteraction += () => RemoveCondition(_dialogueObject, _con, _newDialogue);
         }
     }
 
-    public void ConditionChange(List<DialogueDataContainer> _containers)
+    public void ConditionChangeAsClone(List<DialogueDataContainer> _containers)
     {
         for (int conditionIndex = 0; conditionIndex <  prevConditions.Count; conditionIndex++)
         {

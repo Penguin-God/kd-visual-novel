@@ -12,7 +12,6 @@ public class DialogueSystem : MonoBehaviour
 
     public InteractionEventByName interactionObjectByCodeName; // dialogueObject의 코드네임은 interactionObject의 코드네임과 같음
     [SerializeField] List<DialogueDataContainer> allContainers = new List<DialogueDataContainer>();
-    public event Action<Dictionary<string, InteractionObject>> OnSetup;
 
     private static DialogueSystem instance;
     public static DialogueSystem Instance
@@ -36,11 +35,11 @@ public class DialogueSystem : MonoBehaviour
             foreach (var _dialogueObject in _dialogueObjs)
             {
                 interactionObjectByCodeName.TryGetValue(_dialogueObject.CodeName, out InteractionObject interactionObject);
-                
+
                 foreach (var _container in _dialogueObject.Dialogues)
                 {
                     _container.SetClone(allContainers);
-                    _container.Setup(interactionObject);
+                    _container.Setup(_dialogueObject);
                 }
             }
         };

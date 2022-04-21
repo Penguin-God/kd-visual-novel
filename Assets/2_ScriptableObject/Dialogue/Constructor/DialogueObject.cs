@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 using System.Linq;
 
 [System.Serializable]
@@ -25,6 +26,16 @@ public class DialogueObject : ScriptableObject
     [SerializeField] DialogueDataContainer[] dialogues;
     public DialogueDataContainer[] Dialogues => dialogues;
 
+    int currentDialogueIndex = 0;
+    public DialogueDataContainer CurrentDialogue => dialogues[currentDialogueIndex];
+
+    public event Action<DialogueObject, DialogueDataContainer, DialogueDataContainer> OnDialogueChanged = null;
+    public void ChangeDialogue(DialogueDataContainer _newDialogue)
+    {
+        OnDialogueChanged?.Invoke(this, CurrentDialogue, _newDialogue);
+        currentDialogueIndex = Array.IndexOf(dialogues, _newDialogue);
+    }
+
     [Header("Spawn Data")]
     [SerializeField] bool isSpawn;
     public bool IsSpawn => isSpawn;
@@ -36,12 +47,13 @@ public class DialogueObject : ScriptableObject
     {
         var _newDialogueObject = Instantiate(this);
         _newDialogueObject.dialogues = dialogues.Select(x => x.GetClone()).ToArray();
+        //_newDialogueObject.Setup();
         return _newDialogueObject;
     }
 
-    //public void Setup(InteractionObject _interactionObject)
-    //{
-    //    for (int i = 0; i < dialogues.Length; i++)
-    //        dialogues[i].Setup(_interactionObject);
-    //}
+    void Setup()
+    {
+        for (int i = 0; i < dialogues.Length; i++)
+            dialogues[i].Setup(this);
+    }
 }

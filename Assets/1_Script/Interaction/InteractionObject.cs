@@ -12,21 +12,22 @@ public class InteractionObject : MonoBehaviour
 
     [SerializeField] DialogueObject dialogueObject = null;
 
+
     [SerializeField] DialogueDataContainer currentDialogue;
     public DialogueDataContainer CurrentDialogue => currentDialogue;
     // 아직 사용은 안하고 있고 언젠가는 쓸거 같은 유용한 이벤트라 만들어둠
-    public event Action<InteractionObject, DialogueDataContainer, DialogueDataContainer> OnDialogueChanged = null;
-    public void ChangeDialogue(DialogueDataContainer _newDialogue)
-    {
-        OnDialogueChanged?.Invoke(this, currentDialogue, _newDialogue);
-        currentDialogue = _newDialogue;
-    }
+    //public event Action<InteractionObject, DialogueDataContainer, DialogueDataContainer> OnDialogueChanged = null;
+    //public void ChangeDialogue(DialogueDataContainer _newDialogue)
+    //{
+    //    OnDialogueChanged?.Invoke(this, currentDialogue, _newDialogue);
+    //    currentDialogue = _newDialogue;
+    //}
 
     void Start()
     {
         if (dialogueObject != null && !dialogueObject.IsSpawn)
         {
-            Setup(dialogueObject);
+            //Setup(dialogueObject);
             DialogueSystem.Instance.interactionObjectByCodeName.Add(codeName, this);
         }
     }
@@ -36,7 +37,8 @@ public class InteractionObject : MonoBehaviour
         codeName = _dialogueObject.CodeName;
         interactionName = _dialogueObject.InteractionName;
         dialogueObject = _dialogueObject;
-        currentDialogue = _dialogueObject.Dialogues[0];
+        currentDialogue = _dialogueObject.CurrentDialogue;
+        _dialogueObject.OnDialogueChanged += ChangeDialogue;
     }
 
     [Header("Channel")]
@@ -45,4 +47,7 @@ public class InteractionObject : MonoBehaviour
     public void StartInteraction() => dialogueChannel.Raise_StartInteractionEvent(transform, currentDialogue);
 
     public bool Interactalbe => currentDialogue.Interactable;
+
+    void ChangeDialogue(DialogueObject _dialogueObject, DialogueDataContainer _newDialogue, DialogueDataContainer _prevDialogue)
+        => currentDialogue = _newDialogue;
 }

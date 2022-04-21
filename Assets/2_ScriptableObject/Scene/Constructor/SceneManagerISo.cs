@@ -34,10 +34,31 @@ public class SceneManagerISo : ScriptableObject
         return _datas;
     }
 
+    [SerializeField] List<DialogueDataContainer> allDialogue;
+
+    List<DialogueDataContainer> GetAllDialogue(List<DialogueObject> _dialogueObjects)
+    {
+        List<DialogueDataContainer> _allDialogue = new List<DialogueDataContainer>();
+        foreach (var _dialogueObject in _dialogueObjects)
+        {
+            foreach (var _container in _dialogueObject.Dialogues)
+                _allDialogue.Add(_container);
+        }
+
+        allDialogue = _allDialogue;
+        return _allDialogue;
+    }
+
     public SceneManagerISo GetClone()
     {
         SceneManagerISo _newManager = Instantiate(this);
         _newManager.dialogueObjects = dialogueObjects.Select(x => x.GetClone()).ToList();
+
+        //List<DialogueDataContainer> _containers = GetAllDialogue(_newManager.dialogueObjects);
+
+        //for (int i = 0; i < _containers.Count; i++)
+        //    _containers[i].SetClone(_containers);
+
         return _newManager;
     }
 }

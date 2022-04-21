@@ -6,7 +6,6 @@ using System;
 [CreateAssetMenu(fileName = "Scene Load Dialogue Producer", menuName = "Scriptable Object / Scenes / Scene Load Dialogue Producer")]
 public class SceneLoadDialogueProducer : ScriptableObject
 {
-    [SerializeField] SceneChannel sceneChannel = null;
     [SerializeField] DialogueChannel dialogueChannel = null;
     [SerializeField] DialogueDataContainer dialogue = null;
 

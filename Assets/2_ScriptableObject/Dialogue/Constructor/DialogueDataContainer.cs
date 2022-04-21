@@ -70,9 +70,9 @@ public class DialogueDataContainer : ScriptableObject
     }
 
     // 씬 세팅시 동작하는 셋업
-    public void Setup(InteractionObject _interaction)
+    public void Setup(DialogueObject _dialogueObject)
     {
-        dialogueCondition.Setup(_interaction, this);
+        dialogueCondition.Setup(_dialogueObject, this);
     }
 
     public void DataReset()
@@ -83,7 +83,7 @@ public class DialogueDataContainer : ScriptableObject
     public DialogueDataContainer GetClone()
     {
         var _newContainer = Instantiate(this);
-        _newContainer.SetClone += _newContainer.DialogueCondition.ConditionChange;
+        _newContainer.SetClone += _newContainer.DialogueCondition.ConditionChangeAsClone;
         return _newContainer;
     }
 
