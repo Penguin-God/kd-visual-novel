@@ -17,7 +17,6 @@ public class DialogueCondition
         Debug.Log(_newDialogue.name);
         
         if (IsReadyToTalk) _dialogueObject.ChangeDialogue(_newDialogue);
-        
     }
 
     public void Setup(DialogueObject _dialogueObject, DialogueDataContainer _newDialogue)

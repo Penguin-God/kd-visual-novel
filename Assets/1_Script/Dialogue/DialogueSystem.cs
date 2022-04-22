@@ -25,24 +25,24 @@ public class DialogueSystem : MonoBehaviour
 
     private void Awake()
     {
-        sceneChannel.OnOtherSceneLoad += (_so) => interactionObjectByCodeName.Clear();
+        //sceneChannel.OnOtherSceneLoad += (_so) => interactionObjectByCodeName.Clear();
 
-        MySceneManager.Instance.OnSceneSetupDone += (_view, _dialogueObjs) =>
-        {
-            SetAllContainers(_dialogueObjs); // allContainers 세팅
+        //MySceneManager.Instance.OnSceneSetupDone += (_view, _dialogueObjs) =>
+        //{
+        //    SetAllContainers(_dialogueObjs); // allContainers 세팅
 
-            // container 값 복제값으로 변경
-            foreach (var _dialogueObject in _dialogueObjs)
-            {
-                interactionObjectByCodeName.TryGetValue(_dialogueObject.CodeName, out InteractionObject interactionObject);
+        //    // container 값 복제값으로 변경
+        //    foreach (var _dialogueObject in _dialogueObjs)
+        //    {
+        //        interactionObjectByCodeName.TryGetValue(_dialogueObject.CodeName, out InteractionObject interactionObject);
 
-                foreach (var _container in _dialogueObject.Dialogues)
-                {
-                    _container.SetClone(allContainers);
-                    _container.Setup(_dialogueObject);
-                }
-            }
-        };
+        //        foreach (var _container in _dialogueObject.Dialogues)
+        //        {
+        //            _container.SetClone(allContainers);
+        //            _container.Setup(_dialogueObject);
+        //        }
+        //    }
+        //};
     }
 
     void SetAllContainers(List<DialogueObject> _dialogueObjs)

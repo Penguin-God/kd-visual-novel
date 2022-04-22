@@ -32,7 +32,7 @@ public class DialogueObject : ScriptableObject
     public event Action<DialogueObject, DialogueDataContainer, DialogueDataContainer> OnDialogueChanged = null;
     public void ChangeDialogue(DialogueDataContainer _newDialogue)
     {
-        OnDialogueChanged?.Invoke(this, CurrentDialogue, _newDialogue);
+        OnDialogueChanged?.Invoke(this, _newDialogue, CurrentDialogue);
         currentDialogueIndex = Array.IndexOf(dialogues, _newDialogue);
     }
 
@@ -47,11 +47,10 @@ public class DialogueObject : ScriptableObject
     {
         var _newDialogueObject = Instantiate(this);
         _newDialogueObject.dialogues = dialogues.Select(x => x.GetClone()).ToArray();
-        //_newDialogueObject.Setup();
         return _newDialogueObject;
     }
 
-    void Setup()
+    public void Setup()
     {
         for (int i = 0; i < dialogues.Length; i++)
             dialogues[i].Setup(this);

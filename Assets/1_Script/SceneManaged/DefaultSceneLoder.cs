@@ -20,8 +20,7 @@ public class DefaultSceneLoder : MonoBehaviour
     {
         AsyncOperation _async = SceneManager.LoadSceneAsync("DefaultScene", LoadSceneMode.Additive);
         yield return new WaitUntil(() => _async.isDone);
-        sceneChannel.Raise_OnEnterOtherScene(sceneManagerISo);
-        sceneChannel.Raise_OnSceneLoadComplete(sceneManagerISo);
+        MySceneManager.Instance.LoadedScene(sceneManagerISo, true);
     }
 
     void DestroyChildObject()

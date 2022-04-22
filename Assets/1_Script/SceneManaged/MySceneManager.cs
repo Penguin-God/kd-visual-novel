@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using System;
+using System.Linq;
 
 public class MySceneManager : MonoBehaviour
 {
@@ -25,6 +26,7 @@ public class MySceneManager : MonoBehaviour
     [SerializeField] SceneLoadDialogueProducer loadDialogueProducer = null;
 
     [Header("Scene Value")]
+    [SerializeField] SceneManagerISo currentSceneManagerISO = null;
     [SerializeField] bool currentSceneIsOnlyView;
     public bool CurrentSceneIsOnlyView => currentSceneIsOnlyView;
 
@@ -52,13 +54,13 @@ public class MySceneManager : MonoBehaviour
         }
     }
 
-    public event Action<bool, List<DialogueObject>> OnSceneSetupDone = null;
+    public event Action OnSceneSetupDone = null;
 
     void Awake()
     {
         sceneChannel.OnOtherSceneLoad += LoadedScene;
         sceneChannel.OnEnterOtherScene += Setup;
-        sceneChannel.OnSceneLoadComplete += (_iso) => OnSceneSetupDone?.Invoke(currentSceneIsOnlyView, allDialogueObjects);
+        //sceneChannel.OnSceneLoadComplete += (_iso) => OnSceneSetupDone?.Invoke(currentSceneIsOnlyView, allDialogueObjects);
 
         for (int i = 0; i < allSceneManagerISOs.Length; i++)
         {
@@ -68,17 +70,23 @@ public class MySceneManager : MonoBehaviour
         }
     }
 
-
-    public void LoadedScene(SceneManagerISo _data)
+    public void LoadedScene(SceneManagerISo _data, bool isFirst)
     {
-        StartCoroutine(Co_LoadedScene(_data));
+        currentSceneManagerISO = sceneManagerByOriginal[_data];
+        StartCoroutine(Co_LoadedScene(currentSceneManagerISO, isFirst));
     }
-    IEnumerator Co_LoadedScene(SceneManagerISo _data)
+
+    void LoadedScene(SceneManagerISo _data)
+    {
+        currentSceneManagerISO = sceneManagerByOriginal[_data];
+        StartCoroutine(Co_LoadedScene(currentSceneManagerISO));
+    }
+    IEnumerator Co_LoadedScene(SceneManagerISo _data, bool isFirst = false)
     {
         isSceneLoadingEffect = true;
         splashManager.FadeOut(FadeType.Black, true);
         yield return new WaitUntil(() => !splashManager.isFade);
-        LoadScene(_data);
+        if(!isFirst) LoadScene(_data);
         yield return new WaitUntil(() => !IsSceneLoading && !CameraController.isCameraEffect);
         sceneChannel.Raise_OnEnterOtherScene(_data); // 씬 입장 성공
         splashManager.FadeIn(FadeType.Black, true);
@@ -86,20 +94,20 @@ public class MySceneManager : MonoBehaviour
         isSceneLoadingEffect = false;
 
         sceneChannel.Raise_OnSceneLoadComplete(_data);
+        OnSceneSetupDone?.Invoke();
+        OnSceneSetupDone = null;
+
         loadDialogueProducer.ShowDialogue_When_SceneFadeIn();
     }
 
     void LoadScene(SceneManagerISo _data)
     {
-        _data = sceneManagerByOriginal[_data];
         SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene());
         async = SceneManager.LoadSceneAsync(_data.SceneName, LoadSceneMode.Additive);
     }
     
     void Setup(SceneManagerISo _data)
     {
-        _data = sceneManagerByOriginal[_data];
-
         currentSceneIsOnlyView = _data.IsOnlyCameraView;
         allDialogueObjects = _data.DialogueObjects;
 
@@ -123,5 +131,11 @@ public class MySceneManager : MonoBehaviour
             DialogueSystem.Instance.interactionObjectByCodeName.Add(_dialogueObject.CodeName, _interaction);
             spawnDialogueObjects.Add(_obj);
         }
+    }
+
+    public void SetClone(InteractionObject _interaction)
+    {
+        DialogueObject _dialogueObject = currentSceneManagerISO.DialogueObjects.FirstOrDefault(x => x.CodeName == _interaction.CodeName);
+        if (_dialogueObject != null) _interaction.Setup(_dialogueObject);
     }
 }

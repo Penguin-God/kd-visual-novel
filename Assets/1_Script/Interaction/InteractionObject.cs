@@ -7,6 +7,7 @@ public class InteractionObject : MonoBehaviour
 {
     [Header("Dialogue Data")]
     [SerializeField] string codeName;
+    public string CodeName => codeName;
     [SerializeField] string interactionName;
     public string InteractionName => interactionName;
 
@@ -27,8 +28,8 @@ public class InteractionObject : MonoBehaviour
     {
         if (dialogueObject != null && !dialogueObject.IsSpawn)
         {
-            //Setup(dialogueObject);
-            DialogueSystem.Instance.interactionObjectByCodeName.Add(codeName, this);
+            codeName = dialogueObject.CodeName;
+            MySceneManager.Instance.OnSceneSetupDone += () => MySceneManager.Instance.SetClone(this);
         }
     }
 
