@@ -2,16 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using System.Linq;
 
 [Serializable] // View Dictionary In Inspector
 public class InteractionEventByName : SerializableDictionary<string, InteractionObject> {}
 
 public class DialogueSystem : MonoBehaviour
 {
-    [SerializeField] SceneChannel sceneChannel;
+    [SerializeField] SceneChannel sceneChannel = null;
 
+    // 그냥 debug용으로 남겨둠
     public InteractionEventByName interactionObjectByCodeName; // dialogueObject의 코드네임은 interactionObject의 코드네임과 같음
-    [SerializeField] List<DialogueDataContainer> allContainers = new List<DialogueDataContainer>();
 
     private static DialogueSystem instance;
     public static DialogueSystem Instance
@@ -23,34 +24,36 @@ public class DialogueSystem : MonoBehaviour
         }
     }
 
+    [Header("Dialogue Objects")]
+    [SerializeField] List<GameObject> spawnDialogueObjects;
+    public IReadOnlyList<GameObject> DynamicDialogueObjects => spawnDialogueObjects;
+
+    [SerializeField] List<DialogueObject> allDialogueObjects;
+    public List<DialogueObject> AllDialogueObjects => allDialogueObjects;
+
+    public DialogueObject GetDialogueObjectClone(string _codeName) => allDialogueObjects.FirstOrDefault(x => x.CodeName == _codeName);
+
     private void Awake()
     {
-        //sceneChannel.OnOtherSceneLoad += (_so) => interactionObjectByCodeName.Clear();
-
-        //MySceneManager.Instance.OnSceneSetupDone += (_view, _dialogueObjs) =>
-        //{
-        //    SetAllContainers(_dialogueObjs); // allContainers 세팅
-
-        //    // container 값 복제값으로 변경
-        //    foreach (var _dialogueObject in _dialogueObjs)
-        //    {
-        //        interactionObjectByCodeName.TryGetValue(_dialogueObject.CodeName, out InteractionObject interactionObject);
-
-        //        foreach (var _container in _dialogueObject.Dialogues)
-        //        {
-        //            _container.SetClone(allContainers);
-        //            _container.Setup(_dialogueObject);
-        //        }
-        //    }
-        //};
+        sceneChannel.OnEnterOtherScene += SetupSpawnDialgoueObject;
     }
 
-    void SetAllContainers(List<DialogueObject> _dialogueObjs)
+    // spawnDialogueObjects 세팅
+    void SetupSpawnDialgoueObject(SceneManagerISo _data)
     {
-        foreach (var _dialogueObject in _dialogueObjs)
+        allDialogueObjects = _data.DialogueObjects;
+
+        spawnDialogueObjects.Clear();
+        List<DialogueObject> dialogueObjects = _data.GetSpawnDialogueObjects();
+        foreach (DialogueObject _dialogueObject in dialogueObjects)
         {
-            foreach (var _container in _dialogueObject.Dialogues)
-                allContainers.Add(_container);
+            // new GameObject형식으로 Instantiate해야 Scene오브젝트로 생성됨
+            GameObject _obj = Instantiate(_dialogueObject.GetGameObject());
+            spawnDialogueObjects.Add(_obj);
+
+            // asset 오브젝트 내의 InteractionObject가 아니라 Scene에 있는 오브젝트의 InteractionObject로 진행해야 제대로 진행됨
+            InteractionObject _interaction = _obj.GetComponent<InteractionObject>();
+            _interaction.Setup(_dialogueObject); // InteractionObject 세팅
         }
     }
 }

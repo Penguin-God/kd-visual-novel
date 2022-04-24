@@ -48,13 +48,13 @@ public class SceneManagerISo : ScriptableObject
         return allDialogue;
     }
 
+    // 모든 SO 복사본 세팅
     public SceneManagerISo GetClone()
     {
         SceneManagerISo _newManager = Instantiate(this);
         _newManager.dialogueObjects = _newManager.dialogueObjects.Select(x => x.GetClone()).ToList();
 
         List<DialogueDataContainer> _allContainers = _newManager.AddDialogue(_newManager.dialogueObjects);
-
 
         foreach (var _dialogueObject in _newManager.dialogueObjects)
         {

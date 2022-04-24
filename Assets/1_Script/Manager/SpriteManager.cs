@@ -62,7 +62,7 @@ public class SpriteManager : MonoBehaviour
     SpriteRenderer[] GetSpriteRenderers(GameObject _object) => _object.GetComponentsInChildren<SpriteRenderer>();
 
 
-    IReadOnlyList<GameObject> CurrentSceneCharacters => MySceneManager.Instance.DynamicDialogueObjects;
+    IReadOnlyList<GameObject> CurrentSceneCharacters => DialogueSystem.Instance.DynamicDialogueObjects;
     void FadeOut_AllSceneCharacters()
     {
         if (CurrentSceneCharacters == null) return;

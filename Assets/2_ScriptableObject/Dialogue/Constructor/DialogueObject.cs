@@ -4,7 +4,7 @@ using UnityEngine;
 using System;
 using System.Linq;
 
-[System.Serializable]
+[Serializable]
 public class SpawnData
 {
     public Vector3 spawnPos;
@@ -50,9 +50,20 @@ public class DialogueObject : ScriptableObject
         return _newDialogueObject;
     }
 
-    public void Setup()
+    public GameObject GetGameObject()
     {
-        for (int i = 0; i < dialogues.Length; i++)
-            dialogues[i].Setup(this);
+        GameObject _obj = SpawnData.characterContainer;
+        _obj.transform.position = SpawnData.spawnPos;
+        _obj.transform.rotation = Quaternion.Euler(SpawnData.spawnEulerAngles);
+
+        // 렌더러 세팅
+        SpriteRenderer[] _srs = _obj.GetComponentsInChildren<SpriteRenderer>();
+        for (int i = 0; i < _srs.Length; i++)
+        {
+            _srs[i].color = new Color(1, 1, 1, 0);
+            _srs[i].sprite = SpawnData.spawnSprite;
+        }
+
+        return _obj;
     }
 }

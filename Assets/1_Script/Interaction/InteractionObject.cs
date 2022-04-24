@@ -5,32 +5,37 @@ using System;
 
 public class InteractionObject : MonoBehaviour
 {
+    [Header("Channel")]
+    [SerializeField] protected DialogueChannel dialogueChannel = null;
+    [SerializeField] SceneChannel sceneChannel;
+
     [Header("Dialogue Data")]
     [SerializeField] string codeName;
     public string CodeName => codeName;
     [SerializeField] string interactionName;
     public string InteractionName => interactionName;
-
+    
     [SerializeField] DialogueObject dialogueObject = null;
-
 
     [SerializeField] DialogueDataContainer currentDialogue;
     public DialogueDataContainer CurrentDialogue => currentDialogue;
-    // 아직 사용은 안하고 있고 언젠가는 쓸거 같은 유용한 이벤트라 만들어둠
-    //public event Action<InteractionObject, DialogueDataContainer, DialogueDataContainer> OnDialogueChanged = null;
-    //public void ChangeDialogue(DialogueDataContainer _newDialogue)
-    //{
-    //    OnDialogueChanged?.Invoke(this, currentDialogue, _newDialogue);
-    //    currentDialogue = _newDialogue;
-    //}
 
     void Start()
     {
         if (dialogueObject != null && !dialogueObject.IsSpawn)
-        {
-            codeName = dialogueObject.CodeName;
-            MySceneManager.Instance.OnSceneSetupDone += () => MySceneManager.Instance.SetClone(this);
-        }
+            sceneChannel.OnSceneLoadComplete += Setup;
+    }
+
+    private void OnDestroy()
+    {
+        if (dialogueObject != null && !dialogueObject.IsSpawn)
+            sceneChannel.OnSceneLoadComplete -= Setup;
+    }
+
+    void Setup(SceneManagerISo _data)
+    {
+        codeName = dialogueObject.CodeName;
+        Setup(DialogueSystem.Instance.GetDialogueObjectClone(codeName));
     }
 
     public void Setup(DialogueObject _dialogueObject)
@@ -40,15 +45,15 @@ public class InteractionObject : MonoBehaviour
         dialogueObject = _dialogueObject;
         currentDialogue = _dialogueObject.CurrentDialogue;
         _dialogueObject.OnDialogueChanged += ChangeDialogue;
+        DialogueSystem.Instance.interactionObjectByCodeName.Add(CodeName, this);
     }
-
-    [Header("Channel")]
-    [SerializeField] protected DialogueChannel dialogueChannel = null;
 
     public void StartInteraction() => dialogueChannel.Raise_StartInteractionEvent(transform, currentDialogue);
 
     public bool Interactalbe => currentDialogue.Interactable;
 
     void ChangeDialogue(DialogueObject _dialogueObject, DialogueDataContainer _newDialogue, DialogueDataContainer _prevDialogue)
-        => currentDialogue = _newDialogue;
+    {
+        currentDialogue = _newDialogue;
+    }
 }

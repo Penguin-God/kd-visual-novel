@@ -47,8 +47,6 @@ public class DialogueDataContainer : ScriptableObject
     public DialogueCondition DialogueCondition => dialogueCondition;
 
     #region events
-    //[Header("Unity Event"), Space]
-    //[SerializeField] UnityEvent OnDialogueStart;
 
     public event Action OnFirstInteraction;
     public void Raise_OnDialogueStart()
@@ -63,7 +61,7 @@ public class DialogueDataContainer : ScriptableObject
 
     #endregion
 
-    // 게임 오브젝트 내에 들어가면 실행되는 Start
+    // 게임 오브젝트 내에 들어가면 실행되는 Start (언젠가는 만들겠지?)
     public void Start()
     {
         
@@ -75,11 +73,6 @@ public class DialogueDataContainer : ScriptableObject
         dialogueCondition.Setup(_dialogueObject, this);
     }
 
-    public void DataReset()
-    {
-        interactable = false;
-    }
-
     public DialogueDataContainer GetClone()
     {
         var _newContainer = Instantiate(this);
@@ -87,6 +80,7 @@ public class DialogueDataContainer : ScriptableObject
         return _newContainer;
     }
 
+    // 나중에 다른 변수들도 바꿔야 할 수도 있으니까 확장성 고려해서 Action으로 만듬
     public Action<List<DialogueDataContainer>> SetClone = null;
 }
 

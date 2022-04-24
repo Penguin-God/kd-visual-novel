@@ -27,6 +27,7 @@ public class DialogueCondition
         }
     }
 
+    // prevConditions 복제본으로 값 변경
     public void ConditionChangeAsClone(List<DialogueDataContainer> _containers)
     {
         for (int conditionIndex = 0; conditionIndex <  prevConditions.Count; conditionIndex++)
