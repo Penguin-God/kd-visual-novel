@@ -26,7 +26,8 @@ public class DialogueObject : ScriptableObject
     [SerializeField] DialogueDataContainer[] dialogues;
     public DialogueDataContainer[] Dialogues => dialogues;
 
-    int currentDialogueIndex = 0;
+    [SerializeField] int currentDialogueIndex = 0;
+    public int CurrentDialogueIndex => currentDialogueIndex;
     public DialogueDataContainer CurrentDialogue => dialogues[currentDialogueIndex];
 
     public event Action<DialogueObject, DialogueDataContainer, DialogueDataContainer> OnDialogueChanged = null;
@@ -65,5 +66,21 @@ public class DialogueObject : ScriptableObject
         }
 
         return _obj;
+    }
+
+    public DialogueSaveData GetSaveData()
+    {
+        return new DialogueSaveData
+        {
+            codeName = this.codeName,
+            currentDialogueIndex = this.currentDialogueIndex,
+            prevConditions = null, // 후에 구현해야됨
+        };
+    }
+
+    public void LoadData(DialogueSaveData _data)
+    {
+        codeName = _data.codeName;
+        currentDialogueIndex = _data.currentDialogueIndex;
     }
 }

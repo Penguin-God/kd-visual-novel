@@ -17,6 +17,7 @@ public class MySceneManager : MonoBehaviour
     }
 
     [SerializeField] SceneManagerISo[] allSceneManagerISOs = null;
+    public IReadOnlyList<SceneManagerISo> AllSceneManagerISOs => allSceneManagerISOs;
     public Dictionary<SceneManagerISo, SceneManagerISo> sceneManagerByOriginal = new Dictionary<SceneManagerISo, SceneManagerISo>();
 
     [Header("Channel")]
