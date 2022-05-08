@@ -1247,7 +1247,7 @@ GameObject:
   - component: {fileID: 1234330323}
   - component: {fileID: 1234330322}
   m_Layer: 0
-  m_Name: Player Prefs Utility
+  m_Name: Save and Load Utility
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1262,7 +1262,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1234330321}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d28c6e928398b9643ba4e9341a27270b, type: 3}
+  m_Script: {fileID: 11500000, guid: 72225af8a482a4a4682c2afee3d94ad5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!4 &1234330323

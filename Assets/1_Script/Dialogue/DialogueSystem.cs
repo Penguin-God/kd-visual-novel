@@ -4,6 +4,8 @@ using UnityEngine;
 using System;
 using System.Linq;
 using Newtonsoft.Json.Linq;
+using System.IO;
+using System.Text;
 
 [Serializable] // View Dictionary In Inspector
 public class InteractionEventByName : SerializableDictionary<string, InteractionObject> {}
@@ -41,10 +43,15 @@ public class DialogueSystem : MonoBehaviour
         sceneChannel.OnEnterOtherScene += SetupSpawnDialgoueObject;
     }
 
-    //void Start()
-    //{
-    //    Load();
-    //}
+    void Start()
+    {
+        Load();
+    }
+
+    void OnApplicationQuit()
+    {
+        Save();
+    }
 
     // spawnDialogueObjects 세팅
     void SetupSpawnDialgoueObject(SceneManagerISo _data)
@@ -66,6 +73,12 @@ public class DialogueSystem : MonoBehaviour
     }
 
 
+    // Save, Load region
+    #region Save and Load
+
+    string SavePath => Application.persistentDataPath + "/Test.txt";
+    int XOR_Key => -1375631;
+
     JArray CreateSaveDatas(SceneManagerISo _sceneData)
     {
         JArray _saveDatas = new JArray();
@@ -83,15 +96,10 @@ public class DialogueSystem : MonoBehaviour
         {
             DialogueSaveData dialogueSaveData = _data.ToObject<DialogueSaveData>();
             DialogueObject dialogueObject = _sceneData.DialogueObjects.FirstOrDefault(x => x.CodeName == dialogueSaveData.codeName);
-            if (dialogueObject != null) 
+            if (dialogueObject != null)
                 dialogueObject.LoadData(dialogueSaveData);
         }
     }
-
-    //void OnApplicationQuit()
-    //{
-    //    Save();
-    //}
 
     public void Save()
     {
@@ -101,20 +109,39 @@ public class DialogueSystem : MonoBehaviour
             _root.Add(_sceneData.SceneName, CreateSaveDatas(_sceneData));
         }
 
-        PlayerPrefs.SetString(Key_SaveDatas, _root.ToString());
-        PlayerPrefs.Save();
-        print(_root.ToString());
+        string jdata = _root.ToString();
+        byte[] jbytes = Encoding.UTF8.GetBytes(jdata);
+
+        for (int i = 0; i < jbytes.Length; i++)
+        {
+            jbytes[i] = (byte)(jbytes[i] ^ XOR_Key);
+        }
+        string format = System.Convert.ToBase64String(jbytes);
+
+        File.WriteAllText(SavePath, format);
+        print(format);
     }
 
     void Load()
     {
-        if (PlayerPrefs.HasKey(Key_SaveDatas))
+        if (File.Exists(SavePath))
         {
-            JObject _root = JObject.Parse(PlayerPrefs.GetString(Key_SaveDatas));
+            string jdata = File.ReadAllText(SavePath);
+            byte[] jbytes = System.Convert.FromBase64String(jdata);
+            for (int i = 0; i < jbytes.Length; i++)
+            {
+                jbytes[i] = (byte)(jbytes[i] ^ XOR_Key);
+            }
+            string reFormat = Encoding.UTF8.GetString(jbytes);
+
+            JObject _root = JObject.Parse(reFormat);
             foreach (var _sceneData in MySceneManager.Instance.AllSceneManagerISOs)
             {
                 LoadSaveData(_root[_sceneData.SceneName], _sceneData);
             }
+
+            print(reFormat);
         }
     }
+    #endregion
 }
