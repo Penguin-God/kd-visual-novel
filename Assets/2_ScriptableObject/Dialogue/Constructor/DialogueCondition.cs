@@ -12,10 +12,7 @@ public class DialogueCondition
     void RemoveCondition(DialogueObject _dialogueObject, DialogueDataContainer _removeDialogue, DialogueDataContainer _newDialogue)
     {
         prevConditions.Remove(_removeDialogue);
-
-        Debug.Log(_removeDialogue.name);
-        Debug.Log(_newDialogue.name);
-        
+        Debug.Assert(_newDialogue != null, "새로운 다이어로그가 null임");
         if (IsReadyToTalk) _dialogueObject.ChangeDialogue(_newDialogue);
     }
 

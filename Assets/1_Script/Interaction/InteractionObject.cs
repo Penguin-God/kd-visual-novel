@@ -7,35 +7,32 @@ public class InteractionObject : MonoBehaviour
 {
     [Header("Channel")]
     [SerializeField] protected DialogueChannel dialogueChannel = null;
-    [SerializeField] SceneChannel sceneChannel;
+    [SerializeField] protected SceneChannel sceneChannel;
 
     [Header("Dialogue Data")]
-    [SerializeField] string codeName;
+    [SerializeField] protected string codeName;
     public string CodeName => codeName;
+
     [SerializeField] string interactionName;
     public string InteractionName => interactionName;
     
-    [SerializeField] DialogueObject dialogueObject = null;
+    [SerializeField] protected DialogueObject dialogueObject = null;
 
     [SerializeField] DialogueDataContainer currentDialogue;
     public DialogueDataContainer CurrentDialogue => currentDialogue;
 
+
+    protected virtual void Init() { }
+    protected virtual void Clear() { }
+
     void Start()
     {
-        if (dialogueObject != null && !dialogueObject.IsSpawn)
-            sceneChannel.OnSceneLoadComplete += Setup;
+        Init();
     }
 
     private void OnDestroy()
     {
-        if (dialogueObject != null && !dialogueObject.IsSpawn)
-            sceneChannel.OnSceneLoadComplete -= Setup;
-    }
-
-    void Setup(SceneManagerISo _data)
-    {
-        codeName = dialogueObject.CodeName;
-        Setup(DialogueSystem.Instance.GetDialogueObjectClone(codeName));
+        Clear();
     }
 
     public void Setup(DialogueObject _dialogueObject)

@@ -12,13 +12,6 @@ public class InteractionEventByName : SerializableDictionary<string, Interaction
 
 public class DialogueSystem : MonoBehaviour
 {
-    string Key_SaveDatas = "AllData";
-
-    [SerializeField] SceneChannel sceneChannel = null;
-
-    // 미래를 위해 남겨둠
-    public InteractionEventByName interactionObjectByCodeName; // dialogueObject의 코드네임은 interactionObject의 코드네임과 같음
-
     private static DialogueSystem instance;
     public static DialogueSystem Instance
     {
@@ -29,6 +22,11 @@ public class DialogueSystem : MonoBehaviour
         }
     }
 
+    [SerializeField] SceneChannel sceneChannel = null;
+
+    // 미래를 위해 남겨둠
+    public InteractionEventByName interactionObjectByCodeName; // dialogueObject의 코드네임은 interactionObject의 코드네임과 같음
+
     [Header("Dialogue Objects")]
     [SerializeField] List<GameObject> spawnDialogueObjects;
     public IReadOnlyList<GameObject> DynamicDialogueObjects => spawnDialogueObjects;
@@ -36,44 +34,42 @@ public class DialogueSystem : MonoBehaviour
     [SerializeField] List<DialogueObject> allDialogueObjects;
     public List<DialogueObject> AllDialogueObjects => allDialogueObjects;
 
-    public DialogueObject GetDialogueObjectClone(string _codeName) => allDialogueObjects.FirstOrDefault(x => x.CodeName == _codeName);
+    public DialogueObject FindDialogueObject_With_CodeName(string _codeName) => allDialogueObjects.FirstOrDefault(x => x.CodeName == _codeName);
 
     private void Awake()
     {
-        sceneChannel.OnEnterOtherScene += SetupSpawnDialgoueObject;
+        sceneChannel.OnEnterOtherScene += SetSceneSpawnDialgoueObject;
+        sceneChannel.OnEnterOtherScene += _data => allDialogueObjects = _data.DialogueObjects;
     }
 
-    void Start()
-    {
-        Load();
-    }
+    //void Start()
+    //{
+    //    Load();
+    //}
 
-    void OnApplicationQuit()
-    {
-        Save();
-    }
+    //void OnApplicationQuit()
+    //{
+    //    Save();
+    //}
 
-    // spawnDialogueObjects 세팅
-    void SetupSpawnDialgoueObject(SceneManagerISo _data)
-    {
-        allDialogueObjects = _data.DialogueObjects;
 
+    // 씬 데이터를 받아와서 spawnDialogueObjects 세팅
+    void SetSceneSpawnDialgoueObject(SceneManagerISo _data)
+    {
         spawnDialogueObjects.Clear();
         List<DialogueObject> dialogueObjects = _data.GetSpawnDialogueObjects();
         foreach (DialogueObject _dialogueObject in dialogueObjects)
         {
-            // new GameObject형식으로 Instantiate해야 Scene오브젝트로 생성됨
-            GameObject _obj = Instantiate(_dialogueObject.GetGameObject());
-            spawnDialogueObjects.Add(_obj);
+            GameObject go = Instantiate(_dialogueObject.GetGameObject());
+            // asset 오브젝트 내의 InteractionObject가 아니라 Scene에 생성된 오브젝트의 InteractionObject로 진행해야 적용됨
+            go.GetComponent<InteractionObject>().Setup(_dialogueObject);
 
-            // asset 오브젝트 내의 InteractionObject가 아니라 Scene에 있는 오브젝트의 InteractionObject로 진행해야 제대로 진행됨
-            InteractionObject _interaction = _obj.GetComponent<InteractionObject>();
-            _interaction.Setup(_dialogueObject); // InteractionObject 세팅
+            spawnDialogueObjects.Add(go);
         }
     }
 
-
     // Save, Load region
+    // TODO : 현재 저장하는 오브젝트를 제외한 다른 오브젝트(ex : 문)의 Condition을 저장하지 못하고 있는데 이 부분도 저장 및 로드해야함
     #region Save and Load
 
     string SavePath => Application.persistentDataPath + "/Test.txt";
@@ -119,7 +115,7 @@ public class DialogueSystem : MonoBehaviour
         string format = System.Convert.ToBase64String(jbytes);
 
         File.WriteAllText(SavePath, format);
-        print(format);
+        print($"암호화 후 저장 성공!! \n{format}");
     }
 
     void Load()
@@ -140,8 +136,9 @@ public class DialogueSystem : MonoBehaviour
                 LoadSaveData(_root[_sceneData.SceneName], _sceneData);
             }
 
-            print(reFormat);
+            print("로드 성공");
         }
+        else print($"현재 파일이 존재하지 않음 : {SavePath}");
     }
     #endregion
 }
