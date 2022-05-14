@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class DefaultSceneLoder : MonoBehaviour
 {
-    //[SerializeField] SceneChannel sceneChannel= null;
+    //[SerializeField] MySceneManager.Instance MySceneManager.Instance= null;
     [SerializeField] SceneManagerISo sceneManagerISo = null;
 
     private void Awake()

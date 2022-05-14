@@ -62,12 +62,6 @@ public class DialogueDataContainer : ScriptableObject
 
     #endregion
 
-    // 게임 오브젝트 내에 들어가면 실행되는 Start (언젠가는 쓰겠지?)
-    public void Start()
-    {
-        
-    }
-
     // 씬 세팅시 동작하는 셋업
     public void Setup(DialogueObject _dialogueObject)
     {

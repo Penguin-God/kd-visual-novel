@@ -6,16 +6,16 @@ using UnityEngine.UI;
 public class UIManager : MonoBehaviour
 {
     [SerializeField] DialogueChannel dialogueChannel = null;
-    [SerializeField] SceneChannel sceneChannel = null;
+    
     [SerializeField] SceneLoadDialogueProducer loadDialogueProducer;
     void Start()
     {
         dialogueChannel.StartInteractionEvent += (_target, _con) => HideUI();
         dialogueChannel.EndInteractionEvent += (_con) => ShowUI(MySceneManager.Instance.CurrentSceneIsOnlyView);
 
-        sceneChannel.OnOtherSceneLoad += (_data) => status.gameObject.SetActive(false);
-        sceneChannel.OnSceneLoadComplete += (_data) => status.gameObject.SetActive(true);
-        sceneChannel.OnSceneLoadComplete += (_data) => ShowUI(MySceneManager.Instance.CurrentSceneIsOnlyView);
+        MySceneManager.Instance.OnOtherSceneLoad += (_data) => status.gameObject.SetActive(false);
+        MySceneManager.Instance.OnSceneLoadComplete += (_data) => status.gameObject.SetActive(true);
+        MySceneManager.Instance.OnSceneLoadComplete += (_data) => ShowUI(MySceneManager.Instance.CurrentSceneIsOnlyView);
 
         //loadDialogueProducer.OnLoadDialogue += HideUI;
     }

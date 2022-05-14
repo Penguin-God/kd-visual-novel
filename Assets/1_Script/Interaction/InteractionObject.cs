@@ -7,7 +7,6 @@ public class InteractionObject : MonoBehaviour
 {
     [Header("Channel")]
     [SerializeField] protected DialogueChannel dialogueChannel = null;
-    [SerializeField] protected SceneChannel sceneChannel;
 
     [Header("Dialogue Data")]
     [SerializeField] protected string codeName;

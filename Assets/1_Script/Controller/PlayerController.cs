@@ -22,13 +22,12 @@ public class PlayerController : MonoBehaviour
 
         originPos_CameraY = tf_Camera.localPosition.y;
 
-        sceneChannel.OnEnterOtherScene += (_data) => transform.position = _data.PlayerSpawnPos;
-        sceneChannel.OnEnterOtherScene += (_data) => AngleValueReset();
-        sceneChannel.OnEnterOtherScene += (_data) => ResetCamera();
+        MySceneManager.Instance.OnEnterOtherScene += (_data) => transform.position = _data.PlayerSpawnPos;
+        MySceneManager.Instance.OnEnterOtherScene += (_data) => AngleValueReset();
+        MySceneManager.Instance.OnEnterOtherScene += (_data) => ResetCamera();
     }
 
     [SerializeField] DialogueChannel dialogueChannel;
-    [SerializeField] SceneChannel sceneChannel;
 
     void AngleValueReset()
     {

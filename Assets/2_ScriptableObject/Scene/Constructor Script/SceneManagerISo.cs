@@ -34,37 +34,48 @@ public class SceneManagerISo : ScriptableObject
         return _datas;
     }
 
-    [SerializeField] List<DialogueDataContainer> allDialogue;
+    // 클론 생성
+    #region Coloning
 
-    List<DialogueDataContainer> AddDialogue(List<DialogueObject> _dialogueObjects)
-    {
-
-        foreach (var _dialogueObject in _dialogueObjects)
-        {
-            foreach (var _container in _dialogueObject.Dialogues)
-                allDialogue.Add(_container);
-        }
-
-        return allDialogue;
-    }
-
-    // 모든 SO 복사본 세팅
     public SceneManagerISo GetClone()
     {
         SceneManagerISo _newManager = Instantiate(this);
         _newManager.dialogueObjects = _newManager.dialogueObjects.Select(x => x.GetClone()).ToList();
 
-        List<DialogueDataContainer> _allContainers = _newManager.AddDialogue(_newManager.dialogueObjects);
-
         foreach (var _dialogueObject in _newManager.dialogueObjects)
         {
-            foreach (var _container in _dialogueObject.Dialogues)
-            {
-                _container.SetClone(_allContainers);
-                _container.Setup(_dialogueObject);
-            }
+            SetContainerCondition(_dialogueObject.Dialogues, _newManager.dialogueObjects.ToArray());
+            ContainerSetup(_dialogueObject.Dialogues, _dialogueObject);
         }
 
         return _newManager;
     }
+
+    void SetContainerCondition(DialogueDataContainer[] _containers, DialogueObject[] _dialogueObjects)
+    {
+        foreach (var _container in _containers)
+            _container.SetClone(GetAllDialogueInObjects(_dialogueObjects));
+    }
+
+    void ContainerSetup(DialogueDataContainer[] _containers, DialogueObject _dialogueObject)
+    {
+        foreach (var _container in _containers)
+            _container.Setup(_dialogueObject);
+    }
+
+    [SerializeField] List<DialogueDataContainer> test;
+
+    List<DialogueDataContainer> GetAllDialogueInObjects(DialogueObject[] _dialogueObjects)
+    {
+        List<DialogueDataContainer> result = new List<DialogueDataContainer>();
+
+        foreach (var _dialogueObject in _dialogueObjects)
+        {
+            foreach (var _container in _dialogueObject.Dialogues)
+                result.Add(_container);
+        }
+        test = result;
+        return result;
+    }
+    #endregion
 }

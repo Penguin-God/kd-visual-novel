@@ -24,19 +24,28 @@ public class DialogueCondition
         }
     }
 
+    
     // prevConditions 복제본으로 값 변경
+    // 현재 연출을 위한 다이어로그는 복사 안되고 있는데 그것도 복사시키기
     public void ConditionChangeAsClone(List<DialogueDataContainer> _containers)
     {
-        for (int conditionIndex = 0; conditionIndex <  prevConditions.Count; conditionIndex++)
+        for (int i = 0; i < prevConditions.Count; i++)
         {
-            for (int i = 0; i < _containers.Count; i++)
+            if(FindContainerWithCodeName(_containers, prevConditions[i].CodeName) != null)
+                prevConditions[i] = FindContainerWithCodeName(_containers, prevConditions[i].CodeName);
+        }
+    }
+
+    DialogueDataContainer FindContainerWithCodeName(List<DialogueDataContainer> _containers, string origianlCodeName)
+    {
+        for (int i = 0; i < _containers.Count; i++)
+        {
+            if (origianlCodeName == _containers[i].CodeName)
             {
-                if(prevConditions[conditionIndex].CodeName == _containers[i].CodeName)
-                {
-                    prevConditions[conditionIndex] = _containers[i];
-                    break;
-                }
+                return _containers[i];
+
             }
         }
+        return null;
     }
 }

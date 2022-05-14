@@ -56,18 +56,23 @@ public class DialogueObject : ScriptableObject
         GameObject _obj = SpawnData.characterContainer;
         _obj.transform.position = SpawnData.spawnPos;
         _obj.transform.rotation = Quaternion.Euler(SpawnData.spawnEulerAngles);
+        SetRenderer(_obj);
 
-        // 렌더러 세팅
-        SpriteRenderer[] _srs = _obj.GetComponentsInChildren<SpriteRenderer>();
+        return _obj;
+    }
+
+    void SetRenderer(GameObject _go)
+    {
+        SpriteRenderer[] _srs = _go.GetComponentsInChildren<SpriteRenderer>();
         for (int i = 0; i < _srs.Length; i++)
         {
             _srs[i].color = new Color(1, 1, 1, 0);
             _srs[i].sprite = SpawnData.spawnSprite;
         }
-
-        return _obj;
     }
 
+
+    // TODO : prevConditions 관련 기능 구현
     public DialogueSaveData GetSaveData()
     {
         return new DialogueSaveData

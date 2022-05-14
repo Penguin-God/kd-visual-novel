@@ -22,8 +22,6 @@ public class DialogueSystem : MonoBehaviour
         }
     }
 
-    [SerializeField] SceneChannel sceneChannel = null;
-
     // 미래를 위해 남겨둠
     public InteractionEventByName interactionObjectByCodeName; // dialogueObject의 코드네임은 interactionObject의 코드네임과 같음
 
@@ -38,8 +36,8 @@ public class DialogueSystem : MonoBehaviour
 
     private void Awake()
     {
-        sceneChannel.OnEnterOtherScene += SetSceneSpawnDialgoueObject;
-        sceneChannel.OnEnterOtherScene += _data => allDialogueObjects = _data.DialogueObjects;
+        MySceneManager.Instance.OnEnterOtherScene += SetSceneSpawnDialgoueObject;
+        MySceneManager.Instance.OnEnterOtherScene += _data => allDialogueObjects = _data.DialogueObjects;
     }
 
     //void Start()

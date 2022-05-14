@@ -7,13 +7,16 @@ public class StaticInteractoinObject : InteractionObject
     protected override void Init()
     {
         base.Init();
-        sceneChannel.OnSceneLoadComplete += Setup;
+        MySceneManager.Instance.OnSceneLoadComplete += Setup;
     }
 
     protected override void Clear()
     {
         base.Clear();
-        sceneChannel.OnSceneLoadComplete -= Setup;
+        if(MySceneManager.Instance != null)
+        {
+            MySceneManager.Instance.OnSceneLoadComplete -= Setup;
+        }
     }
 
     void Setup(SceneManagerISo _data)

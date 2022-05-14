@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using System;
+using System.Linq;
 
 public class MySceneManager : MonoBehaviour
 {
@@ -18,10 +19,7 @@ public class MySceneManager : MonoBehaviour
 
     [SerializeField] SceneManagerISo[] allSceneManagerISOs = null;
     public IReadOnlyList<SceneManagerISo> AllSceneManagerISOs => allSceneManagerISOs;
-    public Dictionary<SceneManagerISo, SceneManagerISo> sceneManagerByOriginal = new Dictionary<SceneManagerISo, SceneManagerISo>();
 
-    [Header("Channel")]
-    [SerializeField] SceneChannel sceneChannel = null;
     [SerializeField] SplashManager splashManager = null;
     [SerializeField] SceneLoadDialogueProducer loadDialogueProducer = null;
 
@@ -40,36 +38,54 @@ public class MySceneManager : MonoBehaviour
             return !async.isDone;
         }
     }
-    
-    void Awake()
-    {
-        sceneChannel.OnOtherSceneLoad += LoadedScene;
-        sceneChannel.OnEnterOtherScene += SetupScene;
 
-        for (int i = 0; i < allSceneManagerISOs.Length; i++)
-        {
-            SceneManagerISo _newManger = allSceneManagerISOs[i].GetClone();
-            sceneManagerByOriginal.Add(allSceneManagerISOs[i], _newManger);
-            allSceneManagerISOs[i] = _newManger;
-        }
+    #region Events
+    [SerializeField] bool isSceneLoding;
+    public bool IsSceneLoding => isSceneLoding;
+
+    public event Action<SceneManagerISo> OnOtherSceneLoad = null;
+    public void Raise_OnOtherSceneLoad(SceneManagerISo _sceneData) // 유니티 이벤트 매서드로 등록해서 많이 사용함
+    {
+        isSceneLoding = true;
+        currentSceneManagerISO = GetSceneManagerISo(_sceneData);
+        OnOtherSceneLoad?.Invoke(currentSceneManagerISO);
+        LoadedScene();
     }
 
-
-    void LoadedScene(SceneManagerISo _data)
+    public event Action<SceneManagerISo> OnEnterOtherScene = null;
+    private void Raise_OnEnterOtherScene()
     {
-        currentSceneManagerISO = sceneManagerByOriginal[_data];
+        isSceneLoding = false;
+        OnEnterOtherScene?.Invoke(currentSceneManagerISO);
+    }
+
+    public event Action<SceneManagerISo> OnSceneLoadComplete = null;
+    private void Raise_OnSceneLoadComplete() => OnSceneLoadComplete?.Invoke(currentSceneManagerISO);
+    #endregion
+
+    void Awake()
+    {
+        SetDataToClones();
+
+        OnEnterOtherScene += SetSceneData; // TODO : Raise_OnEnterOtherScene() 안으로 옮기기
+    }
+
+    void SetDataToClones() => allSceneManagerISOs = allSceneManagerISOs.Select(x => x.GetClone()).ToArray();
+
+    SceneManagerISo GetSceneManagerISo(SceneManagerISo _sceneManagerISo) 
+        => allSceneManagerISOs.FirstOrDefault(x => _sceneManagerISo.SceneName == x.SceneName);
+
+    void LoadedScene()
+    {
+        Debug.Assert(currentSceneManagerISO.name.Contains("(Clone)"), $"클론 데이터가 아닌 SceneManagerISO 사용 중 : {currentSceneManagerISO.name}");
         StartCoroutine(Co_LoadedScene(currentSceneManagerISO));
     }
 
     public void LoadedScene(SceneManagerISo _data, bool isFirst)
     {
-        currentSceneManagerISO = sceneManagerByOriginal[_data];
+        currentSceneManagerISO = GetSceneManagerISo(_data);
+        Debug.Assert(currentSceneManagerISO.name.Contains("(Clone)"), $"클론 데이터가 아닌 SceneManagerISO 사용 중 : {currentSceneManagerISO.name}");
         StartCoroutine(Co_LoadedScene(currentSceneManagerISO, isFirst));
-    }
-
-    void SetupScene(SceneManagerISo _data)
-    {
-        currentSceneIsOnlyView = _data.IsOnlyCameraView;
     }
 
     IEnumerator Co_LoadedScene(SceneManagerISo _data, bool isFirst = false)
@@ -77,20 +93,25 @@ public class MySceneManager : MonoBehaviour
         splashManager.FadeOut(FadeType.Black, true);
         yield return new WaitUntil(() => !splashManager.isFade);
 
-        if(!isFirst) LoadScene(_data);
+        if (!isFirst) LoadingScene(_data);
         yield return new WaitUntil(() => !IsSceneLoading && !CameraController.isCameraEffect);
 
-        sceneChannel.Raise_OnEnterOtherScene(_data); // 씬 입장 성공
+        Raise_OnEnterOtherScene(); // 씬 입장 성공
         splashManager.FadeIn(FadeType.Black, true);
         yield return new WaitUntil(() => !splashManager.isFade);
 
-        sceneChannel.Raise_OnSceneLoadComplete(_data);
+        Raise_OnSceneLoadComplete();
         loadDialogueProducer.ShowDialogue_When_SceneFadeIn();
     }
 
-    void LoadScene(SceneManagerISo _data)
+    void LoadingScene(SceneManagerISo _data)
     {
         SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene());
         async = SceneManager.LoadSceneAsync(_data.SceneName, LoadSceneMode.Additive);
+    }
+
+    void SetSceneData(SceneManagerISo _data)
+    {
+        currentSceneIsOnlyView = _data.IsOnlyCameraView;
     }
 }

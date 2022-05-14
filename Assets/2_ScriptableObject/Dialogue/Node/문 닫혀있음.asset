@@ -30,10 +30,6 @@ MonoBehaviour:
   interactable: 1
   dialogueCondition:
     prevConditions: []
-  isSaw: 0
   OnDialogueEnd:
-    m_PersistentCalls:
-      m_Calls: []
-  OnDialogueStart:
     m_PersistentCalls:
       m_Calls: []

@@ -6,7 +6,6 @@ using UnityEngine.UI;
 public class SpriteManager : MonoBehaviour
 {
     [SerializeField] DialogueChannel dialogueChannel = null;
-    [SerializeField] SceneChannel sceneChannel = null;
     [SerializeField] CameraRotateTalkDirector rotateTalkDirector = null;
     Image[] CurrentChacterImages => rotateTalkDirector.CurrentImageField.GetComponentsInChildren<Image>();
 
@@ -19,7 +18,7 @@ public class SpriteManager : MonoBehaviour
         dialogueChannel.StartTalkEvent += (_con) => FadeOut_AllSceneCharacters();
         dialogueChannel.EndTalkEvent += (_con) => FadeIn_AllSceneCharacters();
 
-        sceneChannel.OnSceneLoadComplete += (_data) => FadeIn_AllSceneCharacters();
+        MySceneManager.Instance.OnSceneLoadComplete += (_data) => FadeIn_AllSceneCharacters();
     }
 
     void ChangeSprite_byTalk(DialogueData _data, int _contextCount)
