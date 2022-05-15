@@ -44,7 +44,7 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        if (dialogueChannel.IsInteraction || MySceneManager.Instance.IsSceneLoadingEffect) return;
+        if (dialogueChannel.IsInteraction || MySceneManager.Instance.IsSceneLoadEffect) return;
 
         if (MySceneManager.Instance.CurrentSceneIsOnlyView)
         {

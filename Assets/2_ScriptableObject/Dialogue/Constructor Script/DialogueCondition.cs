@@ -8,7 +8,6 @@ public class DialogueCondition
     [SerializeField] List<DialogueDataContainer> prevConditions = null;
     public bool IsReadyToTalk => prevConditions.Count == 0;
 
-    //public event Action<InteractionObject, DialogueDataContainer> OnDialogueChange;
     void RemoveCondition(DialogueObject _dialogueObject, DialogueDataContainer _removeDialogue, DialogueDataContainer _newDialogue)
     {
         prevConditions.Remove(_removeDialogue);
@@ -20,13 +19,13 @@ public class DialogueCondition
     {
         foreach (var _con in prevConditions)
         {
-            _con.OnFirstInteraction += () => RemoveCondition(_dialogueObject, _con, _newDialogue);
+            _con.OnFirstInteractionEnd += () => RemoveCondition(_dialogueObject, _con, _newDialogue);
         }
     }
 
     
     // prevConditions 복제본으로 값 변경
-    public void ConditionChangeAsClone(List<DialogueDataContainer> _containers)
+    public void ConditionChangeAsClone(DialogueDataContainer[] _containers)
     {
         for (int i = 0; i < prevConditions.Count; i++)
         {
@@ -35,9 +34,9 @@ public class DialogueCondition
         }
     }
 
-    DialogueDataContainer FindContainerWithCodeName(List<DialogueDataContainer> _containers, string origianlCodeName)
+    DialogueDataContainer FindContainerWithCodeName(DialogueDataContainer[] _containers, string origianlCodeName)
     {
-        for (int i = 0; i < _containers.Count; i++)
+        for (int i = 0; i < _containers.Length; i++)
         {
             if (origianlCodeName == _containers[i].CodeName)
                 return _containers[i];

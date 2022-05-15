@@ -26,7 +26,7 @@ public class CameraController : MonoBehaviour
 
         dialogueChannel.EndTalkEvent += (_con) =>
         {
-            if (!MySceneManager.Instance.IsSceneLoding)
+            if (!MySceneManager.Instance.IsSceneLoadEffect)
                 CameraReset(_con);
         };
     }

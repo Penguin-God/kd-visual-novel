@@ -32,7 +32,8 @@ public class DialogueDataContainer : ScriptableObject
     void OnDisable()
     {
         interactable = true;
-        OnFirstInteraction = null;
+        OnFirstInteractionStart = null;
+        OnFirstInteractionEnd = null;
     }
 
 
@@ -49,16 +50,23 @@ public class DialogueDataContainer : ScriptableObject
     // events
     #region events
 
-    public event Action OnFirstInteraction;
+    public event Action OnFirstInteractionStart;
     public void Raise_OnDialogueStart()
     {
-        OnFirstInteraction?.Invoke();
-        OnFirstInteraction = null;
+        OnFirstInteractionStart?.Invoke();
+        OnFirstInteractionStart = null;
     }
+
+    public event Action OnFirstInteractionEnd = null;
 
     [Header("Unity Event"), Space]
     [SerializeField] UnityEvent OnDialogueEnd;
-    public void Raise_OnDialogueEnd() => OnDialogueEnd?.Invoke();
+    public void Raise_OnDialogueEnd()
+    {
+        OnDialogueEnd?.Invoke();
+        OnFirstInteractionEnd?.Invoke();
+        OnFirstInteractionEnd = null;
+    }
 
     #endregion
 
@@ -76,7 +84,7 @@ public class DialogueDataContainer : ScriptableObject
     }
 
     // 나중에 다른 변수들도 바꿔야 할 수도 있으니까 확장성 고려해서 Action으로 만듬
-    public Action<List<DialogueDataContainer>> SetClone = null;
+    public Action<DialogueDataContainer[]> SetClone = null;
 }
 
 

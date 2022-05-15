@@ -18,7 +18,6 @@ public class SceneManagerISo : ScriptableObject
     [SerializeField] Vector3 playerSpawnPos;
     public Vector3 PlayerSpawnPos => playerSpawnPos;
 
-
     [SerializeField] List<DialogueObject> dialogueObjects;
     public List<DialogueObject> DialogueObjects => dialogueObjects;
 
@@ -34,48 +33,52 @@ public class SceneManagerISo : ScriptableObject
         return _datas;
     }
 
-    // 클론 생성
-    #region Coloning
 
-    public SceneManagerISo GetClone()
+    public SceneManagerISo GetClone() => new Cloning().GetClone(this);
+    class Cloning
     {
-        SceneManagerISo _newManager = Instantiate(this);
-        _newManager.dialogueObjects = _newManager.dialogueObjects.Select(x => x.GetClone()).ToList();
-
-        foreach (var _dialogueObject in _newManager.dialogueObjects)
+        public SceneManagerISo GetClone(SceneManagerISo original)
         {
-            SetContainerCondition(_dialogueObject.Dialogues, _newManager.dialogueObjects.ToArray());
-            ContainerSetup(_dialogueObject.Dialogues, _dialogueObject);
+            SceneManagerISo result = Instantiate(original);
+            result.dialogueObjects = GetDialogueObjectsClone(result);
+            AllObjectContainerSetup(result);
+            Debug.Assert(result.Equals(original) == false, $"SceneManagerISo의 복제본을 만들 때 얕은 복사가 진행되어 원본에 영향을 줄 수 있음 : {result.name}");
+            return result;
         }
 
-        return _newManager;
-    }
+        List<DialogueObject> GetDialogueObjectsClone(SceneManagerISo _newManager) => _newManager.dialogueObjects.Select(x => x.GetClone()).ToList();
 
-    void SetContainerCondition(DialogueDataContainer[] _containers, DialogueObject[] _dialogueObjects)
-    {
-        foreach (var _container in _containers)
-            _container.SetClone(GetAllDialogueInObjects(_dialogueObjects));
-    }
-
-    void ContainerSetup(DialogueDataContainer[] _containers, DialogueObject _dialogueObject)
-    {
-        foreach (var _container in _containers)
-            _container.Setup(_dialogueObject);
-    }
-
-    [SerializeField] List<DialogueDataContainer> test;
-
-    List<DialogueDataContainer> GetAllDialogueInObjects(DialogueObject[] _dialogueObjects)
-    {
-        List<DialogueDataContainer> result = new List<DialogueDataContainer>();
-
-        foreach (var _dialogueObject in _dialogueObjects)
+        void AllObjectContainerSetup(SceneManagerISo _newManager)
         {
-            foreach (var _container in _dialogueObject.Dialogues)
-                result.Add(_container);
+            DialogueDataContainer[] containers = GetAllDialogueInObjects(_newManager.dialogueObjects.ToArray());
+            foreach (var _dialogueObject in _newManager.dialogueObjects)
+            {
+                SetContainerCondition(_dialogueObject.Dialogues, containers);
+                ObjectContainerSetup(_dialogueObject.Dialogues, _dialogueObject);
+            }
         }
-        test = result;
-        return result;
+        void SetContainerCondition(DialogueDataContainer[] dialogueObjectContainers, DialogueDataContainer[] allContainers)
+        {
+            foreach (var _container in dialogueObjectContainers)
+                _container.SetClone(allContainers);
+        }
+        void ObjectContainerSetup(DialogueDataContainer[] _containers, DialogueObject _dialogueObject)
+        {
+            foreach (var _container in _containers)
+                _container.Setup(_dialogueObject);
+        }
+
+        DialogueDataContainer[] GetAllDialogueInObjects(DialogueObject[] _dialogueObjects)
+        {
+            List<DialogueDataContainer> result = new List<DialogueDataContainer>();
+
+            foreach (var _dialogueObject in _dialogueObjects)
+            {
+                foreach (var _container in _dialogueObject.Dialogues)
+                    result.Add(_container);
+            }
+
+            return result.ToArray();
+        }
     }
-    #endregion
 }
