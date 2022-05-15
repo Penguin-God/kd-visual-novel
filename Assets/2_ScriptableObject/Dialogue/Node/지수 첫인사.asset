@@ -77,12 +77,7 @@ MonoBehaviour:
     - 
   interactable: 0
   dialogueCondition:
-    prevConditions:
-    - {fileID: 11400000, guid: 3f15a957d9c3a004aa016d546ee51f69, type: 2}
-  isSaw: 0
+    prevConditions: []
   OnDialogueEnd:
-    m_PersistentCalls:
-      m_Calls: []
-  ContainerDialogueEndEvent:
     m_PersistentCalls:
       m_Calls: []

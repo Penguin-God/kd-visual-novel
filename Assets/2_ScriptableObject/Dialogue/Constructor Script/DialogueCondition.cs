@@ -26,7 +26,6 @@ public class DialogueCondition
 
     
     // prevConditions 복제본으로 값 변경
-    // 현재 연출을 위한 다이어로그는 복사 안되고 있는데 그것도 복사시키기
     public void ConditionChangeAsClone(List<DialogueDataContainer> _containers)
     {
         for (int i = 0; i < prevConditions.Count; i++)
@@ -41,11 +40,10 @@ public class DialogueCondition
         for (int i = 0; i < _containers.Count; i++)
         {
             if (origianlCodeName == _containers[i].CodeName)
-            {
                 return _containers[i];
-
-            }
         }
+
+        Debug.LogError($"이벤트 조건 복사본을 찾지 못함 {origianlCodeName}");
         return null;
     }
 }
