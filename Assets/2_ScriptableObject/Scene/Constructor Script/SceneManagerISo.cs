@@ -45,13 +45,17 @@ public class SceneManagerISo : ScriptableObject
         {
             SceneManagerISo result = Instantiate(original);
             if(result.producer != null) result.producer = Instantiate(original.producer);
+
             result.dialogueObjects = GetDialogueObjectsClone(result);
-            AllObjectContainerSetup(result);
+            DialogueDataContainer[] containers = GetAllDialogueInObjects(result.dialogueObjects.ToArray());
+            result.dialogueObjects.ForEach(x => x.Setup(containers));
+
             Debug.Assert(result.Equals(original) == false, $"SceneManagerISo의 복제본을 만들 때 얕은 복사가 진행되어 원본에 영향을 줄 수 있음 : {result.name}");
             return result;
         }
 
-        List<DialogueObject> GetDialogueObjectsClone(SceneManagerISo _newManager) => _newManager.dialogueObjects.Select(x => x.GetClone()).ToList();
+        List<DialogueObject> GetDialogueObjectsClone(SceneManagerISo _newManager) 
+            => _newManager.dialogueObjects.Select(x => x.GetClone()).ToList();
 
         void AllObjectContainerSetup(SceneManagerISo _newManager)
         {
@@ -62,21 +66,18 @@ public class SceneManagerISo : ScriptableObject
                 ObjectContainerSetup(_dialogueObject.Dialogues, _dialogueObject);
             }
         }
-        void SetContainerCondition(DialogueDataContainer[] dialogueObjectContainers, DialogueDataContainer[] allContainers)
+        DialogueDataContainer[] SetContainerCondition(DialogueDataContainer[] dialogueObjectContainers, DialogueDataContainer[] allContainers)
         {
-            foreach (var _container in dialogueObjectContainers)
-                _container.SetClone(allContainers);
+            return dialogueObjectContainers.Select(x => { x.SetClone(allContainers); return x; }).ToArray();
         }
         void ObjectContainerSetup(DialogueDataContainer[] _containers, DialogueObject _dialogueObject)
         {
-            foreach (var _container in _containers)
-                _container.Setup(_dialogueObject);
+            _containers.Select(x => x.Setup(_dialogueObject)).ToArray();
         }
 
         DialogueDataContainer[] GetAllDialogueInObjects(DialogueObject[] _dialogueObjects)
         {
             List<DialogueDataContainer> result = new List<DialogueDataContainer>();
-
             foreach (var _dialogueObject in _dialogueObjects)
             {
                 foreach (var _container in _dialogueObject.Dialogues)

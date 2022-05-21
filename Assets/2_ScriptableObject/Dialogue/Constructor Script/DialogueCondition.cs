@@ -22,7 +22,6 @@ public class DialogueCondition
             _con.OnFirstInteractionEnd += () => RemoveCondition(_dialogueObject, _con, _newDialogue);
         }
     }
-
     
     // prevConditions 복제본으로 값 변경
     public void ConditionChangeAsClone(DialogueDataContainer[] _containers)

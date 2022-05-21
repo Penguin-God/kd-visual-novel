@@ -51,6 +51,9 @@ public class DialogueObject : ScriptableObject
         return _newDialogueObject;
     }
 
+    public void Setup(DialogueDataContainer[] allContainerInScene)
+        => dialogues.Select(x => x.Setup(this, allContainerInScene)).ToArray();
+
     public GameObject GetGameObject()
     {
         GameObject _obj = SpawnData.characterContainer;
@@ -70,7 +73,6 @@ public class DialogueObject : ScriptableObject
             _srs[i].sprite = SpawnData.spawnSprite;
         }
     }
-
 
     // TODO : prevConditions 관련 기능 구현
     public DialogueSaveData GetSaveData()

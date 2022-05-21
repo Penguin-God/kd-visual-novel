@@ -71,9 +71,17 @@ public class DialogueDataContainer : ScriptableObject
     #endregion
 
     // 씬 세팅시 동작하는 셋업
-    public void Setup(DialogueObject _dialogueObject)
+    public DialogueDataContainer Setup(DialogueObject _dialogueObject, DialogueDataContainer[] allContainerInScene)
+    {
+        DialogueCondition.ConditionChangeAsClone(allContainerInScene);
+        dialogueCondition.Setup(_dialogueObject, this);
+        return this;
+    }
+
+    public DialogueDataContainer Setup(DialogueObject _dialogueObject)
     {
         dialogueCondition.Setup(_dialogueObject, this);
+        return this;
     }
 
     public DialogueDataContainer GetClone()
