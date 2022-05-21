@@ -35,7 +35,6 @@ public class SceneManagerISo : ScriptableObject
     public void Start()
     {
         ShowLoadDialogue();
-        
     }
 
     public SceneManagerISo GetClone() => new Cloning().GetClone(this);
@@ -56,24 +55,6 @@ public class SceneManagerISo : ScriptableObject
 
         List<DialogueObject> GetDialogueObjectsClone(SceneManagerISo _newManager) 
             => _newManager.dialogueObjects.Select(x => x.GetClone()).ToList();
-
-        void AllObjectContainerSetup(SceneManagerISo _newManager)
-        {
-            DialogueDataContainer[] containers = GetAllDialogueInObjects(_newManager.dialogueObjects.ToArray());
-            foreach (var _dialogueObject in _newManager.dialogueObjects)
-            {
-                SetContainerCondition(_dialogueObject.Dialogues, containers);
-                ObjectContainerSetup(_dialogueObject.Dialogues, _dialogueObject);
-            }
-        }
-        DialogueDataContainer[] SetContainerCondition(DialogueDataContainer[] dialogueObjectContainers, DialogueDataContainer[] allContainers)
-        {
-            return dialogueObjectContainers.Select(x => { x.SetClone(allContainers); return x; }).ToArray();
-        }
-        void ObjectContainerSetup(DialogueDataContainer[] _containers, DialogueObject _dialogueObject)
-        {
-            _containers.Select(x => x.Setup(_dialogueObject)).ToArray();
-        }
 
         DialogueDataContainer[] GetAllDialogueInObjects(DialogueObject[] _dialogueObjects)
         {
