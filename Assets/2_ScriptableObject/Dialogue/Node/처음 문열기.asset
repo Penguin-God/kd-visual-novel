@@ -84,15 +84,3 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 11400000, guid: a988a52bc8410d647849e0a24435c130, type: 2}
-        m_TargetAssemblyTypeName: SceneLoadDialogueProducer, Assembly-CSharp
-        m_MethodName: SetDialogue
-        m_Mode: 2
-        m_Arguments:
-          m_ObjectArgument: {fileID: 11400000, guid: 3f15a957d9c3a004aa016d546ee51f69, type: 2}
-          m_ObjectArgumentAssemblyTypeName: DialogueDataContainer, Assembly-CSharp
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2

@@ -21,7 +21,6 @@ public class MySceneManager : MonoBehaviour
     public IReadOnlyList<SceneManagerISo> AllSceneManagerISOs => allSceneManagerISOs;
 
     [SerializeField] SplashManager splashManager = null;
-    [SerializeField] SceneLoadDialogueProducer loadDialogueProducer = null;
 
     [Header("Scene Value")]
     [SerializeField] SceneManagerISo currentSceneManagerISO = null;
@@ -116,6 +115,6 @@ public class MySceneManager : MonoBehaviour
     void SceneChangeEnd()
     {
         Raise_OnSceneLoadComplete();
-        loadDialogueProducer.ShowDialogue_When_SceneFadeIn();
+        currentSceneManagerISO.Start();
     }
 }

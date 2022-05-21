@@ -22,6 +22,21 @@ public class SceneManagerISo : ScriptableObject
     public List<DialogueObject> DialogueObjects => dialogueObjects;
     public IReadOnlyList<DialogueObject> SpawnObjects => dialogueObjects.Where(x => x.IsSpawn).ToList();
 
+    [SerializeField] SceneLoadDialogueProducer producer = null;
+    void ShowLoadDialogue()
+    {
+        if (producer != null)
+        {
+            producer.ShowDialogue_When_SceneFadeIn();
+            producer = null;
+        }
+    }
+
+    public void Start()
+    {
+        ShowLoadDialogue();
+        
+    }
 
     public SceneManagerISo GetClone() => new Cloning().GetClone(this);
     class Cloning
@@ -29,6 +44,7 @@ public class SceneManagerISo : ScriptableObject
         public SceneManagerISo GetClone(SceneManagerISo original)
         {
             SceneManagerISo result = Instantiate(original);
+            if(result.producer != null) result.producer = Instantiate(original.producer);
             result.dialogueObjects = GetDialogueObjectsClone(result);
             AllObjectContainerSetup(result);
             Debug.Assert(result.Equals(original) == false, $"SceneManagerISo의 복제본을 만들 때 얕은 복사가 진행되어 원본에 영향을 줄 수 있음 : {result.name}");

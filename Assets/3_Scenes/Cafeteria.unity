@@ -491,7 +491,7 @@ Transform:
   - {fileID: 498916327}
   - {fileID: 1103770651}
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &424658627
 PrefabInstance:
@@ -632,7 +632,7 @@ Transform:
   m_LocalPosition: {x: -0.48957515, y: -3.0352077, z: -0.919861}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 1540705425}
+  m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
 --- !u!108 &444657880
@@ -902,7 +902,7 @@ Transform:
   - {fileID: 437465132}
   - {fileID: 1014738292}
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &728947322
 PrefabInstance:
@@ -1326,7 +1326,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1540705425}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!81 &1386157392
 AudioListener:
@@ -1544,7 +1544,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 612bcafbacf5efb4fad9323a01267a1f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sceneChannel: {fileID: 11400000, guid: d72bbd3953b852849a2d10183253885e, type: 2}
   sceneManagerISo: {fileID: 11400000, guid: bc6c7fab76104f2448636479a0dda62e, type: 2}
 --- !u!4 &1540705425
 Transform:
@@ -1557,10 +1556,9 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 444657879}
   - {fileID: 1386157391}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1741101053
 PrefabInstance:
