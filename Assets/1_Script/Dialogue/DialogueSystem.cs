@@ -51,12 +51,11 @@ public class DialogueSystem : MonoBehaviour
     //}
 
 
-    // 씬 데이터를 받아와서 spawnDialogueObjects 세팅
+    // 씬 데이터를 받아와서 SpawnObjects 세팅
     void SetSceneSpawnDialgoueObject(SceneManagerISo _data)
     {
         spawnDialogueObjects.Clear();
-        List<DialogueObject> dialogueObjects = _data.GetSpawnDialogueObjects();
-        foreach (DialogueObject _dialogueObject in dialogueObjects)
+        foreach (DialogueObject _dialogueObject in _data.SpawnObjects)
         {
             GameObject go = Instantiate(_dialogueObject.GetGameObject());
             // asset 오브젝트 내의 InteractionObject가 아니라 Scene에 생성된 오브젝트의 InteractionObject로 진행해야 적용됨

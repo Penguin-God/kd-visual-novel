@@ -20,18 +20,7 @@ public class SceneManagerISo : ScriptableObject
 
     [SerializeField] List<DialogueObject> dialogueObjects;
     public List<DialogueObject> DialogueObjects => dialogueObjects;
-
-    public List<DialogueObject> GetSpawnDialogueObjects()
-    {
-        List<DialogueObject> _datas = new List<DialogueObject>();
-        foreach (DialogueObject _dialogueObject in dialogueObjects)
-        {
-            if (_dialogueObject.IsSpawn)
-                _datas.Add(_dialogueObject);
-        }
-
-        return _datas;
-    }
+    public IReadOnlyList<DialogueObject> SpawnObjects => dialogueObjects.Where(x => x.IsSpawn).ToList();
 
 
     public SceneManagerISo GetClone() => new Cloning().GetClone(this);
