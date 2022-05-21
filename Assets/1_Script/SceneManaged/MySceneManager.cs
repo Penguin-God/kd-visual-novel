@@ -26,7 +26,7 @@ public class MySceneManager : MonoBehaviour
     [SerializeField] SceneManagerISo currentSceneManagerISO = null;
     public bool CurrentSceneIsOnlyView => currentSceneManagerISO.IsOnlyCameraView;
 
-    public bool IsSceneLoadingEffect => splashManager.isFade;
+    //public bool IsSceneLoadingEffect => splashManager.isFade;
     AsyncOperation async;
     public bool IsSceneLoading // 씬 로딩하는 동안 true
     {
@@ -51,14 +51,14 @@ public class MySceneManager : MonoBehaviour
     }
 
     public event Action<SceneManagerISo> OnEnterOtherScene = null;
-    private void Raise_OnEnterOtherScene()
-    {
-        isSceneLoadEffect = false;
-        OnEnterOtherScene?.Invoke(currentSceneManagerISO);
-    }
+    private void Raise_OnEnterOtherScene() => OnEnterOtherScene?.Invoke(currentSceneManagerISO);
 
     public event Action<SceneManagerISo> OnSceneLoadComplete = null;
-    private void Raise_OnSceneLoadComplete() => OnSceneLoadComplete?.Invoke(currentSceneManagerISO);
+    private void Raise_OnSceneLoadComplete()
+    {
+        isSceneLoadEffect = false; 
+        OnSceneLoadComplete?.Invoke(currentSceneManagerISO);
+    } 
     #endregion
 
     void Awake()
