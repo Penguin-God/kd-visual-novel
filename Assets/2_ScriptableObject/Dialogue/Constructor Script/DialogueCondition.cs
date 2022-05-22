@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using System.Linq;
 
 [Serializable]
 public class DialogueCondition
@@ -16,12 +17,7 @@ public class DialogueCondition
     }
 
     public void Setup(DialogueObject _dialogueObject, DialogueDataContainer _newDialogue)
-    {
-        foreach (var _con in prevConditions)
-        {
-            _con.OnFirstInteractionEnd += () => RemoveCondition(_dialogueObject, _con, _newDialogue);
-        }
-    }
+        => prevConditions.ForEach(x => x.OnFirstInteractionEnd += () => RemoveCondition(_dialogueObject, x, _newDialogue));
     
     // prevConditions 복제본으로 값 변경
     public void ConditionChangeAsClone(DialogueDataContainer[] _containers)
@@ -44,4 +40,6 @@ public class DialogueCondition
         Debug.LogError($"이벤트 조건 복사본을 찾지 못함 {origianlCodeName}");
         return null;
     }
+
+    public bool IsClone => prevConditions.All(x => x.name.Contains("(Clone)"));
 }

@@ -24,7 +24,7 @@ public class DialogueObject : ScriptableObject
     public string CodeName => codeName;
 
     [SerializeField] DialogueDataContainer[] dialogues;
-    public DialogueDataContainer[] Dialogues => dialogues;
+    public IReadOnlyList<DialogueDataContainer> Dialogues => dialogues;
 
     [SerializeField] int currentDialogueIndex = 0;
     public int CurrentDialogueIndex => currentDialogueIndex;
@@ -52,7 +52,9 @@ public class DialogueObject : ScriptableObject
     }
 
     public void Setup(DialogueDataContainer[] allContainerInScene)
-        => dialogues.Select(x => x.Setup(this, allContainerInScene)).ToArray();
+        => dialogues = dialogues.Select(x => x.Setup(this, allContainerInScene)).ToArray();
+
+    public bool IsClone => dialogues.All(x => x.IsClone) && name.Contains("(Clone)");
 
     public GameObject GetGameObject()
     {

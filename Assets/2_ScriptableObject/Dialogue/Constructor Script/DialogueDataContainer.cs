@@ -81,6 +81,8 @@ public class DialogueDataContainer : ScriptableObject
 
     public DialogueDataContainer GetClone()
         => Instantiate(this);
+
+    public bool IsClone => dialogueCondition.IsClone && name.Contains("(Clone)");
 }
 
 

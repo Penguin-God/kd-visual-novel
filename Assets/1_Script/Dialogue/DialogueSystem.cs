@@ -37,7 +37,7 @@ public class DialogueSystem : MonoBehaviour
     private void Awake()
     {
         MySceneManager.Instance.OnEnterOtherScene += SetSceneSpawnDialgoueObject;
-        MySceneManager.Instance.OnEnterOtherScene += _data => allDialogueObjects = _data.DialogueObjects;
+        MySceneManager.Instance.OnEnterOtherScene += _data => allDialogueObjects = _data.DialogueObjects.ToList();
     }
 
     //void Start()

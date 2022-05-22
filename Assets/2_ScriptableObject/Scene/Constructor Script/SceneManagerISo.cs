@@ -13,59 +13,23 @@ public class SceneManagerISo : ScriptableObject
     [SerializeField] bool isOnlyCameraView;
     public bool IsOnlyCameraView => isOnlyCameraView;
 
+    [Header("Chapter Data")]
+    [SerializeField] SceneChapterData chapterData;
+    public SceneChapterData ChapterData => chapterData;
 
-    [Header("Variable Value")]
-    [SerializeField] Vector3 playerSpawnPos;
-    public Vector3 PlayerSpawnPos => playerSpawnPos;
-
-    [SerializeField] List<DialogueObject> dialogueObjects;
-    public List<DialogueObject> DialogueObjects => dialogueObjects;
-    public IReadOnlyList<DialogueObject> SpawnObjects => dialogueObjects.Where(x => x.IsSpawn).ToList();
-
-    [SerializeField] SceneLoadDialogueProducer producer = null;
-    void ShowLoadDialogue()
-    {
-        if (producer != null)
-        {
-            producer.ShowDialogue_When_SceneFadeIn();
-            producer = null;
-        }
-    }
+    public Vector3 PlayerSpawnPos => chapterData.PlayerSpawnPos;
+    public IReadOnlyList<DialogueObject> DialogueObjects => chapterData.DialogueObjects;
+    public IReadOnlyList<DialogueObject> SpawnObjects => chapterData.SpawnObjects;
 
     public void Start()
     {
-        ShowLoadDialogue();
+        chapterData.Start();
     }
 
-    public SceneManagerISo GetClone() => new Cloning().GetClone(this);
-    class Cloning
+    public SceneManagerISo GetClone()
     {
-        public SceneManagerISo GetClone(SceneManagerISo original)
-        {
-            SceneManagerISo result = Instantiate(original);
-            if(result.producer != null) result.producer = Instantiate(original.producer);
-
-            result.dialogueObjects = GetDialogueObjectsClone(result);
-            DialogueDataContainer[] containers = GetAllDialogueInObjects(result.dialogueObjects.ToArray());
-            result.dialogueObjects.ForEach(x => x.Setup(containers));
-
-            Debug.Assert(result.Equals(original) == false, $"SceneManagerISo의 복제본을 만들 때 얕은 복사가 진행되어 원본에 영향을 줄 수 있음 : {result.name}");
-            return result;
-        }
-
-        List<DialogueObject> GetDialogueObjectsClone(SceneManagerISo _newManager) 
-            => _newManager.dialogueObjects.Select(x => x.GetClone()).ToList();
-
-        DialogueDataContainer[] GetAllDialogueInObjects(DialogueObject[] _dialogueObjects)
-        {
-            List<DialogueDataContainer> result = new List<DialogueDataContainer>();
-            foreach (var _dialogueObject in _dialogueObjects)
-            {
-                foreach (var _container in _dialogueObject.Dialogues)
-                    result.Add(_container);
-            }
-
-            return result.ToArray();
-        }
+        SceneManagerISo result = Instantiate(this);
+        result.chapterData = result.chapterData.GetClone();
+        return result;
     }
 }
