@@ -5,20 +5,7 @@ using System;
 
 public class InteractionObject : Interaction
 {
-    //[Header("Channel")]
-    //[SerializeField] protected DialogueChannel dialogueChannel = null;
-
-    //[Header("Dialogue Data")]
-    //[SerializeField] protected string codeName;
-    //public string CodeName => codeName;
-
-    //[SerializeField] string interactionName;
-    //public string InteractionName => interactionName;
-    
     [SerializeField] protected DialogueObject dialogueObject = null;
-
-    //[SerializeField] DialogueDataContainer currentDialogue;
-    //public DialogueDataContainer CurrentDialogue => currentDialogue;
 
     protected virtual void Init() { }
     protected virtual void Clear() { }

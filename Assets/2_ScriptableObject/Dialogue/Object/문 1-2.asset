@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 610a5d5ab1f34da4e8b6213df58283c8, type: 3}
+  m_Name: "\uBB38 1-2"
+  m_EditorClassIdentifier: 
+  interactionName: "\uBB38"
+  codeName: "\uBB38 1-2"
+  dialogues:
+  - {fileID: 11400000, guid: 1285af1bf83f7134c91062f83f166ce3, type: 2}
+  currentDialogueIndex: 0
+  isSpawn: 0
+  spawnData:
+    spawnPos: {x: 0, y: 0, z: 0}
+    spawnEulerAngles: {x: 0, y: 0, z: 0}
+    characterContainer: {fileID: 0}
+    spawnSprite: {fileID: 0}

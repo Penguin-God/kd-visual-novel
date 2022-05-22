@@ -16,6 +16,7 @@ public class SceneManagerISo : ScriptableObject
     [Header("Chapter Data")]
     [SerializeField] SceneChapterData chapterData;
     public SceneChapterData ChapterData => chapterData;
+    public void ChangeChapter(SceneChapterData _chapterData) => chapterData = _chapterData.GetClone(); // 인스팩터에서 사용
 
     public Vector3 PlayerSpawnPos => chapterData.PlayerSpawnPos;
     public IReadOnlyList<DialogueObject> DialogueObjects => chapterData.DialogueObjects;

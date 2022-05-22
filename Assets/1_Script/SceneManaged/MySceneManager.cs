@@ -26,9 +26,8 @@ public class MySceneManager : MonoBehaviour
     [SerializeField] SceneManagerISo currentSceneManagerISO = null;
     public bool CurrentSceneIsOnlyView => currentSceneManagerISO.IsOnlyCameraView;
 
-    //public bool IsSceneLoadingEffect => splashManager.isFade;
     AsyncOperation async;
-    public bool IsSceneLoading // 씬 로딩하는 동안 true
+    bool IsSceneLoading // 씬 로딩하는 동안 true
     {
         get
         {
