@@ -3,23 +3,22 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-public class InteractionObject : MonoBehaviour
+public class InteractionObject : Interaction
 {
-    [Header("Channel")]
-    [SerializeField] protected DialogueChannel dialogueChannel = null;
+    //[Header("Channel")]
+    //[SerializeField] protected DialogueChannel dialogueChannel = null;
 
-    [Header("Dialogue Data")]
-    [SerializeField] protected string codeName;
-    public string CodeName => codeName;
+    //[Header("Dialogue Data")]
+    //[SerializeField] protected string codeName;
+    //public string CodeName => codeName;
 
-    [SerializeField] string interactionName;
-    public string InteractionName => interactionName;
+    //[SerializeField] string interactionName;
+    //public string InteractionName => interactionName;
     
     [SerializeField] protected DialogueObject dialogueObject = null;
 
-    [SerializeField] DialogueDataContainer currentDialogue;
-    public DialogueDataContainer CurrentDialogue => currentDialogue;
-
+    //[SerializeField] DialogueDataContainer currentDialogue;
+    //public DialogueDataContainer CurrentDialogue => currentDialogue;
 
     protected virtual void Init() { }
     protected virtual void Clear() { }
@@ -43,10 +42,6 @@ public class InteractionObject : MonoBehaviour
         _dialogueObject.OnDialogueChanged += ChangeDialogue;
         DialogueSystem.Instance.interactionObjectByCodeName.Add(CodeName, this);
     }
-
-    public void StartInteraction() => dialogueChannel.Raise_StartInteractionEvent(transform, currentDialogue);
-
-    public bool Interactalbe => currentDialogue.Interactable;
 
     void ChangeDialogue(DialogueObject _dialogueObject, DialogueDataContainer _newDialogue, DialogueDataContainer _prevDialogue)
     {

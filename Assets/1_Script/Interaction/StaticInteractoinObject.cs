@@ -22,6 +22,7 @@ public class StaticInteractoinObject : InteractionObject
     void Setup(SceneManagerISo _data)
     {
         codeName = dialogueObject.CodeName;
-        Setup(DialogueSystem.Instance.FindDialogueObject_With_CodeName(codeName));
+        DialogueObject _clone = DialogueSystem.Instance.FindDialogueObject_With_CodeName(codeName);
+        if (_clone != null) Setup(_clone);
     }
 }
